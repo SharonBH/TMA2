@@ -15,9 +15,8 @@ const userReducer = (state = InitialState, action) => {
                 userValue
             ]
         }
-        
     }
-}
-
+    return state
+    }
 
 export default userReducer;
