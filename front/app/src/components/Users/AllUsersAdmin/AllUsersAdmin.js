@@ -1,8 +1,8 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
-
-import users from '../../../helpers/config'
+import users from '../../../configuration/config';
+import classes from '../../Nav/Nav.scss';
 
 export class AllUsersAdmin extends Component {
     addUser = () => {
@@ -11,9 +11,9 @@ export class AllUsersAdmin extends Component {
     ulserList = () => {
         return users.map((item, index) => {
             return <li key={index}>
-                <div className='username'>{item.name}</div>
-                <div className='email'>{item.email}</div>
-                <div className='role'>{item.role === 'admin' ? item.role = 'admin' : item.role = '' }</div>
+                <div className={classes.username}>{item.name}</div>
+                <div className={classes.email}>{item.email}</div>
+                <div className={classes.role}>{item.role === 'admin' ? item.role = 'admin' : item.role = '' }</div>
                 <button>Edit</button>
                 <button>Delete</button>
             </li>
@@ -23,14 +23,14 @@ export class AllUsersAdmin extends Component {
 
     render(){
         return (
-            <div className='users-wrapper'>
-                <div className='users-head'>
-                    <div className='username'>Name</div>
-                    <div className='email'>Email</div>
-                    <div className='role'></div>
+            <div className={classes.usersWrapper}>
+                <div className={classes.usersHead}>
+                    <div className={classes.username}>Name</div>
+                    <div className={classes.email}>Email</div>
+                    <div className={classes.role}></div>
                     <Link to='/createNewUser'><button>Add User</button></Link>
                 </div>
-                <ul className='uesrsList'>{this.ulserList()}</ul>
+                <ul className={classes.uesrsList}>{this.ulserList()}</ul>
             </div>
         )
     }
