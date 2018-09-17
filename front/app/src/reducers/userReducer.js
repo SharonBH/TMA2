@@ -8,7 +8,9 @@ const userReducer = (state = InitialState, action) => {
        
         
     // }
-    console.log('reducer test ', state.some)
+    
+   // console.log(return 'reducer test ', state.some)
+   return state
 }
 
 

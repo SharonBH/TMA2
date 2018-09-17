@@ -1,0 +1,62 @@
+.LogIn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    background-color: gray;
+}
+
+.LogIn h1 {
+    width: 100%;
+    margin: 50px;
+}
+
+.LogIn form {
+    width: 80%;
+    margin: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.LogIn input {
+    width: 100%;
+    height: 30px;
+    margin: 10px;
+}
+
+.LogIn input[name='login'] {
+    width: 100%;
+    height: 50px;
+    margin: 10px;
+}
+
+.LogIn h2 {
+    width: 100%;
+}
+
+.LogIn div {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.LogIn span {
+    display: flex;
+    width: 50%;
+    justify-content: flex-start;
+    align-items: center;
+} 
+
+.LogIn input[name='remember'] {
+    width: 30px;
+}
+
+.LogIn button {
+    width: 150px;
+    height: 30px;
+    margin: 0 10px;
+}

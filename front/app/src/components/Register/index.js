@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import './RegisterComp.css'
 
 class Register extends Component {
 
@@ -7,15 +8,20 @@ class Register extends Component {
     
     return (
         <div className="Register">
-            <h1>Log-in</h1><br/>
+            <h1>Register</h1><br/>
             <form>
-                <input type="text" name="user" placeholder="Username"/>
-                <input type="password" name="pass" placeholder="Password"/>
-                <input type="submit" name="login" value="login"/>
+                <input type="text" name="user" placeholder="Username" />
+                <input type="email" name="email" placeholder="eMail" />
+                <input type="date" name="date" placeholder="" />
+                <input type="password" name="pass" placeholder="Password" />
+                <input type="submit" name="login" value="login" />
             </form>
             <div>
-                •   <Link to='/login'>Log-In</Link>    • 
-                    {/* <Link to="#">Forgot Password</Link> */}
+                <h2>Have a user?</h2>
+                <Link to='/login'>
+                    <h2>Log-In</h2>
+                </Link> 
+                {/* <Link to="#">Forgot Password</Link> */}
             </div>
         </div>
     );
