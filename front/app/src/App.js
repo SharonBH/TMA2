@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import LogPage from './containers/LogPage';
-import './App.css';
-
-import { AllUsersAdmin } from './components/Users/AllUsersAdmin/AllUsersAdmin'
+import classes from './App.scss';
 
 class App extends Component {
   render() {
+      console.log(classes.App)
     return (
-      <div className="App">
+      <div className={classes.App}>
         <LogPage />
       </div>
     );

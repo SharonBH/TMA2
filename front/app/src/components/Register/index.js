@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './RegisterComp.css'
+import './RegisterComp.scss'
 
 class Register extends Component {
 

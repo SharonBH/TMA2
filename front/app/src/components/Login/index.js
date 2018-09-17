@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './LoginComp.css';
+import './LoginComp.scss';
 import { connect } from 'react-redux';
 import { getUsersList } from "../../actions/Api";
 import { loginRequestAction } from "../../actions";
