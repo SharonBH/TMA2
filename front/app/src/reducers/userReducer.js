@@ -1,17 +1,22 @@
 const InitialState = {
-    some: '12123132'
+    newUsers: ''
 }
 
 
 const userReducer = (state = InitialState, action) => {
-    // switch (action.type) {
-       
-        
-    // }
-    
-   // console.log(return 'reducer test ', state.some)
-   return state
-}
-
+    switch (action.type) {
+        case 'ADD_USER':
+        const userValue = action.payload
+        console.log('reduser', userValue)
+        return {
+            ...state,
+            newUsers:[
+                ...state.newUsers,
+                userValue
+            ]
+        }
+    }
+    return state
+    }
 
 export default userReducer;

@@ -1,5 +1,8 @@
 import React, { Component} from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { HomePage } from '../HomePage/HomePage';
+import { AllUsersAdmin } from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
+import { CreateNewUser } from '../../components/Users/CreateNewUser/CreateNewUser';
 
 export class RoutesPage extends Component {
     render(){
@@ -9,12 +12,15 @@ export class RoutesPage extends Component {
                     <Route
                         exact
                         path='/'
-                        component={MainPage}
+                        component={HomePage}
                     />
                     <Route
-                        exact
                         path='/all_users'
                         component={AllUsersAdmin}
+                    />
+                    <Route
+                        path='/createNewUser'
+                        component={CreateNewUser}
                     />
                 </Switch>
             </div>

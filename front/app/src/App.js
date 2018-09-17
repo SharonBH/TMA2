@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import LogPage from './containers/LogPage';
 import classes from './App.scss';
+import { MainPage } from './components/MainPage/MainPage'
 
 class App extends Component {
   render() {
-      console.log(classes.App)
+
     return (
       <div className={classes.App}>
+        <MainPage />
         <LogPage />
       </div>
     );
@@ -14,3 +16,7 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+
