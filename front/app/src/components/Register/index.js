@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './RegisterComp.scss'
+import classes from './RegisterComp.scss'
 
 class Register extends Component {
 
   render() {
     
     return (
-        <div className="Register">
+        <div className={classes.Register}>
             <h1>Register</h1><br/>
             <form>
                 <input type="text" name="user" placeholder="Username" />

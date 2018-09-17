@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import './LoginComp.scss';
+import classes from './LoginComp.scss';
 import { connect } from 'react-redux';
 import { getUsersList } from "../../actions/Api";
 import { loginRequestAction } from "../../actions";
@@ -38,7 +38,7 @@ class LogIn extends Component {
   render() {
     
     return (
-        <div className="LogIn">
+        <div className={classes.LogIn}>
             <h1>Log-in</h1>
             <form>
                 <input type="text" name="user" placeholder="Username / e-Mail" onChange={(e) => {this.onUserNameChange(e)}} />
