@@ -1,0 +1,49 @@
+// center vertically and/or horizontally an absolute positioned element
+@mixin center($xy:xy) {
+    @if $xy==xy {
+        left: 50%;
+        top: 50%;
+        bottom: auto;
+        right: auto;
+        @include transform(translateX(-50%) translateY(-50%));
+    }
+
+    @else if $xy==x {
+        left: 50%;
+        right: auto;
+        @include transform(translateX(-50%));
+    }
+
+    @else if $xy==y {
+        top: 50%;
+        bottom: auto;
+        @include transform(translateY(-50%));
+    }
+}
+
+@mixin listCounter($min, $max) {
+    @for $i from $min through $max {
+
+        li:first-child:nth-last-child(#{$i}),
+        li:first-child:nth-last-child(#{$i})~li {
+            width: (100%/$i);
+        }
+    }
+}
+
+@mixin divsCounter($min, $max) {
+    @for $i from $min through $max {
+
+        div:first-child:nth-last-child(#{$i}),
+        div:first-child:nth-last-child(#{$i})~div {
+            width: (100%/$i);
+        }
+    }
+}
+
+@mixin displayFlex($wrap, $align, $justify) {
+    display: flex;
+    flex-wrap: $wrap;
+    align-items: $align;
+    justify-content: $justify;
+}
