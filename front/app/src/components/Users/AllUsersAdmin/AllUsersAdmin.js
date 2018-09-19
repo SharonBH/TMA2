@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import users from '../../../configuration/config';
-import classes from '../../Nav/Nav.scss';
+import classes from './AllUsersAdmin.scss';
 
 export class AllUsersAdmin extends Component {
     addUser = () => {
@@ -23,6 +23,7 @@ export class AllUsersAdmin extends Component {
 
     render(){
         return (
+            
             <div className={classes.usersWrapper}>
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>

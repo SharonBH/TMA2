@@ -14,9 +14,9 @@ const userReducer = (state = InitialState, action) => {
                 userValue
             ]
         }
-        default:
+        default: console.log('userReducer')
     }
-    
+    return state
 }
 
 

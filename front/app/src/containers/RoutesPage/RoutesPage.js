@@ -3,11 +3,12 @@ import { Switch, Route } from 'react-router-dom';
 import { HomePage } from '../HomePage/HomePage';
 import { AllUsersAdmin } from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
 import { CreateNewUser } from '../../components/Users/CreateNewUser/CreateNewUser';
+import classes from '../../components/MainPage/MainPage.scss';
 
 export class RoutesPage extends Component {
     render(){
         return (
-            <div className='wrapper'>
+            <div className={classes.wrapper}>
                 <Switch>
                     <Route
                         exact
