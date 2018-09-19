@@ -1,15 +1,21 @@
-// get users list arr from api
-export const userstListAction = (userListArr) => {
+// user login action 
+// export const loginRequestAction = (response) => {
+//     return {
+//         type: 'LOGIN_SUBMIT',
+//         payload: response
+//     }
+// }
+
+export const getUserAction = (response) => {
     return {
-        type: 'USER_LIST_CALL',
-        payload: userListArr
+        type: 'GET_USER',
+        payload: response
     }
 }
 
-// user login action 
-export const loginRequestAction = (userObj) => {
+export const accessDeniedAction = (response) => {
     return {
-        type: 'LOGIN_SUBMIT',
-        payload: userObj
+        type: 'SET_ERROR_MESSAGE',
+        payload: response
     }
 }

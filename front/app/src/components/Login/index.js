@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './LoginComp.scss';
 import { connect } from 'react-redux';
-import { getUsersList } from "../../actions/Api";
-import { loginRequestAction } from "../../actions";
+import { loginRequest } from "../../actions/Api";
+import history from '../../configuration/history';
 
 class LogIn extends Component {
 
@@ -12,13 +12,7 @@ class LogIn extends Component {
         this.state = {
             userName: '',
             userPass: '',
-            loginValidation: false,
-            thisUser: {}
         }
-    }
-
-    componentDidMount() {
-        this.props.getUsersList();
     }
 
     onUserNameChange = (e) => {
@@ -29,47 +23,72 @@ class LogIn extends Component {
         this.setState({userPass: e.target.value})
     }
 
-    loginRequest = () => {
+    loginSbmit = (e) => {
         const name = this.state.userName
         const pass = this.state.userPass
-        this.props.loginRequestAction({name: name, pass: pass})
+        e.preventDefault()
+        this.props.loginRequest(name, pass)
     }
 
-  render() {
+    accessAction = () => {
+        history.push({pathname: '/'})
+    }
+
+    loginFage = () => {
+        return (
+            <div className={classes.LogIn}>
+                <h1>Log-in</h1>
+                <form>
+                    <input type="text" name="user" placeholder="Username / e-Mail" onChange={(e) => {this.onUserNameChange(e)}} />
+                    <input type="password" name="pass" placeholder="Password" onChange={(e) => {this.onUserPassChange(e)}} />
+                    <span>
+                        {
+                            this.props.errorMessage === 'xxx' || 'xsx' || 'xvx'
+                            ? <p>{this.props.errorMessage}</p>
+                            : null
+                        }
+                    </span>
+                    <input type="submit" name="login" value="login" onClick={(e) => this.loginSbmit(e)} />
+                    <div>
+                        <span><input type="radio" name="remember" /> <label>Remember Me</label></span> 
+                        <button>Forgot Password</button>      
+                    </div> 
+                </form>
+                <h2>Not a register user ?</h2>
+                <Link to='/register'>
+                    <h2>Register</h2>
+                </Link> 
+            </div>
+        );
+    }
     
-    return (
-        <div className={classes.LogIn}>
-            <h1>Log-in</h1>
-            <form>
-                <input type="text" name="user" placeholder="Username / e-Mail" onChange={(e) => {this.onUserNameChange(e)}} />
-                <input type="password" name="pass" placeholder="Password" onChange={(e) => {this.onUserPassChange(e)}} />
-                <input type="submit" name="login" value="login" onClick={this.loginRequest} />
+    render() {
+        if(this.props.currentUser === null) {
+            return (
+                <div className={classes.LogInWrapper}>
+                    {this.loginFage()}
+                </div>
+            );
+        } else {
+            return (
                 <div>
-                    <span><input type="radio" name="remember" /> <label>Remember Me</label></span> 
-                    <button>Forgot Password</button>      
-                </div> 
-            </form>
-            <h2>Not a register user ?</h2>
-            <Link to='/register'>
-                <h2>Register</h2>
-            </Link> 
-        </div>
-    );
-  }
+                    {this.accessAction()}
+                </div>
+            )
+        }
+    }
 }
 
 const mapStateToProps = (state) => {
     return {
-        userList: state.UserLogInReducer.userList,
-        userName: state.UserLogInReducer.userName,
-        userPass: state.UserLogInReducer.userPass,
+        currentUser: state.UserLogInReducer.currentUser,
+        errorMessage: state.UserLogInReducer.errorMessage,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUsersList: payload => dispatch(getUsersList(payload)),
-        loginRequestAction: payload => dispatch(loginRequestAction(payload)),
+        loginRequest: (name, pass) => dispatch(loginRequest(name, pass)),
     }
 }
 

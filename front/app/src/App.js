@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
 import LogPage from './containers/LogPage';
 import classes from './App.scss';
-import { MainPage } from './components/MainPage/MainPage'
+import { MainPage } from './components/MainPage/MainPage';
+import { Switch, Route } from 'react-router-dom';
+import Register from './components/Register';
 
 class App extends Component {
   render() {
 
     return (
       <div className={classes.App}>
-        <MainPage />
-        <LogPage />
+        <Switch>
+            <Route
+                exact
+                path='/login'
+                component={LogPage}
+            />
+            <Route
+                path='/register'
+                component={Register}
+            />
+            <Route
+                path='/'
+                component={MainPage}
+            />
+        </Switch>
       </div>
     );
   }
