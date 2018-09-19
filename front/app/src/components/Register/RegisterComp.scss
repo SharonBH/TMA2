@@ -4,10 +4,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
     width: 100%;
     min-height: 100vh;
-    border-left: 3px solid $blue;
     background-color: $light-gray;
     color: $blue;
 }
@@ -16,22 +14,22 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
     width: 40%;
 }
 
 .Register > a {
-    display: block;
-    text-align: left;
-    padding: 5px 20px;
+    display: flex;
+    width: 100%;
     text-decoration: none;
     color: $blue;
     font-weight: 600;
+    margin: 0;
+    padding: 0;
 }
 
 .Register h1 {
     width: 100%;
-    margin: 50px;
+    margin-top: 60px;
 }
 
 .Register form {
@@ -57,4 +55,12 @@
 
 .Register h2 {
     width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.Register h3 {
+    width: 100%;
+    margin: 5px;
 }

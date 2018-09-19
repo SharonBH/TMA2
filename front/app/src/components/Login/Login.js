@@ -49,9 +49,9 @@ class LogIn extends Component {
                         <button>Forgot Password</button>      
                     </div> 
                 </form>
-                <h3>Not a register user?</h3>
-                <h3>Keep Calm</h3>
-                <h3>And</h3>
+                <h2>Not a register user?</h2>
+                <h2>Keep Calm</h2>
+                <h2>And</h2>
                 <Link to='/register'>
                     <h2>Register</h2>
                 </Link> 

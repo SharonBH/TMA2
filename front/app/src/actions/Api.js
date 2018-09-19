@@ -31,7 +31,7 @@ export const loginRequest = (email, pass) => {
     }
 };
 
-// rgister request
+// register request
 export const registerRequest = (email, password, confirmPassword, name, userType, userName) => {
     console.log('this is:', email, password, confirmPassword, name, userType, userName)
     return (dispatch) => {

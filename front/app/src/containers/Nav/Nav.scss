@@ -11,6 +11,19 @@
     border-right: 2px solid $blue;
 }
 
+span.Hello {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #424242;
+    font-weight: 600;
+    margin-bottom: 50px;
+    padding: 10px;
+    border-bottom: 1px solid $blue;
+    border-top: 1px solid $blue;
+    font-size: 20px;
+}
+
 a {
     display: block;
     text-align: left;

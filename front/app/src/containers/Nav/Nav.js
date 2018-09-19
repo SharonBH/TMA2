@@ -22,9 +22,21 @@ export class Nav extends Component {
         } else {
             return (
                 <div className={classes.innerNav}>
-                    <Link to='all_users'>Users managment</Link>
+                    <Link to='/all_users'>Users managment</Link>
                     <Link to='/' onClick={this.logout}>Logout</Link>
                 </div>
+            )
+        }
+    }
+
+    helloUser = () => {
+        if(this.props.currentUser === null) {
+            return (
+                <span className={classes.Hello}>Hello Guest</span>
+            )
+        } else {
+            return (
+                <span className={classes.Hello}>Hello {this.props.currentUser.name}</span>
             )
         }
     }
@@ -33,6 +45,7 @@ export class Nav extends Component {
         return (
             <div className={classes.nav}>
                 <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
+                {this.helloUser()}
                 <Link to='/'>Home</Link>
                 {this.navLinks()}
             </div>

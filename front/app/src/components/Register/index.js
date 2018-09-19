@@ -79,7 +79,9 @@ class Register extends Component {
                     </span>
                     <input type="submit" name="register" value="Register" onClick={(e) => this.registerSbmit(e)}/>
                 </form>
-                <h2>Have a user?</h2>
+                <h3>Have a user?</h3>
+                <h3>Keep Calm</h3>
+                <h3>And</h3>
                 <Link to='/login'>
                     <h2>Log-In</h2>
                 </Link> 
