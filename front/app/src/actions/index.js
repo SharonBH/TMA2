@@ -1,11 +1,4 @@
 // user login action 
-// export const loginRequestAction = (response) => {
-//     return {
-//         type: 'LOGIN_SUBMIT',
-//         payload: response
-//     }
-// }
-
 export const getUserAction = (response) => {
     return {
         type: 'GET_USER',

@@ -1,0 +1,6 @@
+@import '../../styles/mixins.scss';
+
+.MainPage {
+    width: 85%;
+    @include displayFlex(wrap, flex-start, flex-start)
+}

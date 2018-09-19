@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import users from '../../../configuration/config';
-import classes from '../../Nav/Nav.scss';
+import classes from '../../../containers/Nav/Nav.scss';
 
 export class AllUsersAdmin extends Component {
     addUser = () => {

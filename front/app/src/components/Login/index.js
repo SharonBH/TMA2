@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import classes from './LoginComp.scss';
 import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
-import history from '../../configuration/history';
 
 class LogIn extends Component {
 
@@ -30,16 +29,12 @@ class LogIn extends Component {
         this.props.loginRequest(name, pass)
     }
 
-    accessAction = () => {
-        history.push({pathname: '/'})
-    }
-
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
                 <h1>Log-in</h1>
                 <form>
-                    <input type="text" name="user" placeholder="Username / e-Mail" onChange={(e) => {this.onUserNameChange(e)}} />
+                    <input type="text" name="user" placeholder="eMail" onChange={(e) => {this.onUserNameChange(e)}} />
                     <input type="password" name="pass" placeholder="Password" onChange={(e) => {this.onUserPassChange(e)}} />
                     <span>
                         {
@@ -48,9 +43,9 @@ class LogIn extends Component {
                             : null
                         }
                     </span>
-                    <input type="submit" name="login" value="login" onClick={(e) => this.loginSbmit(e)} />
+                    <input type="submit" name="login" value="Login" onClick={(e) => this.loginSbmit(e)}/>
                     <div>
-                        <span><input type="radio" name="remember" /> <label>Remember Me</label></span> 
+                        <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
                         <button>Forgot Password</button>      
                     </div> 
                 </form>
@@ -63,25 +58,16 @@ class LogIn extends Component {
     }
     
     render() {
-        if(this.props.currentUser === null) {
-            return (
-                <div className={classes.LogInWrapper}>
-                    {this.loginFage()}
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    {this.accessAction()}
-                </div>
-            )
-        }
+        return (
+            <div className={classes.LogInWrapper}>
+                {this.loginFage()}
+            </div>
+        );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.UserLogInReducer.currentUser,
         errorMessage: state.UserLogInReducer.errorMessage,
     }
 }
