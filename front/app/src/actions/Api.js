@@ -1,28 +1,25 @@
 import axios from 'axios';
 import { getUserAction, accessDeniedAction } from './index';
+import history from '../configuration/history';
 
 // login request
-export const loginRequest = (email, pass) => {
-    console.log('this is:', email, pass)
+export const loginRequest = (userName, password) => {
     return (dispatch) => {
-        return axios.post(`http://localhost:59610/Account/Login?email=${email}&password=${pass}`)
+        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Login?username=${userName}&password=${password}`)
             .then((response) => {
-                console.log(response)
-                if(response.message === 'Success') {
-                    return axios.post(`http://localhost:59610/Account/GetUser?username=${email}`)
+                if(response.data.message === 'Success') {
+                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
-                            console.log(response)
-                            if (response.message === 'Success') {
-                                dispatch(getUserAction(response));
-                            } else {
-                                dispatch(accessDeniedAction(response.message))
-                            }
+                            const user = response.data
+                            dispatch(getUserAction(user));
+                            history.push({pathname: '/'})
                         })
                         .catch((error) => {
                             console.log(error);
                         });
                 } else {
-                    dispatch(accessDeniedAction(response.message))
+                    const error = response.data.message
+                    dispatch(accessDeniedAction(error))
                 }
             })
             .catch((error) => {
@@ -35,24 +32,22 @@ export const loginRequest = (email, pass) => {
 export const registerRequest = (email, password, confirmPassword, name, userType, userName) => {
     console.log('this is:', email, password, confirmPassword, name, userType, userName)
     return (dispatch) => {
-        return axios.post(`http://localhost:59610/Account/Login?email=${email}&password=${password}`)
+        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 console.log(response)
-                if (response.message === 'Success') {
-                    return axios.post(`http://localhost:59610/Account/GetUser?username=${email}`)
+                if (response.data.response === 'Success') {
+                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
-                            console.log(response)
-                            if (response.message === 'Success') {
-                                dispatch(getUserAction(response));
-                            } else {
-                                dispatch(accessDeniedAction(response.message))
-                            }
+                            const user = response.data
+                            dispatch(getUserAction(user));
+                            history.push({pathname: '/'})
                         })
                         .catch((error) => {
                             console.log(error);
                         });
                 } else {
-                    dispatch(accessDeniedAction(response.message))
+                    const error = response.data.message
+                    dispatch(accessDeniedAction(error))
                 }
             })
             .catch((error) => {
