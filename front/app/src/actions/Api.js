@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUserAction, accessDeniedAction } from './index';
+import { getUserAction, accessDeniedAction, registerDeniedAction } from './index';
 import history from '../configuration/history';
 
 // login request
@@ -47,7 +47,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                     const error = response.data.message
                     console.log(error)
                     console.log(response)
-                    dispatch(accessDeniedAction(error))
+                    dispatch(registerDeniedAction(error))
                 }
             })
             .catch((error) => {

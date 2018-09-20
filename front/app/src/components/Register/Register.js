@@ -43,8 +43,8 @@ class Register extends Component {
 
     errorMessage = () => {
         const error = this.props.errorMessage
-        if (error === 'An error occured creating user.') {
-            return <span>{error}</span>
+        if (error !== null) {
+            return <p>{error}</p>
         } else {
             return null
         }
@@ -89,7 +89,7 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.loginErrorMessageReducer.errorMessage,
+        errorMessage: state.registerErrorMessageReducer.errorMessage,
     }
 }
 

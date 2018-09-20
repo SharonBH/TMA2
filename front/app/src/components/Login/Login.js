@@ -32,20 +32,23 @@ class LogIn extends Component {
         this.props.loginRequest(userName, password)
     }
 
+    errorMessage = () => {
+        const error = this.props.errorMessage
+        if (error === 'Invalid login attempt.') {
+            return <p>{error}</p>
+        } else {
+            return null
+        }
+    }
+
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
                 <h1>Log-in</h1>
                 <form>
-                    <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange} />
-                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange} />
-                    <span>
-                        {
-                            this.props.errorMessage === 'Invalid login attempt.'
-                            ? <p>{this.props.errorMessage}</p>
-                            : null
-                        }
-                    </span>
+                    <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange}/>
+                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange}/>
+                    {this.errorMessage()}
                     <BtnComp inputType="submit" name="login" content="Login" onClick={this.loginSbmit}/>
                     <div className={loginClasses.rememberMe}>
                         <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
