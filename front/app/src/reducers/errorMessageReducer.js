@@ -13,7 +13,6 @@ const errorMessageReducer = (state = InitialState, action) => {
             }
 
         default:
-            console.log('errorMessageReducer: InitialState')
     }
     return state;
 }

@@ -38,7 +38,7 @@ class Register extends Component {
         const userType = this.state.userType
         const userName = this.state.userName
         e.preventDefault()
-        this.props.registesrRequest(email, password, confirmPassword, name, userType, userName)
+        this.props.registerRequest(email, password, confirmPassword, name, userType, userName)
     }
 
     rgisterFage = () => {
@@ -68,7 +68,7 @@ class Register extends Component {
                 <h3>Have a user? Keep Calm.</h3>
                 <div className='loginLink'>
                     <h2>And </h2>
-                    <Link to='/login'><h2>Log-In</h2></Link>
+                    <Link to='/'><h2>Log-In</h2></Link>
                 </div> 
             </div>
         )

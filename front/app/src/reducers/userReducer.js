@@ -15,7 +15,6 @@ const userReducer = (state = InitialState, action) => {
             ]
         }
         default:
-        console.log('userReducer: InitialState')
     }
     return state
 }

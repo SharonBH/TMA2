@@ -12,7 +12,7 @@ export const loginRequest = (userName, password) => {
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
-                            history.push({pathname: '/'})
+                            history.push({pathname: '/home'})
                         })
                         .catch((error) => {
                             console.log(error);
@@ -38,7 +38,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
-                            history.push({pathname: '/'})
+                            history.push({pathname: '/home'})
                         })
                         .catch((error) => {
                             console.log(error);
