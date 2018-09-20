@@ -57,7 +57,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "build-css": "node-sass --include-path scss scss/main.scss public/css/main.css"
   },
   "jest": {
     "collectCoverageFrom": [
