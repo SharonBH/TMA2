@@ -45,6 +45,8 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                         });
                 } else {
                     const error = response.data.message
+                    console.log(error)
+                    console.log(response)
                     dispatch(accessDeniedAction(error))
                 }
             })

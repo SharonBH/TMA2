@@ -41,6 +41,15 @@ class Register extends Component {
         this.props.registerRequest(email, password, confirmPassword, name, userType, userName)
     }
 
+    errorMessage = () => {
+        const error = this.props.errorMessage
+        if (error === 'An error occured creating user.') {
+            return <span>{error}</span>
+        } else {
+            return null
+        }
+    }
+
     rgisterFage = () => {
         return (
             <div className={classes.Register}>
@@ -56,13 +65,7 @@ class Register extends Component {
                         placeholder='Select User Type'
                     />
                     <InputComp inputType="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
-                    <span>
-                        {/* {
-                            this.props.errorMessage !== null
-                            ?   <p>{this.props.errorMessage}</p>
-                            :   null
-                        } */}
-                    </span>
+                    {this.errorMessage()}
                     <BtnComp inputType="submit" name="register" content="Register" onClick={this.registerSbmit}/>
                 </form>
                 <h3>Have a user? Keep Calm.</h3>
@@ -86,7 +89,7 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.errorMessageReducer.errorMessage,
+        errorMessage: state.loginErrorMessageReducer.errorMessage,
     }
 }
 

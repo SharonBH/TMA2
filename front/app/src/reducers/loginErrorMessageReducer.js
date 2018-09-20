@@ -2,10 +2,10 @@ const InitialState = {
     errorMessage: null
 }
 
-const errorMessageReducer = (state = InitialState, action) => {
+const loginErrorMessageReducer = (state = InitialState, action) => {
     switch (action.type) {
 
-        case 'SET_ERROR_MESSAGE':
+        case 'SET_LOGIN_ERROR_MESSAGE':
             const message = action.payload
             return {
                 ...state,
@@ -17,4 +17,4 @@ const errorMessageReducer = (state = InitialState, action) => {
     return state;
 }
 
-export default errorMessageReducer;
+export default loginErrorMessageReducer;

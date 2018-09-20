@@ -71,7 +71,7 @@ class LogIn extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.errorMessageReducer.errorMessage,
+        errorMessage: state.loginErrorMessageReducer.errorMessage,
     }
 }
 
