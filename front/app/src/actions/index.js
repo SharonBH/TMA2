@@ -19,3 +19,10 @@ export const registerDeniedAction = (response) => {
         payload: response
     }
 }
+//catch error
+export const catchErrorAction = (number) => {
+    return {
+        type: 'ERROR_NUM',
+        payload: number
+    }
+}
