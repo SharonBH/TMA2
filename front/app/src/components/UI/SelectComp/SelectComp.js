@@ -4,11 +4,11 @@ import classes from './SelectComp.scss';
 
 export class SelectComp extends Component {
     
-    static PropTypes = {  
-        name: PropTypes.string.isRequired,
+    static propTypes = {  
+        name: PropTypes.string,
         options: PropTypes.array.isRequired,
         selectedOption: PropTypes.string,
-        controlFunc: PropTypes.func.isRequired,
+        controlFunc: PropTypes.func,
         placeholder: PropTypes.string
     };
 
