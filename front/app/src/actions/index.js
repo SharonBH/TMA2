@@ -13,9 +13,17 @@ export const accessDeniedAction = (response) => {
     }
 }
 
-export const getAllUsersAction = (response) => {
+
+export const getAllUsers = (a) => {
+    console.log('111111111111')
     return {
         type: 'GET_ALL_USERS',
-        payload: response
+        payload: a
     }
 }
+// export const getAllUsersAction = (response) => {
+//     return {
+//         type: 'GET_ALL_USERS',
+//         payload: response
+//     }
+// }

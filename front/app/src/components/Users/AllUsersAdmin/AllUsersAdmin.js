@@ -5,13 +5,13 @@ import users from '../../../configuration/config';
 import classes from './AllUsersAdmin.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
-import { getAllUsers } from '../../../actions/Api';
+import { getAllUsers } from '../../../actions/index';
 import PropTypes from 'prop-types';
 
 export class AllUsersAdmin extends Component {
-    static propTypes = {
-        getAllUsers: PropTypes.func
-    };
+    // static propTypes = {
+    //     getAllUsers: PropTypes.func
+    // };
     ulserList = () => {
         return users.map((item, index) => {
             return <li key={index}>
@@ -23,14 +23,18 @@ export class AllUsersAdmin extends Component {
             </li>
         })
     }
-    componentDidMount(){
+    clickAPI(){
         this.props.getAllUsers()
+    }
+    componentDidMount(){
+        
     }
     render(){
         return (
             
             <div className={classes.usersWrapper}>
                 <div className={classes.usersHead}>
+                <button onClick={() => this.clickAPI()} >send</button>
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
                     <div className={classes.role}></div>
@@ -48,10 +52,10 @@ export class AllUsersAdmin extends Component {
 //         newUsers: state.newUsers
 //     }
 // }
-
 const mapDispatchToProps = dispatch => {
-    return{
-        getAllUsers: payload => dispatch(getAllUsers(payload)),
-  }
+    return {
+        getAllUsers: payload => dispatch(getAllUsers(payload))
+    }
 }
+
 export default connect(null, mapDispatchToProps)(AllUsersAdmin);

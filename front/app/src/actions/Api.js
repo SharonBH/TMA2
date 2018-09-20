@@ -4,7 +4,9 @@ import history from '../configuration/history';
 
 // login request
 export const loginRequest = (userName, password) => {
+    console.log('333333333333333333');
     return (dispatch) => {
+        
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Login?username=${userName}&password=${password}`)
             .then((response) => {
                 if(response.data.message === 'Success') {
@@ -56,8 +58,8 @@ export const registerRequest = (email, password, confirmPassword, name, userType
     }
 };
 //get all users
-export const getAllUsers = (e) => {
-    console.log('response' , e)
+// export const getAllUsers = () => {
+//     console.log('response')
     // return (dispatch) => {
     //     return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUsers`)
     //         .then((response) => {
@@ -70,5 +72,5 @@ export const getAllUsers = (e) => {
     //             console.log(error);
     //         }); 
     // }
-};
+// };
 

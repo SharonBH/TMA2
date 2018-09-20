@@ -7,6 +7,7 @@ const UserLogInReducer = (state = InitialState, action) => {
 
         case 'GET_USER':
             const user = action.payload
+            console.log('111111')
             return {
                 ...state,
                 currentUser: user
