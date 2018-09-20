@@ -1,20 +1,13 @@
 const InitialState = {
-    userList: [],
-    currentUser: {}
+    currentUser: {name: 'roi'},
 }
 
 const UserLogInReducer = (state = InitialState, action) => {
     switch (action.type) {
 
-        case 'USER_LIST_CALL':
-            const userListArr = action.payload
-            return {
-                ...state,
-                userList: userListArr
-            }
-
-        case 'LOGIN_SUBMIT':
+        case 'GET_USER':
             const user = action.payload
+            
             return {
                 ...state,
                 currentUser: user

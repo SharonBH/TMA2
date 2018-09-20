@@ -1,12 +1,15 @@
+@import '../../styles/colors.scss';
+
 .nav {
     width: 15%;
     max-width: 200px;
     display: inline-block;
-    background: #ddd;
+    background: $light-gray;
     float: left;
-    height: 800px;
+    height: 100vh;
     box-sizing: border-box;
     padding-top: 100px;
+    border-right: 2px solid $blue;
 
     a {
         display: block;
@@ -15,7 +18,7 @@
         text-decoration: none;
         color: #424242;
         font-weight: 600;
-        
+
         &:hover {
             color: #5f5f5f;
         }
@@ -29,10 +32,23 @@
     }
 }
 
+span.Hello {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #424242;
+    font-weight: 600;
+    margin-bottom: 50px;
+    padding: 10px;
+    border-bottom: 1px solid $blue;
+    border-top: 1px solid $blue;
+    font-size: 20px;
+}
 
-
-
-
+.logo_image {
+    display: inline-block;
+    width: 45px;
+}
 
 .createUsers form select {
     width: 45%;
