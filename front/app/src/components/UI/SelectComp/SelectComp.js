@@ -8,7 +8,7 @@ export class SelectComp extends Component {
         name: PropTypes.string,
         options: PropTypes.array.isRequired,
         selectedOption: PropTypes.string,
-        controlFunc: PropTypes.func,
+        onChange: PropTypes.func,
         placeholder: PropTypes.string
     };
 
@@ -18,7 +18,7 @@ export class SelectComp extends Component {
                 <select
                     name={this.props.name}
                     value={this.props.selectedOption}
-                    onChange={this.props.controlFunc}
+                    onChange={this.props.onChange}
                     className={classes.SelectCompInput}>
                 <option value="">{this.props.placeholder}</option>
                 {this.props.options.map(opt => {

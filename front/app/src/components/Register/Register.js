@@ -63,14 +63,12 @@ class Register extends Component {
                             :   null
                         } */}
                     </span>
-                    <BtnComp inputType="submit" name="register" content="Register" onClick={(e) => this.registerSbmit(e)}/>
+                    <BtnComp inputType="submit" name="register" content="Register" onClick={this.registerSbmit}/>
                 </form>
                 <h3>Have a user? Keep Calm.</h3>
                 <div className='loginLink'>
                     <h2>And </h2>
-                    <Link to='/login'>
-                        <h2>Log-In</h2>
-                    </Link>
+                    <Link to='/login'><h2>Log-In</h2></Link>
                 </div> 
             </div>
         )

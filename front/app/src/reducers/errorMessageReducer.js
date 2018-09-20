@@ -7,7 +7,6 @@ const errorMessageReducer = (state = InitialState, action) => {
 
         case 'SET_ERROR_MESSAGE':
             const message = action.payload
-            console.log('error', message)
             return {
                 ...state,
                 errorMessage: message

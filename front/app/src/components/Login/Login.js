@@ -46,7 +46,7 @@ class LogIn extends Component {
                             : null
                         }
                     </span>
-                    <BtnComp inputType="submit" name="login" content="Login" onClick={(e) => this.loginSbmit(e)}/>
+                    <BtnComp inputType="submit" name="login" content="Login" onClick={this.loginSbmit}/>
                     <div className={loginClasses.rememberMe}>
                         <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
                         <span className='forgotPass'><Link to='/'>Forgot Password</Link></span>
@@ -55,15 +55,12 @@ class LogIn extends Component {
                 <h3>Not a register user?</h3>
                 <h3>Keep Calm</h3>
                 <h3>And</h3>
-                <Link to='/register'>
-                    <h2>Register</h2>
-                </Link> 
+                <Link to='/register'><h2>Register</h2></Link> 
             </div>
         );
     }
     
     render() {
-        console.log(this.state.userName, this.state.userPassword)
         return (
             <div className={classes.LogInWrapper}>
                 {this.loginFage()}
