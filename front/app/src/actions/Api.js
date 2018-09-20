@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUserAction, accessDeniedAction, registerDeniedAction } from './index';
+import { getUserAction, accessDeniedAction, registerDeniedAction, catchErrorAction } from './index';
 import history from '../configuration/history';
 
 // login request
@@ -16,6 +16,8 @@ export const loginRequest = (userName, password) => {
                         })
                         .catch((error) => {
                             console.log(error);
+                            dispatch(catchErrorAction(error))
+                            history.push({pathname: '/not_found'})
                         });
                 } else {
                     const error = response.data.message
@@ -24,6 +26,8 @@ export const loginRequest = (userName, password) => {
             })
             .catch((error) => {
                 console.log(error);
+                dispatch(catchErrorAction(error))
+                history.push({pathname: '/not_found'})
             });
     }
 };
@@ -42,6 +46,8 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                         })
                         .catch((error) => {
                             console.log(error);
+                            dispatch(catchErrorAction(error))
+                            history.push({pathname: '/not_found'})
                         });
                 } else {
                     const error = response.data.message
@@ -52,6 +58,8 @@ export const registerRequest = (email, password, confirmPassword, name, userType
             })
             .catch((error) => {
                 console.log(error);
+                dispatch(catchErrorAction(error))
+                history.push({pathname: '/not_found'})
             });
     }
 };

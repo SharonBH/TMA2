@@ -5,6 +5,7 @@ import { AllUsersAdmin } from '../../components/Users/AllUsersAdmin/AllUsersAdmi
 import LogIn from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
+import NotFound from '../../components/NotFound';
 
 export class MainPage extends Component {
   render() {
@@ -29,6 +30,10 @@ export class MainPage extends Component {
                 <Route
                     path='/all_users'
                     component={AllUsersAdmin}
+                />
+                <Route
+                    path='/not_found'
+                    component={NotFound}
                 />
             </Switch>
         </div>
