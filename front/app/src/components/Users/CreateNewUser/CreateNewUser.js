@@ -1,7 +1,10 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addNewUser } from '../../../actions/usersActions'
+import { addNewUser } from '../../../actions/usersActions';
+import classes from './CreateNewUser.scss';
+import InputComp from '../../UI/InputComp/InputComp';
+import BtnComp from '../../UI/BtnComp/BtnComp'
 
 
 export class CreateNewUser extends Component {
@@ -27,8 +30,6 @@ export class CreateNewUser extends Component {
     handleSubmit = () => {
         const newUList = this.state.newUserList
 
-    
-        
         this.props.addNewUser(newUList)
     }
 
@@ -36,7 +37,7 @@ export class CreateNewUser extends Component {
         const newUList = this.state.newUserList
         console.log('newUList', newUList)
         return (
-            <div className='users-wrapper create-users'>
+            <div className={(classes.usersWrapper, classes.createUsers)}>
             <Link to='all_users'><button>Back</button></Link>
             <h2>Create new user</h2>
 
@@ -46,13 +47,13 @@ export class CreateNewUser extends Component {
                     <option value='regular'>Regular User</option>
                     <option value='admin'>Administrator</option>
                 </select>
-                <input type='text' name='createName' placeholder='Your Name' onChange={(e) => this.handleNameChange(e)}/>
-                <input type='text' name='createUserName' placeholder='Some User Name' onChange={(e) => this.handleUserNameChange(e)}/>
-                <input type='email' name='createEmail' placeholder='Enter Email' onChange={(e) => this.handleEmailChange(e)}/>
-                <input type='password' name='createPassword' placeholder='Enter Password' onChange={(e) => this.handlePasswordChange(e)}/>
+                <InputComp inputType={'text'} name='createName' placeholder='Your Name' changeFunc={(e) => this.handleNameChange(e)}/>
+                <InputComp inputType={'text'} name='createUserName' placeholder='Some User Name' changeFunc={(e) => this.handleUserNameChange(e)}/>
+                <InputComp inputType={'email'} name='createEmail' placeholder='Enter Email' changeFunc={(e) => this.handleEmailChange(e)}/>
+                <InputComp inputType={'password'} name='createPassword' placeholder='Enter Password' changeFunc={(e) => this.handlePasswordChange(e)}/>
                 
                 {/* <Link to='all_users'> */}
-                <input type="submit" value="Submit" onSubmit={this.handleSubmit}/>
+                <BtnComp inputType={'submit'} value="Submit" submitFunc={this.handleSubmit}/>
                 {/* </Link> */}
             </form>
             

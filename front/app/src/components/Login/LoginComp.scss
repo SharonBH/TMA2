@@ -1,62 +1,94 @@
-.LogIn {
+@import '../../styles/colors.scss';
+
+.LogInWrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    width: 30%;
-    background-color: gray;
-}
-
-.LogIn h1 {
     width: 100%;
-    margin: 50px;
-}
+    min-height: 100vh;
+    background-color: $light-gray;
+    color: $blue;
 
-.LogIn form {
-    width: 80%;
-    margin: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
+    .LogIn {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 40%;
 
-.LogIn input {
-    width: 100%;
-    height: 30px;
-    margin: 10px;
-}
+        form {
+            width: 80%;
+            margin: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
 
-.LogIn input[name='login'] {
-    width: 100%;
-    height: 50px;
-    margin: 10px;
-}
+            input {
+                width: 100%;
+                height: 30px;
+                margin-bottom: 20px;
+            }
 
-.LogIn h2 {
-    width: 100%;
-}
+            input[name='login'] {
+                width: 100%;
+                height: 40px;
+            }
 
-.LogIn div {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-}
+            input[name='remember'] {
+                width: 30px;
+            }
 
-.LogIn span {
-    display: flex;
-    width: 50%;
-    justify-content: flex-start;
-    align-items: center;
-} 
+            div {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                align-items: center;
 
-.LogIn input[name='remember'] {
-    width: 30px;
-}
+                button {
+                    width: 150px;
+                    height: 30px;
+                    width: 50%;
+                }
 
-.LogIn button {
-    width: 150px;
-    height: 30px;
-    margin: 0 10px;
+                span {
+                    display: flex;
+                    width: 50%;
+                    align-items: center;
+
+                    input {
+                        width: 20px;
+                        margin: 0 10px 0 0;
+                    }
+                }
+            }
+        }
+
+        a {
+            display: flex;
+            width: 100%;
+            text-decoration: none;
+            color: $blue;
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            width: 100%;
+            margin-top: 60px;
+        }
+
+        h2 {
+            width: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        h3 {
+            width: 100%;
+            margin: 5px;
+        }
+    }
 }
