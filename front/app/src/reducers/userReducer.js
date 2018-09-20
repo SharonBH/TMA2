@@ -6,8 +6,7 @@ const InitialState = {
 const userReducer = (state = InitialState, action) => {
     switch (action.type) {
         case 'ADD_USER':
-        const userValue = action.payload
-        console.log('reduser', userValue)
+        const userValue = action.payload;
         return {
             ...state,
             newUsers:[
@@ -19,6 +18,7 @@ const userReducer = (state = InitialState, action) => {
         console.log('userReducer: InitialState')
     }
     return state
-    }
+}
+
 
 export default userReducer;

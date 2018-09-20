@@ -1,0 +1,12 @@
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.csprojResolveAssemblyReference.cache
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.csproj.CoreCompileInputs.cache
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.AssemblyInfoInputs.cache
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.AssemblyInfo.cs
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.Api.deps.json
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.Api.runtimeconfig.json
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.Api.runtimeconfig.dev.json
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.Api.dll
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.Api.pdb
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.dll
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.pdb
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs

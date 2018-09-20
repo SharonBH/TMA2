@@ -1,0 +1,32 @@
+
+.usersWrapper {
+    text-align: left;
+    margin: 15px;
+
+    div.role{
+        border: 0;
+        width: 10%
+    }
+    div.username, div.email{
+        width: 20%;
+    } 
+    .usersHead {
+        padding: 18px 0;
+        background: #e6e6e6;
+        & > div {
+            display: inline-block;
+            padding: 0 20px;
+            border-right: 1px solid;
+        }
+    }
+
+    ul.uesrsList {
+        list-style: none;
+        padding: 0;
+    
+        li > div {
+            display: inline-block;
+            padding: 5px 20px;
+        }
+    }
+}

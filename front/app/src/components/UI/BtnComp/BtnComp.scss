@@ -1,0 +1,9 @@
+.BtnComp{
+    background: #e5e5e5;
+    color: #000;
+
+    &:hover{
+        background: #999999;
+        color: #fff;
+    }
+}
