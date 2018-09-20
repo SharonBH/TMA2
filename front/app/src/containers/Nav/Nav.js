@@ -23,7 +23,7 @@ export class Nav extends Component {
             return (
                 <div className={classes.innerNav}>
                     <Link to='/all_users'>Users managment</Link>
-                    <Link to='/home' onClick={this.logout}>Logout</Link>
+                    <Link to='/' onClick={this.logout}>Logout</Link>
                 </div>
             )
         }
