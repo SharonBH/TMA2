@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUserAction, accessDeniedAction } from './index';
+import { getUserAction, accessDeniedAction, registerDeniedAction } from './index';
 import history from '../configuration/history';
 
 // login request
@@ -12,7 +12,7 @@ export const loginRequest = (userName, password) => {
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
-                            history.push({pathname: '/'})
+                            history.push({pathname: '/home'})
                         })
                         .catch((error) => {
                             console.log(error);
@@ -38,14 +38,16 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
-                            history.push({pathname: '/'})
+                            history.push({pathname: '/home'})
                         })
                         .catch((error) => {
                             console.log(error);
                         });
                 } else {
                     const error = response.data.message
-                    dispatch(accessDeniedAction(error))
+                    console.log(error)
+                    console.log(response)
+                    dispatch(registerDeniedAction(error))
                 }
             })
             .catch((error) => {

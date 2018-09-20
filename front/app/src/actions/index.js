@@ -5,10 +5,17 @@ export const getUserAction = (response) => {
         payload: response
     }
 }
-
+// user login error action
 export const accessDeniedAction = (response) => {
     return {
-        type: 'SET_ERROR_MESSAGE',
+        type: 'SET_LOGIN_ERROR_MESSAGE',
+        payload: response
+    }
+}
+// user register error action
+export const registerDeniedAction = (response) => {
+    return {
+        type: 'SET_REGISTER_ERROR_MESSAGE',
         payload: response
     }
 }
