@@ -1,5 +1,5 @@
 const InitialState = {
-    currentUser: {name: 'roi'},
+    currentUser: null,
 }
 
 const UserLogInReducer = (state = InitialState, action) => {
@@ -7,7 +7,6 @@ const UserLogInReducer = (state = InitialState, action) => {
 
         case 'GET_USER':
             const user = action.payload
-            
             return {
                 ...state,
                 currentUser: user
