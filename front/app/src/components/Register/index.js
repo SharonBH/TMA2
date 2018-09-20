@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest } from "../../actions/Api";
 import { connect } from 'react-redux';
+import InputComp from '../UI/InputComp/InputComp';
+import BtnComp from '../UI/BtnComp/BtnComp';
+import SelectComp from '../UI/SelectComp/SelectComp';
 
 class Register extends Component {
 
@@ -15,34 +18,17 @@ class Register extends Component {
             name: '',
             userType: '',
             userName: '',
+            someSelectArrayFromApiProps:['user', 'admin']
         }
     }
 
-    onEmailChange = (e) => {
-        this.setState({
-            email: e.target.value
-        })
-    }
+    onEmailChange = (e) => { this.setState({ email: e.target.value })}
+    onPasswordChange = (e) => { this.setState({password: e.target.value})}
+    onConfirmPasswordChange = (e) => { this.setState({confirmPassword: e.target.value})}
+    onNameChange = (e) => { this.setState({ name: e.target.value})}
+    onUseTypeChange = (e) => { this.setState({userType: e.target.value})}
+    onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
-    onPasswordChange = (e) => {
-        this.setState({password: e.target.value})
-    }
-
-    onConfirmPasswordChange = (e) => {
-        this.setState({confirmPassword: e.target.value})
-    }
-
-    onNameChange = (e) => {
-        this.setState({ name: e.target.value})
-    }
-
-    onUseTypeChange = (e) => {
-        this.setState({userType: e.target.value})
-    }
-
-    onUserNameChange = (e) => {
-        this.setState({userName: e.target.value})
-    }
 
     registerSbmit = (e) => {
         const email = this.state.email
@@ -58,18 +44,18 @@ class Register extends Component {
     rgisterFage = () => {
         return (
             <div className={classes.Register}>
-                <h1>Register</h1><br/>
+                <h1>Register</h1>
                 <form>
-                    <input type="email" name="email" placeholder="eMail" onChange={this.onEmailChange}/>
-                    <input type="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
-                    <input type="password" name="ConfirmPassword" placeholder="ConfirmPassword" onChange={this.onConfirmPasswordChange}/>
-                    <input type="text" name="name" placeholder="Name" onChange={this.onNameChange}/>
-                    <select onChange={this.onUseTypeChange}>
-                        <option>Select User Type</option>
-                        <option value='user'>user</option>
-                        <option value='admin'>admin</option>
-                    </select>
-                    <input type="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
+                    <InputComp inputType="email" name="email" placeholder="eMail" onChange={this.onEmailChange}/>
+                    <InputComp inputType="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
+                    <InputComp inputType="password" name="ConfirmPassword" placeholder="ConfirmPassword" onChange={this.onConfirmPasswordChange}/>
+                    <InputComp inputType="text" name="name" placeholder="Name" onChange={this.onNameChange}/>
+                    <SelectComp 
+                        onChange={this.onUseTypeChange}
+                        options={this.state.someSelectArrayFromApiProps}
+                        placeholder='Select User Type'
+                    />
+                    <InputComp type="inputType" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
                     <span>
                         {/* {
                             this.props.errorMessage !== null
@@ -77,14 +63,15 @@ class Register extends Component {
                             :   null
                         } */}
                     </span>
-                    <input type="submit" name="register" value="Register" onClick={(e) => this.registerSbmit(e)}/>
+                    <BtnComp inputType="submit" name="register" content="Register" onClick={(e) => this.registerSbmit(e)}/>
                 </form>
-                <h3>Have a user?</h3>
-                <h3>Keep Calm</h3>
-                <h3>And</h3>
-                <Link to='/login'>
-                    <h2>Log-In</h2>
-                </Link> 
+                <h3>Have a user? Keep Calm.</h3>
+                <div className='loginLink'>
+                    <h2>And </h2>
+                    <Link to='/login'>
+                        <h2>Log-In</h2>
+                    </Link>
+                </div> 
             </div>
         )
     }

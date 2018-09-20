@@ -9,8 +9,8 @@ export class InputComp extends Component {
         name: PropTypes.string.isRequired,
         changeFunc: PropTypes.func.isRequired,
         content: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
+            PropTypes.string,
+            PropTypes.number,
         ]).isRequired,
         placeholder: PropTypes.string,
     };
