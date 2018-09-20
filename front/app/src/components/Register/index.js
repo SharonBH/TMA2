@@ -57,11 +57,11 @@ class Register extends Component {
                     />
                     <InputComp type="inputType" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
                     <span>
-                        {
-                            this.props.errorMessage === 'xxx' || 'xsx' || 'xvx'
-                            ? <p>{this.props.errorMessage}</p>
-                            : null
-                        }
+                        {/* {
+                            this.props.errorMessage !== null
+                            ?   <p>{this.props.errorMessage}</p>
+                            :   null
+                        } */}
                     </span>
                     <BtnComp inputType="submit" name="register" content="Register" onClick={(e) => this.registerSbmit(e)}/>
                 </form>
@@ -88,7 +88,7 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.UserLogInReducer.errorMessage,
+        errorMessage: state.errorMessageReducer.errorMessage,
     }
 }
 

@@ -13,7 +13,7 @@ class LogIn extends Component {
         super(props)
         this.state = {
             userName: '',
-            userPass: '',
+            userPassword: '',
         }
     }
 
@@ -22,14 +22,14 @@ class LogIn extends Component {
     }
 
     onUserPassChange = (e) => {
-        this.setState({userPass: e.target.value})
+        this.setState({userPassword: e.target.value})
     }
 
     loginSbmit = (e) => {
-        const name = this.state.userName
-        const pass = this.state.userPass
+        const userName = this.state.userName
+        const password = this.state.userPassword
         e.preventDefault()
-        this.props.loginRequest(name, pass)
+        this.props.loginRequest(userName, password)
     }
 
     loginFage = () => {
@@ -41,7 +41,7 @@ class LogIn extends Component {
                     <InputComp inputType="password" name="pass" placeholder="Password" onChange={(e) => {this.onUserPassChange(e)}} />
                     <span>
                         {
-                            this.props.errorMessage === 'xxx' || 'xsx' || 'xvx'
+                            this.props.errorMessage === 'Invalid login attempt.'
                             ? <p>{this.props.errorMessage}</p>
                             : null
                         }
@@ -73,13 +73,13 @@ class LogIn extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.UserLogInReducer.errorMessage,
+        errorMessage: state.errorMessageReducer.errorMessage,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        loginRequest: (name, pass) => dispatch(loginRequest(name, pass)),
+        loginRequest: (userName, password) => dispatch(loginRequest(userName, password)),
     }
 }
 
