@@ -5,8 +5,8 @@ import users from '../../../configuration/config';
 import classes from './AllUsersAdmin.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
-import { getAllUsers } from '../../../actions/index';
-import PropTypes from 'prop-types';
+// import { getAllUsers } from '../../../actions/index';
+// import PropTypes from 'prop-types';
 
 export class AllUsersAdmin extends Component {
     // static propTypes = {
@@ -52,10 +52,11 @@ export class AllUsersAdmin extends Component {
 //         newUsers: state.newUsers
 //     }
 // }
-const mapDispatchToProps = dispatch => {
-    return {
-        getAllUsers: payload => dispatch(getAllUsers(payload))
-    }
-}
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         getAllUsers: payload => dispatch(getAllUsers(payload))
+//     }
+// }
 
-export default connect(null, mapDispatchToProps)(AllUsersAdmin);
+// export default connect(null, mapDispatchToProps)(AllUsersAdmin);
+export default AllUsersAdmin
