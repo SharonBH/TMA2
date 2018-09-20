@@ -6,49 +6,42 @@
     display: inline-block;
     background: $light-gray;
     float: left;
-    height: 100vh;
+    height: 100ch;
     box-sizing: border-box;
     padding-top: 100px;
-    border-right: 2px solid $blue;
 
     a {
         display: block;
         text-align: left;
         padding: 5px 20px;
         text-decoration: none;
-        color: #424242;
+        color: $black;
         font-weight: 600;
 
         &:hover {
-            color: #5f5f5f;
+            color: $dark-gray;
         }
     }
 
     span.logo_image {
-        display: inline-block;
+        display: block;
         width: 45px;
         position: relative;
         top: -65px;
+        margin: 0 auto;
+    }
+    span.Hello {
+        display: block;
+        color: #000;
+        font-weight: 600;
+        margin-bottom: 84px;
+        font-size: 20px;
+        position: relative;
+        top: -40px;
     }
 }
 
-span.Hello {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #424242;
-    font-weight: 600;
-    margin-bottom: 50px;
-    padding: 10px;
-    border-bottom: 1px solid $blue;
-    border-top: 1px solid $blue;
-    font-size: 20px;
-}
 
-.logo_image {
-    display: inline-block;
-    width: 45px;
-}
 
 .createUsers form select {
     width: 45%;

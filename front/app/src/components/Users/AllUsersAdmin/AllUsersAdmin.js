@@ -29,7 +29,7 @@ export class AllUsersAdmin extends Component {
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
                     <div className={classes.role}></div>
-                    <Link to='/createNewUser'><button>Add User</button></Link>
+                    <Link to='/Register'><button>Add User</button></Link>
                 </div>
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
             </div>

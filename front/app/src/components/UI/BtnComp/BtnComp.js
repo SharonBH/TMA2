@@ -8,8 +8,8 @@ export class BtnComp extends Component {
         inputType: PropTypes.oneOf(['submit', 'button']).isRequired,
         submitFunc: PropTypes.func.isRequired,
         content: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
+            PropTypes.string,
+            PropTypes.number,
         ]).isRequired
     };
 

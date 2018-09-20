@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import classes from './LoginComp.scss';
+import classes from '../Register/RegisterComp.scss';
+import loginClasses from '../LogIn/LoginComp.scss';
 import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
+import InputComp from '../UI/InputComp/InputComp';
+import BtnComp from '../UI/BtnComp/BtnComp';
 
 class LogIn extends Component {
 
@@ -34,8 +37,8 @@ class LogIn extends Component {
             <div className={classes.LogIn}>
                 <h1>Log-in</h1>
                 <form>
-                    <input type="text" name="user" placeholder="eMail" onChange={(e) => {this.onUserNameChange(e)}} />
-                    <input type="password" name="pass" placeholder="Password" onChange={(e) => {this.onUserPassChange(e)}} />
+                    <InputComp inputType="text" name="user" placeholder="eMail" onChange={(e) => {this.onUserNameChange(e)}} />
+                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={(e) => {this.onUserPassChange(e)}} />
                     <span>
                         {
                             this.props.errorMessage === 'xxx' || 'xsx' || 'xvx'
@@ -43,10 +46,10 @@ class LogIn extends Component {
                             : null
                         }
                     </span>
-                    <input type="submit" name="login" value="Login" onClick={(e) => this.loginSbmit(e)}/>
-                    <div>
+                    <BtnComp inputType="submit" name="login" content="Login" onClick={(e) => this.loginSbmit(e)}/>
+                    <div className={loginClasses.rememberMe}>
                         <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
-                        <button>Forgot Password</button>      
+                        <span className='forgotPass'><Link to=''>Forgot Password</Link></span>
                     </div> 
                 </form>
                 <h3>Not a register user?</h3>
