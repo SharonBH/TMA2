@@ -302,10 +302,15 @@ namespace TMA.Api.Controllers
                     return Json(new { Response = "Success", Message = "User created successfully." });
                 }
                 else
-                    return Json(new { Response = "Error", Message = result.Errors });
+                    return Json(new { Response = "Error", Message = result.Errors.FirstOrDefault().Description });
+            }
+            else if(ModelState.ErrorCount > 0)
+            {
+                var error = ModelState.Where(x => x.Value.ValidationState.ToString() == "Invalid").FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
+                return Json(new { Response = "Error", Message = error }); 
             }
 
-            return Json(new { Response = "Error", Message = "An error occured creating user."});
+            return Json(new { Response = "Error", Message = "An error occoured creating a new user." });
         }
 
         [HttpPost]
@@ -535,6 +540,32 @@ namespace TMA.Api.Controllers
             };
 
             return Json(userModel);
+        }
+
+
+        [HttpPost]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = _userManager.Users;
+            var usersList = new List<UserModel>();
+            foreach (var user in users)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var userRole = userRoles.FirstOrDefault();
+
+                var userModel = new UserModel()
+                {
+                    Email = user.Email,
+                    Name = user.Name,
+                    Username = user.UserName,
+                    Role = userRole
+                };
+
+                usersList.Add(userModel);
+            }
+            return Json(usersList);
         }
 
         #region Helpers
