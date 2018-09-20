@@ -4,9 +4,12 @@ import history from '../configuration/history';
 
 // login request
 export const loginRequest = (userName, password) => {
+    console.log('111', userName, password)
     return (dispatch) => {
+        console.log(userName, password)
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Login?username=${userName}&password=${password}`)
             .then((response) => {
+                console.log(response)
                 if(response.data.message === 'Success') {
                     return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
                         .then((response) => {

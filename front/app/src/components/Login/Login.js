@@ -37,8 +37,8 @@ class LogIn extends Component {
             <div className={classes.LogIn}>
                 <h1>Log-in</h1>
                 <form>
-                    <InputComp inputType="text" name="user" placeholder="eMail" onChange={(e) => {this.onUserNameChange(e)}} />
-                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={(e) => {this.onUserPassChange(e)}} />
+                    <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange} />
+                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange} />
                     <span>
                         {
                             this.props.errorMessage === 'Invalid login attempt.'
@@ -49,7 +49,7 @@ class LogIn extends Component {
                     <BtnComp inputType="submit" name="login" content="Login" onClick={(e) => this.loginSbmit(e)}/>
                     <div className={loginClasses.rememberMe}>
                         <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
-                        <span className='forgotPass'><Link to=''>Forgot Password</Link></span>
+                        <span className='forgotPass'><Link to='/'>Forgot Password</Link></span>
                     </div> 
                 </form>
                 <h3>Not a register user?</h3>
@@ -63,6 +63,7 @@ class LogIn extends Component {
     }
     
     render() {
+        console.log(this.state.userName, this.state.userPassword)
         return (
             <div className={classes.LogInWrapper}>
                 {this.loginFage()}
