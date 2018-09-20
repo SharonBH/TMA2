@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { HomePage } from '../HomePage/HomePage';
 import { AllUsersAdmin } from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
-import { CreateNewUser } from '../../components/Users/CreateNewUser/CreateNewUser';
 import LogIn from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
@@ -30,10 +29,6 @@ export class MainPage extends Component {
                 <Route
                     path='/all_users'
                     component={AllUsersAdmin}
-                />
-                <Route
-                    path='/createNewUser'
-                    component={CreateNewUser}
                 />
             </Switch>
         </div>
