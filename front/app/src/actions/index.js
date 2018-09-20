@@ -5,25 +5,26 @@ export const getUserAction = (response) => {
         payload: response
     }
 }
-
+// user login error action
 export const accessDeniedAction = (response) => {
     return {
-        type: 'SET_ERROR_MESSAGE',
+        type: 'SET_LOGIN_ERROR_MESSAGE',
         payload: response
     }
 }
 
-
-export const getAllUsers = (a) => {
-    console.log('111111111111')
+// user register error action
+export const registerDeniedAction = (response) => {
     return {
-        type: 'GET_ALL_USERS',
-        payload: a
+        type: 'SET_REGISTER_ERROR_MESSAGE',
+        payload: response
     }
 }
-// export const getAllUsersAction = (response) => {
-//     return {
-//         type: 'GET_ALL_USERS',
-//         payload: response
-//     }
-// }
+//catch error
+export const catchErrorAction = (number) => {
+    return {
+        type: 'ERROR_NUM',
+        payload: number
+    }
+}
+

@@ -2,21 +2,19 @@ const InitialState = {
     errorMessage: null
 }
 
-const errorMessageReducer = (state = InitialState, action) => {
+const registerErrorMessageReducer = (state = InitialState, action) => {
     switch (action.type) {
 
-        case 'SET_ERROR_MESSAGE':
+        case 'SET_REGISTER_ERROR_MESSAGE':
             const message = action.payload
-            console.log('error', message)
             return {
                 ...state,
                 errorMessage: message
             }
 
         default:
-            console.log('errorMessageReducer: InitialState')
     }
     return state;
 }
 
-export default errorMessageReducer;
+export default registerErrorMessageReducer;

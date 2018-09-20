@@ -8,7 +8,7 @@ export class SelectComp extends Component {
         name: PropTypes.string,
         options: PropTypes.array.isRequired,
         selectedOption: PropTypes.string,
-        onChange: PropTypes.func.isRequired,
+        onChange: PropTypes.func,
         placeholder: PropTypes.string
     };
 

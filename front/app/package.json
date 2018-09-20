@@ -39,6 +39,7 @@
     "react": "^16.5.1",
     "react-dev-utils": "^5.0.2",
     "react-dom": "^16.5.1",
+    "react-md-spinner": "^0.3.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
@@ -57,7 +58,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "build-css": "node-sass --include-path scss scss/main.scss public/css/main.css"
   },
   "jest": {
     "collectCoverageFrom": [

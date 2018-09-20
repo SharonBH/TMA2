@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import unregister from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import history from './configuration/history';
@@ -16,4 +16,5 @@ ReactDOM.render(
         </Router>
     </Provider>
     ,document.getElementById('root'));
-registerServiceWorker();
+    unregister()
+

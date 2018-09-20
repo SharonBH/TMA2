@@ -15,7 +15,7 @@ export class Nav extends Component {
         if(this.props.currentUser === null) {
             return (
                 <div className={classes.innerNav}>
-                    <Link to='/login'>Login</Link>
+                    <Link to='/'>Login</Link>
                     <Link to='/register'>Register</Link>
                 </div>
             )
@@ -23,7 +23,7 @@ export class Nav extends Component {
             return (
                 <div className={classes.innerNav}>
                     <Link to='/all_users'>Users managment</Link>
-                    <Link to='/' onClick={this.logout}>Logout</Link>
+                    <Link to='/home' onClick={this.logout}>Logout</Link>
                 </div>
             )
         }
@@ -32,7 +32,7 @@ export class Nav extends Component {
     helloUser = () => {
         if(this.props.currentUser === null) {
             return (
-                <span className={classes.Hello}>Hello Guest</span>
+                <span className={classes.Hello}>Hello You</span>
             )
         } else {
             return (
@@ -46,7 +46,7 @@ export class Nav extends Component {
             <div className={classes.nav}>
                 <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
                 {this.helloUser()}
-                <Link to='/'>Home</Link>
+                <Link to='/home'>Home</Link>
                 {this.navLinks()}
             </div>
         )

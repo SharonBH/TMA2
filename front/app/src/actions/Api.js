@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { getUserAction, accessDeniedAction, getAllUsersAction } from './index';
+import { getUserAction, accessDeniedAction, registerDeniedAction, catchErrorAction } from './index';
 import history from '../configuration/history';
 
 // login request
 export const loginRequest = (userName, password) => {
-    console.log('333333333333333333');
     return (dispatch) => {
         
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Login?username=${userName}&password=${password}`)
@@ -14,10 +13,12 @@ export const loginRequest = (userName, password) => {
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
-                            history.push({pathname: '/'})
+                            history.push({pathname: '/home'})
                         })
                         .catch((error) => {
                             console.log(error);
+                            dispatch(catchErrorAction(error))
+                            history.push({pathname: '/not_found'})
                         });
                 } else {
                     const error = response.data.message
@@ -26,34 +27,40 @@ export const loginRequest = (userName, password) => {
             })
             .catch((error) => {
                 console.log(error);
+                dispatch(catchErrorAction(error))
+                history.push({pathname: '/not_found'})
             });
     }
 };
 
 // register request
 export const registerRequest = (email, password, confirmPassword, name, userType, userName) => {
-    console.log('this is:', email, password, confirmPassword, name, userType, userName)
     return (dispatch) => {
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
-                console.log(response)
                 if (response.data.response === 'Success') {
                     return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
-                            history.push({pathname: '/'})
+                            history.push({pathname: '/home'})
                         })
                         .catch((error) => {
                             console.log(error);
+                            dispatch(catchErrorAction(error))
+                            history.push({pathname: '/not_found'})
                         });
                 } else {
                     const error = response.data.message
-                    dispatch(accessDeniedAction(error))
+                    console.log(error)
+                    console.log(response)
+                    dispatch(registerDeniedAction(error))
                 }
             })
             .catch((error) => {
                 console.log(error);
+                dispatch(catchErrorAction(error))
+                history.push({pathname: '/not_found'})
             });
     }
 };
