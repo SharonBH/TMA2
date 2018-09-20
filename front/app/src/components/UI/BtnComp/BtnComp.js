@@ -6,7 +6,7 @@ export class BtnComp extends Component {
     
     static propTypes = {  
         inputType: PropTypes.oneOf(['submit', 'button']).isRequired,
-        submitFunc: PropTypes.func,
+        onClick: PropTypes.func,
         content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
@@ -20,7 +20,7 @@ export class BtnComp extends Component {
                     className={(classes.BtnComp, classes.bigBtn, classes.smallBtn)}
                     type={this.props.inputType}
                     value={this.props.content}
-                    onSubmit={this.props.submitFunc} />
+                    onClick={this.props.onClick} />
             </div>
         )
     }

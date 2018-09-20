@@ -30,11 +30,9 @@ export const loginRequest = (userName, password) => {
 
 // register request
 export const registerRequest = (email, password, confirmPassword, name, userType, userName) => {
-    console.log('this is:', email, password, confirmPassword, name, userType, userName)
     return (dispatch) => {
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
-                console.log(response)
                 if (response.data.response === 'Success') {
                     return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
                         .then((response) => {

@@ -37,8 +37,8 @@ class LogIn extends Component {
             <div className={classes.LogIn}>
                 <h1>Log-in</h1>
                 <form>
-                    <InputComp inputType="text" name="user" placeholder="eMail" onChange={(e) => {this.onUserNameChange(e)}} />
-                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={(e) => {this.onUserPassChange(e)}} />
+                    <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange} />
+                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange} />
                     <span>
                         {
                             this.props.errorMessage === 'Invalid login attempt.'
@@ -46,18 +46,16 @@ class LogIn extends Component {
                             : null
                         }
                     </span>
-                    <BtnComp inputType="submit" name="login" content="Login" onClick={(e) => this.loginSbmit(e)}/>
+                    <BtnComp inputType="submit" name="login" content="Login" onClick={this.loginSbmit}/>
                     <div className={loginClasses.rememberMe}>
                         <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
-                        <span className='forgotPass'><Link to=''>Forgot Password</Link></span>
+                        <span className='forgotPass'><Link to='/'>Forgot Password</Link></span>
                     </div> 
                 </form>
                 <h3>Not a register user?</h3>
                 <h3>Keep Calm</h3>
                 <h3>And</h3>
-                <Link to='/register'>
-                    <h2>Register</h2>
-                </Link> 
+                <Link to='/register'><h2>Register</h2></Link> 
             </div>
         );
     }
