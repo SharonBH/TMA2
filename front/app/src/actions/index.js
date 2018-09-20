@@ -26,3 +26,10 @@ export const catchErrorAction = (number) => {
         payload: number
     }
 }
+//toggle Loader Action
+export const toggleLoaderAction = (boll) => {
+    return {
+        type: 'TOGGLE_SPINNER',
+        payload: boll
+    }
+}

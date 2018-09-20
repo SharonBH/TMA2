@@ -5,18 +5,16 @@ class Spinner extends Component {
     
     render() {
         return (
-            <div className="Spinner">
-                <MDSpinner 
-                    size={50} 
-                    duration={2500} 
-                    color1={'rgba(63, 168, 168, 0.9)'}
-                    color2={'black'}
-                    color3={'rgba(63, 168, 168, 0.9)'}
-                    color4={'black'}
-                    borderSize={4}
-                    style={{'marginTop': '100px'}}
-                />
-            </div>
+            <MDSpinner 
+                size={50} 
+                duration={2500} 
+                color1={'#03a3d0'}
+                color2={'#d65000'}
+                color3={'#03a3d0'}
+                color4={'#999999'}
+                borderSize={4}
+                style={{'margin': '10px'}}
+            />
         );
     }
 }
