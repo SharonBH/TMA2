@@ -1,21 +1,18 @@
 const InitialState = {
-    newUsers: ''
+    allUsersList: []
 }
 
 
 const userReducer = (state = InitialState, action) => {
     switch (action.type) {
-        case 'ADD_USER':
-        const userValue = action.payload;
+        case 'GET_ALL_USERS':
+        const usersArr = action.payload;
         return {
             ...state,
-            newUsers:[
-                ...state.newUsers,
-                userValue
-            ]
+            allUsersList: usersArr
         }
         default:
-        console.log('userReducer: InitialState')
+        console.log('GET_ALL_USERS')
     }
     return state
 }

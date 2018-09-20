@@ -55,7 +55,7 @@ class Register extends Component {
                         options={this.state.someSelectArrayFromApiProps}
                         placeholder='Select User Type'
                     />
-                    <InputComp type="inputType" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
+                    <InputComp inputType='text' name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
                     <span>
                         {/* {
                             this.props.errorMessage !== null

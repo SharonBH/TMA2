@@ -1,12 +1,29 @@
+@import '../../../styles/colors.scss';
 .BtnComp{
-    background: #e5e5e5;
-    color: #000;
+    background: $light-gray;
+    color: $black;
 
     &:hover{
-        background: #999999;
-        color: #fff;
+        background: $dark-gray;
+        color: $white;
     }
-    .smallBtn{
-        max-width: 200px
+ 
+}
+.editBtn {
+    background: $blue;
+    color: $white;
+    border: 0;
+    width: 60px;
+    &:hover{
+        background:$dark-gray;
     }
+}
+.deleteBtn {
+    background: $orange;
+    color: $white;
+    border: 0;
+    width: 60px;
+    &:hover{
+        background: $dark-gray;
+        }
 }

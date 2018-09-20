@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUserAction, accessDeniedAction } from './index';
+import { getUserAction, accessDeniedAction, getAllUsersAction } from './index';
 import history from '../configuration/history';
 
 // login request
@@ -55,3 +55,20 @@ export const registerRequest = (email, password, confirmPassword, name, userType
             });
     }
 };
+//get all users
+export const getAllUsers = (e) => {
+    console.log('response' , e)
+    // return (dispatch) => {
+    //     return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUsers`)
+    //         .then((response) => {
+    //             console.log(response)
+    //             const users = response.data
+    //             dispatch(getAllUsersAction(users));
+    //             // history.push({pathname: '/'})
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         }); 
+    // }
+};
+

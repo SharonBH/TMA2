@@ -3,24 +3,29 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import users from '../../../configuration/config';
 import classes from './AllUsersAdmin.scss';
+import EditBtn  from '../../UI/BtnComp/EditBtn';
+import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
+import { getAllUsers } from '../../../actions/Api';
+import PropTypes from 'prop-types';
 
 export class AllUsersAdmin extends Component {
-    addUser = () => {
-
-    }
+    static propTypes = {
+        getAllUsers: PropTypes.func
+    };
     ulserList = () => {
         return users.map((item, index) => {
             return <li key={index}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
                 <div className={classes.role}>{item.role === 'admin' ? item.role = 'admin' : item.role = '' }</div>
-                <button>Edit</button>
-                <button>Delete</button>
+                <EditBtn inputType={'button'} content='Edit'/>
+                <DeleteBtn inputType={'button'} content='Delete'/>
             </li>
         })
     }
-
-
+    componentDidMount(){
+        this.props.getAllUsers()
+    }
     render(){
         return (
             
@@ -36,15 +41,17 @@ export class AllUsersAdmin extends Component {
         )
     }
 }
-const mapStateToProps = (state) => {
-    return {
-        newUsers: state.newUsers
-    }
-}
+
+
+// const mapStateToProps = (state) => {
+//     return {
+//         newUsers: state.newUsers
+//     }
+// }
 
 const mapDispatchToProps = dispatch => {
     return{
-
+        getAllUsers: payload => dispatch(getAllUsers(payload)),
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AllUsersAdmin);
+export default connect(null, mapDispatchToProps)(AllUsersAdmin);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classes from './BtnComp.scss';
 
-export class BtnComp extends Component {
+export class EditBtn extends Component {
     
     static propTypes = {  
         inputType: PropTypes.oneOf(['submit', 'button']).isRequired,
@@ -17,7 +17,7 @@ export class BtnComp extends Component {
         return (
             <div className='BtnComp'>
                 <input
-                    className={`${classes.BtnComp} `}
+                    className={`${classes.editBtn} `}
                     type={this.props.inputType}
                     value={this.props.content}
                     onSubmit={this.props.onSubmit} />
@@ -26,4 +26,4 @@ export class BtnComp extends Component {
     }
 }
 
-export default BtnComp;  
+export default EditBtn;  

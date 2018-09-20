@@ -12,3 +12,10 @@ export const accessDeniedAction = (response) => {
         payload: response
     }
 }
+
+export const getAllUsersAction = (response) => {
+    return {
+        type: 'GET_ALL_USERS',
+        payload: response
+    }
+}
