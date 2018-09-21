@@ -12,7 +12,7 @@ const addNewUserReducer = (state = InitialState, action) => {
                 addUser: boll
             }
 
-        default:
+        default: console.log('rwducwe:', state)
     }
     return state;
 }

@@ -36,6 +36,7 @@ export const toggleLoaderAction = (boll) => {
 
 // add New User Action
 export const addNewUserAction = (boll) => {
+    console.log('if')
     return {
         type: 'ADD_A_NEW_USER',
         payload: boll

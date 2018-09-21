@@ -13,8 +13,8 @@ class LogIn extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            userName: '',
-            userPassword: '',
+            userName: 'me',
+            userPassword: '!1Aaaa',
         }
     }
 

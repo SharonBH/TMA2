@@ -46,6 +46,7 @@ export class AllUsersAdmin extends Component {
     }
 
     render(){
+        console.log(this.props.addUser, this.props.newUsers)
         return (
             <div className={classes.usersWrapper}>
                 <div className={classes.usersHead}>
@@ -55,7 +56,7 @@ export class AllUsersAdmin extends Component {
                     <BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/>
                 </div>
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
-                {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
+                {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : <div>sdsd</div>}
             </div>
         )
     }
@@ -63,8 +64,8 @@ export class AllUsersAdmin extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        newUsers: state.newUsers,
-        addUser: state.addNewUserReducer.addUser
+        newUsers: state.userReducer.newUsers,
+        addUser: state.addNewUserReducer.addUser,
     }
 }
 
