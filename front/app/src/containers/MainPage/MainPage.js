@@ -20,7 +20,7 @@ export class MainPage extends Component {
                 <Route
                     exact
                     path='/register'
-                    component={Register}
+                    component={() => <Register headline='Register' />}
                 />
                 <Route
                     exact

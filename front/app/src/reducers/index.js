@@ -5,6 +5,7 @@ import loginErrorMessageReducer from './loginErrorMessageReducer';
 import registerErrorMessageReducer from './registerErrorMessageReducer';
 import errorReducer from './errorReducer';
 import toggleLoaderReducer from './toggleLoaderReducer';
+import addNewUserReducer from './addNewUserReducer';
 
 const rootReducer = combineReducers({
   UserLogInReducer: UserLogInReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   registerErrorMessageReducer: registerErrorMessageReducer,
   errorReducer: errorReducer,
   toggleLoaderReducer: toggleLoaderReducer,
+  addNewUserReducer: addNewUserReducer
 });
 
 export default rootReducer;
