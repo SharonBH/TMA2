@@ -1,13 +1,13 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
 import users from '../../../configuration/config';
 import classes from './AllUsersAdmin.scss';
+import Register from '../../Register';
+import BtnComp from '../../UI/BtnComp/BtnComp';
+import { addNewUserAction } from '../../../actions';
 
 export class AllUsersAdmin extends Component {
-    addUser = () => {
-
-    }
+    
     ulserList = () => {
         return users.map((item, index) => {
             return <li key={index}>
@@ -20,31 +20,59 @@ export class AllUsersAdmin extends Component {
         })
     }
 
+    addUserBtn = () => {
+        this.props.addNewUserAction(true)
+    }
+
+    addUserComp = () => {
+        return <Register headline='Add User' classStr='none' />
+    }
+
+    componentDidMount() {
+        document.addEventListener("click", (evt) => {
+            const register = document.querySelector('.RegisterComp__Register___2-9vC')
+            const btn = document.querySelector('.BtnComp__smallBtn___3Bub3')
+            let targetEl = evt.target
+            do {
+                if (targetEl === register || targetEl === btn) {
+                    return
+                }
+                // Go up the DOM
+                targetEl = targetEl.parentNode;
+            }
+            while (targetEl)
+            this.props.addNewUserAction(false)
+        });
+    }
 
     render(){
+        console.log(this.props.addUser, this.props.newUsers)
         return (
-            
             <div className={classes.usersWrapper}>
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
                     <div className={classes.role}></div>
-                    <Link to='/Register'><button>Add User</button></Link>
+                    <BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/>
                 </div>
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
+                {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : <div>sdsd</div>}
             </div>
         )
     }
 }
+
 const mapStateToProps = (state) => {
     return {
-        newUsers: state.newUsers
+        newUsers: state.userReducer.newUsers,
+        addUser: state.addNewUserReducer.addUser,
     }
 }
 
 const mapDispatchToProps = dispatch => {
-    return{
-
-  }
+    return {
+        addNewUserAction: payload => dispatch(addNewUserAction(payload)),
+    }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(AllUsersAdmin);

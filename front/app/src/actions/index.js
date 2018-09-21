@@ -19,17 +19,26 @@ export const registerDeniedAction = (response) => {
         payload: response
     }
 }
-//catch error
+// catch Error
 export const catchErrorAction = (number) => {
     return {
         type: 'ERROR_NUM',
         payload: number
     }
 }
-//toggle Loader Action
+// toggle Loader Action
 export const toggleLoaderAction = (boll) => {
     return {
         type: 'TOGGLE_SPINNER',
+        payload: boll
+    }
+}
+
+// add New User Action
+export const addNewUserAction = (boll) => {
+    console.log('if')
+    return {
+        type: 'ADD_A_NEW_USER',
         payload: boll
     }
 }

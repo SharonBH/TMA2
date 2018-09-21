@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { HomePage } from '../HomePage/HomePage';
-import { AllUsersAdmin } from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
+import AllUsersAdmin from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
 import LogIn from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
@@ -20,7 +20,7 @@ export class MainPage extends Component {
                 <Route
                     exact
                     path='/register'
-                    component={Register}
+                    component={() => <Register headline='Register' />}
                 />
                 <Route
                     exact
