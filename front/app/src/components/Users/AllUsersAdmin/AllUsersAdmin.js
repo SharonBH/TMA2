@@ -46,7 +46,6 @@ export class AllUsersAdmin extends Component {
     }
 
     render(){
-        console.log(this.props.addUser, this.props.newUsers)
         return (
             <div className={classes.usersWrapper}>
                 <div className={classes.usersHead}>
