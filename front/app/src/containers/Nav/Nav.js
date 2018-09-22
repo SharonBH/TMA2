@@ -4,11 +4,13 @@ import classes from './Nav.scss';
 import logo from '../../logo_sign.svg';
 import { connect } from 'react-redux';
 import { getUserAction } from '../../actions';
+// import { accountLogout } from '../../actions/Api';
 
 export class Nav extends Component {
 
     logout = () => {
         this.props.getUserAction(null)
+        // this.props.accountLogout()
     }
 
     navLinks = () => {
@@ -62,6 +64,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         getUserAction: payload => dispatch(getUserAction(payload)),
+        // accountLogout: payload => dispatch(accountLogout(payload)),
     }
 }
 

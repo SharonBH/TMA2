@@ -41,3 +41,11 @@ export const addNewUserAction = (boll) => {
         payload: boll
     }
 }
+
+// get Users List Action
+export const getUsersListAction = (arr) => {
+    return {
+        type: 'GET_ALL_USERS',
+        payload: arr
+    }
+}

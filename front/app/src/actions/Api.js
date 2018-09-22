@@ -1,6 +1,14 @@
 import axios from 'axios';
-import { getUserAction, accessDeniedAction, registerDeniedAction, catchErrorAction, toggleLoaderAction, addNewUserAction } from './index';
 import history from '../configuration/history';
+import {
+    getUserAction,
+    accessDeniedAction,
+    registerDeniedAction,
+    catchErrorAction,
+    toggleLoaderAction,
+    addNewUserAction,
+    getUsersListAction
+} from './index';
 
 // login request
 export const loginRequest = (userName, password) => {
@@ -95,3 +103,36 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
             });
     }
 };
+
+// get users List by Request
+export const usersListRequest = () => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios.get(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUsers`)
+            .then((response) => {
+                const users = response.data
+                dispatch(getUsersListAction(users))
+                dispatch(toggleLoaderAction(false))
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(catchErrorAction(error))
+                history.push({pathname: '/not_found'})
+                dispatch(toggleLoaderAction(false))
+            });
+    }
+};
+
+// Account Logout
+// export const accountLogout = () => {
+//     return (dispatch) => {
+//         return axios.get(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Logout`)
+//             .then((response) => {
+//                 console.log(response)
+//             })
+//             .catch((error) => {
+//                 console.log(error);
+//             });
+//     }
+// };
+
