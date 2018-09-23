@@ -19,6 +19,13 @@ export const registerDeniedAction = (response) => {
         payload: response
     }
 }
+// user edit error action
+export const editDeniedAction = (response) => {
+    return {
+        type: 'SET_EDIT_ERROR_MESSAGE',
+        payload: response
+    }
+}
 // catch Error
 export const catchErrorAction = (number) => {
     return {

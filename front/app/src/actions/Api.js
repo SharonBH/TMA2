@@ -7,7 +7,8 @@ import {
     catchErrorAction,
     toggleLoaderAction,
     addNewUserAction,
-    getUsersListAction
+    getUsersListAction,
+    editDeniedAction
 } from './index';
 
 // login request
@@ -118,6 +119,41 @@ export const usersListRequest = () => {
                 console.log(error);
                 dispatch(catchErrorAction(error))
                 history.push({pathname: '/not_found'})
+                dispatch(toggleLoaderAction(false))
+            });
+    }
+};
+
+// edit User Request
+export const editUserRequest = (name, userName, email, password, userType) => {
+    console.log(name, userName, email, password, userType)
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+            .then((response) => {
+                if (response.data.response === 'Success') {
+                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                        .then((response) => {
+                            const user = response.data
+                            dispatch(getUserAction(user));
+                            dispatch(toggleLoaderAction(false))
+                            history.push({pathname: '/profile'})
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                            dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+                            dispatch(toggleLoaderAction(false))
+                        });
+                } else {
+                    const error = response.data.message
+                    dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+                    dispatch(toggleLoaderAction(false))
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(catchErrorAction(error))
+                dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
                 dispatch(toggleLoaderAction(false))
             });
     }

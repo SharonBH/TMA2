@@ -3,32 +3,59 @@ import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import InputComp from '../UI/InputComp/InputComp';
+import SelectComp from '../UI/SelectComp/SelectComp.js';
+import { editUserRequest } from '../../actions/Api';
+import Spinner from '../UI/Spinner';
 
 class UserSummary extends Component {
 
     constructor(props) {
         super(props)
+
+        const name = this.props.currentUser.name
+        const username = this.props.currentUser.username
+        const email = this.props.currentUser.email
+        const password = this.props.currentUser.password
+        const role = this.props.currentUser.role
+
         this.state = {
             userDetailsArr: [
-                {detail: 'Name', param: this.props.currentUser.name, edit: false},
-                {detail: 'UserName', param: this.props.currentUser.username, edit: false},
-                {detail: 'eMail', param: this.props.currentUser.email, edit: false},
-                {detail: 'Password', param: this.props.currentUser.password, edit: false},
-                {detail: 'UserType', param: this.props.currentUser.role, edit: false}
-            ]
+                {edit: false, detail: 'Name', param: name, editInput: name},
+                {edit: false, detail: 'UserInput', param: username, editInput: username},
+                {edit: false, detail: 'eMail', param: email, editInput: email},
+                {edit: false, detail: 'Password', param: password, editInput: password},
+                {edit: false, detail: 'UserType', param: role,  editInput: role}
+            ],
         }
-        this.editDetail = this.editDetail.bind(this)
+        this.editDetail = this.editDetailBtn.bind(this)
     }
 
-    editDetail = (index) => {
+    editDetailBtn = (index) => {
         const details = Object.assign([], this.state.userDetailsArr)
         if(details[index].edit) {
             details[index].edit = false
         } else {
             details[index].edit = true
         }
-        console.log(details)
         this.setState({userDetailsArr: details})
+    }
+
+    editDetailInput = (index, e) => {
+        const details = Object.assign([], this.state.userDetailsArr)
+            details[index].editInput = e.target.value
+        this.setState({
+            userDetailsArr: details
+        })
+    }
+    
+    submitAllChangesDetails = () => {
+        this.props.editUserRequest(
+            this.state.userDetailsArr[0].editInput,
+            this.state.userDetailsArr[1].editInput,
+            this.state.userDetailsArr[2].editInput,
+            this.state.userDetailsArr[3].editInput,
+            this.state.userDetailsArr[4].editInput,
+        )
     }
 
     detailLine = (item, index) => {
@@ -40,11 +67,21 @@ class UserSummary extends Component {
                 {
                     this.state.userDetailsArr[index].edit
                     ? <div className={classes.EditInput}>
-                        <InputComp 
-                            name={detail} 
-                            placeholder={detail} 
-                            content={item.param}
-                        />
+                        {
+                            detail === 'UserType'
+                            ? <SelectComp 
+                                onChange={(e) => this.editDetailInput(index, e)}
+                                options={['user', 'admin']}
+                                placeholder='Select User Type'
+                                />
+                            : <InputComp 
+                                inputType={'text'}
+                                name={detail} 
+                                placeholder={detail} 
+                                content={this.state.userDetailsArr[index].editInput}
+                                onChange={(e) => this.editDetailInput(index, e)}
+                                />
+                        } 
                       </div> 
                     : <span>{item.param}</span>
                 }
@@ -52,12 +89,29 @@ class UserSummary extends Component {
                     <BtnComp 
                         className={classes.smallBtn} 
                         inputType="submit" 
-                        content={edit ? 'submit' : 'Edit'} 
-                        onClick={this.editDetail.bind(this, index, detail, edit)}
+                        content={edit ? 'Not Now' : 'Edit'} 
+                        onClick={() => this.editDetailBtn(index)}
                     />
                 </div>
             </div>
         )
+    }
+
+    errorMessage = () => {
+        const error = this.props.errorMessage
+        if (error !== null) {
+            return <p>{error}</p>
+        } else {
+            return null
+        }
+    }
+
+    spinner = () => {
+        if (this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
     }
 
     userSummary = (headline) => {
@@ -65,9 +119,11 @@ class UserSummary extends Component {
         return (
             <div className={classes.Profile}>
                 <h1>{currentUser.name} {headline}</h1>
+                {this.spinner()}
                 {this.state.userDetailsArr.map((item, index) => {
                     return this.detailLine(item, index)
                 })}
+                {this.errorMessage()}
                 <span className={classes.SubmitAll}>
                     <BtnComp 
                         className={classes.smallBtn} 
@@ -92,12 +148,15 @@ class UserSummary extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.UserLogInReducer.currentUser
+        currentUser: state.UserLogInReducer.currentUser,
+        errorMessage: state.editErrorMessageReducer.errorMessage,
+        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+        editUserRequest: (name, userName, email, password, userType) => dispatch(editUserRequest(name, userName, email, password, userType)),
     }
 }
 
