@@ -19,6 +19,13 @@ export const registerDeniedAction = (response) => {
         payload: response
     }
 }
+// user edit error action
+export const editDeniedAction = (response) => {
+    return {
+        type: 'SET_EDIT_ERROR_MESSAGE',
+        payload: response
+    }
+}
 // catch Error
 export const catchErrorAction = (number) => {
     return {
@@ -36,9 +43,16 @@ export const toggleLoaderAction = (boll) => {
 
 // add New User Action
 export const addNewUserAction = (boll) => {
-    console.log('if')
     return {
         type: 'ADD_A_NEW_USER',
         payload: boll
+    }
+}
+
+// get Users List Action
+export const getUsersListAction = (arr) => {
+    return {
+        type: 'GET_ALL_USERS',
+        payload: arr
     }
 }

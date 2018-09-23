@@ -72,7 +72,7 @@ class Register extends Component {
 
     rgisterFage = (headline, classStr) => {
         return (
-            <div className={classes.Register} id='Register'>
+            <div className={classes.Register}>
                 <h1>{headline}</h1>
                 {this.spinner()}
                 <form>
