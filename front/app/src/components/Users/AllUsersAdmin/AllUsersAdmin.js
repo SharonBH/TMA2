@@ -17,7 +17,7 @@ export class AllUsersAdmin extends Component {
                 return <li key={index}>
                     <div className={classes.username}>{item.name}</div>
                     <div className={classes.email}>{item.email}</div>
-                    <div className={classes.role}>{item.role === 'admin' ? item.role = 'admin' : item.role = 'User' }</div>
+                    <div className={classes.role}>{item.role}</div>
                     <button>Edit</button>
                     <button>Delete</button>
                 </li>
@@ -26,9 +26,13 @@ export class AllUsersAdmin extends Component {
     }
 
     spinner = () => {
-        if (this.props.toggleSpinner) {
-            return <Spinner />
-        } else {
+        if(this.props.usersList === null) {
+            if (this.props.toggleSpinner) {
+                return <Spinner />
+            } else {
+                return null
+            }
+        } else{
             return null
         }
     }
@@ -60,13 +64,12 @@ export class AllUsersAdmin extends Component {
     }
 
     render(){
-        console.log(this.props.usersList)
         return (
             <div className={classes.usersWrapper}>
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
-                    <div className={classes.role}>role</div>
+                    <div className={classes.role}>User Type</div>
                     <BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/>
                 </div>
                 {this.spinner()}

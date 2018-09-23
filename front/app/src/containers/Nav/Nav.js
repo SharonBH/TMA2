@@ -24,6 +24,7 @@ export class Nav extends Component {
         } else {
             return (
                 <div className={classes.innerNav}>
+                    <Link to='/profile'>Profile</Link>
                     <Link to='/all_users'>Users managment</Link>
                     <Link to='/' onClick={this.logout}>Logout</Link>
                 </div>

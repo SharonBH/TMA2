@@ -6,6 +6,7 @@ import LogIn from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
 import NotFound from '../../components/NotFound';
+import UserSummary from '../../components/UserSummary';
 
 export class MainPage extends Component {
   render() {
@@ -18,14 +19,16 @@ export class MainPage extends Component {
                     component={LogIn}
                 />
                 <Route
-                    exact
                     path='/register'
                     component={() => <Register headline='Register' />}
                 />
                 <Route
-                    exact
                     path='/home'
                     component={HomePage}
+                />
+                <Route
+                    path='/profile'
+                    component={() => <UserSummary headline='profile' />}
                 />
                 <Route
                     path='/all_users'
