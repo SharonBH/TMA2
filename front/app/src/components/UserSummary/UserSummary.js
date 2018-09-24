@@ -12,11 +12,11 @@ class UserSummary extends Component {
     constructor(props) {
         super(props)
 
-        const name = this.props.currentUser.name
-        const username = this.props.currentUser.username
-        const email = this.props.currentUser.email
-        const password = this.props.currentUser.password
-        const role = this.props.currentUser.role
+        const name = this.props.user.name
+        const username = this.props.user.username
+        const email = this.props.user.email
+        const password = this.props.user.password
+        const role = this.props.user.role
 
         this.state = {
             userDetailsArr: [
@@ -114,11 +114,10 @@ class UserSummary extends Component {
         }
     }
 
-    userSummary = (headline) => {
-        const currentUser = this.props.currentUser
+    userSummary = (headline, user) => {
         return (
             <div className={classes.Profile}>
-                <h1>{currentUser.name} {headline}</h1>
+                <h1>{headline} {user.name}</h1>
                 {this.spinner()}
                 {this.state.userDetailsArr.map((item, index) => {
                     return this.detailLine(item, index)
@@ -137,10 +136,11 @@ class UserSummary extends Component {
     }
 
     render() {
-        const { headline } = this.props
+        const { headline, user } = this.props
+        console.log(user)
         return (
             <div className={classes.ProfileWrapper}>
-                {this.userSummary(headline)}
+                {this.userSummary(headline, user)}
             </div>
         );
     }
@@ -148,7 +148,6 @@ class UserSummary extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.UserLogInReducer.currentUser,
         errorMessage: state.editErrorMessageReducer.errorMessage,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }

@@ -3,15 +3,18 @@ import { connect } from 'react-redux';
 import classes from './AllUsersAdmin.scss';
 import Register from '../../Register';
 import BtnComp from '../../UI/BtnComp/BtnComp';
-import { addNewUserAction, editThisUserAction, getUsersListAction } from '../../../actions';
 import { usersListRequest } from '../../../actions/Api';
 import Spinner from '../../UI/Spinner';
 import UserSummary from '../../UserSummary';
+import { addNewUserAction, editThisUserAction, getUsersListAction } from '../../../actions';
 
 export class AllUsersAdmin extends Component {
 
     constructor(props) {
         super(props)
+        this.state = {
+            userInEditMode: null
+        }
         this.editUserBtn = this.editUserBtn.bind(this)
     }
     
@@ -25,7 +28,7 @@ export class AllUsersAdmin extends Component {
                     <div className={classes.email}>{item.email}</div>
                     <div className={classes.role}>{item.role}</div>
                     <div id={index} className={classes.EditBtn}>
-                        <BtnComp inputType="submit" content='Edit User' onClick={this.editUserBtn}/>
+                        <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(index, item)}/>
                     </div>
                     <button>Delete</button>
                 </li>
@@ -33,7 +36,8 @@ export class AllUsersAdmin extends Component {
         }
     }
 
-    editUserBtn = () => {
+    editUserBtn = (index, item) => {
+        this.setState({userInEditMode: item})
         setTimeout(() => {
             this.closeWindowFunc()
             this.props.editThisUserAction(true)
@@ -83,7 +87,7 @@ export class AllUsersAdmin extends Component {
     }
 
     editUserComp = () => {
-        return <UserSummary headline='Pofile - Edit User'/>
+        return <UserSummary headline='Edit User:' user={this.state.userInEditMode}/>
     }
 
     componentDidMount() {
@@ -91,8 +95,6 @@ export class AllUsersAdmin extends Component {
     }
 
     render(){
-        console.log('editThisUser', this.props.editThisUser)
-        console.log('-------------------addUser', this.props.addUser)
         return (
             <div className={classes.usersWrapper}>
                 <div className={classes.usersHead}>
