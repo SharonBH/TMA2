@@ -44,10 +44,11 @@ export const editDeniedAction = (response) => {
     }
 }
 
-export const setIsLoadingToTrue = (bool) => {
+// toggle Loader Action
+export const toggleLoaderAction = (boll) => {
     return {
-        type: 'SET_ISLOADING_TO_TRUE',
-        payload: bool
+        type: 'TOGGLE_SPINNER',
+        payload: boll
     }
 }
 export const deleteUserAction = (data) => {
