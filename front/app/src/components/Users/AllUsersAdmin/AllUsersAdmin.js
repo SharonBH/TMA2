@@ -35,35 +35,35 @@ export class AllUsersAdmin extends Component {
 
     editUserBtn = () => {
         setTimeout(() => {
-            this.documents()
+            this.closeWindowFunc()
             this.props.editThisUserAction(true)
         }, 200)
     }
 
-    documents = () => {
-                document.addEventListener("click", (evt) => {
-                const edit = document.querySelector('.UserSummary__Profile___3JQE2')
-                const addUser = document.querySelector('.RegisterComp__Register___2-9vC')
-                const btn = document.querySelectorAll('.BtnComp__smallBtn___3Bub3')
-                let targetEl = evt.target
-                do {
-                    if (targetEl === addUser || targetEl === edit || targetEl === btn) {
-                        return
-                    }
-                    // Go up the DOM
-                    targetEl = targetEl.parentNode;
-                }
-                while (targetEl)
-                this.props.editThisUserAction(false)
-                this.props.addNewUserAction(false)
-            });
-    }
-
     addUserBtn = () => {
         setTimeout(() => {
-            this.documents()
+            this.closeWindowFunc()
             this.props.addNewUserAction(true)
         }, 200)
+    }
+
+    closeWindowFunc = () => {
+            document.addEventListener("click", (evt) => {
+            const edit = document.querySelector('.UserSummary__Profile___3JQE2')
+            const addUser = document.querySelector('.RegisterComp__Register___2-9vC')
+            const btn = document.querySelectorAll('.BtnComp__smallBtn___3Bub3')
+            let targetEl = evt.target
+            do {
+                if (targetEl === addUser || targetEl === edit || targetEl === btn) {
+                    return
+                }
+                // Go up the DOM
+                targetEl = targetEl.parentNode;
+            }
+            while (targetEl)
+            this.props.editThisUserAction(false)
+            this.props.addNewUserAction(false)
+        });
     }
 
     spinner = () => {
