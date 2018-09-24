@@ -120,9 +120,10 @@ class UserSummary extends Component {
     }
 
     userSummary = (headline, user) => {
+        const name = user.name.charAt(0).toUpperCase() + user.name.slice(1)
         return (
             <div className={classes.Profile}>
-                <h1>{headline} {user.name}</h1>
+                <h1>{headline} {name}</h1>
                 {this.spinner()}
                 {this.state.userDetailsArr.map((item, index) => {
                     return this.detailLine(item, index)
