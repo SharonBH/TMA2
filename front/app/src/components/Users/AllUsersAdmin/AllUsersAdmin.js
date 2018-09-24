@@ -6,8 +6,7 @@ import classes from './AllUsersAdmin.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import PropTypes from 'prop-types';
-// import Spinner from '../../Spiner/Spiner';
-import Spinner from '../../UI/Spinner/Spinner'
+import Spinner from '../../UI/Spinner/Spinner';
 
 
 
@@ -34,13 +33,11 @@ export class AllUsers extends Component {
     }
     deleteUserClick = (userName) => {
         const someName = userName.username
-        console.log('userName',someName)
         this.props.deleteUser(someName)
         
     }
     ulserList = () => {
         return this.props.allUsersList.map((item, index) => {
-            // console.log('11111111',item)
             return <li key={index}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
@@ -55,22 +52,17 @@ export class AllUsers extends Component {
     }
     
     render (){
-        console.log('allUsersList',this.props.allUsersList)
         return (
-                
             <div className={classes.usersWrapper}>
-
-            {this.spinner()}
-                 <div className={classes.usersHead}>
-                     <div className={classes.username}>Name</div>
-                     <div className={classes.email}>Email</div>
-                     <div className={classes.role}></div>
-                     <div className={classes.email}>userName</div>
-                     <Link to='/Register'><button>Add User</button></Link>
-                 </div>
-                 
-                 <ul className={classes.uesrsList}>{this.ulserList()}
-                </ul>
+                {this.spinner()}
+                <div className={classes.usersHead}>
+                    <div className={classes.username}>Name</div>
+                    <div className={classes.email}>Email</div>
+                    <div className={classes.role}></div>
+                    <div className={classes.email}>userName</div>
+                    <Link to='/Register'><button>Add User</button></Link>
+                </div> 
+                <ul className={classes.uesrsList}>{this.ulserList()}</ul>
              </div>
         
         )

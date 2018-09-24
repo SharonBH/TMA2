@@ -7,6 +7,7 @@ import LogIn from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
 import NotFound from '../../components/NotFound';
+import ForgotPassword from '../../components/ForgotPassword'
 
 export class MainPage extends Component {
   render() {
@@ -35,6 +36,10 @@ export class MainPage extends Component {
                 <Route
                     path='/edit_user/:userName'
                     component={EditUser}
+                />
+                <Route
+                    path='/forgot_pass'
+                    component={ForgotPassword}
                 />
                 <Route
                     path='/not_found'

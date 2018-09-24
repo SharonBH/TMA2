@@ -57,3 +57,10 @@ export const deleteUserAction = (data) => {
         payload: data
     }
 }
+export const forgotPassAction = (data) => {
+    console.log('action', data)
+    return {
+        type: 'FORGOT_PASS',
+        payload: data
+    }
+}

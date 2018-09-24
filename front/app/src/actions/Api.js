@@ -6,10 +6,10 @@ import {
     registerDeniedAction, 
     catchErrorAction, 
     getAllUsersAction, 
-    setIsLoadingToTrue, 
     editDeniedAction, 
     deleteUserAction,
     toggleLoaderAction,
+    forgotPassAction
 } from './index';
 
 
@@ -145,47 +145,13 @@ export const editUserRequest = (name, userName, email, password, userType) => {
                 dispatch(toggleLoaderAction(false))
             });
     }
-};
-/////////////
-
-// edit request
-// export const editUserRequest = (email, password, confirmPassword, name, userType, userName) => {
-//     return (dispatch) => {
-//         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)   
-//         .then((response) => {
-//             console.log('edit response', response )
-//             if (response.data.response === 'Success') {
-                
-//                 return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
-//                     .then((response) => {
-//                         const user = response.data
-//                         dispatch(getUserAction(user));
-//                         history.push({pathname: '/all_users'})
-//                     })
-//                     .catch((error) => {
-//                         console.log(error);
-//                         dispatch(catchErrorAction(error))
-//                         history.push({pathname: '/not_found'})
-//                     });
-//             } else {
-//                 const error = response.data.message
-//                 console.log('error',error)
-//                 dispatch(editDeniedAction(error))
-//             }
-//         })
-//         .catch((error) => {
-//             console.error('error ',error);
-//             dispatch(catchErrorAction(error))
-//             // history.push({pathname: '/not_found'})
-//         });
-//     }
-// };
+}
 
 // delete user
 export const deleteUser = (userName) => {
     return (dispatch) => {
         // return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
-        return axios.post(process.env.REACT_APP_CORS + `https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
+        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
             .then((response) => {
                 console.log('delete response',response)
                 if(response.data.message === 'Success') {
@@ -203,27 +169,30 @@ export const deleteUser = (userName) => {
 };
 
 
-// register request
-// export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
-//     return (dispatch) => {
-//         dispatch(toggleLoaderAction(true))
-//         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
-//             .then((response) => {
-//                 if (response.data.response === 'Success') {
-//                     console.log('i add a new user')
-//                     dispatch(addNewUserAction(false))
-//                 } else {
-//                     const error = response.data.message
-//                     dispatch(registerDeniedAction(error))
-//                     dispatch(toggleLoaderAction(false))
-//                 }
-//             })
-//             .catch((error) => {
-//                 console.log(error);
-//                 dispatch(catchErrorAction(error))
-//                 history.push({pathname: '/not_found'})
-//                 dispatch(toggleLoaderAction(false))
-//             });
-//     }
-// };
+//forgot pass request
+export const forgotPassRequest = (email) => {
+    return (dispatch) => {
+        console.log(' to email', dispatch)
+        dispatch(toggleLoaderAction(true))
+        return axios.post(process.env.REACT_APP_URL + `Account/ForgotPassword?Email=${email}`)
+            .then((response) => {
+                console.log('pass sent to email', response)
+                if (response.data.response === 'Success') {
+                    const data = response.data
+                    console.log('pass sent to email')
+                    dispatch(forgotPassAction(data))
+                } else {
+                    const error = response.data.message
+                    dispatch(registerDeniedAction(error))
+                    dispatch(toggleLoaderAction(false))
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(catchErrorAction(error))
+                // history.push({pathname: '/not_found'})
+                dispatch(toggleLoaderAction(false))
+            });
+    }
+};
 

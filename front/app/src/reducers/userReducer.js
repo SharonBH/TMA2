@@ -29,13 +29,6 @@ const userReducer = (state = InitialState, action) => {
                 ...state,
                 allUsersList: newList
             }
-            // case REMOVE_ACTIONS:
-            // const actionList = [...state.groups]
-            // const newActionList = actionList.filter((result, j) => j !== action.actionList);
-            // return {
-            //     ...state,
-            //     groups: newActionList
-            // }
         default:
     }
     return state

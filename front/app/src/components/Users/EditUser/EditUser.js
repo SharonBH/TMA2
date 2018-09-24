@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import InputComp from '../../UI/InputComp/InputComp';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp';
+import Spinner from '../../UI/Spinner/Spinner';
 // import history from '../../../configuration/history'
 
 class EditUser extends Component {
@@ -33,7 +34,13 @@ class EditUser extends Component {
     onUseTypeChange = (e) => { this.setState({userType: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
-
+    spinner = () => {
+        if (this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
+    }
     editSbmit = (e) => {
         const email = this.state.email
         const password = this.state.password
@@ -59,11 +66,8 @@ class EditUser extends Component {
 
     errorMessage = () => {
         const errorNum = this.props.catchErrorNum.message
-        console.log('this.props.catchErrorNum.message', this.props.catchErrorNum.message)
         const error = this.props.editErrorMessage
-        console.log('errorNum', error)
         if (error) {
-            
             return <p>Error: {error} - {errorNum}</p>
         } else {
             return null
@@ -99,7 +103,6 @@ class EditUser extends Component {
                     />
                     <InputComp inputType="text" name="userName" placeholder={this.state.userData.username} onChange={this.onUserNameChange}/>
                     
-                    {/* {this.props.catchErrorNum !== null ? this.errorMessage() : this.state.message} */}
                     {this.errorMessage()}
                     {this.state.message}
                     <BtnComp inputType="submit" name="register" content="Send" onClick={this.editSbmit}/>
@@ -113,6 +116,7 @@ class EditUser extends Component {
         console.log('this.props', this.props)
         return (
             <div className={classes.RegisterWrapper}>
+                {this.spinner()}
                 {this.editFage()}
             </div>
         );
@@ -124,7 +128,8 @@ const mapStateToProps = (state) => {
         currentUser: state.UserLogInReducer.currentUser,
         allUsersList: state.userReducer.allUsersList,
         editErrorMessage: state.editErrorMessageReducer.editErrorMessage,
-        catchErrorNum: state.errorReducer.catchErrorNum
+        catchErrorNum: state.errorReducer.catchErrorNum,
+        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
 
