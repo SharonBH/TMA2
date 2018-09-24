@@ -21,10 +21,10 @@ class UserSummary extends Component {
         this.state = {
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
-                {edit: false, detail: 'UserInput', param: username, editInput: username},
+                {edit: false, detail: 'User Name', param: username, editInput: username},
                 {edit: false, detail: 'eMail', param: email, editInput: email},
                 {edit: false, detail: 'Password', param: password, editInput: password},
-                {edit: false, detail: 'UserType', param: role,  editInput: role}
+                {edit: false, detail: 'User Type', param: role,  editInput: role}
             ],
         }
         this.editDetail = this.editDetailBtn.bind(this)
@@ -68,7 +68,7 @@ class UserSummary extends Component {
                     this.state.userDetailsArr[index].edit
                     ? <div className={classes.EditInput}>
                         {
-                            detail === 'UserType'
+                            detail === 'User Type'
                             ? <SelectComp 
                                 onChange={(e) => this.editDetailInput(index, e)}
                                 options={['user', 'admin']}
