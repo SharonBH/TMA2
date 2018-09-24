@@ -5,6 +5,7 @@ import BtnComp from '../UI/BtnComp/BtnComp';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
 import { editProfileRequest } from '../../actions/Api';
+import { editDeniedAction } from '../../actions';
 import Spinner from '../UI/Spinner';
 
 class UserSummary extends Component {
@@ -28,6 +29,10 @@ class UserSummary extends Component {
             ],
         }
         this.editDetail = this.editDetailBtn.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.editDeniedAction(null)
     }
 
     editDetailBtn = (index) => {
@@ -156,6 +161,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         editProfileRequest: (name, userName, email, password, userType) => dispatch(editProfileRequest(name, userName, email, password, userType)),
+        editDeniedAction: payload => dispatch(editDeniedAction(payload)),
     }
 }
 
