@@ -1,7 +1,6 @@
 
 .usersWrapper {
     text-align: left;
-    margin: 15px;
 
     div.role{
         border: 0;
@@ -13,6 +12,7 @@
     .usersHead {
         padding: 18px 0;
         background: #e6e6e6;
+        margin: 15px 15px 0;    
         & > div {
             display: inline-block;
             padding: 0 20px;

@@ -6,7 +6,8 @@ import classes from './AllUsersAdmin.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import PropTypes from 'prop-types';
-import Spinner from '../../Spiner/Spiner';
+// import Spinner from '../../Spiner/Spiner';
+import Spinner from '../../UI/Spinner/Spinner'
 
 
 
@@ -58,6 +59,8 @@ export class AllUsers extends Component {
         return (
                 
             <div className={classes.usersWrapper}>
+
+            {this.spinner()}
                  <div className={classes.usersHead}>
                      <div className={classes.username}>Name</div>
                      <div className={classes.email}>Email</div>
@@ -65,14 +68,8 @@ export class AllUsers extends Component {
                      <div className={classes.email}>userName</div>
                      <Link to='/Register'><button>Add User</button></Link>
                  </div>
-                 <ul className={classes.uesrsList}>{
-                 (this.props.allUsersList === undefined)
-                    ?    <div className="NoResult"> 
-                            <div className="MDSpinner">    
-                            {this.spinner()}
-                            </div>
-                        </div>                      
-                    :  this.ulserList()}
+                 
+                 <ul className={classes.uesrsList}>{this.ulserList()}
                 </ul>
              </div>
         
