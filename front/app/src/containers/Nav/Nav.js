@@ -17,16 +17,16 @@ export class Nav extends Component {
         if(this.props.currentUser === null) {
             return (
                 <div className={classes.innerNav}>
-                    <Link to='/'>Login</Link>
-                    <Link to='/register'>Register</Link>
+                    <Link to='/'><i className="fas fa-sign-in-alt"></i><span>Sign In</span></Link>
+                    <Link to='/register'><i className="fas fa-edit"></i><span>Register</span></Link>
                 </div>
             )
         } else {
             return (
                 <div className={classes.innerNav}>
-                    <Link to='/profile'>Profile</Link>
-                    <Link to='/all_users'>Users managment</Link>
-                    <Link to='/' onClick={this.logout}>Logout</Link>
+                    <Link to='/profile'><i className="fas fa-user"></i><span>Profile</span></Link>
+                    <Link to='/all_users'><i className="fas fa-users-cog"></i><span>Users Managment</span></Link>
+                    <Link to='/' onClick={this.logout}><i className="fas fa-sign-out-alt"></i><span>Sign Out</span></Link>
                 </div>
             )
         }
@@ -49,7 +49,7 @@ export class Nav extends Component {
             <div className={classes.nav}>
                 <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
                 {this.helloUser()}
-                <Link to='/home'>Home</Link>
+                <Link to='/home'><i className="fas fa-home"></i><span>Home</span></Link> 
                 {this.navLinks()}
             </div>
         )

@@ -143,7 +143,6 @@ class UserSummary extends Component {
 
     render() {
         const { headline, user } = this.props
-        console.log(user)
         return (
             <div className={classes.ProfileWrapper}>
                 {this.userSummary(headline, user)}
