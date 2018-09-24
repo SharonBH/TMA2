@@ -28,7 +28,7 @@ export class AllUsersAdmin extends Component {
                     <div className={classes.email}>{item.email}</div>
                     <div className={classes.role}>{item.role}</div>
                     <div id={index} className={classes.EditBtn}>
-                        <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(index, item)}/>
+                        <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
                     </div>
                     <button>Delete</button>
                 </li>
@@ -36,7 +36,7 @@ export class AllUsersAdmin extends Component {
         }
     }
 
-    editUserBtn = (index, item) => {
+    editUserBtn = (item) => {
         this.setState({userInEditMode: item})
         setTimeout(() => {
             this.closeWindowFunc()
