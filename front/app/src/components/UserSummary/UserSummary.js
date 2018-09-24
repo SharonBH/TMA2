@@ -5,6 +5,7 @@ import BtnComp from '../UI/BtnComp/BtnComp';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
 import { editProfileRequest } from '../../actions/Api';
+import { editDeniedAction } from '../../actions';
 import Spinner from '../UI/Spinner';
 
 class UserSummary extends Component {
@@ -28,6 +29,10 @@ class UserSummary extends Component {
             ],
         }
         this.editDetail = this.editDetailBtn.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.editDeniedAction(null)
     }
 
     editDetailBtn = (index) => {
@@ -115,9 +120,10 @@ class UserSummary extends Component {
     }
 
     userSummary = (headline, user) => {
+        const name = user.name.charAt(0).toUpperCase() + user.name.slice(1)
         return (
             <div className={classes.Profile}>
-                <h1>{headline} {user.name}</h1>
+                <h1>{headline} {name}</h1>
                 {this.spinner()}
                 {this.state.userDetailsArr.map((item, index) => {
                     return this.detailLine(item, index)
@@ -137,7 +143,6 @@ class UserSummary extends Component {
 
     render() {
         const { headline, user } = this.props
-        console.log(user)
         return (
             <div className={classes.ProfileWrapper}>
                 {this.userSummary(headline, user)}
@@ -156,6 +161,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         editProfileRequest: (name, userName, email, password, userType) => dispatch(editProfileRequest(name, userName, email, password, userType)),
+        editDeniedAction: payload => dispatch(editDeniedAction(payload)),
     }
 }
 

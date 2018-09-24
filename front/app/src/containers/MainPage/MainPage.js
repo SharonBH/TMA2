@@ -30,7 +30,7 @@ export class MainPage extends Component {
                 />
                 <Route
                     path='/profile'
-                    component={() => <UserSummary headline='profile:' user={this.props.currentUser}/>}
+                    component={() => <UserSummary headline={`Your Profile`} user={this.props.currentUser}/>}
                 />
                 <Route
                     path='/all_users'
