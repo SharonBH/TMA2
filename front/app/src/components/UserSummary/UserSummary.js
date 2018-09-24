@@ -21,7 +21,7 @@ class UserSummary extends Component {
         this.state = {
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
-                {edit: false, detail: 'UserInput', param: username, editInput: username},
+                {edit: false, detail: 'UserName', param: username, editInput: username},
                 {edit: false, detail: 'eMail', param: email, editInput: email},
                 {edit: false, detail: 'Password', param: password, editInput: password},
                 {edit: false, detail: 'UserType', param: role,  editInput: role}
