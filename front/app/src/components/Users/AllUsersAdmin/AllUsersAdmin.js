@@ -23,6 +23,14 @@ export class AllUsers extends Component {
     componentDidMount(){
         this.props.takeAllUsers()
     }
+    
+    spinner = () => {
+        if (this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
+    }
     deleteUserClick = (userName) => {
         const someName = userName.username
         console.log('userName',someName)
@@ -60,8 +68,8 @@ export class AllUsers extends Component {
                  <ul className={classes.uesrsList}>{
                  (this.props.allUsersList === undefined)
                     ?    <div className="NoResult"> 
-                            <div className="MDSpinner">
-                                <Spinner />
+                            <div className="MDSpinner">    
+                            {this.spinner()}
                             </div>
                         </div>                      
                     :  this.ulserList()}
@@ -75,7 +83,7 @@ export class AllUsers extends Component {
 const mapStateToProps = (state) => {
     return {
         allUsersList: state.userReducer.allUsersList,
-        isLoading: state.userReducer.isLoading,
+        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
 
