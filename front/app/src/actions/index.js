@@ -28,3 +28,31 @@ export const catchErrorAction = (number) => {
     }
 }
 
+//get all users
+export const getAllUsersAction = (response) => {
+    return {
+        type: 'GET_ALL_USERS',
+        payload: response
+    }
+}
+
+// user edit error action
+export const editDeniedAction = (response) => {
+    return {
+        type: 'SET_EDIT_ERROR_MESSAGE',
+        payload: response
+    }
+}
+
+export const setIsLoadingToTrue = (bool) => {
+    return {
+        type: 'SET_ISLOADING_TO_TRUE',
+        payload: bool
+    }
+}
+export const deleteUserAction = (data) => {
+    return {
+        type: 'DELETE_USER',
+        payload: data
+    }
+}

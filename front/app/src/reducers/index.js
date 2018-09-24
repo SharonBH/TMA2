@@ -4,6 +4,7 @@ import userReducer from './userReducer';
 import loginErrorMessageReducer from './loginErrorMessageReducer';
 import registerErrorMessageReducer from './registerErrorMessageReducer';
 import errorReducer from './errorReducer';
+import editErrorMessageReducer from './editErrorMessageReducer';
 
 const rootReducer = combineReducers({
   UserLogInReducer: UserLogInReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   loginErrorMessageReducer: loginErrorMessageReducer,
   registerErrorMessageReducer: registerErrorMessageReducer,
   errorReducer: errorReducer,
+  editErrorMessageReducer: editErrorMessageReducer,
 });
 
 export default rootReducer;

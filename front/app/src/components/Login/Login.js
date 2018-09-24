@@ -16,7 +16,10 @@ class LogIn extends Component {
             userPassword: '',
         }
     }
-
+    
+    componentDidMount(){
+        console.log(this.props)
+    }
     onUserNameChange = (e) => {
         this.setState({userName: e.target.value})
     }

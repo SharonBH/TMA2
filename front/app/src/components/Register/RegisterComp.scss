@@ -35,9 +35,8 @@
             color: #000;
             display: inline-block;
             &::placeholder{
-                color: $black
+                color: $dark-gray
             }
-            
         }
         select{
             padding: 5px 0px;

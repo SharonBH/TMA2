@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { HomePage } from '../HomePage/HomePage';
-import { AllUsersAdmin } from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
+import  AllUsersAdmin  from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
+import  EditUser  from '../../components/Users/EditUser/EditUser';
 import LogIn from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
@@ -30,6 +31,10 @@ export class MainPage extends Component {
                 <Route
                     path='/all_users'
                     component={AllUsersAdmin}
+                />
+                <Route
+                    path='/edit_user/:userName'
+                    component={EditUser}
                 />
                 <Route
                     path='/not_found'

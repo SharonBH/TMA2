@@ -7,6 +7,7 @@ export class DeleteBtn extends Component {
     static propTypes = {  
         inputType: PropTypes.oneOf(['submit', 'button']).isRequired,
         onSubmit: PropTypes.func,
+        onClickt: PropTypes.func,
         content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
@@ -20,7 +21,8 @@ export class DeleteBtn extends Component {
                     className={`${classes.deleteBtn} `}
                     type={this.props.inputType}
                     value={this.props.content}
-                    onSubmit={this.props.onSubmit} />
+                    onSubmit={this.props.onSubmit} 
+                    onClick={this.props.onClick} />
             </div>
         )
     }

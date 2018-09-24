@@ -16,7 +16,6 @@
         & > div {
             display: inline-block;
             padding: 0 20px;
-            border-right: 1px solid;
         }
     }
 
@@ -26,7 +25,10 @@
         li{
             border-bottom: 1px solid #e5e5e5;
             padding: 5px 0;
-            &> div {
+            a{
+                display: inline-block;
+            }
+            &> div{
                 display: inline-block;
                 padding: 5px 20px;
             }
