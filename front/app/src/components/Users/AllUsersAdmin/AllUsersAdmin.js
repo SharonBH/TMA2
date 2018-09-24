@@ -87,7 +87,7 @@ export class AllUsersAdmin extends Component {
     }
 
     editUserComp = () => {
-        return <UserSummary headline='Edit User:' user={this.state.userInEditMode}/>
+        return <UserSummary headline='Edit' user={this.state.userInEditMode}/>
     }
 
     componentDidMount() {
