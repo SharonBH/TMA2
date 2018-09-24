@@ -51,6 +51,11 @@
         position: relative;
         top: 250px;
         left: 70px;
+        cursor: pointer;
+
+        &:hover {
+            color: $dark-gray;
+        }
 
         i {
             margin: 10px 0;
@@ -125,6 +130,11 @@
     .Menu {
         position: relative;
         top: 165px;
+        cursor: pointer;
+
+        &:hover {
+            color: $dark-gray;
+        }
 
         i {
             margin: 10px 0;
