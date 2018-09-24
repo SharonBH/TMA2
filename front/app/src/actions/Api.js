@@ -125,7 +125,7 @@ export const usersListRequest = () => {
 };
 
 // edit User Request
-export const editUserRequest = (name, userName, email, password, userType) => {
+export const editProfileRequest = (name, userName, email, password, userType) => {
     console.log(name, userName, email, password, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))

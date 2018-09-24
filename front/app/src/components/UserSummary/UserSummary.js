@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
-import { editUserRequest } from '../../actions/Api';
+import { editProfileRequest } from '../../actions/Api';
 import Spinner from '../UI/Spinner';
 
 class UserSummary extends Component {
@@ -49,7 +49,7 @@ class UserSummary extends Component {
     }
     
     submitAllChangesDetails = () => {
-        this.props.editUserRequest(
+        this.props.editProfileRequest(
             this.state.userDetailsArr[0].editInput,
             this.state.userDetailsArr[1].editInput,
             this.state.userDetailsArr[2].editInput,
@@ -156,7 +156,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        editUserRequest: (name, userName, email, password, userType) => dispatch(editUserRequest(name, userName, email, password, userType)),
+        editProfileRequest: (name, userName, email, password, userType) => dispatch(editProfileRequest(name, userName, email, password, userType)),
     }
 }
 
