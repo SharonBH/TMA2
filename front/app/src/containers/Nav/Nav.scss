@@ -1,16 +1,17 @@
 @import '../../styles/colors.scss';
 
 .nav {
-    min-width: 210px;
+    min-width: 200px;
     display: inline-block;
     background: $light-gray;
     float: left;
     height: 100ch;
     box-sizing: border-box;
+    padding: 5px;
     padding-top: 100px;
 
     a {
-        display: block;
+        display: flex;
         text-align: left;
         padding: 5px 20px;
         text-decoration: none;
@@ -45,6 +46,19 @@
         position: relative;
         top: -40px;
     }
+
+    .Menu {
+        position: relative;
+        top: 250px;
+        left: 70px;
+
+        i {
+            margin: 10px 0;
+            width: 20px;
+            height: 20px;
+            font-size: 25px;
+        }
+    }
 }
 
 
@@ -59,3 +73,67 @@
     border-bottom: 1px solid #a7a7a7;
     color: #757575;
 }
+
+.navclosed {
+    width: 70px;
+    display: inline-block;
+    background: $light-gray;
+    float: left;
+    height: 100ch;
+    box-sizing: border-box;
+    padding: 5px;
+    padding-top: 100px;
+
+    a {
+        display: flex;
+        text-align: left;
+        padding: 5px 20px;
+        text-decoration: none;
+        color: $black;
+        font-weight: 600;
+
+        i {
+            margin: 10px 0;
+            width: 20px;
+            height: 20px;
+            font-size: 20px;
+        }
+
+        &:hover {
+            color: $dark-gray;
+        }
+    }
+
+    span.logo_image {
+        display: block;
+        width: 45px;
+        position: relative;
+        top: -65px;
+        margin: 0 auto;
+    }
+
+    span.Hello {
+        display: block;
+        color: #000;
+        font-weight: 600;
+        margin-bottom: 84px;
+        font-size: 20px;
+        position: relative;
+        top: -40px;
+    }
+
+    .Menu {
+        position: relative;
+        top: 165px;
+
+        i {
+            margin: 10px 0;
+            width: 20px;
+            height: 20px;
+            font-size: 25px;
+        }
+    }
+}
+
+
+    
