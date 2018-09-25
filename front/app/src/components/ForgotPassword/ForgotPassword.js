@@ -14,11 +14,7 @@ class ForgotPassword extends Component {
         }
     }
     
-    componentDidMount(){
-        console.log(this.props)
-    }
     onChangeValue = (e) => {
-        // console.log(e.target.value)
         this.setState({email: e.target.value})
     }
 
@@ -27,14 +23,15 @@ class ForgotPassword extends Component {
         const email = this.state.email
         if(email === ''){
             this.setState({error: 'Must be Email'})
-        }else{
+        } else {
             this.setState({error: ''})
-            this.props.forgotPassRequest(email)
+            this.props.forgotPassRequest(email)           
         }
-        // email === '' 
-        // ? this.setState({error: 'Must be Email'})
-        // : this.props.forgotPassRequest(email)
-        // console.log('11111', email)
+    }
+
+    componentWillUnmount() {
+        this.setState({error: ''})
+        this.setState({email: ''})
     }
 
     errorMessage = () => {
@@ -46,7 +43,6 @@ class ForgotPassword extends Component {
         }
     }
 
-    
     render() {
         return (
             <div className={classes.ForgotPasswordWrapper}>

@@ -242,14 +242,11 @@ export const DeleteUserRequest = (userName) => {
 //forgot pass request
 export const forgotPassRequest = (email) => {
     return (dispatch) => {
-        console.log(' to email', dispatch)
-        dispatch(toggleLoaderAction(true))
+        // dispatch(toggleLoaderAction(true))
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/ForgotPassword?Email=${email}`)
             .then((response) => {
-                console.log('pass sent to email', response)
                 if (response.data.response === 'Success') {
                     const data = response.data
-                    console.log('pass sent to email')
                     dispatch(forgotPassAction(data))
                 } else {
                     const error = response.data.message
@@ -260,7 +257,7 @@ export const forgotPassRequest = (email) => {
             .catch((error) => {
                 console.log([error][0]);
                 dispatch(catchErrorAction(error))
-                // history.push({pathname: '/not_found'})
+                history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
             });
     }
