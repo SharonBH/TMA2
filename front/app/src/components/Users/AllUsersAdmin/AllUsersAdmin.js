@@ -7,27 +7,88 @@ import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import PropTypes from 'prop-types';
-import Spinner from '../../UI/Spinner/Spinner';
-import { addNewUserAction } from '../../../actions';
 import Register from '../../Register';
+import { usersListRequest, DeleteUserRequest } from '../../../actions/Api';
+import Spinner from '../../UI/Spinner';
+import UserSummary from '../../UserSummary';
+import { addNewUserAction, editThisUserAction, getUsersListAction } from '../../../actions';
 
 
 
-export class AllUsers extends Component {
+export class AllUsersAdmin extends Component {
     static propTypes = {
         getAllUsers: PropTypes.func
     };
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state = {}
-
-        this.deleteUserClick = this.deleteUserClick.bind(this)
+        this.state = {
+            userInEditMode: null
+        }
+        this.editUserBtn = this.editUserBtn.bind(this)
+        this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
-    componentDidMount(){
-        this.props.takeAllUsers()
-    }
-    spinner = () => {
+    
+    ulserList = () => {
         if(this.props.usersList === null) {
+            return null
+        } else {
+            return this.props.usersList.map((item, index) => {
+                return <li key={index}>
+                    <div className={classes.username}>{item.name}</div>
+                    <div className={classes.email}>{item.email}</div>
+                    <div className={classes.role}>{item.role}</div>
+                    <div id={index} className={classes.EditBtn}>
+                        <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
+                    </div>
+                    <div id={index} className={classes.EditBtn}>
+                        <BtnComp inputType="submit" content='Delete' onClick={() => this.DeleteUserBtn(item)}/>
+                    </div>
+                </li>
+            })
+        }
+    }
+
+    DeleteUserBtn = (item) => {
+        this.setState({userInEditMode: null})
+        this.props.DeleteUserRequest(item.username)
+    }
+
+    editUserBtn = (item) => {
+        this.setState({userInEditMode: item})
+        setTimeout(() => {
+            this.closeWindowFunc()
+            this.props.editThisUserAction(true)
+        }, 200)
+
+    }
+    addUserBtn = () => {
+        setTimeout(() => {
+            this.closeWindowFunc()
+            this.props.addNewUserAction(true)
+        }, 200)
+    }
+
+    closeWindowFunc = () => {
+            document.addEventListener("click", (evt) => {
+            const edit = document.querySelector('.UserSummary__Profile___3JQE2')
+            const addUser = document.querySelector('.RegisterComp__Register___2-9vC')
+            const btn = document.querySelectorAll('.BtnComp__smallBtn___3Bub3')
+            let targetEl = evt.target
+            do {
+                if (targetEl === addUser || targetEl === edit || targetEl === btn) {
+                    return
+                }
+                // Go up the DOM
+                targetEl = targetEl.parentNode;
+            }
+            while (targetEl)
+            this.props.editThisUserAction(false)
+            this.props.addNewUserAction(false)
+        });
+    }
+
+    spinner = () => {
+        if(this.props.usersList === null || this.state.userInEditMode === null) {
             if (this.props.toggleSpinner) {
                 return <Spinner />
             } else {
@@ -37,32 +98,26 @@ export class AllUsers extends Component {
             return null
         }
     }
-    addUserBtn = () => {
-        this.props.addNewUserAction(true)
-        document.addEventListener("click", (evt) => {
-            const register = document.querySelector('.RegisterComp__Register___2-9vC')
-            const btn = document.querySelector('.BtnComp__smallBtn___3Bub3')
-            let targetEl = evt.target
-            do {
-                if (targetEl === register || targetEl === btn) {
-                    return
-                }
-                // Go up the DOM
-                targetEl = targetEl.parentNode;
-            }
-            while (targetEl)
-            this.props.addNewUserAction(false)
-        });
-    }
 
     addUserComp = () => {
         return <Register headline='Add User' classStr='none' />
     }
-    deleteUserClick = (userName) => {
-        const someName = userName.username
-        this.props.deleteUser(someName)
+// <<<<<<< HEAD
+//     deleteUserClick = (userName) => {
+//         const someName = userName.username
+//         this.props.deleteUser(someName)
         
+// =======
+
+    editUserComp = () => {
+        return <UserSummary headline='Edit' user={this.state.userInEditMode}/>
     }
+
+
+    componentDidMount(){
+        this.props.takeAllUsers()
+    }
+
     ulserList = () => {
         return this.props.allUsersList.map((item, index) => {
             return <li key={index}>
@@ -71,7 +126,7 @@ export class AllUsers extends Component {
                 <div className={classes.role}>{item.role === 'Admin' ? item.role = 'Admin' : item.role = '' }</div>
                 <div className={classes.email}>{item.username}</div>
                  <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link>
-                 <DeleteBtn onClick={() => this.deleteUserClick(item)} inputType={'button'} content='Delete'/>
+                 <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
             </li>
         })
     }
@@ -89,7 +144,11 @@ export class AllUsers extends Component {
                 </div> 
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
-             </div>
+
+
+                {this.props.editThisUser ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
+            </div>
+
         )
     }
 }
@@ -99,18 +158,31 @@ const mapStateToProps = (state) => {
         allUsersList: state.userReducer.allUsersList,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
         addUser: state.addNewUserReducer.addUser,
+// <<<<<<< HEAD
         newUsers: state.userReducer.newUsers,
+// =======
+        // usersList: state.usersListReducer.usersList,
+        editThisUser: state.editUserReducer.editThisUser,
+// >>>>>>> ad4a9475ebd43fe2e51768b0f2756d585a03e341
     }
 }
 
 const mapDispatchToProps = dispatch => {
+
     return{
        takeAllUsers: payload => dispatch(takeAllUsers(payload)),
        addNewUserAction: payload => dispatch(addNewUserAction(payload)),
-       deleteUser: (userName) => dispatch(deleteUser(userName)) 
+       DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
+       deleteUser: (userName) => dispatch(deleteUser(userName)),
+       getUsersListAction: payload => dispatch(getUsersListAction(payload)),
+
+
+        // usersListRequest: payload => dispatch(usersListRequest(payload)),
+        editThisUserAction: payload => dispatch(editThisUserAction(payload)),
+
     }
 }
 
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AllUsers);
+export default connect(mapStateToProps, mapDispatchToProps)(AllUsersAdmin);

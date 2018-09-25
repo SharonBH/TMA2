@@ -75,3 +75,11 @@ export const forgotPassAction = (data) => {
 
     }
 }
+
+// edit This User Action
+export const editThisUserAction = (boll) => {
+    return {
+        type: 'EDIT_THIS_USER',
+        payload: boll
+    }
+}

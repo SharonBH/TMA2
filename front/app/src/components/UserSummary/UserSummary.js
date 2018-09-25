@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
-import { editUserRequest } from '../../actions/Api';
+import { editProfileRequest } from '../../actions/Api';
+import { editDeniedAction } from '../../actions';
 import Spinner from '../UI/Spinner';
 
 class UserSummary extends Component {
@@ -12,22 +13,26 @@ class UserSummary extends Component {
     constructor(props) {
         super(props)
 
-        const name = this.props.currentUser.name
-        const username = this.props.currentUser.username
-        const email = this.props.currentUser.email
-        const password = this.props.currentUser.password
-        const role = this.props.currentUser.role
+        const name = this.props.user.name
+        const username = this.props.user.username
+        const email = this.props.user.email
+        const password = this.props.user.password
+        const role = this.props.user.role
 
         this.state = {
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
-                {edit: false, detail: 'UserInput', param: username, editInput: username},
+                {edit: false, detail: 'User Name', param: username, editInput: username},
                 {edit: false, detail: 'eMail', param: email, editInput: email},
                 {edit: false, detail: 'Password', param: password, editInput: password},
-                {edit: false, detail: 'UserType', param: role,  editInput: role}
+                {edit: false, detail: 'User Type', param: role,  editInput: role}
             ],
         }
         this.editDetail = this.editDetailBtn.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.editDeniedAction(null)
     }
 
     editDetailBtn = (index) => {
@@ -49,7 +54,7 @@ class UserSummary extends Component {
     }
     
     submitAllChangesDetails = () => {
-        this.props.editUserRequest(
+        this.props.editProfileRequest(
             this.state.userDetailsArr[0].editInput,
             this.state.userDetailsArr[1].editInput,
             this.state.userDetailsArr[2].editInput,
@@ -68,7 +73,7 @@ class UserSummary extends Component {
                     this.state.userDetailsArr[index].edit
                     ? <div className={classes.EditInput}>
                         {
-                            detail === 'UserType'
+                            detail === 'User Type'
                             ? <SelectComp 
                                 onChange={(e) => this.editDetailInput(index, e)}
                                 options={['user', 'admin']}
@@ -114,11 +119,11 @@ class UserSummary extends Component {
         }
     }
 
-    userSummary = (headline) => {
-        const currentUser = this.props.currentUser
+    userSummary = (headline, user) => {
+        const name = user.name.charAt(0).toUpperCase() + user.name.slice(1)
         return (
             <div className={classes.Profile}>
-                <h1>{currentUser.name} {headline}</h1>
+                <h1>{headline} {name}</h1>
                 {this.spinner()}
                 {this.state.userDetailsArr.map((item, index) => {
                     return this.detailLine(item, index)
@@ -137,10 +142,10 @@ class UserSummary extends Component {
     }
 
     render() {
-        const { headline } = this.props
+        const { headline, user } = this.props
         return (
             <div className={classes.ProfileWrapper}>
-                {this.userSummary(headline)}
+                {this.userSummary(headline, user)}
             </div>
         );
     }
@@ -148,7 +153,6 @@ class UserSummary extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.UserLogInReducer.currentUser,
         errorMessage: state.editErrorMessageReducer.errorMessage,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
@@ -156,7 +160,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        editUserRequest: (name, userName, email, password, userType) => dispatch(editUserRequest(name, userName, email, password, userType)),
+        editProfileRequest: (name, userName, email, password, userType) => dispatch(editProfileRequest(name, userName, email, password, userType)),
+        editDeniedAction: payload => dispatch(editDeniedAction(payload)),
     }
 }
 
