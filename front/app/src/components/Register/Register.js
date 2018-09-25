@@ -98,7 +98,7 @@ class Register extends Component {
                     <h3>Have a user? Keep Calm.</h3>
                     <div className='loginLink'>
                         <h2>And </h2>
-                        <Link to='/'><h2>Log-In</h2></Link>
+                        <Link to='/'><h2>Sign In</h2></Link>
                     </div> 
                 </div>
             </div>

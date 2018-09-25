@@ -141,19 +141,38 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
                         })
                         .catch((error) => {
                             console.log(error);
-                            dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+                            dispatch(editDeniedAction(error))
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
                     const error = response.data.message
-                    dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+                    dispatch(editDeniedAction(error))
                     dispatch(toggleLoaderAction(false))
                 }
             })
             .catch((error) => {
                 console.log(error);
                 dispatch(catchErrorAction(error))
-                dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+                dispatch(editDeniedAction(error))
+                dispatch(toggleLoaderAction(false))
+            });
+    }
+};
+
+// Delete User Request
+export const DeleteUserRequest = (username) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios.get(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${username}`)
+            .then((response) => {
+                // const users = response.data
+                // dispatch(getUsersListAction(users))
+                dispatch(toggleLoaderAction(false))
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(catchErrorAction(error))
+                
                 dispatch(toggleLoaderAction(false))
             });
     }
