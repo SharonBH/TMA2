@@ -23,7 +23,7 @@ export class MainPage extends Component {
                 <Route
                     exact
                     path='/'
-                    component={LogIn}
+                    component={() => <LogIn />}
                 />
                 <Route
                     path='/register'
@@ -44,10 +44,6 @@ export class MainPage extends Component {
                 <Route
                     path='/edit_user/:userName'
                     component={EditUser}
-                />
-                <Route
-                    path='/forgot_pass'
-                    component={ForgotPassword}
                 />
                 <Route
                     path='/not_found'

@@ -9,6 +9,7 @@ import BtnComp from '../UI/BtnComp/BtnComp';
 import Spinner from '../UI/Spinner';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
+import ForgotPassword from '../ForgotPassword';
 
 class LogIn extends Component {
 
@@ -24,13 +25,11 @@ class LogIn extends Component {
         this.state = {
             userName: cookies.get('userName') || '',
             userPassword: cookies.get('userPassword') || '',
-            rememberMe: JSON.parse(cookies.get('rememberMe')) || false
+            rememberMe: JSON.parse(cookies.get('rememberMe')) || false,
+            forgotPassword: false
         }
     }
     
-    componentDidMount(){
-        console.log(this.props)
-    }
     onUserNameChange = (e) => {
         this.setState({userName: e.target.value})
     }
@@ -71,9 +70,31 @@ class LogIn extends Component {
     }
 
     rememberMe = () => {
-        this.setState({
-            rememberMe: !this.state.rememberMe
-        })
+        this.setState({rememberMe: !this.state.rememberMe})
+    }
+
+    forgotPassword = () => {
+        setTimeout(() => {
+            this.closeWindowFunc()
+            this.setState({forgotPassword: true})
+        }, 200)
+    }
+
+    closeWindowFunc = () => {
+        document.addEventListener("click", (evt) => {
+            const forgotPassword = document.querySelector('.ForgotPassword__ForgotPassword___3K-sJ')
+            const btn = document.querySelectorAll('.forgotPass')
+            let targetEl = evt.target
+            do {
+                if (targetEl === forgotPassword || targetEl === btn) {
+                    return
+                }
+                // Go up the DOM
+                targetEl = targetEl.parentNode;
+            }
+            while (targetEl)
+            this.setState({forgotPassword: false})
+        });
     }
 
     loginFage = () => {
@@ -91,19 +112,20 @@ class LogIn extends Component {
                             <input type="checkbox" name="remember me" checked={this.state.rememberMe} onChange={this.rememberMe}/> 
                             <label>Remember Me</label>
                         </span> 
-                        <span className='forgotPass'><Link to='/forgot_pass'>Forgot Password</Link></span>
+                        <span className='forgotPass' onClick={this.forgotPassword}>Forgot Password</span>
                     </div> 
                 </form>
                 <h3>Not a register user?</h3>
                 <h3>Keep Calm</h3>
                 <h3>And</h3>
-                <Link to='/register'><h2>Register</h2></Link> 
+                <Link to='/register'><h2>Register</h2></Link>
+                {this.state.forgotPassword ? <ForgotPassword /> : null}
             </div>
         );
     }
     
     render() {
-        console.log(this.state)
+        console.log(this.state.forgotPassword)
         return (
             <div className={classes.LogInWrapper}>
                 {this.loginFage()}
