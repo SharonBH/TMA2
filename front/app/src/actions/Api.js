@@ -32,9 +32,9 @@ export const loginRequest = (userName, password) => {
                             dispatch(toggleLoaderAction(false))
                         })
                         .catch((error) => {
-                            console.log(error);
+                            console.log([error][0]);
                             dispatch(catchErrorAction(error))
-                            // history.push({pathname: '/not_found'})
+                            history.push({pathname: '/not_found'})
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
@@ -44,9 +44,9 @@ export const loginRequest = (userName, password) => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log([error][0]);
                 dispatch(catchErrorAction(error))
-                // history.push({pathname: '/not_found'})
+                history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -67,9 +67,9 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                             dispatch(toggleLoaderAction(false))
                         })
                         .catch((error) => {
-                            console.log(error);
+                            console.log([error][0]);
                             dispatch(catchErrorAction(error))
-                            // history.push({pathname: '/not_found'})
+                            history.push({pathname: '/not_found'})
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
@@ -79,9 +79,9 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log([error][0]);
                 dispatch(catchErrorAction(error))
-                // history.push({pathname: '/not_found'})
+                history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -103,9 +103,9 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log([error][0]);
                 dispatch(catchErrorAction(error))
-                // history.push({pathname: '/not_found'})
+                history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -124,9 +124,9 @@ export const takeAllUsers = () => {
                     dispatch(toggleLoaderAction(false))
             })
             .catch((error) => {
-                console.log(error);
+                console.log([error][0]);
                 dispatch(catchErrorAction(error))
-                // history.push({pathname: '/not_found'})
+                history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
 
             });  
@@ -150,7 +150,7 @@ export const editThisUserAction = (name, userName, email, password, userType) =>
                             history.push({pathname: '/profile'})
                         })
                         .catch((error) => {
-                            console.log(error);
+                            console.log([error][0]);
                             dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
                             dispatch(toggleLoaderAction(false))
                         });
@@ -161,7 +161,7 @@ export const editThisUserAction = (name, userName, email, password, userType) =>
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log([error][0]);
                 dispatch(catchErrorAction(error))
                 dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
                 dispatch(toggleLoaderAction(false))
@@ -184,7 +184,7 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
                            history.push({pathname: '/profile'})
                        })
                        .catch((error) => {
-                           console.log(error);
+                           console.log([error][0]);
                            dispatch(editDeniedAction(error))
                            dispatch(toggleLoaderAction(false))
                        });
@@ -195,7 +195,7 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
                }
            })
            .catch((error) => {
-               console.log(error);
+               console.log([error][0])
                dispatch(catchErrorAction(error))
                dispatch(editDeniedAction(error))
                dispatch(toggleLoaderAction(false))
@@ -211,7 +211,7 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
 //                 console.log(response)
 //             })
 //             .catch((error) => {
-//                 console.log(error);
+//                 console.log([error][0]);
 //             });
 //     }
 // };
@@ -231,7 +231,7 @@ export const DeleteUserRequest = (userName) => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log([error][0]);
                 dispatch(catchErrorAction(error))
                 history.push({pathname: '/not_found'})
             });
@@ -258,7 +258,7 @@ export const forgotPassRequest = (email) => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log([error][0]);
                 dispatch(catchErrorAction(error))
                 // history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
