@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import classes from './AllUsersAdmin.scss';
 import Register from '../../Register';
 import BtnComp from '../../UI/BtnComp/BtnComp';
-import { usersListRequest } from '../../../actions/Api';
+import { usersListRequest, DeleteUserRequest } from '../../../actions/Api';
 import Spinner from '../../UI/Spinner';
 import UserSummary from '../../UserSummary';
 import { addNewUserAction, editThisUserAction, getUsersListAction } from '../../../actions';
@@ -16,6 +16,7 @@ export class AllUsersAdmin extends Component {
             userInEditMode: null
         }
         this.editUserBtn = this.editUserBtn.bind(this)
+        this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
     
     ulserList = () => {
@@ -30,10 +31,17 @@ export class AllUsersAdmin extends Component {
                     <div id={index} className={classes.EditBtn}>
                         <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
                     </div>
-                    <button>Delete</button>
+                    <div id={index} className={classes.EditBtn}>
+                        <BtnComp inputType="submit" content='Delete' onClick={() => this.DeleteUserBtn(item)}/>
+                    </div>
                 </li>
             })
         }
+    }
+
+    DeleteUserBtn = (item) => {
+        this.setState({userInEditMode: null})
+        this.props.DeleteUserRequest(item.username)
     }
 
     editUserBtn = (item) => {
@@ -71,7 +79,7 @@ export class AllUsersAdmin extends Component {
     }
 
     spinner = () => {
-        if(this.props.usersList === null) {
+        if(this.props.usersList === null || this.state.userInEditMode === null) {
             if (this.props.toggleSpinner) {
                 return <Spinner />
             } else {
@@ -128,6 +136,7 @@ const mapDispatchToProps = dispatch => {
         usersListRequest: payload => dispatch(usersListRequest(payload)),
         editThisUserAction: payload => dispatch(editThisUserAction(payload)),
         getUsersListAction: payload => dispatch(getUsersListAction(payload)),
+        DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
     }
 }
 

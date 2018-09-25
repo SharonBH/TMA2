@@ -53,7 +53,7 @@ class LogIn extends Component {
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
-                <h1>Log-in</h1>
+                <h1>Sign In</h1>
                 {this.spinner()}
                 <form>
                     <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange}/>
