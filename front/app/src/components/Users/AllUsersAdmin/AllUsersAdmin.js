@@ -30,25 +30,7 @@ export class AllUsersAdmin extends Component {
         this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
     
-    // ulserList = () => {
-    //     if(this.props.usersList === null) {
-    //         return null
-    //     } else {
-    //         return this.props.usersList.map((item, index) => {
-    //             return <li key={index}>
-    //                 <div className={classes.username}>{item.name}</div>
-    //                 <div className={classes.email}>{item.email}</div>
-    //                 <div className={classes.role}>{item.role}</div>
-    //                 <div id={index} className={classes.EditBtn}>
-    //                     <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
-    //                 </div>
-    //                 <div id={index} className={classes.EditBtn}>
-    //                     <BtnComp inputType="submit" content='Delete' onClick={() => this.DeleteUserBtn(item)}/>
-    //                 </div>
-    //             </li>
-    //         })
-    //     }
-    // }
+    
 
     DeleteUserBtn = (item) => {
         this.setState({userInEditMode: null})
@@ -56,13 +38,16 @@ export class AllUsersAdmin extends Component {
     }
 
     editUserBtn = (item) => {
+        console.log('1111', item)
         this.setState({userInEditMode: item})
+        
         setTimeout(() => {
             this.closeWindowFunc()
             this.props.editThisUserAction(true)
         }, 200)
 
     }
+
     addUserBtn = () => {
         setTimeout(() => {
             this.closeWindowFunc()
@@ -119,16 +104,38 @@ export class AllUsersAdmin extends Component {
     componentDidMount(){
         this.props.takeAllUsers()
     }
-
+    // ulserList = () => {
+    //     if(this.props.usersList === null) {
+    //         return null
+    //     } else {
+    //         return this.props.usersList.map((item, index) => {
+    //             return <li key={index}>
+    //                 <div className={classes.username}>{item.name}</div>
+    //                 <div className={classes.email}>{item.email}</div>
+    //                 <div className={classes.role}>{item.role}</div>
+    //                 <div id={index} className={classes.EditBtn}>
+    //                     <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
+    //                 </div>
+    //                 <div id={index} className={classes.EditBtn}>
+    //                     <BtnComp inputType="submit" content='Delete' onClick={() => this.DeleteUserBtn(item)}/>
+    //                 </div>
+    //             </li>
+    //         })
+    //     }
+    // }
     ulserList = () => {
         return this.props.allUsersList.map((item, index) => {
             return <li key={index}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
-                <div className={classes.role}>{item.role === 'Admin' ? item.role = 'Admin' : item.role = '' }</div>
+                {/* <div className={classes.role}>{item.role === 'Admin' ? item.role = 'Admin' : item.role = '' }</div> */}
+                <div className={classes.role}>{item.role}</div>
                 <div className={classes.email}>{item.username}</div>
-                {/* <EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/> */}
-                 <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link>
+                <div id={index}>
+                    {<EditBtn inputType="button" content='Edit' onClick={(item)=>this.editUserBtn(item)}/>}
+                </div>
+                
+                 {/* <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link> */}
                  <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
             </li>
         })
@@ -147,8 +154,6 @@ export class AllUsersAdmin extends Component {
                 </div> 
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
-
-
                 {this.props.editThisUser ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
             </div>
 
@@ -165,8 +170,7 @@ const mapStateToProps = (state) => {
         newUsers: state.userReducer.newUsers,
 // =======
         // usersList: state.usersListReducer.usersList,
-        
-// >>>>>>> ad4a9475ebd43fe2e51768b0f2756d585a03e341
+
     }
 }
 
@@ -178,9 +182,7 @@ const mapDispatchToProps = dispatch => {
        DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
     //    deleteUser: (userName) => dispatch(deleteUser(userName)),
     //    getUsersListAction: payload => dispatch(getUsersListAction(payload)),
-
-
-        // usersListRequest: payload => dispatch(usersListRequest(payload)),
+    //    usersListRequest: payload => dispatch(usersListRequest(payload)),
         editThisUserAction: payload => dispatch(editThisUserAction(payload)),
 
     }
