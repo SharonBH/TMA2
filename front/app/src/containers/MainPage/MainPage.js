@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { HomePage } from '../HomePage/HomePage';
 import  AllUsersAdmin  from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
 import  EditUser  from '../../components/Users/EditUser/EditUser';
@@ -7,7 +8,12 @@ import LogIn from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
 import NotFound from '../../components/NotFound';
+
+import UserSummary from '../../components/UserSummary';
+import { connect } from 'react-redux';
+
 import ForgotPassword from '../../components/ForgotPassword'
+
 
 export class MainPage extends Component {
   render() {
@@ -20,14 +26,16 @@ export class MainPage extends Component {
                     component={LogIn}
                 />
                 <Route
-                    exact
                     path='/register'
-                    component={Register}
+                    component={() => <Register headline='Register' />}
                 />
                 <Route
-                    exact
                     path='/home'
                     component={HomePage}
+                />
+                <Route
+                    path='/profile'
+                    component={() => <UserSummary headline={`Your Profile`} user={this.props.currentUser}/>}
                 />
                 <Route
                     path='/all_users'
@@ -51,4 +59,10 @@ export class MainPage extends Component {
   }
 }
 
-export default MainPage;
+const mapStateToProps = (state) => {
+    return {
+        currentUser: state.UserLogInReducer.currentUser
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(MainPage));

@@ -20,7 +20,14 @@ export const registerDeniedAction = (response) => {
         payload: response
     }
 }
-//catch error
+// user edit error action
+export const editDeniedAction = (response) => {
+    return {
+        type: 'SET_EDIT_ERROR_MESSAGE',
+        payload: response
+    }
+}
+// catch Error
 export const catchErrorAction = (number) => {
     return {
         type: 'ERROR_NUM',
@@ -36,13 +43,6 @@ export const getAllUsersAction = (response) => {
     }
 }
 
-// user edit error action
-export const editDeniedAction = (response) => {
-    return {
-        type: 'SET_EDIT_ERROR_MESSAGE',
-        payload: response
-    }
-}
 
 // toggle Loader Action
 export const toggleLoaderAction = (boll) => {
@@ -51,6 +51,16 @@ export const toggleLoaderAction = (boll) => {
         payload: boll
     }
 }
+
+// add New User Action
+export const addNewUserAction = (boll) => {
+    return {
+        type: 'ADD_A_NEW_USER',
+        payload: boll
+    }
+}
+
+//delete user Action
 export const deleteUserAction = (data) => {
     return {
         type: 'DELETE_USER',
@@ -62,5 +72,14 @@ export const forgotPassAction = (data) => {
     return {
         type: 'FORGOT_PASS',
         payload: data
+
+    }
+}
+
+// edit This User Action
+export const editThisUserAction = (boll) => {
+    return {
+        type: 'EDIT_THIS_USER',
+        payload: boll
     }
 }

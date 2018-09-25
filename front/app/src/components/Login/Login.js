@@ -6,14 +6,15 @@ import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
+import Spinner from '../UI/Spinner';
 
 class LogIn extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            userName: '',
-            userPassword: '',
+            userName: 'me',
+            userPassword: '!1Aaaa',
         }
     }
     
@@ -44,10 +45,19 @@ class LogIn extends Component {
         }
     }
 
+    spinner = () => {
+        if(this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
+    }
+
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
-                <h1>Log-in</h1>
+                <h1>Sign In</h1>
+                {this.spinner()}
                 <form>
                     <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange}/>
                     <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange}/>
@@ -78,6 +88,7 @@ class LogIn extends Component {
 const mapStateToProps = (state) => {
     return {
         errorMessage: state.loginErrorMessageReducer.errorMessage,
+        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
 

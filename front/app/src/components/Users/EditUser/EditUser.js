@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from '../../Register/RegisterComp.scss';
-import { editUserRequest } from "../../../actions/Api";
+import { editThisUserAction } from "../../../actions/Api";
 import { connect } from 'react-redux';
 import InputComp from '../../UI/InputComp/InputComp';
 import BtnComp from '../../UI/BtnComp/BtnComp';
@@ -53,7 +53,7 @@ class EditUser extends Component {
         if(this.state.userData.password !== this.state.userData.confirmPassword){
             this.setState({message: 'password not match'})
         }else{
-            this.props.editUserRequest(email, password, confirmPassword, name, userType, userName)
+            this.props.editThisUserAction(email, password, confirmPassword, name, userType, userName)
             if(this.props.catchErrorNum !== null){
                 this.setState({message: this.props.catchErrorNum})
             }else{
@@ -135,7 +135,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        editUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(editUserRequest(email, password, confirmPassword, name, userType, userName)),
+        editThisUserAction: (email, password, confirmPassword, name, userType, userName) => dispatch(editThisUserAction(email, password, confirmPassword, name, userType, userName)),
     }
 }
 

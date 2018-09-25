@@ -1,19 +1,22 @@
 import axios from 'axios';
 import history from '../configuration/history';
-import { 
-    getUserAction, 
-    accessDeniedAction, 
-    registerDeniedAction, 
-    catchErrorAction, 
-    getAllUsersAction, 
-    editDeniedAction, 
-    deleteUserAction,
+
+import {
+    getUserAction,
+    accessDeniedAction,
+    registerDeniedAction,
+    catchErrorAction,
     toggleLoaderAction,
-    forgotPassAction
+    addNewUserAction,
+    editDeniedAction,
+    getAllUsersAction, 
+    deleteUserAction,
+    forgotPassAction,
+    getUsersListAction,
+
 } from './index';
 
 
-// login request
 // login request
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
@@ -84,22 +87,19 @@ export const registerRequest = (email, password, confirmPassword, name, userType
     }
 };
 
-
-// get all users
-export const takeAllUsers = () => {
+// register request
+export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUsers`)
+        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
-                if(response.statusText === 'OK') {
-                    const users = response.data
-                    dispatch(getAllUsersAction(users));
-                    history.push({pathname: '/all_users'})
-                    dispatch(toggleLoaderAction(false))
-                
+                if (response.data.response === 'Success') {
+                    console.log('i add a new user')
+                    dispatch(addNewUserAction(false))
                 } else {
                     const error = response.data.message
-                    dispatch(accessDeniedAction(error))
+                    dispatch(registerDeniedAction(error))
+                    dispatch(toggleLoaderAction(false))
                 }
             })
             .catch((error) => {
@@ -107,13 +107,35 @@ export const takeAllUsers = () => {
                 dispatch(catchErrorAction(error))
                 history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
+            });
+    }
+};
+
+
+// get all users
+export const takeAllUsers = () => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUsers`)
+            .then((response) => {
+                    const users = response.data
+                    dispatch(getAllUsersAction(users));
+                    history.push({pathname: '/all_users'})
+                    dispatch(toggleLoaderAction(false))
+            })
+            .catch((error) => {
+                console.log(error);
+                dispatch(catchErrorAction(error))
+                history.push({pathname: '/not_found'})
+                dispatch(toggleLoaderAction(false))
+
             });  
     }
 };
 
-////////
+
 // edit User Request
-export const editUserRequest = (name, userName, email, password, userType) => {
+export const editThisUserAction = (name, userName, email, password, userType) => {
     console.log(name, userName, email, password, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
@@ -145,10 +167,58 @@ export const editUserRequest = (name, userName, email, password, userType) => {
                 dispatch(toggleLoaderAction(false))
             });
     }
-}
+};
+// edit profile Request
+export const editProfileRequest = (name, userName, email, password, userType) => {
+   console.log(name, userName, email, password, userType)
+   return (dispatch) => {
+       dispatch(toggleLoaderAction(true))
+       return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+           .then((response) => {
+               if (response.data.response === 'Success') {
+                   return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                       .then((response) => {
+                           const user = response.data
+                           dispatch(getUserAction(user));
+                           dispatch(toggleLoaderAction(false))
+                           history.push({pathname: '/profile'})
+                       })
+                       .catch((error) => {
+                           console.log(error);
+                           dispatch(editDeniedAction(error))
+                           dispatch(toggleLoaderAction(false))
+                       });
+               } else {
+                   const error = response.data.message
+                   dispatch(editDeniedAction(error))
+                   dispatch(toggleLoaderAction(false))
+               }
+           })
+           .catch((error) => {
+               console.log(error);
+               dispatch(catchErrorAction(error))
+               dispatch(editDeniedAction(error))
+               dispatch(toggleLoaderAction(false))
+           });
+   }
+};
+
+// Account Logout
+// export const accountLogout = () => {
+//     return (dispatch) => {
+//         return axios.get(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Logout`)
+//             .then((response) => {
+//                 console.log(response)
+//             })
+//             .catch((error) => {
+//                 console.log(error);
+//             });
+//     }
+// };
+
 
 // delete user
-export const deleteUser = (userName) => {
+export const DeleteUserRequest = (userName) => {
     return (dispatch) => {
         // return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)

@@ -6,7 +6,6 @@
     justify-content: center;
     width: 100%;
     min-height: 100ch;
-    background-color: $white;
     color: $black;
     
     .Register, .LogIn {
@@ -14,7 +13,10 @@
         min-width: 400px;
         max-width: 500px;
         margin-top: 40px;
-
+        max-height: 500px;
+        padding: 20px;
+        background-color: $white;
+        
         h1 {
             width: 100%;
         }
@@ -24,6 +26,7 @@
             margin: 0 0 25px 0;
             display: block;
         }
+
         input, select{
             width: 100%;
             height: 35px;
@@ -34,13 +37,16 @@
             margin: 10px 0 5px;
             color: #000;
             display: inline-block;
-            &::placeholder{
+            
+            &::placeholder {
                 color: $dark-gray
             }
         }
+
         select{
             padding: 5px 0px;
         }
+
         h3 {
             width: 100%;
             margin: 5px 0;

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
-import { registerRequest } from "../../actions/Api";
+import { registerRequest, addNewUserRequest } from "../../actions/Api";
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import SelectComp from '../UI/SelectComp/SelectComp';
+import Spinner from '../UI/Spinner';
 
 class Register extends Component {
 
@@ -41,6 +42,17 @@ class Register extends Component {
         this.props.registerRequest(email, password, confirmPassword, name, userType, userName)
     }
 
+    addNewUser = (e) => {
+        const email = this.state.email
+        const password = this.state.password
+        const confirmPassword = this.state.confirmPassword
+        const name = this.state.name
+        const userType = this.state.userType
+        const userName = this.state.userName
+        e.preventDefault()
+        this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
+    }
+
     errorMessage = () => {
         const error = this.props.errorMessage
         if (error !== null) {
@@ -50,10 +62,19 @@ class Register extends Component {
         }
     }
 
-    rgisterFage = () => {
+    spinner = () => {
+        if(this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
+    }
+
+    rgisterFage = (headline, classStr) => {
         return (
             <div className={classes.Register}>
-                <h1>Register</h1>
+                <h1>{headline}</h1>
+                {this.spinner()}
                 <form>
                     <InputComp inputType="email" name="email" placeholder="eMail" onChange={this.onEmailChange}/>
                     <InputComp inputType="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
@@ -66,22 +87,29 @@ class Register extends Component {
                     />
                     <InputComp inputType="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
                     {this.errorMessage()}
-                    <BtnComp inputType="submit" name="register" content="Register" onClick={this.registerSbmit}/>
+                    {
+                        headline === Register 
+                        ? <BtnComp inputType="submit" name="register" content={headline} onClick={this.registerSbmit}/>
+                        : <BtnComp inputType="submit" name="register" content={headline} onClick={this.addNewUser}/>
+                    }
+                    
                 </form>
-                <h3>Have a user? Keep Calm.</h3>
-                <div className='loginLink'>
-                    <h2>And </h2>
-                    <Link to='/'><h2>Log-In</h2></Link>
-                </div> 
+                <div style={{display: classStr}}>
+                    <h3>Have a user? Keep Calm.</h3>
+                    <div className='loginLink'>
+                        <h2>And </h2>
+                        <Link to='/'><h2>Sign In</h2></Link>
+                    </div> 
+                </div>
             </div>
         )
     }
 
     render() {
-        
+        const { headline, classStr } = this.props
         return (
             <div className={classes.RegisterWrapper}>
-                {this.rgisterFage()}
+                {this.rgisterFage(headline, classStr)}
             </div>
         );
     }
@@ -90,12 +118,14 @@ class Register extends Component {
 const mapStateToProps = (state) => {
     return {
         errorMessage: state.registerErrorMessageReducer.errorMessage,
+        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
+        addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
     }
 }
 
