@@ -15,7 +15,7 @@ class NotFound extends Component {
             <div className = {classes.NotFound}>
                 <img src={img} alt='NotFound' />
                 <div className={classes.error}>
-                    <span className={classes.ErrorNum}>{this.state.error}</span>
+                    <span className={classes.ErrorNum}>{this.props.catchErrorNum}</span>
                     <span>Got lost? how? why? ohhhhh.....</span>
                     <button><Link to='/home'>Take Me Home</Link></button>
                 </div>
