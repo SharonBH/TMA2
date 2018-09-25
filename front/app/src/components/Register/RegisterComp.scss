@@ -38,8 +38,13 @@
             color: #000;
             display: inline-block;
             &::placeholder{
+<<<<<<< HEAD
             color: $black
             } 
+=======
+                color: $dark-gray
+            }
+>>>>>>> 7d46898266be525220aea235259aeeb0761f66f1
         }
 
         select{
@@ -77,8 +82,12 @@
             
         }
         
+        
     }
     .LogIn{
         margin-top: 100px;
+    }
+    .error{
+        color: red
     }
 }

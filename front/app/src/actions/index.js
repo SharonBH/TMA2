@@ -12,6 +12,7 @@ export const accessDeniedAction = (response) => {
         payload: response
     }
 }
+
 // user register error action
 export const registerDeniedAction = (response) => {
     return {
@@ -33,6 +34,16 @@ export const catchErrorAction = (number) => {
         payload: number
     }
 }
+
+//get all users
+export const getAllUsersAction = (response) => {
+    return {
+        type: 'GET_ALL_USERS',
+        payload: response
+    }
+}
+
+
 // toggle Loader Action
 export const toggleLoaderAction = (boll) => {
     return {
@@ -49,10 +60,18 @@ export const addNewUserAction = (boll) => {
     }
 }
 
-// get Users List Action
-export const getUsersListAction = (arr) => {
+//delete user Action
+export const deleteUserAction = (data) => {
     return {
-        type: 'GET_ALL_USERS',
-        payload: arr
+        type: 'DELETE_USER',
+        payload: data
+    }
+}
+export const forgotPassAction = (data) => {
+    console.log('action', data)
+    return {
+        type: 'FORGOT_PASS',
+        payload: data
+
     }
 }

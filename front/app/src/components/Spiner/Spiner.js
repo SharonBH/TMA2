@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import MDSpinner from "react-md-spinner";
-import styles from './Spinner.scss'
 
 class Spinner extends Component {
     
     render() {
         return (
-            <div className={styles.spinnerWrapper}>
-                <div className={styles.spinnerBg}></div>
+            <div className="Spinner">
                 <MDSpinner 
                     size={50} 
                     duration={2500} 
-                    color1={'#03a3d0'}
-                    color2={'#d65000'}
-                    color3={'#03a3d0'}
-                    color4={'#999999'}
+                    color1={'rgba(63, 168, 168, 0.9)'}
+                    color2={'black'}
+                    color3={'rgba(63, 168, 168, 0.9)'}
+                    color4={'black'}
                     borderSize={4}
-                    style={{'margin': '10px'}}
+                    style={{'marginTop': '100px'}}
                 />
             </div>
         );

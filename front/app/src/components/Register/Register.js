@@ -19,7 +19,7 @@ class Register extends Component {
             name: '',
             userType: '',
             userName: '',
-            someSelectArrayFromApiProps:['user', 'admin']
+            someSelectArrayFromApiProps:['User', 'Admin']
         }
     }
 

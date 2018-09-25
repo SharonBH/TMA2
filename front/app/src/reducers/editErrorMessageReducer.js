@@ -1,5 +1,5 @@
 const InitialState = {
-    errorMessage: null
+    editErrorMessage: null
 }
 
 const editErrorMessageReducer = (state = InitialState, action) => {
@@ -7,9 +7,10 @@ const editErrorMessageReducer = (state = InitialState, action) => {
 
         case 'SET_EDIT_ERROR_MESSAGE':
             const message = action.payload
+            console.log('action error' , message)
             return {
                 ...state,
-                errorMessage: message
+                editErrorMessage: message
             }
 
         default:

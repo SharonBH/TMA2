@@ -17,7 +17,10 @@ class LogIn extends Component {
             userPassword: '!1Aaaa',
         }
     }
-
+    
+    componentDidMount(){
+        console.log(this.props)
+    }
     onUserNameChange = (e) => {
         this.setState({userName: e.target.value})
     }
@@ -62,7 +65,7 @@ class LogIn extends Component {
                     <BtnComp inputType="submit" name="login" content="Login" onClick={this.loginSbmit}/>
                     <div className={loginClasses.rememberMe}>
                         <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
-                        <span className='forgotPass'><Link to='/'>Forgot Password</Link></span>
+                        <span className='forgotPass'><Link to='/forgot_pass'>Forgot Password</Link></span>
                     </div> 
                 </form>
                 <h3>Not a register user?</h3>

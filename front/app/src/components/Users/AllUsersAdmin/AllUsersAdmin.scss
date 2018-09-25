@@ -2,9 +2,6 @@
 
 .usersWrapper {
     text-align: left;
-    padding: 15px;
-    position: relative;
-    
     div.role{
         border: 0;
         width: 10%
@@ -17,20 +14,27 @@
     .usersHead {
         padding: 18px 0;
         background: #e6e6e6;
+        margin: 15px 15px 0;    
         & > div {
             display: inline-block;
             padding: 0 20px;
-            border-right: 1px solid;
         }
     }
 
     ul.uesrsList {
         list-style: none;
         padding: 0;
-    
-        li > div {
-            display: inline-block;
-            padding: 5px 20px;
+        li{
+            border-bottom: 1px solid #e5e5e5;
+            padding: 5px 0;
+            a{
+                display: inline-block;
+            }
+            &> div{
+                display: inline-block;
+                padding: 5px 20px;
+            }
+            
         }
     }
 }
