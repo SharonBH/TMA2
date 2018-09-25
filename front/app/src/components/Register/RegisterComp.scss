@@ -37,14 +37,10 @@
             margin: 10px 0 5px;
             color: #000;
             display: inline-block;
-            &::placeholder{
-<<<<<<< HEAD
-            color: $black
-            } 
-=======
+            
+            &::placeholder {
                 color: $dark-gray
             }
->>>>>>> 7d46898266be525220aea235259aeeb0761f66f1
         }
 
         select{
