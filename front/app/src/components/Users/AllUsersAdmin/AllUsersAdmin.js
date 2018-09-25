@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { takeAllUsers, deleteUser } from '../../../actions/Api';
+import { takeAllUsers } from '../../../actions/Api';
 import { Link } from 'react-router-dom'
 import classes from './AllUsersAdmin.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
@@ -11,7 +11,9 @@ import Register from '../../Register';
 import { usersListRequest, DeleteUserRequest } from '../../../actions/Api';
 import Spinner from '../../UI/Spinner';
 import UserSummary from '../../UserSummary';
-import { addNewUserAction, editThisUserAction, getUsersListAction } from '../../../actions';
+import EditUser from '../EditUser/EditUser';
+import { addNewUserAction, editThisUserAction}  from '../../../actions';
+// import {  getUsersListAction } from '../../../actions';
 
 
 
@@ -28,25 +30,25 @@ export class AllUsersAdmin extends Component {
         this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
     
-    ulserList = () => {
-        if(this.props.usersList === null) {
-            return null
-        } else {
-            return this.props.usersList.map((item, index) => {
-                return <li key={index}>
-                    <div className={classes.username}>{item.name}</div>
-                    <div className={classes.email}>{item.email}</div>
-                    <div className={classes.role}>{item.role}</div>
-                    <div id={index} className={classes.EditBtn}>
-                        <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
-                    </div>
-                    <div id={index} className={classes.EditBtn}>
-                        <BtnComp inputType="submit" content='Delete' onClick={() => this.DeleteUserBtn(item)}/>
-                    </div>
-                </li>
-            })
-        }
-    }
+    // ulserList = () => {
+    //     if(this.props.usersList === null) {
+    //         return null
+    //     } else {
+    //         return this.props.usersList.map((item, index) => {
+    //             return <li key={index}>
+    //                 <div className={classes.username}>{item.name}</div>
+    //                 <div className={classes.email}>{item.email}</div>
+    //                 <div className={classes.role}>{item.role}</div>
+    //                 <div id={index} className={classes.EditBtn}>
+    //                     <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
+    //                 </div>
+    //                 <div id={index} className={classes.EditBtn}>
+    //                     <BtnComp inputType="submit" content='Delete' onClick={() => this.DeleteUserBtn(item)}/>
+    //                 </div>
+    //             </li>
+    //         })
+    //     }
+    // }
 
     DeleteUserBtn = (item) => {
         this.setState({userInEditMode: null})
@@ -110,7 +112,7 @@ export class AllUsersAdmin extends Component {
 // =======
 
     editUserComp = () => {
-        return <UserSummary headline='Edit' user={this.state.userInEditMode}/>
+        return <EditUser headline='Edit' user={this.state.userInEditMode}/>
     }
 
 
@@ -125,6 +127,7 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.email}>{item.email}</div>
                 <div className={classes.role}>{item.role === 'Admin' ? item.role = 'Admin' : item.role = '' }</div>
                 <div className={classes.email}>{item.username}</div>
+                {/* <EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/> */}
                  <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link>
                  <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
             </li>
@@ -158,11 +161,11 @@ const mapStateToProps = (state) => {
         allUsersList: state.userReducer.allUsersList,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
         addUser: state.addNewUserReducer.addUser,
-// <<<<<<< HEAD
+        editThisUser: state.editUserReducer.editThisUser,
         newUsers: state.userReducer.newUsers,
 // =======
         // usersList: state.usersListReducer.usersList,
-        editThisUser: state.editUserReducer.editThisUser,
+        
 // >>>>>>> ad4a9475ebd43fe2e51768b0f2756d585a03e341
     }
 }
@@ -173,8 +176,8 @@ const mapDispatchToProps = dispatch => {
        takeAllUsers: payload => dispatch(takeAllUsers(payload)),
        addNewUserAction: payload => dispatch(addNewUserAction(payload)),
        DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
-       deleteUser: (userName) => dispatch(deleteUser(userName)),
-       getUsersListAction: payload => dispatch(getUsersListAction(payload)),
+    //    deleteUser: (userName) => dispatch(deleteUser(userName)),
+    //    getUsersListAction: payload => dispatch(getUsersListAction(payload)),
 
 
         // usersListRequest: payload => dispatch(usersListRequest(payload)),

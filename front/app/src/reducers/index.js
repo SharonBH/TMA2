@@ -7,12 +7,9 @@ import errorReducer from './errorReducer';
 import addNewUserReducer from './addNewUserReducer';
 import usersListReducer from './usersListReducer';
 import editErrorMessageReducer from './editErrorMessageReducer';
-
 import toggleLoaderReducer from './toggleLoaderReducer';
-import forgotPassReducer from './forgotPassReducer'
-
-
-// import editUserReducer from './editUserReducer';
+import forgotPassReducer from './forgotPassReducer';
+import editUserReducer from './editUserReducer';
 
 
 const rootReducer = combineReducers({
@@ -24,12 +21,9 @@ const rootReducer = combineReducers({
   addNewUserReducer: addNewUserReducer,
   usersListReducer: usersListReducer,
   editErrorMessageReducer: editErrorMessageReducer,
-
   toggleLoaderReducer: toggleLoaderReducer,
-  forgotPassReducer: forgotPassReducer
-
-
-//   editUserReducer: editUserReducer,
+  forgotPassReducer: forgotPassReducer,
+  editUserReducer: editUserReducer,
 
 });
 

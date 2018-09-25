@@ -8,12 +8,11 @@ import {
     catchErrorAction,
     toggleLoaderAction,
     addNewUserAction,
-    getUsersListAction,
     editDeniedAction,
-
     getAllUsersAction, 
     deleteUserAction,
-    forgotPassAction
+    forgotPassAction,
+    getUsersListAction,
 
 } from './index';
 
@@ -136,7 +135,7 @@ export const takeAllUsers = () => {
 
 
 // edit User Request
-export const editUserRequest = (name, userName, email, password, userType) => {
+export const editThisUserAction = (name, userName, email, password, userType) => {
     console.log(name, userName, email, password, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
@@ -169,6 +168,40 @@ export const editUserRequest = (name, userName, email, password, userType) => {
             });
     }
 };
+// edit profile Request
+export const editProfileRequest = (name, userName, email, password, userType) => {
+   console.log(name, userName, email, password, userType)
+   return (dispatch) => {
+       dispatch(toggleLoaderAction(true))
+       return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+           .then((response) => {
+               if (response.data.response === 'Success') {
+                   return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                       .then((response) => {
+                           const user = response.data
+                           dispatch(getUserAction(user));
+                           dispatch(toggleLoaderAction(false))
+                           history.push({pathname: '/profile'})
+                       })
+                       .catch((error) => {
+                           console.log(error);
+                           dispatch(editDeniedAction(error))
+                           dispatch(toggleLoaderAction(false))
+                       });
+               } else {
+                   const error = response.data.message
+                   dispatch(editDeniedAction(error))
+                   dispatch(toggleLoaderAction(false))
+               }
+           })
+           .catch((error) => {
+               console.log(error);
+               dispatch(catchErrorAction(error))
+               dispatch(editDeniedAction(error))
+               dispatch(toggleLoaderAction(false))
+           });
+   }
+};
 
 // Account Logout
 // export const accountLogout = () => {
@@ -185,7 +218,7 @@ export const editUserRequest = (name, userName, email, password, userType) => {
 
 
 // delete user
-export const deleteUser = (userName) => {
+export const DeleteUserRequest = (userName) => {
     return (dispatch) => {
         // return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
