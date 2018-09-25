@@ -174,7 +174,7 @@ export const forgotPassRequest = (email) => {
     return (dispatch) => {
         console.log(' to email', dispatch)
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_URL + `Account/ForgotPassword?Email=${email}`)
+        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/ForgotPassword?Email=${email}`)
             .then((response) => {
                 console.log('pass sent to email', response)
                 if (response.data.response === 'Success') {
