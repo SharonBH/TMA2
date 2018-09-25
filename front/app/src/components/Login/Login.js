@@ -6,17 +6,21 @@ import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
+import Spinner from '../UI/Spinner';
 
 class LogIn extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            userName: '',
-            userPassword: '',
+            userName: 'me',
+            userPassword: '!1Aaaa',
         }
     }
-
+    
+    componentDidMount(){
+        console.log(this.props)
+    }
     onUserNameChange = (e) => {
         this.setState({userName: e.target.value})
     }
@@ -32,24 +36,36 @@ class LogIn extends Component {
         this.props.loginRequest(userName, password)
     }
 
+    errorMessage = () => {
+        const error = this.props.errorMessage
+        if (error === 'Invalid login attempt.') {
+            return <p>{error}</p>
+        } else {
+            return null
+        }
+    }
+
+    spinner = () => {
+        if(this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
+    }
+
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
-                <h1>Log-in</h1>
+                <h1>Sign In</h1>
+                {this.spinner()}
                 <form>
-                    <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange} />
-                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange} />
-                    <span>
-                        {
-                            this.props.errorMessage === 'Invalid login attempt.'
-                            ? <p>{this.props.errorMessage}</p>
-                            : null
-                        }
-                    </span>
+                    <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange}/>
+                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange}/>
+                    {this.errorMessage()}
                     <BtnComp inputType="submit" name="login" content="Login" onClick={this.loginSbmit}/>
                     <div className={loginClasses.rememberMe}>
                         <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
-                        <span className='forgotPass'><Link to='/'>Forgot Password</Link></span>
+                        <span className='forgotPass'><Link to='/forgot_pass'>Forgot Password</Link></span>
                     </div> 
                 </form>
                 <h3>Not a register user?</h3>
@@ -71,7 +87,8 @@ class LogIn extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.errorMessageReducer.errorMessage,
+        errorMessage: state.loginErrorMessageReducer.errorMessage,
+        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
 

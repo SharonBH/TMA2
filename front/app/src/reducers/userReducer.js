@@ -1,23 +1,38 @@
 const InitialState = {
-    newUsers: ''
+    allUsersList: [],
+    isLoading: false
 }
 
 
 const userReducer = (state = InitialState, action) => {
+    
     switch (action.type) {
-        case 'ADD_USER':
-        const userValue = action.payload;
+        case 'GET_ALL_USERS':
+        const usersArr = action.payload;
         return {
             ...state,
-            newUsers:[
-                ...state.newUsers,
-                userValue
-            ]
+            allUsersList: usersArr,
+            isLoading: false
         }
+        case 'SET_ISLOADING_TO_TRUE':
+            const bool = action.payload
+            // console.log('true')
+            return {
+                ...state,
+                isLoading: bool
+            }
+        case 'DELETE_USER':
+            const data = action.payload
+            console.log('data reducer', data)
+            const newList = data.filter((result, j) => j !== action.data);
+            return {
+                ...state,
+                allUsersList: newList
+            }
         default:
-        console.log('userReducer: InitialState')
     }
     return state
+    
 }
 
 
