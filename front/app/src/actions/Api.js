@@ -1,16 +1,20 @@
 import axios from 'axios';
 import history from '../configuration/history';
-import { 
-    getUserAction, 
-    accessDeniedAction, 
-    registerDeniedAction, 
-    catchErrorAction, 
-    getAllUsersAction, 
-    editDeniedAction, 
-    deleteUserAction,
+
+import {
+    getUserAction,
+    accessDeniedAction,
+    registerDeniedAction,
+    catchErrorAction,
     toggleLoaderAction,
-    forgotPassAction,
-    addNewUserAction
+    addNewUserAction,
+    getUsersListAction,
+    editDeniedAction,
+
+    getAllUsersAction, 
+    deleteUserAction,
+    forgotPassAction
+
 } from './index';
 
 
@@ -84,7 +88,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
     }
 };
 
-// // register request
+// register request
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
@@ -97,7 +101,6 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                     const error = response.data.message
                     dispatch(registerDeniedAction(error))
                     dispatch(toggleLoaderAction(false))
-
                 }
             })
             .catch((error) => {
@@ -110,24 +113,16 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
 };
 
 
-
 // get all users
 export const takeAllUsers = () => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUsers`)
             .then((response) => {
-                if(response.statusText === 'OK') {
                     const users = response.data
                     dispatch(getAllUsersAction(users));
                     history.push({pathname: '/all_users'})
                     dispatch(toggleLoaderAction(false))
-                
-                } else {
-                    const error = response.data.message
-                    dispatch(accessDeniedAction(error))
-                }
-
             })
             .catch((error) => {
                 console.log(error);
@@ -141,7 +136,7 @@ export const takeAllUsers = () => {
 
 
 // edit User Request
-export const editProfileRequest = (name, userName, email, password, userType) => {
+export const editUserRequest = (name, userName, email, password, userType) => {
     console.log(name, userName, email, password, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
@@ -157,42 +152,37 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
                         })
                         .catch((error) => {
                             console.log(error);
-                            dispatch(editDeniedAction(error))
+                            dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
                     const error = response.data.message
-                    dispatch(editDeniedAction(error))
+                    dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
                     dispatch(toggleLoaderAction(false))
                 }
             })
             .catch((error) => {
                 console.log(error);
                 dispatch(catchErrorAction(error))
-                dispatch(editDeniedAction(error))
+                dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
                 dispatch(toggleLoaderAction(false))
             });
     }
 };
 
-// Delete User Request
-export const DeleteUserRequest = (username) => {
-    return (dispatch) => {
-        dispatch(toggleLoaderAction(true))
-        return axios.get(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${username}`)
-            .then((response) => {
-                // const users = response.data
-                // dispatch(getUsersListAction(users))
-                dispatch(toggleLoaderAction(false))
-            })
-            .catch((error) => {
-                console.log(error);
-                dispatch(catchErrorAction(error))
-                
-                dispatch(toggleLoaderAction(false))
-            });
-    }
-}
+// Account Logout
+// export const accountLogout = () => {
+//     return (dispatch) => {
+//         return axios.get(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Logout`)
+//             .then((response) => {
+//                 console.log(response)
+//             })
+//             .catch((error) => {
+//                 console.log(error);
+//             });
+//     }
+// };
+
 
 // delete user
 export const deleteUser = (userName) => {
@@ -242,5 +232,4 @@ export const forgotPassRequest = (email) => {
             });
     }
 };
-
 
