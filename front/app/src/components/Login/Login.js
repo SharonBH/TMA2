@@ -10,8 +10,6 @@ import Spinner from '../UI/Spinner';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 
-// const cookies = new Cookies();
-
 class LogIn extends Component {
 
     static propTypes = {
@@ -24,8 +22,8 @@ class LogIn extends Component {
         const { cookies } = props;
 
         this.state = {
-            userName: cookies.get('userName') || 'me',
-            userPassword: cookies.get('userPassword') || '!1Aaaa',
+            userName: cookies.get('userName') || '',
+            userPassword: cookies.get('userPassword') || '',
             rememberMe: cookies.get('rememberMe') || false
         }
     }
