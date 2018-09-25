@@ -1,5 +1,5 @@
 const InitialState = {
-    currentUser: {name: 'roi', email: 'roi@beehivebi', username: 'liber.roi', password: 'L!ber21000', role: 'Admin'},
+    currentUser: null,
 }
 
 const UserLogInReducer = (state = InitialState, action) => {
