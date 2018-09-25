@@ -34,7 +34,7 @@ export const loginRequest = (userName, password) => {
                         .catch((error) => {
                             console.log(error);
                             dispatch(catchErrorAction(error))
-                            history.push({pathname: '/not_found'})
+                            // history.push({pathname: '/not_found'})
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
@@ -46,7 +46,7 @@ export const loginRequest = (userName, password) => {
             .catch((error) => {
                 console.log(error);
                 dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                // history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -69,7 +69,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                         .catch((error) => {
                             console.log(error);
                             dispatch(catchErrorAction(error))
-                            history.push({pathname: '/not_found'})
+                            // history.push({pathname: '/not_found'})
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
@@ -81,7 +81,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
             .catch((error) => {
                 console.log(error);
                 dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                // history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -105,7 +105,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
             .catch((error) => {
                 console.log(error);
                 dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                // history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -126,7 +126,7 @@ export const takeAllUsers = () => {
             .catch((error) => {
                 console.log(error);
                 dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                // history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
 
             });  
@@ -233,7 +233,7 @@ export const DeleteUserRequest = (userName) => {
             .catch((error) => {
                 console.log(error);
                 dispatch(catchErrorAction(error))
-                // history.push({pathname: '/not_found'})
+                history.push({pathname: '/not_found'})
             });
     }
 };

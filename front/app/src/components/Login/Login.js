@@ -7,14 +7,26 @@ import { loginRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import Spinner from '../UI/Spinner';
+import { withCookies, Cookies } from 'react-cookie';
+import { instanceOf } from 'prop-types';
+
+// const cookies = new Cookies();
 
 class LogIn extends Component {
 
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor(props) {
         super(props)
+
+        const { cookies } = props;
+
         this.state = {
-            userName: 'me',
-            userPassword: '!1Aaaa',
+            userName: cookies.get('userName') || 'me',
+            userPassword: cookies.get('userPassword') || '!1Aaaa',
+            rememberMe: cookies.get('rememberMe') || false
         }
     }
     
@@ -30,10 +42,17 @@ class LogIn extends Component {
     }
 
     loginSbmit = (e) => {
+        const { cookies } = this.props;
         const userName = this.state.userName
         const password = this.state.userPassword
+        const rememberMe = this.state.rememberMe
         e.preventDefault()
         this.props.loginRequest(userName, password)
+        if(rememberMe) {
+            cookies.set('userName', userName, { path: '/' });
+            cookies.set('userPassword', password, { path: '/' });
+            cookies.set('rememberMe', rememberMe, { path: '/' });
+        }
     }
 
     errorMessage = () => {
@@ -53,18 +72,27 @@ class LogIn extends Component {
         }
     }
 
+    rememberMe = () => {
+        this.setState({
+            rememberMe: !this.state.rememberMe
+        })
+    }
+
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
                 <h1>Sign In</h1>
                 {this.spinner()}
                 <form>
-                    <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange}/>
-                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange}/>
+                    <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange} content={this.state.userName}/>
+                    <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange} content={this.state.userPassword}/>
                     {this.errorMessage()}
                     <BtnComp inputType="submit" name="login" content="Login" onClick={this.loginSbmit}/>
                     <div className={loginClasses.rememberMe}>
-                        <span><input type="checkbox" name="remember me"/> <label>Remember Me</label></span> 
+                        <span>
+                            <input type="checkbox" name="remember me" checked={this.state.rememberMe} onChange={this.rememberMe}/> 
+                            <label>Remember Me</label>
+                        </span> 
                         <span className='forgotPass'><Link to='/forgot_pass'>Forgot Password</Link></span>
                     </div> 
                 </form>
@@ -77,6 +105,7 @@ class LogIn extends Component {
     }
     
     render() {
+        console.log(this.state)
         return (
             <div className={classes.LogInWrapper}>
                 {this.loginFage()}
@@ -98,4 +127,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+export default withCookies(connect(mapStateToProps, mapDispatchToProps)(LogIn));
