@@ -6,10 +6,6 @@ import classes from './NotFound.scss';
 
 class NotFound extends Component {
 
-    state = {
-        error: this.props.catchErrorNum
-    }
-
     render() {
         return (
             <div className = {classes.NotFound}>

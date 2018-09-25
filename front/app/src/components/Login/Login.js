@@ -125,7 +125,6 @@ class LogIn extends Component {
     }
     
     render() {
-        console.log(this.state.forgotPassword)
         return (
             <div className={classes.LogInWrapper}>
                 {this.loginFage()}
