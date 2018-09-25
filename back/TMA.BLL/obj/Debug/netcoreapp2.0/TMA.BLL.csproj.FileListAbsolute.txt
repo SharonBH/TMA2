@@ -6,3 +6,4 @@ C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcore
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcoreapp2.0\TMA.BLL.AssemblyInfo.cs
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcoreapp2.0\TMA.BLL.dll
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcoreapp2.0\TMA.BLL.pdb
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcoreapp2.0\TMA.BLL.csprojResolveAssemblyReference.cache
