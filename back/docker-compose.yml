@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  tma.api:
+    image: ${DOCKER_REGISTRY}tmaapi
+    build:
+      context: .
+      dockerfile: TMA.Api/Dockerfile

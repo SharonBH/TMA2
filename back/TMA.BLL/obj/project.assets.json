@@ -664,23 +664,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tal\\.nuget\\packages\\": {},
+    "C:\\Users\\Andreyd\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tal\\source\\repos\\TournamentManagementApp\\back\\TMA.BLL\\TMA.BLL.csproj",
+      "projectUniqueName": "C:\\Users\\Andreyd\\source\\repos\\fronendteampoc1\\back\\TMA.BLL\\TMA.BLL.csproj",
       "projectName": "TMA.BLL",
-      "projectPath": "C:\\Users\\Tal\\source\\repos\\TournamentManagementApp\\back\\TMA.BLL\\TMA.BLL.csproj",
-      "packagesPath": "C:\\Users\\Tal\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tal\\source\\repos\\TournamentManagementApp\\back\\TMA.BLL\\obj\\",
+      "projectPath": "C:\\Users\\Andreyd\\source\\repos\\fronendteampoc1\\back\\TMA.BLL\\TMA.BLL.csproj",
+      "packagesPath": "C:\\Users\\Andreyd\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Andreyd\\source\\repos\\fronendteampoc1\\back\\TMA.BLL\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Tal\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Andreyd\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

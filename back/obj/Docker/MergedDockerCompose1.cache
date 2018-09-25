@@ -1,0 +1,34 @@
+services:
+  tma.api:
+    build:
+      context: C:\Users\Andreyd\source\repos\fronendteampoc1\back
+      dockerfile: TMA.Api/Dockerfile
+      target: base
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTPS_PORT: '44336'
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: tmaapi:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  bin/Debug/netcoreapp2.0/TMA.Api.dll'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/bash -c "if PID=$$(pidof
+        -x dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - published: 59609
+      target: 80
+    - published: 44336
+      target: 443
+    volumes:
+    - C:\Users\Andreyd\source\repos\fronendteampoc1\back\TMA.Api:/app:rw
+    - C:\Users\Andreyd\vsdbg\vs2017u5:/remote_debugger:ro
+    - C:\Users\Andreyd\AppData\Roaming\ASP.NET\Https:/root/.aspnet/https:ro
+    - C:\Users\Andreyd\AppData\Roaming\Microsoft\UserSecrets:/root/.microsoft/usersecrets:ro
+    - C:\Program Files\dotnet\sdk\NuGetFallbackFolder:/root/.nuget/fallbackpackages:ro
+    - C:\Users\Andreyd\.nuget\packages:/root/.nuget/packages:ro
+version: '3.4'
