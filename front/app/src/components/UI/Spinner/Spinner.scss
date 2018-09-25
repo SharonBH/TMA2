@@ -4,6 +4,7 @@
     text-align: center;
     height: 100%;
     top: 0;
+    left: 0;
     
     div.spinnerBg {
         background: #00000061;
@@ -13,6 +14,6 @@
         top: 0;
     }
     &>span{
-        top: 100px;
+        top: 200px;
     }
 }

@@ -1,7 +1,7 @@
 @import '../../styles/colors.scss';
 
 .nav {
-    min-width: 200px;
+    width: 250px;
     display: inline-block;
     background: $light-gray;
     float: left;
@@ -9,11 +9,12 @@
     box-sizing: border-box;
     padding: 5px;
     padding-top: 100px;
+    transition: width linear .1s;
 
     a {
         display: flex;
         text-align: left;
-        padding: 5px 20px;
+        padding: 7px 20px;
         text-decoration: none;
         color: $black;
         font-weight: 600;
@@ -45,6 +46,7 @@
         font-size: 20px;
         position: relative;
         top: -40px;
+        height: 60px;
     }
 
     .Menu {
@@ -88,20 +90,22 @@
     box-sizing: border-box;
     padding: 5px;
     padding-top: 100px;
+    transition: width linear .3s;
 
     a {
         display: flex;
-        text-align: left;
-        padding: 5px 20px;
+        text-align: center;
+        padding: 5px 00px;
         text-decoration: none;
-        color: $black;
+        color: #000;
         font-weight: 600;
+        width: auto;
 
         i {
-            margin: 10px 0;
-            width: 20px;
-            height: 20px;
-            font-size: 20px;
+            width: 100%;
+            height: 100%;
+            font-size: 25px;
+            line-height: 35px;
         }
 
         &:hover {
@@ -125,6 +129,7 @@
         font-size: 20px;
         position: relative;
         top: -40px;
+        height: 60px;
     }
 
     .Menu {
