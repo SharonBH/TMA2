@@ -101,6 +101,17 @@
             }
             
         }
+        .changePass{
+            font-weight: 600;
+            margin-top: 10px;
+            display: inline-block;
+            width: 100%;
+            text-align: right;
+            text-decoration: underline;
+            font-size: 18px;
+            color: $blue;
+            cursor: pointer;
+        }
     }
  
 }

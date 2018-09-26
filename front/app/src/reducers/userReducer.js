@@ -30,6 +30,7 @@ const userReducer = (state = InitialState, action) => {
                 ...state,
                 message: data.message
             }
+        
         default:
     }
     return state

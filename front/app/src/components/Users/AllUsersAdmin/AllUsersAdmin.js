@@ -29,7 +29,9 @@ export class AllUsersAdmin extends Component {
         this.editUserBtn = this.editUserBtn.bind(this)
         this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
-    
+    componentDidMount(){
+        this.props.takeAllUsers()
+    }
     // ulserList = () => {
     //     if(this.props.usersList === null) {
     //         return null
@@ -53,7 +55,6 @@ export class AllUsersAdmin extends Component {
     DeleteUserBtn = (item) => {
         this.setState({userInEditMode: null})
         this.props.DeleteUserRequest(item.username)
-        
     }
 
     editUserBtn = (item) => {
@@ -101,9 +102,7 @@ export class AllUsersAdmin extends Component {
             return null
         }
     }
-    closeMessage = () => {
-        this.setState({ display: true });
-    }
+    
     addUserComp = () => {
         return <Register headline='Add User' classStr='none' />
     }
@@ -120,10 +119,10 @@ export class AllUsersAdmin extends Component {
         </p>
         : null 
     }
-
-    componentDidMount(){
-        this.props.takeAllUsers()
+    closeMessage = () => {
+        this.setState({ display: true });
     }
+    
 
     ulserList = () => {
         return this.props.allUsersList.map((item, index) => {
@@ -133,8 +132,8 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.role}>{item.role === 'Admin' ? item.role = 'Admin' : item.role = '' }</div>
                 <div className={classes.email}>{item.username}</div>
                 <div id={index}>
-                {/* <EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/> */}
-                 <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link>
+                <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/></Link>
+                 {/* <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link> */}
                  </div>
                  <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
             </li>
@@ -142,6 +141,7 @@ export class AllUsersAdmin extends Component {
     }
     
     render (){
+        console.log('6666', this.props.addUser)
         return (
             <div className={classes.usersWrapper}>
                 {this.successDeleteMessage()}
