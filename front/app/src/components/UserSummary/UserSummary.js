@@ -5,7 +5,7 @@ import BtnComp from '../UI/BtnComp/BtnComp';
 import EditBtn from '../UI/BtnComp/EditBtn';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
-import { editProfileRequest, changePasswordRaquest } from '../../actions/Api';
+import { editProfileRequest, changePasswordRequest } from '../../actions/Api';
 import { editDeniedAction } from '../../actions';
 import Spinner from '../UI/Spinner';
 import ChangePassword from '../ChangePassword/ChangePassword';
@@ -201,7 +201,7 @@ const mapDispatchToProps = dispatch => {
         editProfileRequest: (name, userName, email, password, userType) => dispatch(editProfileRequest(name, userName, email, password, userType)),
         editDeniedAction: payload => dispatch(editDeniedAction(payload)),
         changePassOpenAction: payload => dispatch(changePassOpenAction(payload)),
-        changePasswordRaquest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRaquest(username, password, newPassword, confirmPassword))
+        changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword))
     }
 }
 

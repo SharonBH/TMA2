@@ -270,7 +270,7 @@ export const forgotPassRequest = (email) => {
     }
 };
 
-export const changePasswordRaquest = (username, password, newPassword, confirmPassword) => {
+export const changePasswordRequest = (username, password, newPassword, confirmPassword) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/ChangePassword?Username=${username}&OldPassword=${password}&NewPassword=${newPassword}&ConfirmPassword=${confirmPassword}`)

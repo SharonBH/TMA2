@@ -4,7 +4,7 @@ import classes from '../Register/RegisterComp.scss';
 import chClasses from './ChangePassword.scss';
 // import loginClasses from '/../LogIn/LoginComp.scss';
 import { connect } from 'react-redux';
-import { changePasswordRaquest } from "../../actions/Api";
+import { changePasswordRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 
@@ -45,7 +45,7 @@ class ChangePassword extends Component {
         console.log('password', password)
         console.log('newPassword', newPassword)
         console.log('confirmPassword', confirmPassword)
-            this.props.changePasswordRaquest(username, password, newPassword, confirmPassword)
+            this.props.changePasswordRequest(username, password, newPassword, confirmPassword)
             // this.props.changePassAction()
         }
     }
@@ -60,7 +60,7 @@ class ChangePassword extends Component {
         }
     }
     successChangeMessage = () => {
-        return this.props.messageErr.message === '' 
+        return this.props.messageErr.message !== '' 
         ? <p className={classes.success} style={{display: this.state.display ? 'none' : 'block' }}>
             <span>{this.props.messageErr.message}
                 <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
@@ -102,7 +102,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        changePasswordRaquest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRaquest(username, password, newPassword, confirmPassword)),
+        changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword)),
         
     }
 }
