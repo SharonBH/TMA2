@@ -28,7 +28,6 @@ export const loginRequest = (userName, password) => {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             const user = response.data
-                            console.log(response);
                             dispatch(getUserAction(user))
                             dispatch(toggleLoaderAction(false))
                             history.push({pathname: '/home'})
