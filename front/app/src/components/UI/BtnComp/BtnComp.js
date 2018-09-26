@@ -17,7 +17,7 @@ export class BtnComp extends Component {
         return (
             <div className='BtnComp'>
                 <input
-                    className={classes.sendBtn}
+                    className={(classes.BtnComp)}
                     type={this.props.inputType}
                     value={this.props.content}
                     onClick={this.props.onClick} />

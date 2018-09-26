@@ -56,7 +56,7 @@ class Register extends Component {
     errorMessage = () => {
         const error = this.props.errorMessage
         if (error !== null) {
-            return <p className={classes.error}>{error}</p>
+            return <p>{error}</p>
         } else {
             return null
         }

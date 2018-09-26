@@ -7,7 +7,6 @@ export class EditBtn extends Component {
     static propTypes = {  
         inputType: PropTypes.oneOf(['submit', 'button']).isRequired,
         onSubmit: PropTypes.func,
-        onClick: PropTypes.func,
         content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
@@ -18,12 +17,10 @@ export class EditBtn extends Component {
         return (
             <div className='BtnComp'>
                 <input
-                    className={classes.editBtn}
+                    className={`${classes.editBtn} `}
                     type={this.props.inputType}
                     value={this.props.content}
-                    onSubmit={this.props.onSubmit} 
-                    onClick={this.props.onClick} 
-                    />
+                    onSubmit={this.props.onSubmit} />
             </div>
         )
     }

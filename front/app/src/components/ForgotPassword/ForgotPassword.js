@@ -29,6 +29,11 @@ class ForgotPassword extends Component {
         }
     }
 
+    componentWillUnmount() {
+        this.setState({error: ''})
+        this.setState({email: ''})
+    }
+
     errorMessage = () => {
         const error = this.props.errorMessage
         if (error === 'Invalid login attempt.') {
@@ -40,15 +45,14 @@ class ForgotPassword extends Component {
 
     render() {
         return (
-            <div className={classes.LogInWrapper}>
-                <div className={classes.forgotPass}>
+            <div className={classes.ForgotPasswordWrapper}>
+                <div className={classes.ForgotPassword}>
                     <h1>Forgot Password?</h1>
                     <h3>Enter email to reset password</h3>
                     <p className={classes.error}>{this.state.error}</p>
                     <InputComp inputType='email' name='email' placeholder='Email' onChange={this.onChangeValue} content={this.state.email}/>
-                    <div className={classes.forgotBtn}><BtnComp inputType='button' content='Send' onClick={this.onClick}/></div>
+                    <BtnComp inputType='button' content='Send' onClick={this.onClick}/>
                 </div>
-                
             </div>
         );
     }

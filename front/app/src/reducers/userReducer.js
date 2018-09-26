@@ -1,7 +1,6 @@
 const InitialState = {
     allUsersList: [],
-    isLoading: false,
-    message: ''
+    isLoading: false
 }
 
 
@@ -25,12 +24,11 @@ const userReducer = (state = InitialState, action) => {
         case 'DELETE_USER':
             const data = action.payload
             console.log('data reducer', data)
-            // const newList = data.filter((result, j) => j !== action.data);
+            const newList = data.filter((result, j) => j !== action.data);
             return {
                 ...state,
-                message: data.message
+                allUsersList: newList
             }
-        
         default:
     }
     return state

@@ -12,8 +12,7 @@ import {
     getAllUsersAction, 
     deleteUserAction,
     forgotPassAction,
-    changePassAction,
-    changePassOpenAction,
+    changePasswordErrorAction,
     getUsersListAction,
 
 } from './index';
@@ -65,8 +64,8 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
+                            history.push({pathname: '/home'})
                             dispatch(toggleLoaderAction(false))
-                            history.push({pathname: '/all_users'})
                         })
                         .catch((error) => {
                             console.log([error][0]);
@@ -97,7 +96,6 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
             .then((response) => {
                 if (response.data.response === 'Success') {
                     console.log('i add a new user')
-                    history.push({pathname: '/home'})
                     dispatch(addNewUserAction(false))
                 } else {
                     const error = response.data.message
@@ -226,11 +224,11 @@ export const DeleteUserRequest = (userName) => {
         // return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
             .then((response) => {
-                if(response.data.response === 'Success') {
+                console.log('delete response',response)
+                if(response.data.message === 'Success') {
                     const data = response.data
+                    console.log('delete data',data)
                     dispatch(deleteUserAction(data))
-                    dispatch(takeAllUsers())
-                    // history.push({pathname: '/all_users'})
                 }
             })
             .catch((error) => {
@@ -267,29 +265,37 @@ export const forgotPassRequest = (email) => {
 };
 
 // change Password Request
-export const changePasswordRequest = (username, password, newPassword, confirmPassword) => {
+export const changePasswordRequest = (userName, oldPassword, newPassword, confirmNewPassword) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ChangePassword?Username=${username}&OldPassword=${password}&NewPassword=${newPassword}&ConfirmPassword=${confirmPassword}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ChangePassword?Username=${userName}&OldPassword=${oldPassword}&NewPassword=${newPassword}&ConfirmPassword=${confirmNewPassword}&StatusMessage=ret`)
             .then((response) => {
-                console.log('pass sent to email', response)
-                if (response.data.response === 'Success') {
-                    const data = response.data
-                    dispatch(changePassAction(data))
-                    console.log('pass sent to email')
-                    dispatch(changePassOpenAction(data))
-                    
+                if(response.data.message === 'Success') {
+                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
+                        .then((response) => {
+                            const user = response.data
+                            dispatch(getUserAction(user))
+                            history.push({pathname: '/home'})
+                            dispatch(toggleLoaderAction(false))
+                        })
+                        .catch((error) => {
+                            console.log([error][0]);
+                            dispatch(catchErrorAction(error))
+                            history.push({pathname: '/not_found'})
+                            dispatch(toggleLoaderAction(false))
+                        });
                 } else {
                     const error = response.data.message
-                    dispatch(editDeniedAction(error))
+                    dispatch(changePasswordErrorAction(error))
                     dispatch(toggleLoaderAction(false))
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log([error][0]);
                 dispatch(catchErrorAction(error))
-                // history.push({pathname: '/not_found'})
+                history.push({pathname: '/not_found'})
                 dispatch(toggleLoaderAction(false))
             });
     }
 };
+

@@ -43,7 +43,7 @@ export class MainPage extends Component {
                 />
                 <Route
                     path='/edit_user/:userName'
-                    component={AllUsersAdmin}
+                    component={EditUser}
                 />
                 <Route
                     path='/not_found'

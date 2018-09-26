@@ -7,6 +7,7 @@ import InputComp from '../../UI/InputComp/InputComp';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp';
 import Spinner from '../../UI/Spinner/Spinner';
+// import history from '../../../configuration/history'
 
 class EditUser extends Component {
 
@@ -14,6 +15,8 @@ class EditUser extends Component {
         super(props)
         this.state = {
             email: '',
+            password: '',
+            confirmPassword: '',
             name: '',
             userType: '',
             userName: '',
@@ -24,17 +27,9 @@ class EditUser extends Component {
         }
     }
 
-    componentDidMount(){
-        
-            const users = this.props.allUsersList
-            const user = this.props.user
-            const userData = users.find(item => item.username  === user )
-            
-        if(userData !== undefined){
-            this.setState({userData: userData})
-        }
-    }
     onEmailChange = (e) => { this.setState({ email: e.target.value })}
+    onPasswordChange = (e) => { this.setState({password: e.target.value})}
+    onConfirmPasswordChange = (e) => { this.setState({confirmPassword: e.target.value})}
     onNameChange = (e) => { this.setState({ name: e.target.value})}
     onUseTypeChange = (e) => { this.setState({userType: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
@@ -78,7 +73,18 @@ class EditUser extends Component {
             return null
         }
     }
-    
+    componentDidMount(){
+        if(this.props.history !== ''){
+            const nameR = this.props.history.location.pathname.split('/')
+            const lastName = nameR[nameR.length -1]
+            const users = this.props.allUsersList
+            const userData = users.find(item => item.username  === lastName )
+            
+            if(userData !== undefined){
+                this.setState({userData: userData})
+            }
+        }
+    }
 
     editFage = () => {
         console.log(this.props.catchErrorNum)
@@ -86,8 +92,9 @@ class EditUser extends Component {
             <div className={classes.Register}>
                 <h1>Edit User</h1>
                 <form>
-                    
                     <InputComp inputType="email" name="email" placeholder={this.state.userData.email} onChange={this.onEmailChange} />
+                    <InputComp inputType="text" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
+                    <InputComp inputType="text" name="ConfirmPassword" placeholder="ConfirmPassword" onChange={this.onConfirmPasswordChange}/>
                     <InputComp inputType="text" name="name" placeholder={this.state.userData.name} onChange={this.onNameChange}/>
                     <SelectComp 
                         onChange={this.onUseTypeChange}
@@ -98,9 +105,9 @@ class EditUser extends Component {
                     
                     {this.errorMessage()}
                     {this.state.message}
-                    <BtnComp inputType="submit" name="register" content="Save" onClick={this.editSbmit}/>
+                    <BtnComp inputType="submit" name="register" content="Send" onClick={this.editSbmit}/>
                 </form>
-                {/* <Link to='/all_users'><BtnComp inputType={'button'} content={'Back To Users'}></BtnComp></Link> */}
+                <Link to='/all_users'><BtnComp inputType={'button'} content={'Back To Users'}></BtnComp></Link>
             </div>
         )
     }
