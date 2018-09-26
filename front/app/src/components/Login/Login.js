@@ -25,7 +25,7 @@ class LogIn extends Component {
         this.state = {
             userName: cookies.get('userName') || '',
             userPassword: cookies.get('userPassword') || '',
-            rememberMe: JSON.parse(cookies.get('rememberMe')) || false,
+            rememberMe: Boolean(cookies.get('rememberMe')) || false,
             forgotPassword: false
         }
     }
