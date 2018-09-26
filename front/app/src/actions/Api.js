@@ -57,10 +57,10 @@ export const loginRequest = (userName, password) => {
 export const registerRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
-                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
@@ -92,7 +92,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
                     console.log('i add a new user')
@@ -117,7 +117,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
 export const takeAllUsers = () => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUsers`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
             .then((response) => {
                     const users = response.data
                     dispatch(getAllUsersAction(users));
@@ -140,10 +140,10 @@ export const editThisUserAction = (name, userName, email, password, userType) =>
     console.log(name, userName, email, password, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
-                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
@@ -174,10 +174,10 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
    console.log(name, userName, email, password, userType)
    return (dispatch) => {
        dispatch(toggleLoaderAction(true))
-       return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+       return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
            .then((response) => {
                if (response.data.response === 'Success') {
-                   return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                   return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                        .then((response) => {
                            const user = response.data
                            dispatch(getUserAction(user));
@@ -207,7 +207,7 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
 // Account Logout
 // export const accountLogout = () => {
 //     return (dispatch) => {
-//         return axios.get(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Logout`)
+//         return axios.get(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Logout`)
 //             .then((response) => {
 //                 console.log(response)
 //             })
@@ -221,8 +221,8 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
 // delete user
 export const DeleteUserRequest = (userName) => {
     return (dispatch) => {
-        // return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
+        // return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
             .then((response) => {
                 console.log('delete response',response)
                 if(response.data.message === 'Success') {
@@ -244,7 +244,7 @@ export const DeleteUserRequest = (userName) => {
 export const forgotPassRequest = (email) => {
     return (dispatch) => {
         // dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/ForgotPassword?Email=${email}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ForgotPassword?Email=${email}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
                     const data = response.data
@@ -268,10 +268,10 @@ export const forgotPassRequest = (email) => {
 export const changePasswordRequest = (userName, oldPassword, newPassword, confirmNewPassword) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/ChangePassword?Username=${userName}&OldPassword=${oldPassword}%40%40A&NewPassword=${newPassword}%40%40A&ConfirmPassword=${confirmNewPassword}&StatusMessage=ret`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ChangePassword?Username=${userName}&OldPassword=${oldPassword}%40%40A&NewPassword=${newPassword}%40%40A&ConfirmPassword=${confirmNewPassword}&StatusMessage=ret`)
             .then((response) => {
                 if(response.data.message === 'Success') {
-                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user))
