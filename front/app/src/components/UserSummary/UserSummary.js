@@ -136,7 +136,7 @@ class UserSummary extends Component {
     }
     closeWindowFunc = () => {
         document.addEventListener("click", (evt) => {
-        const edit = document.querySelector('.ChangePassword__changePassWrapper___3ZbTs')
+        const edit = document.querySelector('.ChangePassword__changePass___3KRMY')
         // const addUser = document.querySelector('.RegisterComp__Register___2-9vC')
         const btn = document.querySelectorAll('.changePass')
         let targetEl = evt.target
