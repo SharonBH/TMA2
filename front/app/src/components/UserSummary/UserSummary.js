@@ -33,7 +33,7 @@ class UserSummary extends Component {
         this.editDetail = this.editDetailBtn.bind(this)
     }
 
-    componentDidMount() {
+    componentWillUnmount() {
         this.props.editDeniedAction(null)
         this.setState({changePassword: false})
     }

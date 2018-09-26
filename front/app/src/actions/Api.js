@@ -28,9 +28,10 @@ export const loginRequest = (userName, password) => {
                     return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             const user = response.data
+                            console.log(response);
                             dispatch(getUserAction(user))
-                            history.push({pathname: '/home'})
                             dispatch(toggleLoaderAction(false))
+                            history.push({pathname: '/home'})
                         })
                         .catch((error) => {
                             console.log([error][0]);
