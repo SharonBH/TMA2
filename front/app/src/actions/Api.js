@@ -12,6 +12,7 @@ import {
     getAllUsersAction, 
     deleteUserAction,
     forgotPassAction,
+    changePasswordErrorAction,
     getUsersListAction,
 
 } from './index';
@@ -251,6 +252,41 @@ export const forgotPassRequest = (email) => {
                 } else {
                     const error = response.data.message
                     dispatch(registerDeniedAction(error))
+                    dispatch(toggleLoaderAction(false))
+                }
+            })
+            .catch((error) => {
+                console.log([error][0]);
+                dispatch(catchErrorAction(error))
+                history.push({pathname: '/not_found'})
+                dispatch(toggleLoaderAction(false))
+            });
+    }
+};
+
+// change Password Request
+export const changePasswordRequest = (userName, oldPassword, newPassword, confirmNewPassword) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/ChangePassword?Username=${userName}&OldPassword=${oldPassword}%40%40A&NewPassword=${newPassword}%40%40A&ConfirmPassword=${confirmNewPassword}&StatusMessage=ret`)
+            .then((response) => {
+                if(response.data.message === 'Success') {
+                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                        .then((response) => {
+                            const user = response.data
+                            dispatch(getUserAction(user))
+                            history.push({pathname: '/home'})
+                            dispatch(toggleLoaderAction(false))
+                        })
+                        .catch((error) => {
+                            console.log([error][0]);
+                            dispatch(catchErrorAction(error))
+                            history.push({pathname: '/not_found'})
+                            dispatch(toggleLoaderAction(false))
+                        });
+                } else {
+                    const error = response.data.message
+                    dispatch(changePasswordErrorAction(error))
                     dispatch(toggleLoaderAction(false))
                 }
             })

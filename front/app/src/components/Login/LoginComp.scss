@@ -1,18 +1,25 @@
-// @import '../../styles/colors.scss';
+@import '../../styles/colors.scss';
 
-        .rememberMe {
-            margin: 10px 0;
-            display: flex;
-            justify-content: space-between;
+.rememberMe {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
 
-            span {
-                input[type="checkbox"] {
-                    width: 20px;
-                    margin: 0;
-                    height: 20px;
-                }
-            }
+    span {
+        input[type="checkbox"] {
+            width: 20px;
+            margin: 0;
+            height: 20px;
         }
+    }
+}
+
+.forgotPass {
+    color: $blue;
+    border-bottom: 1px solid $blue;
+    cursor: pointer;
+    font-weight: 500;
+}
 
         
 // .LogInWrapper {

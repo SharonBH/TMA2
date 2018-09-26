@@ -83,3 +83,11 @@ export const editThisUserAction = (boll) => {
         payload: boll
     }
 }
+
+// change Password Error Action
+export const changePasswordErrorAction = (error) => {
+    return {
+        type: 'CHANGE_PASSWORD_ERROR',
+        payload: error
+    }
+}
