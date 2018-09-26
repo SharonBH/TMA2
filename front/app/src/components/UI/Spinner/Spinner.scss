@@ -1,0 +1,19 @@
+.spinnerWrapper {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+    top: 0;
+    left: 0;
+    
+    div.spinnerBg {
+        background: #00000061;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+    }
+    &>span{
+        top: 200px;
+    }
+}

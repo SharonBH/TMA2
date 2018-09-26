@@ -1,4 +1,3 @@
-C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.csprojResolveAssemblyReference.cache
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.csproj.CoreCompileInputs.cache
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.AssemblyInfoInputs.cache
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.AssemblyInfo.cs
@@ -9,4 +8,8 @@ C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcore
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.Api.pdb
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.dll
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.pdb
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.csprojResolveAssemblyReference.cache
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.DAL.dll
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.DAL.pdb
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.csproj.CopyComplete
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
