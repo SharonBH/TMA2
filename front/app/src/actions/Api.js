@@ -63,8 +63,8 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
-                            history.push({pathname: '/home'})
                             dispatch(toggleLoaderAction(false))
+                            history.push({pathname: '/all_users'})
                         })
                         .catch((error) => {
                             console.log(error);
@@ -95,6 +95,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
             .then((response) => {
                 if (response.data.response === 'Success') {
                     console.log('i add a new user')
+                    history.push({pathname: '/home'})
                     dispatch(addNewUserAction(false))
                 } else {
                     const error = response.data.message
@@ -139,33 +140,33 @@ export const editThisUserAction = (name, userName, email, password, userType) =>
     console.log(name, userName, email, password, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
-            .then((response) => {
-                if (response.data.response === 'Success') {
-                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
-                        .then((response) => {
-                            const user = response.data
-                            dispatch(getUserAction(user));
-                            dispatch(toggleLoaderAction(false))
-                            history.push({pathname: '/profile'})
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                            dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
-                            dispatch(toggleLoaderAction(false))
-                        });
-                } else {
-                    const error = response.data.message
-                    dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
-                    dispatch(toggleLoaderAction(false))
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                dispatch(catchErrorAction(error))
-                dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
-                dispatch(toggleLoaderAction(false))
-            });
+        // return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+        //     .then((response) => {
+        //         if (response.data.response === 'Success') {
+        //             return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+        //                 .then((response) => {
+        //                     const user = response.data
+        //                     dispatch(getUserAction(user));
+        //                     dispatch(toggleLoaderAction(false))
+        //                     history.push({pathname: '/profile'})
+        //                 })
+        //                 .catch((error) => {
+        //                     console.log(error);
+        //                     dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+        //                     dispatch(toggleLoaderAction(false))
+        //                 });
+        //         } else {
+        //             const error = response.data.message
+        //             dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+        //             dispatch(toggleLoaderAction(false))
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //         dispatch(catchErrorAction(error))
+        //         dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+        //         dispatch(toggleLoaderAction(false))
+        //     });
     }
 };
 // edit profile Request
@@ -173,33 +174,33 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
    console.log(name, userName, email, password, userType)
    return (dispatch) => {
        dispatch(toggleLoaderAction(true))
-       return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
-           .then((response) => {
-               if (response.data.response === 'Success') {
-                   return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
-                       .then((response) => {
-                           const user = response.data
-                           dispatch(getUserAction(user));
-                           dispatch(toggleLoaderAction(false))
-                           history.push({pathname: '/profile'})
-                       })
-                       .catch((error) => {
-                           console.log(error);
-                           dispatch(editDeniedAction(error))
-                           dispatch(toggleLoaderAction(false))
-                       });
-               } else {
-                   const error = response.data.message
-                   dispatch(editDeniedAction(error))
-                   dispatch(toggleLoaderAction(false))
-               }
-           })
-           .catch((error) => {
-               console.log(error);
-               dispatch(catchErrorAction(error))
-               dispatch(editDeniedAction(error))
-               dispatch(toggleLoaderAction(false))
-           });
+    //    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+    //        .then((response) => {
+    //            if (response.data.response === 'Success') {
+    //                return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+    //                    .then((response) => {
+    //                        const user = response.data
+    //                        dispatch(getUserAction(user));
+    //                        dispatch(toggleLoaderAction(false))
+    //                        history.push({pathname: '/profile'})
+    //                    })
+    //                    .catch((error) => {
+    //                        console.log(error);
+    //                        dispatch(editDeniedAction(error))
+    //                        dispatch(toggleLoaderAction(false))
+    //                    });
+    //            } else {
+    //                const error = response.data.message
+    //                dispatch(editDeniedAction(error))
+    //                dispatch(toggleLoaderAction(false))
+    //            }
+    //        })
+    //        .catch((error) => {
+    //            console.log(error);
+    //            dispatch(catchErrorAction(error))
+    //            dispatch(editDeniedAction(error))
+    //            dispatch(toggleLoaderAction(false))
+    //        });
    }
 };
 
@@ -220,14 +221,15 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
 // delete user
 export const DeleteUserRequest = (userName) => {
     return (dispatch) => {
-        // return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
+        dispatch(toggleLoaderAction(true))
         return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?username=${userName}`)
+        // return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/DeleteUser?`,`{username: ${userName}}`)
             .then((response) => {
-                console.log('delete response',response)
-                if(response.data.message === 'Success') {
+                if(response.data.response === 'Success') {
                     const data = response.data
-                    console.log('delete data',data)
                     dispatch(deleteUserAction(data))
+                    dispatch(takeAllUsers())
+                    // history.push({pathname: '/all_users'})
                 }
             })
             .catch((error) => {

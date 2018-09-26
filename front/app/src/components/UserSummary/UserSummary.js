@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
+import EditBtn from '../UI/BtnComp/EditBtn';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
 import { editProfileRequest } from '../../actions/Api';
@@ -67,7 +68,7 @@ class UserSummary extends Component {
         const detail = item.detail
         const edit = item.edit
         return (
-            <div key={index}>
+            <div key={index} className={classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
                     this.state.userDetailsArr[index].edit
@@ -90,13 +91,14 @@ class UserSummary extends Component {
                       </div> 
                     : <span>{item.param}</span>
                 }
-                <div className={classes.EditBtn}>
-                    <BtnComp 
-                        className={classes.smallBtn} 
-                        inputType="submit" 
+                <div className={classes.BTN}>
+                    {/* <EditBtn 
+                        className={classes.editBtn} 
+                        inputType="button" 
                         content={edit ? 'Not Now' : 'Edit'} 
-                        onClick={() => this.editDetailBtn(index)}
-                    />
+                        onClick={() => this.editDetailBtn(index)} */}
+                    {/* /> edit ? 'active'+' '+'fas fa-pen' : 'Edit' +' '+ 'fas fa-pen' */}
+                    <i className={ edit ?  classes.active + ' fas fa-pen' : classes.notActive + ' fas fa-pen'  } onClick={() => this.editDetailBtn(index)}></i>
                 </div>
             </div>
         )
@@ -131,7 +133,7 @@ class UserSummary extends Component {
                 {this.errorMessage()}
                 <span className={classes.SubmitAll}>
                     <BtnComp 
-                        className={classes.smallBtn} 
+                        className={classes.editBtn} 
                         inputType="submit" 
                         content='Submit All Changes'
                         onClick={this.submitAllChangesDetails}
