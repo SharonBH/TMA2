@@ -112,7 +112,7 @@ class LogIn extends Component {
                             <input type="checkbox" name="remember me" checked={this.state.rememberMe} onChange={this.rememberMe}/> 
                             <label>Remember Me</label>
                         </span> 
-                        <span className='forgotPass' onClick={this.forgotPassword}>Forgot Password</span>
+                        <span className={loginClasses.forgotPass} onClick={this.forgotPassword}>Forgot Password</span>
                     </div> 
                 </form>
                 <h3>Not a register user?</h3>
