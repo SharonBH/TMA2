@@ -8,7 +8,7 @@ import LogIn from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
 import NotFound from '../../components/NotFound';
-
+import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/UserSummary';
 import { connect } from 'react-redux';
 
@@ -23,7 +23,7 @@ export class MainPage extends Component {
                 <Route
                     exact
                     path='/'
-                    component={LogIn}
+                    component={() => <LogIn />}
                 />
                 <Route
                     path='/register'
@@ -46,12 +46,12 @@ export class MainPage extends Component {
                     component={AllUsersAdmin}
                 />
                 <Route
-                    path='/forgot_pass'
-                    component={ForgotPassword}
-                />
-                <Route
                     path='/not_found'
                     component={NotFound}
+                />
+                <Route
+                    path='/change_password'
+                    component={() => <ChangePassword header='reset password' />}
                 />
             </Switch>
         </div>

@@ -6,5 +6,4 @@ C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.DAL\obj\Debug\netcore
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.DAL\obj\Debug\netcoreapp2.0\TMA.DAL.AssemblyInfo.cs
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.DAL\obj\Debug\netcoreapp2.0\TMA.DAL.dll
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.DAL\obj\Debug\netcoreapp2.0\TMA.DAL.pdb
-C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.DAL\bin\Debug\netcoreapp2.0\TMA.DAL.runtimeconfig.json
-C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.DAL\bin\Debug\netcoreapp2.0\TMA.DAL.runtimeconfig.dev.json
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.DAL\obj\Debug\netcoreapp2.0\TMA.DAL.csprojResolveAssemblyReference.cache

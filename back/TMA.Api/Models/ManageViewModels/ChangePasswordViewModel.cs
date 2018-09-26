@@ -9,6 +9,9 @@ namespace TMA.Api.Models.ManageViewModels
     public class ChangePasswordViewModel
     {
         [Required]
+        public string Username { get; set; }
+
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password")]
         public string OldPassword { get; set; }

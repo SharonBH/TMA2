@@ -86,6 +86,7 @@ export const editThisUserAction = (boll) => {
     }
 }
 
+<<<<<<< HEAD
 // change pass Action
 export const changePassOpenAction = (pass) => {
     
@@ -99,5 +100,12 @@ export const changePassAction = (pass) => {
     return {
         type: 'CHANGE_PASSWORD',
         payload: pass
+=======
+// change Password Error Action
+export const changePasswordErrorAction = (error) => {
+    return {
+        type: 'CHANGE_PASSWORD_ERROR',
+        payload: error
+>>>>>>> master
     }
 }

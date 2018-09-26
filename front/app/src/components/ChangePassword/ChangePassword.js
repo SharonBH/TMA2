@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
+
 // import { Link } from 'react-router-dom';
 import classes from '../Register/RegisterComp.scss';
 import chClasses from './ChangePassword.scss';
 // import loginClasses from '/../LogIn/LoginComp.scss';
+
+// import classes from './ChangePassword.scss';
+
 import { connect } from 'react-redux';
 import { changePasswordRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 
+import Spinner from '../Spiner';
+
+
 class ChangePassword extends Component {
     constructor(props) {
         super(props)
         this.state = {
+
             username: '',
             password:'',
             newPassword:'',
@@ -55,10 +63,18 @@ class ChangePassword extends Component {
         
         if (error !== null || this.state.error !== '') {
             return ( <p>{error}  {this.state.error}</p> )
+        }
+    }
+
+    spinner = () => {
+        if (this.props.toggleSpinner) {
+            return <Spinner />
+
         } else {
             return null
         }
     }
+
     successChangeMessage = () => {
         return this.props.messageErr.message !== '' 
         ? <p className={classes.success} style={{display: this.state.display ? 'none' : 'block' }}>
@@ -91,17 +107,22 @@ class ChangePassword extends Component {
         );
     }
     
+
+
 }
 
 const mapStateToProps = (state) => {
     return {
+
         errorMessage: state.editErrorMessageReducer.editErrorMessage,
         messageErr: state.changePassReducer.messageErr,
+
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
+
         changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword)),
         
     }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
-import classes from '../Register/RegisterComp.scss';
-import loginClasses from '../LogIn/LoginComp.scss';
+import classes from './ForgotPassword.scss';
 import { connect } from 'react-redux';
 import { forgotPassRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
@@ -16,9 +14,6 @@ class ForgotPassword extends Component {
         }
     }
     
-    componentDidMount(){
-        console.log(this.props)
-    }
     onChangeValue = (e) => {
         this.setState({email: e.target.value})
     }
@@ -28,9 +23,9 @@ class ForgotPassword extends Component {
         const email = this.state.email
         if(email === ''){
             this.setState({error: 'Must be Email'})
-        }else{
+        } else {
             this.setState({error: ''})
-            this.props.forgotPassRequest(email)
+            this.props.forgotPassRequest(email)           
         }
     }
 
@@ -43,7 +38,6 @@ class ForgotPassword extends Component {
         }
     }
 
-    
     render() {
         return (
             <div className={classes.LogInWrapper}>

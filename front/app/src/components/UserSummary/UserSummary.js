@@ -11,6 +11,7 @@ import Spinner from '../UI/Spinner';
 import ChangePassword from '../ChangePassword/ChangePassword';
 import { changePassOpenAction }  from '../../actions';
 
+
 class UserSummary extends Component {
 
     constructor(props) {
@@ -23,19 +24,21 @@ class UserSummary extends Component {
         const role = this.props.user.role
 
         this.state = {
+            changePassword: false,
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
                 {edit: false, detail: 'User Name', param: username, editInput: username},
                 {edit: false, detail: 'eMail', param: email, editInput: email},
-                {edit: false, detail: 'Password', param: password, editInput: password},
-                {edit: false, detail: 'User Type', param: role,  editInput: role}
+                {edit: false, detail: 'User Type', param: role,  editInput: role},
+                {edit: false, detail: 'Password', param: password, editInput: password}
             ],
         }
         this.editDetail = this.editDetailBtn.bind(this)
     }
 
-    componentDidMount() {
+    componentWillUnmount() {
         this.props.editDeniedAction(null)
+        this.setState({changePassword: false})
     }
 
     editDetailBtn = (index) => {
@@ -67,10 +70,35 @@ class UserSummary extends Component {
         )
     }
 
+    changePassword = () => {
+        setTimeout(() => {
+            this.closeWindowFunc()
+            this.setState({changePassword: true})
+        }, 200)
+    }
+
+    closeWindowFunc = () => {
+        document.addEventListener("click", (evt) => {
+            const forgotPassword = document.querySelector('.ChangePassword__ForgotPassword___2NgBY')
+            const btn = document.querySelectorAll('.UserSummary__ChangePassword___3igf9')
+            let targetEl = evt.target
+            do {
+                if (targetEl === forgotPassword || targetEl === btn) {
+                    return
+                }
+                // Go up the DOM
+                targetEl = targetEl.parentNode;
+            }
+            while (targetEl)
+            this.setState({changePassword: false})
+        });
+    }
+
     detailLine = (item, index) => {
         const detail = item.detail
         const edit = item.edit
         return (
+
             <div key={index} className={classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
@@ -183,6 +211,7 @@ class UserSummary extends Component {
         return (
             <div className={classes.ProfileWrapper}>
                 {this.userSummary(headline, user)}
+                {this.state.changePassword ? <ChangePassword /> : null}
             </div>
         );
     }
