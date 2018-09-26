@@ -22,10 +22,10 @@ import {
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/Login?username=${userName}&password=${password}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Login?username=${userName}&password=${password}`)
             .then((response) => {
                 if(response.data.message === 'Success') {
-                    return axios.post(process.env.REACT_APP_CORS + process.env.REACT_APP_URL + `Account/GetUserAsync?username=${userName}`)
+                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user))
