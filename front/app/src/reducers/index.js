@@ -10,7 +10,7 @@ import editErrorMessageReducer from './editErrorMessageReducer';
 import toggleLoaderReducer from './toggleLoaderReducer';
 import forgotPassReducer from './forgotPassReducer';
 import editUserReducer from './editUserReducer';
-import changePasswordErrorMessageReducer from './changePasswordErrorMessageReducer';
+import changePassReducer from './changePassReducer';
 
 
 const rootReducer = combineReducers({
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
   toggleLoaderReducer: toggleLoaderReducer,
   forgotPassReducer: forgotPassReducer,
   editUserReducer: editUserReducer,
-  changePasswordErrorMessageReducer: changePasswordErrorMessageReducer,
+  changePassReducer: changePassReducer
 
 });
 
