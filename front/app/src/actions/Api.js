@@ -268,7 +268,7 @@ export const forgotPassRequest = (email) => {
 export const changePasswordRequest = (userName, oldPassword, newPassword, confirmNewPassword) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ChangePassword?Username=${userName}&OldPassword=${oldPassword}%40%40A&NewPassword=${newPassword}%40%40A&ConfirmPassword=${confirmNewPassword}&StatusMessage=ret`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ChangePassword?Username=${userName}&OldPassword=${oldPassword}&NewPassword=${newPassword}&ConfirmPassword=${confirmNewPassword}&StatusMessage=ret`)
             .then((response) => {
                 if(response.data.message === 'Success') {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
