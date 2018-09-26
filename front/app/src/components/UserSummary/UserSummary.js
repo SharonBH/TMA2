@@ -7,6 +7,7 @@ import SelectComp from '../UI/SelectComp/SelectComp.js';
 import { editProfileRequest } from '../../actions/Api';
 import { editDeniedAction } from '../../actions';
 import Spinner from '../UI/Spinner';
+import ChangePassword from '../ChangePassword';
 
 class UserSummary extends Component {
 
@@ -20,12 +21,13 @@ class UserSummary extends Component {
         const role = this.props.user.role
 
         this.state = {
+            changePassword: false,
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
                 {edit: false, detail: 'User Name', param: username, editInput: username},
                 {edit: false, detail: 'eMail', param: email, editInput: email},
-                {edit: false, detail: 'Password', param: password, editInput: password},
-                {edit: false, detail: 'User Type', param: role,  editInput: role}
+                {edit: false, detail: 'User Type', param: role,  editInput: role},
+                {edit: false, detail: 'Password', param: password, editInput: password}
             ],
         }
         this.editDetail = this.editDetailBtn.bind(this)
@@ -33,6 +35,7 @@ class UserSummary extends Component {
 
     componentDidMount() {
         this.props.editDeniedAction(null)
+        this.setState({changePassword: false})
     }
 
     editDetailBtn = (index) => {
@@ -63,41 +66,78 @@ class UserSummary extends Component {
         )
     }
 
+    changePassword = () => {
+        setTimeout(() => {
+            this.closeWindowFunc()
+            this.setState({changePassword: true})
+        }, 200)
+    }
+
+    closeWindowFunc = () => {
+        document.addEventListener("click", (evt) => {
+            const forgotPassword = document.querySelector('.ChangePassword__ForgotPassword___2NgBY')
+            const btn = document.querySelectorAll('.UserSummary__ChangePassword___3igf9')
+            let targetEl = evt.target
+            do {
+                if (targetEl === forgotPassword || targetEl === btn) {
+                    return
+                }
+                // Go up the DOM
+                targetEl = targetEl.parentNode;
+            }
+            while (targetEl)
+            this.setState({changePassword: false})
+        });
+    }
+
     detailLine = (item, index) => {
         const detail = item.detail
         const edit = item.edit
         return (
             <div key={index}>
-                <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
-                    this.state.userDetailsArr[index].edit
-                    ? <div className={classes.EditInput}>
-                        {
-                            detail === 'User Type'
-                            ? <SelectComp 
-                                onChange={(e) => this.editDetailInput(index, e)}
-                                options={['user', 'admin']}
-                                placeholder='Select User Type'
+                    detail === 'Password'
+                    ?   <div className={classes.ChangePassword}>
+                            <BtnComp 
+                                className={classes.smallBtn} 
+                                inputType="submit" 
+                                content={'Change Password'} 
+                                onClick={this.changePassword}
+                            />
+                        </div>
+                    :   <div>
+                            <label className={classes.HeadLine} name={detail}>{detail}:</label>
+                            {
+                                this.state.userDetailsArr[index].edit
+                                ? <div className={classes.EditInput}>
+                                    {
+                                        detail === 'User Type'
+                                        ? <SelectComp 
+                                            onChange={(e) => this.editDetailInput(index, e)}
+                                            options={['user', 'admin']}
+                                            placeholder='Select User Type'
+                                            />
+                                        : <InputComp 
+                                            inputType={'text'}
+                                            name={detail} 
+                                            placeholder={detail} 
+                                            content={this.state.userDetailsArr[index].editInput}
+                                            onChange={(e) => this.editDetailInput(index, e)}
+                                            />
+                                    } 
+                                </div> 
+                                : <span>{item.param}</span>
+                            }
+                            <div className={classes.EditBtn}>
+                                <BtnComp 
+                                    className={classes.smallBtn} 
+                                    inputType="submit" 
+                                    content={edit ? 'Not Now' : 'Edit'} 
+                                    onClick={() => this.editDetailBtn(index)}
                                 />
-                            : <InputComp 
-                                inputType={'text'}
-                                name={detail} 
-                                placeholder={detail} 
-                                content={this.state.userDetailsArr[index].editInput}
-                                onChange={(e) => this.editDetailInput(index, e)}
-                                />
-                        } 
-                      </div> 
-                    : <span>{item.param}</span>
+                            </div>
+                        </div>
                 }
-                <div className={classes.EditBtn}>
-                    <BtnComp 
-                        className={classes.smallBtn} 
-                        inputType="submit" 
-                        content={edit ? 'Not Now' : 'Edit'} 
-                        onClick={() => this.editDetailBtn(index)}
-                    />
-                </div>
             </div>
         )
     }
@@ -146,6 +186,7 @@ class UserSummary extends Component {
         return (
             <div className={classes.ProfileWrapper}>
                 {this.userSummary(headline, user)}
+                {this.state.changePassword ? <ChangePassword /> : null}
             </div>
         );
     }

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { changePasswordRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
+import Spinner from '../Spiner';
 
 class ChangePassword extends Component {
     constructor(props) {
@@ -23,13 +24,13 @@ class ChangePassword extends Component {
     }
     
     onChangeOldPassword = (e) => {
-        this.setState({oldEmail: e.target.value})
+        this.setState({oldPassword: e.target.value})
     }
     onChangeNewPassword = (e) => {
-        this.setState({newEmail: e.target.value})
+        this.setState({newPassword: e.target.value})
     }
     onChangeConfirmNewPassword = (e) => {
-        this.setState({confirmNewEmail: e.target.value})
+        this.setState({confirmNewPassword: e.target.value})
     }
 
     changePasswordRequest = (e, header) => {
@@ -55,20 +56,33 @@ class ChangePassword extends Component {
                 {
                     header === 'reset password' 
                     ? null
-                    : <InputComp inputType='password' name='Old Password' placeholder='Old Password' onChange={this.onChangeOldPassword} content={this.state.oldPassword}/>
+                    : <InputComp inputType='password' name='Old Password' placeholder='Old Password' onChange={(e) => this.onChangeOldPassword(e)} content={this.state.oldPassword}/>
                 }
-                <InputComp inputType='password' name='New Password' placeholder='New Password' onChange={this.onChangeNewPassword} content={this.state.newPassword}/>
-                <InputComp inputType='password' name='Confirm New Password' placeholder='Confirm New Password' onChange={this.onChangeConfirmNewPassword} content={this.state.confirmNewPassword}/>
+                <InputComp inputType='password' name='New Password' placeholder='New Password' onChange={(e) => this.onChangeNewPassword(e)} content={this.state.newPassword}/>
+                <InputComp inputType='password' name='Confirm New Password' placeholder='Confirm New Password' onChange={(e) => this.onChangeConfirmNewPassword(e)} content={this.state.confirmNewPassword}/>
                 <BtnComp inputType='button' content='Send' onClick={(e) => this.changePasswordRequest(e, header)}/>
             </div>
         );
+    }
+
+    spinner = () => {
+        if (this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
     }
 
     render() {
         const { header } = this.props
         return (
             <div className={classes.ForgotPasswordWrapper}>
-                {this.changePassword(header)}
+                {this.spinner()}
+                {
+                    header === 'reset password' 
+                    ? <div>{this.changePassword(header)}</div>
+                    : <div className={classes.popUp}>{this.changePassword(header)}</div>
+                }
             </div>
         )
     }
@@ -83,7 +97,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        changePasswordRequest: (payload) => dispatch(changePasswordRequest(payload)),
+        changePasswordRequest: (userName, oldPassword, newPassword, confirmNewPassword) => dispatch(changePasswordRequest(userName, oldPassword, newPassword, confirmNewPassword)),
     }
 }
 
