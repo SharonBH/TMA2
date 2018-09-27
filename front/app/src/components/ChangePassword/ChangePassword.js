@@ -76,8 +76,14 @@ class ChangePassword extends Component {
     }
 
     successChangeMessage = () => {
+        const displayStyleTrue = 'display: none';
+        const displayStyleFalse = 'display: block'; 
+
+        const style = ( this.state.display === false ? displayStyleTrue : displayStyleFalse )
+        console.log('12212', style)
+
         return this.props.messageErr.message !== '' 
-        ? <p className={classes.success} style={{display: this.state.display ? 'none' : 'block' }}>
+        ? <p className={classes.success}>
             <span>{this.props.messageErr.message}
                 <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
             </span>
@@ -89,7 +95,7 @@ class ChangePassword extends Component {
     }
     
     render() {
-        console.log('123123', this.props.messageErr)
+        console.log('123123', this.props)
         return (
             <div className={chClasses.changePassWrapper}>
                 <div className={chClasses.changePass}>

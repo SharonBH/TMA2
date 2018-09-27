@@ -40,8 +40,8 @@ class ForgotPassword extends Component {
 
     render() {
         return (
-            <div className={classes.LogInWrapper}>
-                <div className={classes.forgotPass}>
+            <div className={classes.ForgotPasswordWrapper}>
+                <div className={classes.ForgotPassword}>
                     <h1>Forgot Password?</h1>
                     <h3>Enter email to reset password</h3>
                     <p className={classes.error}>{this.state.error}</p>
