@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: tmaapi
-        image: bhcontreg.azurecr.io/tournamentmanagementapptmaapi:#{Release.Artifacts.TMA-API-Docker-container-CI.BuildId}#
+        image: bhcontreg.azurecr.io/tournamentmanagementapptmaapi:#{$(Release.Artifacts.{alias}.BuildId)}#
         ports:
         - containerPort: 80
         resources:
