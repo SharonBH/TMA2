@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from '../Register/RegisterComp.scss';
-import loginClasses from '../Login/LoginComp.scss';
+import loginClasses from '../LogIn/LoginComp.scss';
 import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
@@ -96,7 +96,7 @@ class LogIn extends Component {
             this.setState({forgotPassword: false})
         });
     }
-
+    
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
