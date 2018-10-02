@@ -36,7 +36,7 @@ class UserSummary extends Component {
         this.state = {
             currentUser: '',
             changePassword: false,
-            password: userData.password,
+            password: password,
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
                 {edit: false, detail: 'User Name', param: username, editInput: username},
