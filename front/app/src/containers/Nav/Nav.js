@@ -4,7 +4,6 @@ import classes from './Nav.scss';
 import logo from '../../logo_sign.svg';
 import { connect } from 'react-redux';
 import { getUserAction } from '../../actions';
-// import { accountLogout } from '../../actions/Api';
 
 export class Nav extends Component {
 
@@ -14,24 +13,23 @@ export class Nav extends Component {
 
     logout = () => {
         this.props.getUserAction(null)
-        // this.props.accountLogout()
+        localStorage.clear();
+        sessionStorage.clear();
     }
 
     navLinks = () => {
-        if(this.props.currentUser === null) {
-            return (
-                <div className={classes.innerNav}>
-                    <Link to='/' className={classes.navLink}>
-                        <i className="fas fa-sign-in-alt"></i><span>Sign In</span>
-                        {/* {this.state.navState ? <span>Sign In</span> : null} */}
-                    </Link>
-                    <Link to='/register' className={classes.navLink}>
-                        <i className="fas fa-edit"></i><span>Register</span>
-                        {/* {this.state.navState ? <span>Register</span> : null} */}
-                    </Link>
-                </div>
-            )
-        } else {
+        // if(this.props.currentUser === null) {
+        //     return (
+        //         <div className={classes.innerNav}>
+        //             <Link to='/' className={classes.navLink}>
+        //                 <i className="fas fa-sign-in-alt"></i><span>Sign In</span>
+        //             </Link>
+        //             <Link to='/register' className={classes.navLink}>
+        //                 <i className="fas fa-edit"></i><span>Register</span>
+        //             </Link>
+        //         </div>
+        //     )
+        // } else {
             return (
                 <div className={classes.innerNav}>
                     <Link to='/profile' className={classes.navLink}>
@@ -45,7 +43,7 @@ export class Nav extends Component {
                     </Link>
                 </div>
             )
-        }
+        // }
     }
 
     helloUser = () => {
@@ -71,7 +69,6 @@ export class Nav extends Component {
                 {this.helloUser()}
                 <Link to='/home' className={classes.navLink}>
                     <i className="fas fa-home"></i><span>Home</span>
-                    {/* {this.state.navState ? <span>Home</span> : null} */}
                 </Link> 
                 {this.navLinks()}
                 <span className={classes.Menu} onClick={this.navState}>
