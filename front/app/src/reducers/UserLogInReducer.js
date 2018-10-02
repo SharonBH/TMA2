@@ -1,11 +1,16 @@
+const session = JSON.parse(sessionStorage.getItem('session'));
+const sessionData = session === null ? null : session
+
 const InitialState = {
-    currentUser: null
+    
+    currentUser: sessionData
 }
 
 const UserLogInReducer = (state = InitialState, action) => {
     switch (action.type) {
 
         case 'GET_USER':
+            
             const user = action.payload
             return {
                 ...state,
@@ -13,6 +18,7 @@ const UserLogInReducer = (state = InitialState, action) => {
             }
         default:
     }
+    console.log('111', InitialState)
     return state;
 }
 
