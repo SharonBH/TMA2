@@ -2,44 +2,59 @@ import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
+import EditBtn from '../UI/BtnComp/EditBtn';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
-import { editProfileRequest } from '../../actions/Api';
+import { editProfileRequest, changePasswordRequest } from '../../actions/Api';
 import { editDeniedAction } from '../../actions';
 import Spinner from '../UI/Spinner';
-import ChangePassword from '../ChangePassword';
+import ChangePassword from '../ChangePassword/ChangePassword';
+import { changePassOpenAction }  from '../../actions';
+import history  from '../../configuration/history';
+import store  from '../../configuration/store';
+
 
 class UserSummary extends Component {
 
     constructor(props) {
         super(props)
 
-        const name = this.props.user.name
-        const username = this.props.user.username
-        const email = this.props.user.email
-        const password = this.props.user.password
-        const role = this.props.user.role
+        // const userList = ''
+        // if(this.props.user !== '' || this.props.user !== null || this.props.user !== undefined){
+        //    userList = this.props.user 
+        // } else {
+        //    userList = this.state.currentUser 
+        // }
+        const userData = this.props.user
+
+        const name = userData.name
+        const username = userData.username
+        const email = userData.email
+        const password = userData.password
+        const role = userData.role
 
         this.state = {
+            currentUser: '',
             changePassword: false,
+            password: password,
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
                 {edit: false, detail: 'User Name', param: username, editInput: username},
                 {edit: false, detail: 'eMail', param: email, editInput: email},
                 {edit: false, detail: 'User Type', param: role,  editInput: role},
-                {edit: false, detail: 'Password', param: password, editInput: password}
             ],
         }
         this.editDetail = this.editDetailBtn.bind(this)
     }
-
-    componentDidMount() {
+    
+    componentWillUnmount() {
         this.props.editDeniedAction(null)
         this.setState({changePassword: false})
     }
 
     editDetailBtn = (index) => {
         const details = Object.assign([], this.state.userDetailsArr)
+       
         if(details[index].edit) {
             details[index].edit = false
         } else {
@@ -62,7 +77,7 @@ class UserSummary extends Component {
             this.state.userDetailsArr[1].editInput,
             this.state.userDetailsArr[2].editInput,
             this.state.userDetailsArr[3].editInput,
-            this.state.userDetailsArr[4].editInput,
+            this.state.password
         )
     }
 
@@ -73,74 +88,64 @@ class UserSummary extends Component {
         }, 200)
     }
 
-    closeWindowFunc = () => {
-        document.addEventListener("click", (evt) => {
-            const forgotPassword = document.querySelector('.ChangePassword__ForgotPassword___2NgBY')
-            const btn = document.querySelectorAll('.UserSummary__ChangePassword___3igf9')
-            let targetEl = evt.target
-            do {
-                if (targetEl === forgotPassword || targetEl === btn) {
-                    return
-                }
-                // Go up the DOM
-                targetEl = targetEl.parentNode;
-            }
-            while (targetEl)
-            this.setState({changePassword: false})
-        });
-    }
-
     detailLine = (item, index) => {
         const detail = item.detail
         const edit = item.edit
         return (
-            <div key={index}>
+
+            <div key={index} className={classes.wrappLine}>
+                <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
-                    detail === 'Password'
-                    ?   <div className={classes.ChangePassword}>
-                            <BtnComp 
-                                className={classes.smallBtn} 
-                                inputType="submit" 
-                                content={'Change Password'} 
-                                onClick={this.changePassword}
+                    this.state.userDetailsArr[index].edit
+                    ? <div className={classes.EditInput}>
+                        {
+                            detail === 'User Type'
+                            ? <SelectComp 
+                                onChange={(e) => this.editDetailInput(index, e)}
+                                options={['user', 'admin']}
+                                placeholder='Select User Type'
                             />
-                        </div>
-                    :   <div>
-                            <label className={classes.HeadLine} name={detail}>{detail}:</label>
-                            {
-                                this.state.userDetailsArr[index].edit
-                                ? <div className={classes.EditInput}>
-                                    {
-                                        detail === 'User Type'
-                                        ? <SelectComp 
-                                            onChange={(e) => this.editDetailInput(index, e)}
-                                            options={['user', 'admin']}
-                                            placeholder='Select User Type'
-                                            />
-                                        : <InputComp 
-                                            inputType={'text'}
-                                            name={detail} 
-                                            placeholder={detail} 
-                                            content={this.state.userDetailsArr[index].editInput}
-                                            onChange={(e) => this.editDetailInput(index, e)}
-                                            />
-                                    } 
-                                </div> 
-                                : <span>{item.param}</span>
-                            }
-                            <div className={classes.EditBtn}>
-                                <BtnComp 
-                                    className={classes.smallBtn} 
-                                    inputType="submit" 
-                                    content={edit ? 'Not Now' : 'Edit'} 
-                                    onClick={() => this.editDetailBtn(index)}
-                                />
-                            </div>
-                        </div>
+                            : <InputComp 
+                                inputType={'text'}
+                                name={detail} 
+                                placeholder={detail} 
+                                content={this.state.userDetailsArr[index].editInput}
+                                onChange={(e) => this.editDetailInput(index, e)}
+                            />
+                        } 
+                      </div> 
+                    : <span>{item.param}</span>
                 }
+                <div className={classes.BTN}>
+
+                    <i className={ 
+                        edit 
+                            ?  classes.active + ' fas fa-pen' 
+                            : classes.notActive + ' fas fa-pen'  } 
+                        onClick={() => this.editDetailBtn(index)}>
+                    </i>
+                </div>
             </div>
         )
     }
+    closeWindowFunc = () => {
+        document.addEventListener("click", (evt) => {
+            const changePassword = document.querySelector('.ChangePassword__changePass___3KRMY')
+            const btn = document.querySelectorAll('.BtnComp__sendBtn___398uD')
+            let targetEl = evt.target
+            do {
+                if (targetEl === changePassword || targetEl === btn) {
+                    return 
+                }
+                targetEl = targetEl.parentNode;
+                // Go up the DOM
+            }
+            while (targetEl)
+            return  this.props.changePassOpenAction(false) || (this.props.messageErr(false))
+            
+        });
+    }
+
 
     errorMessage = () => {
         const error = this.props.errorMessage
@@ -150,6 +155,7 @@ class UserSummary extends Component {
             return null
         }
     }
+    
 
     spinner = () => {
         if (this.props.toggleSpinner) {
@@ -159,6 +165,17 @@ class UserSummary extends Component {
         }
     }
 
+    changePassBtn = (username) => {
+        setTimeout(() => {
+            this.props.changePassOpenAction(true)
+            this.closeWindowFunc()
+            
+        }, 200)
+    }
+
+    changePass = () => {
+        return <ChangePassword headline='Change Password' classStr='none' />
+    }
     userSummary = (headline, user) => {
         const name = user.name.charAt(0).toUpperCase() + user.name.slice(1)
         return (
@@ -171,17 +188,20 @@ class UserSummary extends Component {
                 {this.errorMessage()}
                 <span className={classes.SubmitAll}>
                     <BtnComp 
-                        className={classes.smallBtn} 
+                        className={classes.editBtn} 
                         inputType="submit" 
                         content='Submit All Changes'
                         onClick={this.submitAllChangesDetails}
                     />
                 </span>
+                <span className={classes.changePass} onClick={this.changePassBtn}>Change Password</span>
+                {this.props.passwords ? this.changePass() : null}
             </div>
         )
     }
 
     render() {
+        console.log('summery', this.props)
         const { headline, user } = this.props
         return (
             <div className={classes.ProfileWrapper}>
@@ -196,6 +216,9 @@ const mapStateToProps = (state) => {
     return {
         errorMessage: state.editErrorMessageReducer.errorMessage,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
+        passwords: state.changePassReducer.passwords,
+        messageErr: state.changePassReducer.messageErr,
+        currentUser: state.UserLogInReducer.currentUser
     }
 }
 
@@ -203,6 +226,8 @@ const mapDispatchToProps = dispatch => {
     return {
         editProfileRequest: (name, userName, email, password, userType) => dispatch(editProfileRequest(name, userName, email, password, userType)),
         editDeniedAction: payload => dispatch(editDeniedAction(payload)),
+        changePassOpenAction: payload => dispatch(changePassOpenAction(payload)),
+        changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword))
     }
 }
 

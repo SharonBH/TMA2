@@ -67,6 +67,8 @@ export const deleteUserAction = (data) => {
         payload: data
     }
 }
+
+//forgot pass Action
 export const forgotPassAction = (data) => {
     console.log('action', data)
     return {
@@ -84,10 +86,18 @@ export const editThisUserAction = (boll) => {
     }
 }
 
-// change Password Error Action
-export const changePasswordErrorAction = (error) => {
+// change pass Action
+export const changePassOpenAction = (pass) => {
+    
     return {
-        type: 'CHANGE_PASSWORD_ERROR',
-        payload: error
+        type: 'CHANGE_PASSWORD_OPEN',
+        payload: pass
+    }
+}
+export const changePassAction = (pass) => {
+    
+    return {
+        type: 'CHANGE_PASSWORD',
+        payload: pass
     }
 }

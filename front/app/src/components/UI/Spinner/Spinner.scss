@@ -5,6 +5,7 @@
     height: 100%;
     top: 0;
     left: 0;
+    z-index: 9999;
     
     div.spinnerBg {
         background: #00000061;
@@ -13,7 +14,7 @@
         position: absolute;
         top: 0;
     }
-    &>span{
+    & > span{
         top: 200px;
     }
 }

@@ -5,17 +5,27 @@
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    min-height: 100ch;
+    min-height: 100vh;
     color: $black;
-    
+    .forgotPass{
+        display: inline-block;
+        margin-top: 60px; 
+        .forgotBtn{
+            margin-top: 20px;
+            input[type=button]{
+                width: 100%;
+            }
+        }
+    }
     .Register, .LogIn {
         width: 40%;
         min-width: 400px;
         max-width: 500px;
-        margin-top: 40px;
-        max-height: 500px;
+        margin-top: 50px;
         padding: 20px;
         background-color: $white;
+        height: auto;
+        display: inline-table;
         
         h1 {
             width: 100%;

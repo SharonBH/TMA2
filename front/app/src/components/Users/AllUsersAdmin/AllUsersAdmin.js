@@ -8,9 +8,8 @@ import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import PropTypes from 'prop-types';
 import Register from '../../Register';
-import { usersListRequest, DeleteUserRequest } from '../../../actions/Api';
+import { DeleteUserRequest } from '../../../actions/Api';
 import Spinner from '../../UI/Spinner';
-import UserSummary from '../../UserSummary';
 import EditUser from '../EditUser/EditUser';
 import { addNewUserAction, editThisUserAction}  from '../../../actions';
 // import {  getUsersListAction } from '../../../actions';
@@ -24,13 +23,15 @@ export class AllUsersAdmin extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            userInEditMode: null
+            userInEditMode: null,
+            display: false
         }
         this.editUserBtn = this.editUserBtn.bind(this)
         this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
-    
-    
+    componentDidMount(){
+        this.props.takeAllUsers()
+    }
 
     DeleteUserBtn = (item) => {
         this.setState({userInEditMode: null})
@@ -38,16 +39,13 @@ export class AllUsersAdmin extends Component {
     }
 
     editUserBtn = (item) => {
-        console.log('1111', item)
         this.setState({userInEditMode: item})
-        
         setTimeout(() => {
             this.closeWindowFunc()
             this.props.editThisUserAction(true)
         }, 200)
 
     }
-
     addUserBtn = () => {
         setTimeout(() => {
             this.closeWindowFunc()
@@ -85,75 +83,63 @@ export class AllUsersAdmin extends Component {
             return null
         }
     }
-
+    
     addUserComp = () => {
         return <Register headline='Add User' classStr='none' />
     }
-// <<<<<<< HEAD
-//     deleteUserClick = (userName) => {
-//         const someName = userName.username
-//         this.props.deleteUser(someName)
-        
-// =======
 
     editUserComp = () => {
         return <EditUser headline='Edit' user={this.state.userInEditMode}/>
     }
-
-
-    componentDidMount(){
-        this.props.takeAllUsers()
+    successDeleteMessage = () => {
+        return this.props.message !== '' 
+        ? <p className={classes.success} style={{display: this.state.display ? 'none' : 'block' }}>
+            <span>{this.props.message}
+                <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
+            </span>
+        </p>
+        : null 
     }
-    // ulserList = () => {
-    //     if(this.props.usersList === null) {
-    //         return null
-    //     } else {
-    //         return this.props.usersList.map((item, index) => {
-    //             return <li key={index}>
-    //                 <div className={classes.username}>{item.name}</div>
-    //                 <div className={classes.email}>{item.email}</div>
-    //                 <div className={classes.role}>{item.role}</div>
-    //                 <div id={index} className={classes.EditBtn}>
-    //                     <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
-    //                 </div>
-    //                 <div id={index} className={classes.EditBtn}>
-    //                     <BtnComp inputType="submit" content='Delete' onClick={() => this.DeleteUserBtn(item)}/>
-    //                 </div>
-    //             </li>
-    //         })
-    //     }
-    // }
+    closeMessage = () => {
+        // this.setState({ display: true });
+        this.props.message = ''
+    }
+    
+
     ulserList = () => {
         return this.props.allUsersList.map((item, index) => {
             return <li key={index}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
-                {/* <div className={classes.role}>{item.role === 'Admin' ? item.role = 'Admin' : item.role = '' }</div> */}
-                <div className={classes.role}>{item.role}</div>
                 <div className={classes.email}>{item.username}</div>
-                <div id={index}>
-                    {<EditBtn inputType="button" content='Edit' onClick={(item)=>this.editUserBtn(item)}/>}
-                </div>
-                
-                 {/* <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link> */}
-                 <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
+                <div className={classes.role}>{item.role/* === 'Admin' ? item.role = 'Admin' : item.role = ''*/ }</div>
+                <div id={index} className={classes.allUsButtons}>
+                    <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/></Link>
+                    {/* <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link> */}
+                    
+                    <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
+                 </div>
             </li>
         })
     }
     
     render (){
+        console.log('6666', this.props)
         return (
             <div className={classes.usersWrapper}>
+                {this.successDeleteMessage()}
                 {this.spinner()}
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
+                    <div className={classes.email}>User Name</div>
                     <div className={classes.role}></div>
-                    <div className={classes.email}>userName</div>
-                    <BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/>
+                    <div className={classes.addBtn}><BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/></div>
                 </div> 
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
+
+
                 {this.props.editThisUser ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
             </div>
 
@@ -168,9 +154,11 @@ const mapStateToProps = (state) => {
         addUser: state.addNewUserReducer.addUser,
         editThisUser: state.editUserReducer.editThisUser,
         newUsers: state.userReducer.newUsers,
+        message: state.userReducer.message,
 // =======
         // usersList: state.usersListReducer.usersList,
-
+        
+// >>>>>>> ad4a9475ebd43fe2e51768b0f2756d585a03e341
     }
 }
 
@@ -179,10 +167,12 @@ const mapDispatchToProps = dispatch => {
     return{
        takeAllUsers: payload => dispatch(takeAllUsers(payload)),
        addNewUserAction: payload => dispatch(addNewUserAction(payload)),
-       DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
+       DeleteUserRequest: (item) => dispatch(DeleteUserRequest(item)),
     //    deleteUser: (userName) => dispatch(deleteUser(userName)),
     //    getUsersListAction: payload => dispatch(getUsersListAction(payload)),
-    //    usersListRequest: payload => dispatch(usersListRequest(payload)),
+
+
+        // usersListRequest: payload => dispatch(usersListRequest(payload)),
         editThisUserAction: payload => dispatch(editThisUserAction(payload)),
 
     }

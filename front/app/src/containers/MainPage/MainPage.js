@@ -3,8 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { HomePage } from '../HomePage/HomePage';
 import  AllUsersAdmin  from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
-import  EditUser  from '../../components/Users/EditUser/EditUser';
-import LogIn from '../../components/LogIn';
+import Login from '../../components/LogIn';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
 import NotFound from '../../components/NotFound';
@@ -23,7 +22,7 @@ export class MainPage extends Component {
                 <Route
                     exact
                     path='/'
-                    component={() => <LogIn />}
+                    component={() => <Login />}
                 />
                 <Route
                     path='/register'
@@ -43,7 +42,7 @@ export class MainPage extends Component {
                 />
                 <Route
                     path='/edit_user/:userName'
-                    component={EditUser}
+                    component={AllUsersAdmin}
                 />
                 <Route
                     path='/not_found'
