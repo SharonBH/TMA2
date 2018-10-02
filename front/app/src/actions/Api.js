@@ -14,9 +14,7 @@ import {
     forgotPassAction,
     changePassAction,
     changePassOpenAction
-
 } from './index';
-
 
 // login request
 export const loginRequest = (userName, password) => {
@@ -33,9 +31,7 @@ export const loginRequest = (userName, password) => {
                             history.push({pathname: '/home', state:[response.data]})
                         })
                         .catch((error) => {
-                            console.log([error][0]);
-                            dispatch(catchErrorAction(error))
-                            history.push({pathname: '/not_found'})
+                            dispatch(catchErrorAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
@@ -45,9 +41,7 @@ export const loginRequest = (userName, password) => {
                 }
             })
             .catch((error) => {
-                console.log([error][0]);
-                dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                dispatch(catchErrorAction([error][0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -69,8 +63,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                         })
                         .catch((error) => {
                             console.log([error][0]);
-                            dispatch(catchErrorAction(error))
-                            history.push({pathname: '/not_found'})
+                            dispatch(catchErrorAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
@@ -81,8 +74,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
             })
             .catch((error) => {
                 console.log([error][0]);
-                dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                dispatch(catchErrorAction([error][0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -106,8 +98,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
             })
             .catch((error) => {
                 console.log([error][0]);
-                dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                dispatch(catchErrorAction([error][0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -126,9 +117,7 @@ export const takeAllUsers = () => {
                     dispatch(toggleLoaderAction(false))
             })
             .catch((error) => {
-                console.log([error][0]);
-                dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                dispatch(catchErrorAction([error][0]))
                 dispatch(toggleLoaderAction(false))
 
             });  
@@ -152,8 +141,7 @@ export const editThisUserAction = (email, name, userType, userName) => {
                             history.push({pathname: '/profile'})
                         })
                         .catch((error) => {
-                            console.log([error][0]);
-                            dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+                            dispatch(editDeniedAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
@@ -164,8 +152,8 @@ export const editThisUserAction = (email, name, userType, userName) => {
             })
             .catch((error) => {
                 console.log([error][0]);
-                dispatch(catchErrorAction(error))
-                dispatch(editDeniedAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+                dispatch(catchErrorAction([error][0]))
+                dispatch(editDeniedAction([error][0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -188,7 +176,7 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
                        })
                        .catch((error) => {
                            console.log([error][0]);
-                           dispatch(editDeniedAction(error))
+                           dispatch(editDeniedAction([error][0]))
                            dispatch(toggleLoaderAction(false))
                        });
                } else {
@@ -199,32 +187,17 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
            })
            .catch((error) => {
                console.log([error][0])
-               dispatch(catchErrorAction(error))
-               dispatch(editDeniedAction(error))
+               dispatch(catchErrorAction([error][0]))
+               dispatch(editDeniedAction([error][0]))
                dispatch(toggleLoaderAction(false))
            });
    }
 };
 
-// Account Logout
-// export const accountLogout = () => {
-//     return (dispatch) => {
-//         return axios.get(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Logout`)
-//             .then((response) => {
-//                 console.log(response)
-//             })
-//             .catch((error) => {
-//                 console.log([error][0]);
-//             });
-//     }
-// };
-
-
 // delete user
 export const DeleteUserRequest = (userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        // return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
             .then((response) => {
                 if(response.data.response === 'Success') {
@@ -236,8 +209,7 @@ export const DeleteUserRequest = (userName) => {
             })
             .catch((error) => {
                 console.log([error][0]);
-                dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                dispatch(catchErrorAction([error][0]))
             });
     }
 };
@@ -260,8 +232,7 @@ export const forgotPassRequest = (email) => {
             })
             .catch((error) => {
                 console.log([error][0]);
-                dispatch(catchErrorAction(error))
-                history.push({pathname: '/not_found'})
+                dispatch(catchErrorAction([error][0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -270,7 +241,7 @@ export const forgotPassRequest = (email) => {
 // change Password Request
 export const changePasswordRequest = (username, password, newPassword, confirmPassword) => {
     return (dispatch) => {
-        // dispatch(toggleLoaderAction(true))
+        dispatch(toggleLoaderAction(true))
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ChangePassword?Username=${username}&OldPassword=${password}&NewPassword=${newPassword}&ConfirmPassword=${confirmPassword}`)
             .then((response) => {
                 console.log('pass sent to email', response)
@@ -287,8 +258,7 @@ export const changePasswordRequest = (username, password, newPassword, confirmPa
             })
             .catch((error) => {
                 console.log(error);
-                dispatch(catchErrorAction(error))
-                // history.push({pathname: '/not_found'})
+                dispatch(catchErrorAction([error][0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
