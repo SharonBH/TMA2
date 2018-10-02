@@ -1,66 +1,89 @@
 @import '../../styles/colors.scss';
 
-.RegisterWrapper {
+.RegisterWrapper, .LogInWrapper {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    min-height: 100vh;
-    background-color: $light-gray;
-    color: $blue;
-}
+    min-height: 100ch;
+    color: $black;
+    
+    .Register, .LogIn {
+        width: 40%;
+        min-width: 400px;
+        max-width: 500px;
+        margin-top: 40px;
+        max-height: 500px;
+        padding: 20px;
+        background-color: $white;
+        
+        h1 {
+            width: 100%;
+        }
 
-.Register {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 40%;
-}
+        form {
+            width: 100%;
+            margin: 0 0 25px 0;
+            display: block;
+        }
 
-.Register > a {
-    display: flex;
-    width: 100%;
-    text-decoration: none;
-    color: $blue;
-    font-weight: 600;
-    margin: 0;
-    padding: 0;
-}
+        input, select{
+            width: 100%;
+            height: 35px;
+            font-size: 14px;
+            padding: 5px 5px;
+            border: 0;
+            border-bottom: 1px solid #999;
+            margin: 10px 0 5px;
+            color: #000;
+            display: inline-block;
+            
+            &::placeholder {
+                color: $dark-gray
+            }
+        }
 
-.Register h1 {
-    width: 100%;
-    margin-top: 60px;
-}
+        select{
+            padding: 5px 0px;
+        }
 
-.Register form {
-    width: 80%;
-    margin: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.Register input, select {
-    width: 100%;
-    height: 30px;
-    margin: 10px;
-}
-
-.Register input[name='login'] {
-    width: 100%;
-    height: 50px;
-    margin: 10px;
-}
-
-.Register h2 {
-    width: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-}
-
-.Register h3 {
-    width: 100%;
-    margin: 5px;
+        h3 {
+            width: 100%;
+            margin: 5px 0;
+        }
+        input[type="submit"] {
+            background: #03a3d0;
+            color: #fff;
+            font-size: 16px;
+            &:hover{
+                background: #999;
+            }
+        }
+        input[name='remember'] {
+            width: 20px;
+        }
+        a {
+            display: inline-block;
+            color: $blue;
+            font-weight: 600;
+            margin: 0;
+            padding: 0;
+            &:hover{
+                color: #999;
+            }
+        }
+        h2 {
+            display: inline-block;
+            margin: 10px 5px;
+            
+        }
+        
+        
+    }
+    .LogIn{
+        margin-top: 100px;
+    }
+    .error{
+        color: red
+    }
 }

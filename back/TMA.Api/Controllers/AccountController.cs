@@ -12,7 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using TMA.Api.Models;
 using TMA.Api.Models.AccountViewModels;
+using TMA.Api.Models.ManageViewModels;
 using TMA.Api.Services;
+using TMA.DAL;
 
 namespace TMA.Api.Controllers
 {
@@ -54,18 +56,25 @@ namespace TMA.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string username, string password)
         {
-            var result = await _signInManager.PasswordSignInAsync(username, password, true, false);
-            if (result.Succeeded)
-                return Json(new { Response = "Success", Message = "Success" });
+            try
+            {
+                var result = await _signInManager.PasswordSignInAsync(username, password, true, false);
+                if (result.Succeeded)
+                    return Json(new { Response = "Success", Message = "Success" });
 
-            else if (result.RequiresTwoFactor)
-                return Json(new { Response = "Error", Message = "RequiresTwoFactor" });
+                else if (result.RequiresTwoFactor)
+                    return Json(new { Response = "Error", Message = "Requires Two Factor Authentication." });
 
-            else if (result.IsLockedOut)
-                return Json(new { Response = "Error", Message = "IsLockedOut" });
+                else if (result.IsLockedOut)
+                    return Json(new { Response = "Error", Message = "Ther user is locked." });
 
-            else
-                return Json(new { Response = "Error", Message = "Invalid login attempt." });
+                else
+                    return Json(new { Response = "Error", Message = "Invalid login attempt." });
+            }
+            catch (Exception ex)
+            {
+                    return Json(new { Response = "Error", Message = ex.Message });
+            }
         }
 
         #region Not relevant for now
@@ -280,32 +289,51 @@ namespace TMA.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(UserModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = new ApplicationUser
+                if (ModelState.IsValid)
                 {
-                    UserName = model.Username,
-                    Email = model.Email,
-                    Name = model.Name
-                };
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Username,
+                        Email = model.Email,
+                        Name = model.Name
+                    };
 
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
+                    var result = await _userManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
 
-                    var currentUser = await _userManager.FindByNameAsync(user.UserName);
-                    var roleresult = await _userManager.AddToRoleAsync(currentUser, model.Role);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
-                    return Json(new { Response = "Success", Message = "User created successfully." });
+                        var currentUser = await _userManager.FindByNameAsync(user.UserName);
+                        var roleresult = await _userManager.AddToRoleAsync(currentUser, model.Role);
+                        if (roleresult.Succeeded)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            _logger.LogInformation("User created a new account with password.");
+                            return Json(new { Response = "Success", Message = "User created successfully." });
+                        }
+                        else
+                        {
+                            var deleteUser = await _userManager.DeleteAsync(user);
+                            return Json(new { Response = "Error", Message = roleresult.Errors.FirstOrDefault().Description });
+                        }
+                    }
+                    else
+                        return Json(new { Response = "Error", Message = result.Errors.FirstOrDefault().Description });
                 }
-                else
-                    return Json(new { Response = "Error", Message = result.Errors });
-            }
+                else if (ModelState.ErrorCount > 0)
+                {
+                    var error = ModelState.Where(x => x.Value.ValidationState.ToString() == "Invalid").FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
+                    return Json(new { Response = "Error", Message = error });
+                }
 
-            return Json(new { Response = "Error", Message = "An error occured creating user."});
+                return Json(new { Response = "Error", Message = "An error occoured creating a new user." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -343,29 +371,32 @@ namespace TMA.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (ModelState.IsValid)
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    if (user == null)
+                    {
+                        // Don't reveal that the user does not exist or is not confirmed
+                        return Json(new { Response = "Success", Message = "Email for forgot password send to user." });
+                    }
+
+                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var callbackUrl = Url.ResetPasswordCallbackLink(user.Email, code, Request.Scheme);
+                    await _emailSender.SendEmailAsync(model.Email, "Reset Password",
+                       $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                    return Json(new { Response = "Success", Message = "Email for forgot password send to user" });
                 }
 
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+                return Json(new { Response = "Error", Message = "An error occoured forgot password." });
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.Message });
+            }
         }
 
         [HttpGet]
@@ -375,21 +406,21 @@ namespace TMA.Api.Controllers
             return View();
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
-        {
-            if (code == null)
-            {
-                throw new ApplicationException("A code must be supplied for password reset.");
-            }
-            var model = new ResetPasswordViewModel { Code = code };
-            return View(model);
-        }
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public IActionResult ResetPassword(string code = null)
+        //{
+        //    if (code == null)
+        //    {
+        //        throw new ApplicationException("A code must be supplied for password reset.");
+        //    }
+        //    var model = new ResetPasswordViewModel { Code = code };
+        //    return View(model);
+        //}
 
+        [HttpGet]
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -429,39 +460,53 @@ namespace TMA.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> DeleteUser(string username)
         {
-            // Look for user in the UserStore
-            var user = _userManager.Users.SingleOrDefault(u => u.UserName == username);
-
-            // If not found, exit
-            if (user == null)
+            try
             {
-                return Json(new { Response = "Error", Message = "User was not found" });
-            }
+                // Look for user in the UserStore
+                var user = _userManager.Users.SingleOrDefault(u => u.UserName == username);
 
-            // Remove user from role first!
-            var userRole = await _userManager.GetRolesAsync(user);
-            var remFromRole = await _userManager.RemoveFromRoleAsync(user, userRole.FirstOrDefault());
-
-            // If successful
-            if (remFromRole.Succeeded)
-            {
-                // Remove user from UserStore
-                var results = await _userManager.DeleteAsync(user);
-
-                // If successful
-                if (results.Succeeded)
+                // If not found, exit
+                if (user == null)
                 {
-                    // Redirect to Users page
-                return Json(new { Response = "Success", Message = $"User [{username}] was deleted successfully." });
+                    return Json(new { Response = "Error", Message = "User was not found" });
+                }
+
+                // Remove user from role first!
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (userRoles.Count == 0)
+                {
+                    return Json(new { Response = "Error", Message = $"User [{username}] has no role, add role to user before delete." });
                 }
                 else
-                {
-                  return Json(new { Response = "Error", Message = $"User [{username}] was not deleted." });
+                { 
+                    var remFromRole = await _userManager.RemoveFromRoleAsync(user, userRoles.FirstOrDefault());
+
+                    // If successful
+                    if (remFromRole.Succeeded)
+                    {
+                        // Remove user from UserStore
+                        var results = await _userManager.DeleteAsync(user);
+
+                        // If successful
+                        if (results.Succeeded)
+                        {
+                            // Redirect to Users page
+                            return Json(new { Response = "Success", Message = $"User [{username}] was deleted successfully." });
+                        }
+                        else
+                        {
+                            return Json(new { Response = "Error", Message = $"User [{username}] was not deleted." });
+                        }
+                    }
+                    else
+                    {
+                        return Json(new { Response = "Error", Message = $"User [{username}] has no role or can't delete role." });
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                return Json(new { Response = "Error", Message = $"User [{username}] has no role or can't delete role." });
+                return Json(new { Response = "Error", Message = ex.Message });
             }
         }
 
@@ -469,44 +514,58 @@ namespace TMA.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> EditUser(UserModel userModel)
         {
-            // Look for user in the UserStore
-            var user = _userManager.Users.SingleOrDefault(u => u.UserName == userModel.Username);
-
-            // If not found, exit
-            if (user == null)
+            try
             {
-                return Json(new { Response = "Error", Message = "User was not found" });
-            }
+                // Look for user in the UserStore
+                var user = _userManager.Users.SingleOrDefault(u => u.UserName == userModel.Username);
 
-            // Remove user from role first!
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var userRole = userRoles.FirstOrDefault();
-            if (userRole != userModel.Role)
+                // If not found, exit
+                if (user == null)
+                {
+                    return Json(new { Response = "Error", Message = "User was not found" });
+                }
+
+                // Remove user from role first!
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var userRole = userRoles.FirstOrDefault();
+                if (userRole != null)
+                {
+                    if (userRole != userModel.Role)
+                    {
+                        await _userManager.RemoveFromRoleAsync(user, userRole);
+                        var remFromRole = await _userManager.AddToRoleAsync(user, userModel.Role);
+                    }
+                }
+                else
+                {
+                    var remFromRole = await _userManager.AddToRoleAsync(user, userModel.Role);
+                }
+
+
+                user.Name = user.Name != userModel.Name ? userModel.Name : user.Name;
+                if (user.Email != userModel.Email)
+                {
+                    var isEmailExist = _userManager.Users.Any(u => u.Email == userModel.Email);
+                    if (isEmailExist)
+                        return Json(new { Response = "Error", Message = "Email already exist." });
+
+                    user.Email = userModel.Email;
+                }
+
+                var results = await _userManager.UpdateAsync(user);
+
+                // If successful
+                if (results.Succeeded)
+                    // Redirect to Users page
+                    return Json(new { Response = "Success", Message = $"User [{user}] was edited successfully." });
+
+                else
+                    return Json(new { Response = "Error", Message = results.Errors });
+            }
+            catch (Exception ex)
             {
-                await _userManager.RemoveFromRoleAsync(user, userRole);
-                var remFromRole = await _userManager.AddToRoleAsync(user, userModel.Role);
+                return Json(new { Response = "Error", Message = ex.Message });
             }
-
-            user.Name = user.Name != userModel.Name ? userModel.Name : user.Name;
-            if (user.Email != userModel.Email)
-            {
-                var isEmailExist = _userManager.Users.Any(u => u.Email == userModel.Email);
-                if (isEmailExist)
-                    return Json(new { Response = "Error", Message = "Email already exist." });
-
-                user.Email = userModel.Email;
-            }
-
-            // Remove user from UserStore
-            var results = await _userManager.UpdateAsync(user);
-
-            // If successful
-            if (results.Succeeded)
-                // Redirect to Users page
-                return Json(new { Response = "Success", Message = $"User [{user}] was deleted successfully." });
-
-            else
-                return Json(new { Response = "Error", Message = results.Errors });
         }
 
         [HttpPost]
@@ -514,28 +573,105 @@ namespace TMA.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetUserAsync(string username)
         {
-            // Look for user in the UserStore
-            var user = _userManager.Users.SingleOrDefault(u => u.UserName == username);
-
-            // If not found, exit
-            if (user == null)
+            try
             {
-                return Json(new { Response = "Error", Message = "User was not found" });
+                // Look for user in the UserStore
+                var user = _userManager.Users.SingleOrDefault(u => u.UserName == username);
+
+                // If not found, exit
+                if (user == null)
+                {
+                    return Json(new { Response = "Error", Message = "User was not found" });
+                }
+
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var userRole = userRoles.FirstOrDefault();
+
+                var userModel = new UserModel()
+                {
+                    Email = user.Email,
+                    Name = user.Name,
+                    Username = user.UserName,
+                    Role = userRole
+                };
+
+                return Json(userModel);
             }
-
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var userRole = userRoles.FirstOrDefault();
-
-            var userModel = new UserModel()
+            catch (Exception ex)
             {
-                Email = user.Email,
-                Name = user.Name,
-                Username = user.UserName,
-                Role = userRole
-            };
-
-            return Json(userModel);
+                return Json(new { Response = "Error", Message = ex.Message });
+            }
         }
+
+
+        [HttpPost]
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUsers()
+        {
+            try
+            {
+                var users = _userManager.Users;
+                var usersList = new List<UserModel>();
+                foreach (var user in users)
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    var userRole = userRoles.FirstOrDefault();
+
+                    var userModel = new UserModel()
+                    {
+                        Email = user.Email,
+                        Name = user.Name,
+                        Username = user.UserName,
+                        Role = userRole
+                    };
+
+                    usersList.Add(userModel);
+                }
+                return Json(usersList);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var user = _userManager.Users.SingleOrDefault(u => u.UserName == model.Username);
+                    if (user == null)
+                    {
+                        return Json(new { Response = "Error", Message = $"User '{model.Username}' was not found." });
+                    }
+
+                    var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    if (!changePasswordResult.Succeeded)
+                    {
+                        return Json(new { Response = "Error", Message = changePasswordResult.Errors.FirstOrDefault().Description });
+                    }
+
+                    _logger.LogInformation("User changed their password successfully.");
+                    return Json(new { Response = "Success", Message = "Your password has been changed." });
+                }
+                else if (ModelState.ErrorCount > 0)
+                {
+                    var error = ModelState.Where(x => x.Value.ValidationState.ToString() == "Invalid").FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
+                    return Json(new { Response = "Error", Message = error });
+                }
+
+                return Json(new { Response = "Error", Message = "An error occoured changing password." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.Message });
+            }
+        }
+
 
         #region Helpers
 
