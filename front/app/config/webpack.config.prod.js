@@ -14,7 +14,6 @@ const extractSass = new ExtractTextPlugin({
     filename: "[name].[contenthash].css",
     disable: process.env.NODE_ENV === "development"
 });
-
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
@@ -218,26 +217,26 @@ module.exports = {
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
           },
           {
-          test: /\.scss$/,
-          use: extractSass.extract({
-              use: [{
-                  loader: "css-loader"
-              }, {
-                  loader: "sass-loader"
-              }],
-              // use style-loader in development
-              fallback: "style-loader"
-          })
-         },
-         {
-          test: /\.html$/,
-          use: {
-            loader: 'html-loader',
-            options: {
-              attrs: [':data-src']
+            test: /\.scss$/,
+            use: extractSass.extract({
+                use: [{
+                    loader: "css-loader"
+                }, {
+                    loader: "sass-loader"
+                }],
+                // use style-loader in development
+                fallback: "style-loader"
+            })
+           },
+           {
+            test: /\.html$/,
+            use: {
+              loader: 'html-loader',
+              options: {
+                attrs: [':data-src']
+              }
             }
-          }
-        },
+          },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
           // This loader doesn't use a "test" so it will catch all modules
@@ -260,7 +259,6 @@ module.exports = {
     ],
   },
   plugins: [
-    
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -314,9 +312,7 @@ module.exports = {
     new ExtractTextPlugin({
       filename: cssFilename,
     }),
-    //
     extractSass,
-
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
@@ -359,7 +355,6 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
