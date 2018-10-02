@@ -11,8 +11,6 @@ import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/UserSummary';
 import { connect } from 'react-redux';
 
-import ForgotPassword from '../../components/ForgotPassword'
-
 
 export class MainPage extends Component {
   render() {
