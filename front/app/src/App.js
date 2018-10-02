@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import classes from './App.scss';
 import Nav from './containers/Nav/Nav';
 import MainPage from './containers/MainPage';
+import history from './configuration/history'
 
 class App extends Component {
   render() {
-
+    console.log('app ',history)
     return (
       <div className={classes.App}>
-        <Nav />
+        {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <Nav />}
         <MainPage />
       </div>
     );

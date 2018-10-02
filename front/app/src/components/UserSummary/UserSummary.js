@@ -10,6 +10,8 @@ import { editDeniedAction } from '../../actions';
 import Spinner from '../UI/Spinner';
 import ChangePassword from '../ChangePassword/ChangePassword';
 import { changePassOpenAction }  from '../../actions';
+import history  from '../../configuration/history';
+import store  from '../../configuration/store';
 
 
 class UserSummary extends Component {
@@ -17,13 +19,22 @@ class UserSummary extends Component {
     constructor(props) {
         super(props)
 
-        const name = this.props.user.name
-        const username = this.props.user.username
-        const email = this.props.user.email
-        const password = this.props.user.password
-        const role = this.props.user.role
+        // const userList = ''
+        // if(this.props.user !== '' || this.props.user !== null || this.props.user !== undefined){
+        //    userList = this.props.user 
+        // } else {
+        //    userList = this.state.currentUser 
+        // }
+        const userData = this.props.user
+
+        const name = userData.name
+        const username = userData.username
+        const email = userData.email
+        const password = userData.password
+        const role = userData.role
 
         this.state = {
+            currentUser: '',
             changePassword: false,
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
@@ -35,7 +46,7 @@ class UserSummary extends Component {
         }
         this.editDetail = this.editDetailBtn.bind(this)
     }
-
+    
     componentWillUnmount() {
         this.props.editDeniedAction(null)
         this.setState({changePassword: false})
@@ -75,23 +86,6 @@ class UserSummary extends Component {
             this.closeWindowFunc()
             this.setState({changePassword: true})
         }, 200)
-    }
-
-    closeWindowFunc = () => {
-        document.addEventListener("click", (evt) => {
-            const forgotPassword = document.querySelector('.ChangePassword__ForgotPassword___2NgBY')
-            const btn = document.querySelectorAll('.UserSummary__ChangePassword___3igf9')
-            let targetEl = evt.target
-            do {
-                if (targetEl === forgotPassword || targetEl === btn) {
-                    return
-                }
-                // Go up the DOM
-                targetEl = targetEl.parentNode;
-            }
-            while (targetEl)
-            this.setState({changePassword: false})
-        });
     }
 
     detailLine = (item, index) => {
@@ -136,24 +130,23 @@ class UserSummary extends Component {
     }
     closeWindowFunc = () => {
         document.addEventListener("click", (evt) => {
-        const edit = document.querySelector('.ChangePassword__changePassWrapper___3ZbTs')
-        // const addUser = document.querySelector('.RegisterComp__Register___2-9vC')
-        const btn = document.querySelectorAll('.changePass')
-        let targetEl = evt.target
-        console.log('targetEl', targetEl)
-        do {
-            if (targetEl === edit || targetEl === btn) {
-                return this.props.changePassOpenAction(false)
+            const changePassword = document.querySelector('.ChangePassword__changePass___3KRMY')
+            const btn = document.querySelectorAll('.BtnComp__sendBtn___398uD')
+            let targetEl = evt.target
+            do {
+                if (targetEl === changePassword || targetEl === btn) {
+                    return 
+                }
+                targetEl = targetEl.parentNode;
+                // Go up the DOM
             }
-            targetEl = targetEl.parentNode;
-            return this.props.changePassOpenAction(true)
-            // Go up the DOM
+            while (targetEl)
+            return  this.props.changePassOpenAction(false) || (this.props.messageErr(false))
             
-        }
-        while (targetEl)
-        
-    });
-}
+        });
+    }
+
+
     errorMessage = () => {
         const error = this.props.errorMessage
         if (error !== null) {
@@ -202,7 +195,7 @@ class UserSummary extends Component {
                     />
                 </span>
                 <span className={classes.changePass} onClick={this.changePassBtn}>Forgot Password</span>
-                {this.props.passwords ? <div className={classes.AddUser}>{this.changePass()}</div> : null}
+                {this.props.passwords ? this.changePass() : null}
             </div>
         )
     }
@@ -224,6 +217,8 @@ const mapStateToProps = (state) => {
         errorMessage: state.editErrorMessageReducer.errorMessage,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
         passwords: state.changePassReducer.passwords,
+        messageErr: state.changePassReducer.messageErr,
+        currentUser: state.UserLogInReducer.currentUser
     }
 }
 

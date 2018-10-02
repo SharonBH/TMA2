@@ -32,25 +32,6 @@ export class AllUsersAdmin extends Component {
     componentDidMount(){
         this.props.takeAllUsers()
     }
-    // ulserList = () => {
-    //     if(this.props.usersList === null) {
-    //         return null
-    //     } else {
-    //         return this.props.usersList.map((item, index) => {
-    //             return <li key={index}>
-    //                 <div className={classes.username}>{item.name}</div>
-    //                 <div className={classes.email}>{item.email}</div>
-    //                 <div className={classes.role}>{item.role}</div>
-    //                 <div id={index} className={classes.EditBtn}>
-    //                     <BtnComp inputType="submit" content='Edit User' onClick={() => this.editUserBtn(item)}/>
-    //                 </div>
-    //                 <div id={index} className={classes.EditBtn}>
-    //                     <BtnComp inputType="submit" content='Delete' onClick={() => this.DeleteUserBtn(item)}/>
-    //                 </div>
-    //             </li>
-    //         })
-    //     }
-    // }
 
     DeleteUserBtn = (item) => {
         this.setState({userInEditMode: null})
@@ -120,7 +101,8 @@ export class AllUsersAdmin extends Component {
         : null 
     }
     closeMessage = () => {
-        this.setState({ display: true });
+        // this.setState({ display: true });
+        this.props.message = ''
     }
     
 
@@ -129,19 +111,20 @@ export class AllUsersAdmin extends Component {
             return <li key={index}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
-                <div className={classes.role}>{item.role === 'Admin' ? item.role = 'Admin' : item.role = '' }</div>
                 <div className={classes.email}>{item.username}</div>
-                <div id={index}>
-                <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/></Link>
-                 {/* <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link> */}
+                <div className={classes.role}>{item.role/* === 'Admin' ? item.role = 'Admin' : item.role = ''*/ }</div>
+                <div id={index} className={classes.allUsButtons}>
+                    <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/></Link>
+                    {/* <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link> */}
+                    
+                    <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
                  </div>
-                 <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
             </li>
         })
     }
     
     render (){
-        console.log('6666', this.props.addUser)
+        console.log('6666', this.props)
         return (
             <div className={classes.usersWrapper}>
                 {this.successDeleteMessage()}
@@ -149,9 +132,9 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
+                    <div className={classes.email}>User Name</div>
                     <div className={classes.role}></div>
-                    <div className={classes.email}>userName</div>
-                    <BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/>
+                    <div className={classes.addBtn}><BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/></div>
                 </div> 
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
@@ -184,7 +167,7 @@ const mapDispatchToProps = dispatch => {
     return{
        takeAllUsers: payload => dispatch(takeAllUsers(payload)),
        addNewUserAction: payload => dispatch(addNewUserAction(payload)),
-       DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
+       DeleteUserRequest: (item) => dispatch(DeleteUserRequest(item)),
     //    deleteUser: (userName) => dispatch(deleteUser(userName)),
     //    getUsersListAction: payload => dispatch(getUsersListAction(payload)),
 
