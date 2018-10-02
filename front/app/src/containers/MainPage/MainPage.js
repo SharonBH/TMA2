@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { HomePage } from '../HomePage/HomePage';
 import  AllUsersAdmin  from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
-import  EditUser  from '../../components/Users/EditUser/EditUser';
 import LogIn from '../../components/Login';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';

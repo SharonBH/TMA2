@@ -17,9 +17,9 @@ class Register extends Component {
             password: '',
             confirmPassword: '',
             name: '',
-            userType: '',
+            userType: 'User',
             userName: '',
-            someSelectArrayFromApiProps:['User', 'Admin']
+            // someSelectArrayFromApiProps:['User', 'Admin']
         }
     }
 
@@ -27,7 +27,7 @@ class Register extends Component {
     onPasswordChange = (e) => { this.setState({password: e.target.value})}
     onConfirmPasswordChange = (e) => { this.setState({confirmPassword: e.target.value})}
     onNameChange = (e) => { this.setState({ name: e.target.value})}
-    onUseTypeChange = (e) => { this.setState({userType: e.target.value})}
+    // onUseTypeChange = (e) => { this.setState({userType: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
 
@@ -51,6 +51,7 @@ class Register extends Component {
         const userName = this.state.userName
         e.preventDefault()
         this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
+        
     }
 
     errorMessage = () => {
@@ -71,6 +72,7 @@ class Register extends Component {
     }
 
     rgisterFage = (headline, classStr) => {
+        console.log('reg', this.props)
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
@@ -80,18 +82,19 @@ class Register extends Component {
                     <InputComp inputType="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
                     <InputComp inputType="password" name="ConfirmPassword" placeholder="ConfirmPassword" onChange={this.onConfirmPasswordChange}/>
                     <InputComp inputType="text" name="name" placeholder="Name" onChange={this.onNameChange}/>
-                    <SelectComp 
+                    {/* <SelectComp 
                         onChange={this.onUseTypeChange}
                         options={this.state.someSelectArrayFromApiProps}
                         placeholder='Select User Type'
-                    />
+                    /> */}
                     <InputComp inputType="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
                     {this.errorMessage()}
-                    {
-                        headline === Register 
-                        ? <BtnComp inputType="submit" name="register" content={headline} onClick={this.registerSbmit}/>
-                        : <BtnComp inputType="submit" name="register" content={headline} onClick={this.addNewUser}/>
-                    }
+                    {<BtnComp 
+                        inputType="submit" 
+                        name="register" 
+                        content={headline} 
+                        onClick={ headline === 'Register' ?  this.registerSbmit : this.addNewUser}
+                    />}
                     
                 </form>
                 <div style={{display: classStr}}>

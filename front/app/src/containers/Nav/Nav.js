@@ -21,30 +21,27 @@ export class Nav extends Component {
         if(this.props.currentUser === null) {
             return (
                 <div className={classes.innerNav}>
-                    <Link to='/'>
-                        <i className="fas fa-sign-in-alt"></i>
-                        {this.state.navState ? <span>Sign In</span> : null}
+                    <Link to='/' className={classes.navLink}>
+                        <i className="fas fa-sign-in-alt"></i><span>Sign In</span>
+                        {/* {this.state.navState ? <span>Sign In</span> : null} */}
                     </Link>
-                    <Link to='/register'>
-                        <i className="fas fa-edit"></i>
-                        {this.state.navState ? <span>Register</span> : null}
+                    <Link to='/register' className={classes.navLink}>
+                        <i className="fas fa-edit"></i><span>Register</span>
+                        {/* {this.state.navState ? <span>Register</span> : null} */}
                     </Link>
                 </div>
             )
         } else {
             return (
                 <div className={classes.innerNav}>
-                    <Link to='/profile'>
-                        <i className="fas fa-user"></i>
-                        {this.state.navState ? <span>Profile</span> : null}
+                    <Link to='/profile' className={classes.navLink}>
+                        <i className="fas fa-user"></i><span>Profile</span>
                     </Link>
-                    <Link to='/all_users'>
-                        <i className="fas fa-users-cog"></i>
-                        {this.state.navState ? <span>Users Managment</span> : null}
+                    <Link to='/all_users' className={classes.navLink}>
+                        <i className="fas fa-users-cog"></i><span>Users Managment</span>
                     </Link>
-                    <Link to='/' onClick={this.logout}>
-                        <i className="fas fa-sign-out-alt"></i>
-                        {this.state.navState ? <span>Sign Out</span> : null}
+                    <Link to='/' onClick={this.logout} className={classes.navLink}>
+                        <i className="fas fa-sign-out-alt"></i><span>Sign Out</span>
                     </Link>
                 </div>
             )
@@ -72,9 +69,9 @@ export class Nav extends Component {
             <div className={this.state.navState ? classes.nav : classes.navclosed}>
                 <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
                 {this.helloUser()}
-                <Link to='/home'>
-                    <i className="fas fa-home"></i>
-                    {this.state.navState ? <span>Home</span> : null}
+                <Link to='/home' className={classes.navLink}>
+                    <i className="fas fa-home"></i><span>Home</span>
+                    {/* {this.state.navState ? <span>Home</span> : null} */}
                 </Link> 
                 {this.navLinks()}
                 <span className={classes.Menu} onClick={this.navState}>

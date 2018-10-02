@@ -25,6 +25,7 @@
     border: 0;
     width: 70px;
     padding: 2px 9px;
+    margin: 0 2px;
     &:hover{
         background:$dark-gray;
     }
@@ -33,7 +34,9 @@
     background: $orange;
     color: $white;
     border: 0;
-    width: 60px;
+    width: 70px;
+    padding: 2px 9px;
+    margin: 0 2px;
     &:hover{
         background: $dark-gray;
     }

@@ -19,7 +19,7 @@ class EditUser extends Component {
             userName: '',
             someSelectArrayFromApiProps:['User', 'Admin'],
             errMessage: '',
-            userData: [],
+            userData: '',
             message: ''
         }
     }
@@ -48,8 +48,6 @@ class EditUser extends Component {
     }
     editSbmit = (e) => {
         const email = this.state.email
-        const password = this.state.password
-        const confirmPassword = this.state.confirmPassword
         const name = this.state.name
         const userType = this.state.userType
         const userName = this.state.userName
@@ -58,7 +56,7 @@ class EditUser extends Component {
         if(this.state.userData.password !== this.state.userData.confirmPassword){
             this.setState({message: 'password not match'})
         }else{
-            this.props.editThisUserAction(email, password, confirmPassword, name, userType, userName)
+            this.props.editThisUserAction(email, name, userType, userName)
             if(this.props.catchErrorNum !== null){
                 this.setState({message: this.props.catchErrorNum})
             }else{
@@ -128,7 +126,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        editThisUserAction: (email, password, confirmPassword, name, userType, userName) => dispatch(editThisUserAction(email, password, confirmPassword, name, userType, userName)),
+        editThisUserAction: (email, name, userType, userName) => dispatch(editThisUserAction(email, name, userType, userName)),
     }
 }
 

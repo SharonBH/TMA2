@@ -25,13 +25,15 @@ class ChangePassword extends Component {
             newPassword:'',
             confirmPassword:'',
             error:'',
-            display: false
+            show: false
         }
+        
     }
     
     componentDidMount(){
         console.log(this.props)
     }
+    
     
     changeUsername = (e) => { this.setState({username: e.target.value})}
     changePassword = (e) => { this.setState({password: e.target.value}) }
@@ -49,12 +51,7 @@ class ChangePassword extends Component {
             this.setState({error: 'Must be all data'})
         }else{
             this.setState({error: ''})
-            console.log('username', username )
-        console.log('password', password)
-        console.log('newPassword', newPassword)
-        console.log('confirmPassword', confirmPassword)
             this.props.changePasswordRequest(username, password, newPassword, confirmPassword)
-            // this.props.changePassAction()
         }
     }
 
@@ -74,28 +71,20 @@ class ChangePassword extends Component {
             return null
         }
     }
-
+    
     successChangeMessage = () => {
-        const displayStyleTrue = 'display: none';
-        const displayStyleFalse = 'display: block'; 
-
-        const style = ( this.state.display === false ? displayStyleTrue : displayStyleFalse )
-        console.log('12212', style)
-
-        return this.props.messageErr.message !== '' 
-        ? <p className={classes.success}>
-            <span>{this.props.messageErr.message}
-                <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
-            </span>
-        </p>
-        : null 
-    }
-    closeMessage = () => {
-        this.setState({ display: true });
+        return this.props.messageErr !== '' 
+        ? <p className={chClasses.success} 
+            // onClck={this.closeWindowFunc()} 
+            // style={{display: this.state.show ? 'block' : 'none' }}
+          >
+            <span>{this.props.messageErr.message}</span>
+          </p>
+        : null
     }
     
     render() {
-        console.log('123123', this.props)
+        console.log('123123', this.props.messageErr)
         return (
             <div className={chClasses.changePassWrapper}>
                 <div className={chClasses.changePass}>
@@ -108,7 +97,7 @@ class ChangePassword extends Component {
                     <InputComp inputType='text' name='confirmPassword' placeholder='Confirm Password' onChange={this.changeConfirmPassword} content={this.state.confirmPassword}/>
                     <div className={classes.changeBtn}><BtnComp inputType='button' content='Send' onClick={this.onClick}/></div>
                 </div>
-                
+                <div className={chClasses.changePassBG}></div>
             </div>
         );
     }
@@ -119,18 +108,14 @@ class ChangePassword extends Component {
 
 const mapStateToProps = (state) => {
     return {
-
         errorMessage: state.editErrorMessageReducer.editErrorMessage,
         messageErr: state.changePassReducer.messageErr,
-
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-
         changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword)),
-        
     }
 }
 

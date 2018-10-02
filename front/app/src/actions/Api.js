@@ -13,8 +13,7 @@ import {
     deleteUserAction,
     forgotPassAction,
     changePassAction,
-    changePassOpenAction,
-    getUsersListAction,
+    changePassOpenAction
 
 } from './index';
 
@@ -31,7 +30,7 @@ export const loginRequest = (userName, password) => {
                             const user = response.data
                             dispatch(getUserAction(user))
                             dispatch(toggleLoaderAction(false))
-                            history.push({pathname: '/home'})
+                            history.push({pathname: '/home', state:[response.data]})
                         })
                         .catch((error) => {
                             console.log([error][0]);
@@ -138,11 +137,11 @@ export const takeAllUsers = () => {
 
 
 // edit User Request
-export const editThisUserAction = (name, userName, email, password, userType) => {
-    console.log(name, userName, email, password, userType)
+export const editThisUserAction = (email, name, userType, userName) => {
+    console.log(name, userName, email, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
@@ -181,6 +180,7 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
                if (response.data.response === 'Success') {
                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                        .then((response) => {
+                           console.log('11', response.data)
                            const user = response.data
                            dispatch(getUserAction(user));
                            dispatch(toggleLoaderAction(false))
@@ -223,6 +223,7 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
 // delete user
 export const DeleteUserRequest = (userName) => {
     return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
         // return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
             .then((response) => {
@@ -269,14 +270,13 @@ export const forgotPassRequest = (email) => {
 // change Password Request
 export const changePasswordRequest = (username, password, newPassword, confirmPassword) => {
     return (dispatch) => {
-        dispatch(toggleLoaderAction(true))
+        // dispatch(toggleLoaderAction(true))
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ChangePassword?Username=${username}&OldPassword=${password}&NewPassword=${newPassword}&ConfirmPassword=${confirmPassword}`)
             .then((response) => {
                 console.log('pass sent to email', response)
                 if (response.data.response === 'Success') {
                     const data = response.data
                     dispatch(changePassAction(data))
-                    console.log('pass sent to email')
                     dispatch(changePassOpenAction(data))
                     
                 } else {
