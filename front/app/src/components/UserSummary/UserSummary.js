@@ -36,12 +36,12 @@ class UserSummary extends Component {
         this.state = {
             currentUser: '',
             changePassword: false,
+            password: password,
             userDetailsArr: [
                 {edit: false, detail: 'Name', param: name, editInput: name},
                 {edit: false, detail: 'User Name', param: username, editInput: username},
                 {edit: false, detail: 'eMail', param: email, editInput: email},
                 {edit: false, detail: 'User Type', param: role,  editInput: role},
-                {edit: false, detail: 'Password', param: password, editInput: password}
             ],
         }
         this.editDetail = this.editDetailBtn.bind(this)
@@ -77,7 +77,7 @@ class UserSummary extends Component {
             this.state.userDetailsArr[1].editInput,
             this.state.userDetailsArr[2].editInput,
             this.state.userDetailsArr[3].editInput,
-            this.state.userDetailsArr[4].editInput,
+            this.state.password
         )
     }
 
@@ -194,7 +194,7 @@ class UserSummary extends Component {
                         onClick={this.submitAllChangesDetails}
                     />
                 </span>
-                <span className={classes.changePass} onClick={this.changePassBtn}>Forgot Password</span>
+                <span className={classes.changePass} onClick={this.changePassBtn}>Change Password</span>
                 {this.props.passwords ? this.changePass() : null}
             </div>
         )
