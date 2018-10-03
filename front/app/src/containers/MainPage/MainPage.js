@@ -1,17 +1,16 @@
+
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { HomePage } from '../HomePage/HomePage';
 import  AllUsersAdmin  from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
-import Login from '../../components/LogIn';
+import Login from '../../components/Login';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
 import NotFound from '../../components/NotFound';
 import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/UserSummary';
 import { connect } from 'react-redux';
-
-import ForgotPassword from '../../components/ForgotPassword'
 
 
 export class MainPage extends Component {

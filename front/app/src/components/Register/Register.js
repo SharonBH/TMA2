@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
+import { successMessageAction, errorMessageAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import SelectComp from '../UI/SelectComp/SelectComp';
 import Spinner from '../UI/Spinner';
 
 class Register extends Component {
@@ -19,7 +19,6 @@ class Register extends Component {
             name: '',
             userType: 'User',
             userName: '',
-            // someSelectArrayFromApiProps:['User', 'Admin']
         }
     }
 
@@ -27,10 +26,12 @@ class Register extends Component {
     onPasswordChange = (e) => { this.setState({password: e.target.value})}
     onConfirmPasswordChange = (e) => { this.setState({confirmPassword: e.target.value})}
     onNameChange = (e) => { this.setState({ name: e.target.value})}
-    // onUseTypeChange = (e) => { this.setState({userType: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
-
+    componentWillUnmount(){
+        this.props.errorMessageAction(null)
+        this.props.successMessageAction(null)
+    }
     registerSbmit = (e) => {
         const email = this.state.email
         const password = this.state.password
@@ -62,6 +63,15 @@ class Register extends Component {
             return null
         }
     }
+    successMessage = () => {
+        const success = this.props.successMessage
+        if (success !== null) {
+            this.props.errorMessageAction(null)
+            return <p className={classes.success}>{success}</p>
+        } else {
+            return null
+        }
+    }
 
     spinner = () => {
         if(this.props.toggleSpinner) {
@@ -72,7 +82,6 @@ class Register extends Component {
     }
 
     rgisterFage = (headline, classStr) => {
-        console.log('reg', this.props)
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
@@ -82,13 +91,9 @@ class Register extends Component {
                     <InputComp inputType="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
                     <InputComp inputType="password" name="ConfirmPassword" placeholder="ConfirmPassword" onChange={this.onConfirmPasswordChange}/>
                     <InputComp inputType="text" name="name" placeholder="Name" onChange={this.onNameChange}/>
-                    {/* <SelectComp 
-                        onChange={this.onUseTypeChange}
-                        options={this.state.someSelectArrayFromApiProps}
-                        placeholder='Select User Type'
-                    /> */}
                     <InputComp inputType="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
                     {this.errorMessage()}
+                    {this.successMessage()}
                     {<BtnComp 
                         inputType="submit" 
                         name="register" 
@@ -120,8 +125,9 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.registerErrorMessageReducer.errorMessage,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
+        errorMessage: state.errorMessageReducer.errorMessage,
+        successMessage: state.successMessageReducer.successMessage
     }
 }
 
@@ -129,6 +135,8 @@ const mapDispatchToProps = dispatch => {
     return {
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        successMessageAction: (payload) => dispatch(successMessageAction(payload)),
     }
 }
 

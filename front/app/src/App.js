@@ -6,7 +6,6 @@ import history from './configuration/history'
 
 class App extends Component {
   render() {
-    console.log('app ',history)
     return (
       <div className={classes.App}>
         {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <Nav />}

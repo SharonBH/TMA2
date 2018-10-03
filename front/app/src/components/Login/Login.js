@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from '../Register/RegisterComp.scss';
-import loginClasses from '../LogIn/LoginComp.scss';
+import loginClasses from '../Login/LoginComp.scss';
 import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
+import { errorMessageAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import Spinner from '../UI/Spinner';
@@ -11,7 +12,7 @@ import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 import ForgotPassword from '../ForgotPassword';
 
-class LogIn extends Component {
+class Login extends Component {
 
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -29,7 +30,9 @@ class LogIn extends Component {
             forgotPassword: false
         }
     }
-    
+    componentWillUnmount(){
+        this.props.errorMessageAction(null)
+    }
     onUserNameChange = (e) => {
         this.setState({userName: e.target.value})
     }
@@ -54,8 +57,8 @@ class LogIn extends Component {
 
     errorMessage = () => {
         const error = this.props.errorMessage
-        if (error === 'Invalid login attempt.') {
-            return <p>{error}</p>
+        if (error !== null) {
+            return <p className={classes.error}>{error}</p>
         } else {
             return null
         }
@@ -135,7 +138,7 @@ class LogIn extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.loginErrorMessageReducer.errorMessage,
+        errorMessage: state.errorMessageReducer.errorMessage,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
@@ -143,7 +146,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         loginRequest: (userName, password) => dispatch(loginRequest(userName, password)),
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
     }
 }
 
-export default withCookies(connect(mapStateToProps, mapDispatchToProps)(LogIn));
+export default withCookies(connect(mapStateToProps, mapDispatchToProps)(Login));
