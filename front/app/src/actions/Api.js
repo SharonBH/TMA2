@@ -133,6 +133,7 @@ export const editProfileRequest = (userName, name, email, userType) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
+                console.log('edit user response',response)
                 if (response.data.response === 'Success') {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
@@ -162,20 +163,21 @@ export const editProfileRequest = (userName, name, email, userType) => {
 };
 
 // edit User Request
-export const editThisUserAction = (email, name, userType, userName) => {
+export const editThisUserRequest = (userName, name, email, userType) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
-                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
+                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
                         .then((response) => {
-                            const user = response.data
-                            dispatch(getUserAction(user));
-                            dispatch(toggleLoaderAction(false))
-                            history.push({pathname: '/profile'})
+                                const users = response.data
+                                dispatch(getAllUsersAction(users));
+                                history.push({pathname: '/all_users'})
+                                dispatch(toggleLoaderAction(false))
                         })
                         .catch((error) => {
+                            dispatch(catchErrorAction([error][0]))
                             dispatch(errorMessageAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
