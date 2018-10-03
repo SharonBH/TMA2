@@ -130,13 +130,11 @@ export const takeAllUsers = () => {
 };
 
 // edit profile Request
-export const editProfileRequest = (name, userName, email, password, userType) => {
-    console.log( 'edit Profile Request', name, userName, email, password, userType)
+export const editProfileRequest = (userName, name, email, userType) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
-                console.log('edit user response',response)
                 if (response.data.response === 'Success') {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
