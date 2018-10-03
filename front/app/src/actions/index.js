@@ -5,35 +5,6 @@ export const getUserAction = (response) => {
         payload: response
     }
 }
-// user login error action
-export const accessDeniedAction = (response) => {
-    return {
-        type: 'SET_LOGIN_ERROR_MESSAGE',
-        payload: response
-    }
-}
-
-// user register error action
-export const registerDeniedAction = (response) => {
-    return {
-        type: 'SET_REGISTER_ERROR_MESSAGE',
-        payload: response
-    }
-}
-// user edit error action
-export const editDeniedAction = (response) => {
-    return {
-        type: 'SET_EDIT_ERROR_MESSAGE',
-        payload: response
-    }
-}
-// catch Error
-export const catchErrorAction = (number) => {
-    return {
-        type: 'ERROR_NUM',
-        payload: number
-    }
-}
 
 //get all users
 export const getAllUsersAction = (response) => {
@@ -42,7 +13,6 @@ export const getAllUsersAction = (response) => {
         payload: response
     }
 }
-
 
 // toggle Loader Action
 export const toggleLoaderAction = (boll) => {
@@ -60,13 +30,7 @@ export const addNewUserAction = (boll) => {
     }
 }
 
-//delete user Action
-export const deleteUserAction = (data) => {
-    return {
-        type: 'DELETE_USER',
-        payload: data
-    }
-}
+
 
 //forgot pass Action
 export const forgotPassAction = (data) => {
@@ -101,3 +65,30 @@ export const changePassAction = (pass) => {
         payload: pass
     }
 }
+// catch Error
+export const catchErrorAction = (number) => {
+    return {
+        type: 'ERROR_NUM',
+        payload: number
+    }
+}
+
+
+
+
+// error action
+export const errorMessageAction = (message) => {
+    return {
+        type: 'ERROR_MESSAGE',
+        payload: message
+    }
+}
+// success action
+export const successMessageAction = (message) => {
+    return {
+        type: 'SUCCESS_MESSAGE',
+        payload: message
+    }
+}
+
+

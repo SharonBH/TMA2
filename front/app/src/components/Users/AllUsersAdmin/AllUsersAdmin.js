@@ -10,11 +10,8 @@ import PropTypes from 'prop-types';
 import Register from '../../Register';
 import { DeleteUserRequest } from '../../../actions/Api';
 import Spinner from '../../UI/Spinner';
-import EditUser from '../EditUser/EditUser';
-import { addNewUserAction, editThisUserAction}  from '../../../actions';
-// import {  getUsersListAction } from '../../../actions';
-
-
+// import EditUser from '../EditUser/EditUser';
+import { addNewUserAction, editThisUserAction, successMessageAction, errorMessageAction }  from '../../../actions';
 
 export class AllUsersAdmin extends Component {
     static propTypes = {
@@ -32,7 +29,10 @@ export class AllUsersAdmin extends Component {
     componentDidMount(){
         this.props.takeAllUsers()
     }
-
+    componentWillUnmount(){
+        this.props.errorMessageAction(null)
+        this.props.successMessageAction(null)
+    }
     DeleteUserBtn = (item) => {
         this.setState({userInEditMode: null})
         this.props.DeleteUserRequest(item.username)
@@ -89,22 +89,20 @@ export class AllUsersAdmin extends Component {
     }
 
     editUserComp = () => {
-        return <EditUser headline='Edit' user={this.state.userInEditMode}/>
+        // return <EditUser headline='Edit' user={this.state.userInEditMode}/>
     }
     successDeleteMessage = () => {
-        return this.props.message !== '' 
-        ? <p className={classes.success} style={{display: this.state.display ? 'none' : 'block' }}>
-            <span>{this.props.message}
+        return this.props.successMessage !== null 
+        ? <p className={classes.success}>
+            <span>{this.props.successMessage}
                 <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
             </span>
         </p>
         : null 
     }
     closeMessage = () => {
-        // this.setState({ display: true });
-        this.props.message = ''
+        this.props.successMessageAction(null)
     }
-    
 
     ulserList = () => {
         return this.props.allUsersList.map((item, index) => {
@@ -112,11 +110,9 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
                 <div className={classes.email}>{item.username}</div>
-                <div className={classes.role}>{item.role/* === 'Admin' ? item.role = 'Admin' : item.role = ''*/ }</div>
+                <div className={classes.role}>{item.role}</div>
                 <div id={index} className={classes.allUsButtons}>
                     <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/></Link>
-                    {/* <Link to={`/edit_user/${item.username}`}><EditBtn inputType={'button'} content='Edit'/></Link> */}
-                    
                     <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
                  </div>
             </li>
@@ -124,7 +120,6 @@ export class AllUsersAdmin extends Component {
     }
     
     render (){
-        console.log('6666', this.props)
         return (
             <div className={classes.usersWrapper}>
                 {this.successDeleteMessage()}
@@ -138,8 +133,6 @@ export class AllUsersAdmin extends Component {
                 </div> 
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
-
-
                 {this.props.editThisUser ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
             </div>
 
@@ -155,10 +148,7 @@ const mapStateToProps = (state) => {
         editThisUser: state.editUserReducer.editThisUser,
         newUsers: state.userReducer.newUsers,
         message: state.userReducer.message,
-// =======
-        // usersList: state.usersListReducer.usersList,
-        
-// >>>>>>> ad4a9475ebd43fe2e51768b0f2756d585a03e341
+        successMessage: state.successMessageReducer.successMessage
     }
 }
 
@@ -168,13 +158,9 @@ const mapDispatchToProps = dispatch => {
        takeAllUsers: payload => dispatch(takeAllUsers(payload)),
        addNewUserAction: payload => dispatch(addNewUserAction(payload)),
        DeleteUserRequest: (item) => dispatch(DeleteUserRequest(item)),
-    //    deleteUser: (userName) => dispatch(deleteUser(userName)),
-    //    getUsersListAction: payload => dispatch(getUsersListAction(payload)),
-
-
-        // usersListRequest: payload => dispatch(usersListRequest(payload)),
-        editThisUserAction: payload => dispatch(editThisUserAction(payload)),
-
+       successMessageAction: payload => dispatch(successMessageAction(payload)),
+       errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        editThisUserAction: payload => dispatch(editThisUserAction(payload))
     }
 }
 

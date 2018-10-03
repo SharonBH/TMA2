@@ -17,18 +17,9 @@ const userReducer = (state = InitialState, action) => {
         }
         case 'SET_ISLOADING_TO_TRUE':
             const bool = action.payload
-            // console.log('true')
             return {
                 ...state,
                 isLoading: bool
-            }
-        case 'DELETE_USER':
-            const data = action.payload
-            console.log('data reducer', data)
-            // const newList = data.filter((result, j) => j !== action.data);
-            return {
-                ...state,
-                message: data.message
             }
         
         default:
