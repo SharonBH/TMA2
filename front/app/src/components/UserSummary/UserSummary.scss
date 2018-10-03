@@ -32,8 +32,11 @@
             display: block;
             // display: flex;
             // justify-content: space-between;
+            
             &:first-of-type span{ background: $white; }
             &:last-of-type span{ background: $white; }
+            &:last-of-type .editLineInput { background: #e5e5e5; }
+            
             &::placeholder{
                 color: $dark-gray
             }
