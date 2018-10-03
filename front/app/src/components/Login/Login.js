@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from '../Register/RegisterComp.scss';
-import loginClasses from '../LogIn/LoginComp.scss';
+import loginClasses from '../Login/LoginComp.scss';
 import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
 import InputComp from '../UI/InputComp/InputComp';
@@ -11,7 +11,7 @@ import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 import ForgotPassword from '../ForgotPassword';
 
-class LogIn extends Component {
+class Login extends Component {
 
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -146,4 +146,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default withCookies(connect(mapStateToProps, mapDispatchToProps)(LogIn));
+export default withCookies(connect(mapStateToProps, mapDispatchToProps)(Login));
