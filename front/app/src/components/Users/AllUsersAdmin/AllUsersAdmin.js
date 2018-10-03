@@ -28,8 +28,12 @@ export class AllUsersAdmin extends Component {
         this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
 
-    componentDidMount(){
-        this.props.takeAllUsers()
+    componentWillMount(){
+        if(this.props.usersList.length === 0) {
+            this.props.takeAllUsers()
+        } else {
+            return null
+        }
     }
 
     componentWillUnmount(){
@@ -100,7 +104,7 @@ export class AllUsersAdmin extends Component {
     }
 
     ulserList = () => {
-        return this.props.allUsersList.map((item, index) => {
+        return this.props.usersList.map((item, index) => {
             return <li key={index}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
@@ -135,11 +139,9 @@ export class AllUsersAdmin extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        allUsersList: state.userReducer.allUsersList,
+        usersList: state.usersListReducer.usersList,
         addUser: state.addNewUserReducer.addUser,
         editThisUser: state.editUserReducer.editThisUser,
-        newUsers: state.userReducer.newUsers,
-        message: state.userReducer.message,
         successMessage: state.successMessageReducer.successMessage
     }
 }
