@@ -144,7 +144,7 @@ export const editProfileRequest = (userName, name, email, userType) => {
                             history.push({pathname: '/profile'})
                         })
                         .catch((error) => {
-                         dispatch(errorMessageAction([error][0]))
+                            dispatch(errorMessageAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
@@ -173,17 +173,17 @@ export const editThisUserRequest = (userName, name, email, userType) => {
                         .then((response) => {
                                 const users = response.data
                                 dispatch(getAllUsersAction(users));
+                                dispatch(successMessageAction(response.data.message))
                                 history.push({pathname: '/all_users'})
                                 dispatch(toggleLoaderAction(false))
                         })
                         .catch((error) => {
-                            dispatch(catchErrorAction([error][0]))
                             dispatch(errorMessageAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
                 } else {
                     const error = response.data.message
-                    dispatch(errorMessageAction(`Sorry It Didn't Work For Us This Time, Error: ${error}`))
+                    dispatch(errorMessageAction(error))
                     dispatch(toggleLoaderAction(false))
                 }
             })
