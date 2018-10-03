@@ -7,14 +7,11 @@ import { getUserAction } from '../../actions';
 
 export class Nav extends Component {
 
-
-
     // logout = () => {
     //     this.props.getUserAction(null)
     //     localStorage.clear();
     //     sessionStorage.clear();
     // }
-
     // navLinks = () => {
     //     return (
     //         <div className={classes.innerNav}>
@@ -31,27 +28,15 @@ export class Nav extends Component {
     //     )
     // }
 
-    
-
-    // navState = () => {
-    //     this.setState({navState: !this.state.navState})
-    // }
-
     render(){
         console.log('nav',this.props)
         return   <div className={this.props.navAction.navState ? classes.navclosed : classes.nav}>
-            <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
-            
-            {/* <span className={classes.Menu} onClick={this.navState}>
-                    {this.state.navState ? <i className="fas fa-angle-left"></i> : <i className="fas fa-angle-right"></i>}
-                </span> */}
-        </div>
+                    <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
+                </div>
     //             <Link to='/home' className={classes.navLink}>
     //                 <i className="fas fa-home"></i><span>Home</span>
     //             </Link> 
     //             {this.navLinks()}
-                
-            
     }
 }
 
