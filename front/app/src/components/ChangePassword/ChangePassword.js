@@ -6,7 +6,6 @@ import { changePasswordRequest } from "../../actions/Api";
 import { successMessageAction, errorMessageAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import Spinner from '../Spiner';
 
 class ChangePassword extends Component {
     constructor(props) {
@@ -63,14 +62,6 @@ class ChangePassword extends Component {
         if (success !== null) {
             this.props.errorMessageAction(null)
             return <p className={chClasses.success}>{success}</p>
-        } else {
-            return null
-        }
-    }
-
-    spinner = () => {
-        if (this.props.toggleSpinner) {
-            return <Spinner />
         } else {
             return null
         }
