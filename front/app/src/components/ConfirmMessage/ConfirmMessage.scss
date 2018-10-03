@@ -1,0 +1,34 @@
+.ConfirmMessageWrapper {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(128, 128, 128, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    .ConfirmMessage {
+        display: flex;
+        flex-wrap: wrap;
+        
+        width: 350px;
+        height: 100px;
+        background-color: white;
+
+        p {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btm {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        } 
+    }
+}

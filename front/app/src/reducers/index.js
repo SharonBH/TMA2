@@ -10,6 +10,7 @@ import changePassReducer from './changePassReducer';
 import successMessageReducer from './successMessageReducer';
 import errorMessageReducer from './errorMessageReducer';
 import closeNavReducer from './navReducer';
+import confirmMessageReducer from './confirmMessageReducer';
 
 const rootReducer = combineReducers({
   UserLogInReducer: UserLogInReducer,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   changePassReducer: changePassReducer,
   successMessageReducer: successMessageReducer,
   errorMessageReducer: errorMessageReducer,
-  closeNavReducer: closeNavReducer
+  closeNavReducer: closeNavReducer,
+  confirmMessageReducer: confirmMessageReducer,
 });
 
 export default rootReducer;

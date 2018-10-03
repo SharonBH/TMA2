@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { takeAllUsers } from '../../../actions/Api';
+import { takeAllUsers, DeleteUserRequest } from '../../../actions/Api';
 import { Link } from 'react-router-dom'
 import classes from './AllUsersAdmin.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
@@ -8,8 +8,9 @@ import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import PropTypes from 'prop-types';
 import Register from '../../Register';
-import { DeleteUserRequest } from '../../../actions/Api';
+import { confirmMessageAction } from '../../../actions';
 import UserSummary from '../../UserSummary';
+import ConfirmMessage from '../../ConfirmMessage';
 
 import { addNewUserAction, editThisUserAction, successMessageAction, errorMessageAction }  from '../../../actions';
 export class AllUsersAdmin extends Component {
@@ -22,6 +23,7 @@ export class AllUsersAdmin extends Component {
         super(props)
         this.state = {
             userInEditMode: null,
+            userForDelete: null,
             display: false
         }
         this.editUserBtn = this.editUserBtn.bind(this)
@@ -42,8 +44,9 @@ export class AllUsersAdmin extends Component {
     }
 
     DeleteUserBtn = (item) => {
+        this.setState({userForDelete: item})
         this.setState({userInEditMode: null})
-        this.props.DeleteUserRequest(item.username)
+        this.props.confirmMessageAction(true)
     }
 
     editUserBtn = (item) => {
@@ -132,6 +135,7 @@ export class AllUsersAdmin extends Component {
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
                 {this.props.editThisUser ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
+                {this.props.confirmMessage ? <ConfirmMessage headline='delete' user={this.state.userForDelete}/> : null}
             </div>
         )
     }
@@ -142,7 +146,8 @@ const mapStateToProps = (state) => {
         usersList: state.usersListReducer.usersList,
         addUser: state.addNewUserReducer.addUser,
         editThisUser: state.editUserReducer.editThisUser,
-        successMessage: state.successMessageReducer.successMessage
+        successMessage: state.successMessageReducer.successMessage,
+        confirmMessage: state.confirmMessageReducer.confirmMessage
     }
 }
 
@@ -154,7 +159,8 @@ const mapDispatchToProps = dispatch => {
         DeleteUserRequest: (item) => dispatch(DeleteUserRequest(item)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
-        editThisUserAction: payload => dispatch(editThisUserAction(payload))
+        editThisUserAction: payload => dispatch(editThisUserAction(payload)),
+        confirmMessageAction: payload => dispatch(confirmMessageAction(payload))
     }
 }
 

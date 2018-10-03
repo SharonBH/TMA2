@@ -73,9 +73,6 @@ export const catchErrorAction = (number) => {
     }
 }
 
-
-
-
 // error action
 export const errorMessageAction = (message) => {
     return {
@@ -95,5 +92,12 @@ export const closeNav = (action) => {
     return {
         type: 'CLOSE_NAV',
         payload: action
+    }
+}
+
+export const confirmMessageAction = (bool) => {
+    return {
+        type: 'MESSAGE_CONFIRMATION',
+        payload: bool
     }
 }
