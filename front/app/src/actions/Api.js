@@ -20,12 +20,11 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                 if (response.data.response === 'Success') {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
-                            
                             sessionStorage.setItem('session', JSON.stringify(response.data));
                             const session = JSON.parse(sessionStorage.getItem('session'));
                             dispatch(getUserAction(session))
                             dispatch(toggleLoaderAction(false))
-                            history.push({pathname: '/all_users'})
+                            history.push({pathname: '/home', state:[response.data]})
                         })
                         .catch((error) => {
                             dispatch(catchErrorAction([error][0]))
@@ -82,7 +81,7 @@ export const loginRequest = (userName, password) => {
     }
 };
 
-// register request
+// add NewUser Request
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
