@@ -41,6 +41,8 @@ export class AllUsersAdmin extends Component {
     componentWillUnmount(){
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
+        this.setState({userForDelete: null})
+        this.setState({userInEditMode: null})
     }
 
     DeleteUserBtn = (item) => {

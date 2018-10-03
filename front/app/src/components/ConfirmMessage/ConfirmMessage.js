@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import { confirmMessageAction } from '../../actions';
+import { confirmMessageAction, getUserAction } from '../../actions';
 import { DeleteUserRequest } from '../../actions/Api';
 import classes from './ConfirmMessage.scss';
+import history from '../../configuration/history';
 
 class ConfirmMessage extends Component {
 
@@ -18,7 +19,14 @@ class ConfirmMessage extends Component {
     approve = (headline, user) => {
         switch(headline) {
             case 'delete':
-            this.props.DeleteUserRequest(user.username)
+                this.props.DeleteUserRequest(user.username)
+                break
+            case 'sign out':
+                this.props.getUserAction(null)
+                localStorage.clear();
+                sessionStorage.clear();
+                history.push({pathname: '/'})
+                break
             default: 
         }
         this.denied()
@@ -50,6 +58,7 @@ const mapDispatchToProps = dispatch => {
     return {
         confirmMessageAction: payload => dispatch(confirmMessageAction(payload)),
         DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
+        getUserAction: payload => dispatch(getUserAction(payload)),
     }
 }
 
