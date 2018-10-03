@@ -95,9 +95,18 @@ export const closeNav = (action) => {
     }
 }
 
-export const confirmMessageAction = (bool) => {
+export const signOutConfirmMessageAction = (bool) => {
     return {
-        type: 'MESSAGE_CONFIRMATION',
+        type: 'MESSAGE_CONFIRMATION_SIGN_OUT',
         payload: bool
     }
 }
+
+
+export const deleteUserConfirmMessageAction = (bool) => {
+    return {
+        type: 'MESSAGE_CONFIRMATION_DELETE_USER',
+        payload: bool
+    }
+}
+

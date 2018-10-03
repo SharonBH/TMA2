@@ -8,7 +8,7 @@ import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import PropTypes from 'prop-types';
 import Register from '../../Register';
-import { confirmMessageAction } from '../../../actions';
+import { deleteUserConfirmMessageAction } from '../../../actions';
 import UserSummary from '../../UserSummary';
 import ConfirmMessage from '../../ConfirmMessage';
 
@@ -48,7 +48,7 @@ export class AllUsersAdmin extends Component {
     DeleteUserBtn = (item) => {
         this.setState({userForDelete: item})
         this.setState({userInEditMode: null})
-        this.props.confirmMessageAction(true)
+        this.props.deleteUserConfirmMessageAction(true)
     }
 
     editUserBtn = (item) => {
@@ -137,7 +137,7 @@ export class AllUsersAdmin extends Component {
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
                 {this.props.editThisUser ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
-                {this.props.confirmMessage ? <ConfirmMessage headline='delete' user={this.state.userForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete user' user={this.state.userForDelete}/> : null}
             </div>
         )
     }
@@ -149,7 +149,7 @@ const mapStateToProps = (state) => {
         addUser: state.addNewUserReducer.addUser,
         editThisUser: state.editUserReducer.editThisUser,
         successMessage: state.successMessageReducer.successMessage,
-        confirmMessage: state.confirmMessageReducer.confirmMessage
+        deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage
     }
 }
 
@@ -162,7 +162,7 @@ const mapDispatchToProps = dispatch => {
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         editThisUserAction: payload => dispatch(editThisUserAction(payload)),
-        confirmMessageAction: payload => dispatch(confirmMessageAction(payload))
+        deleteUserConfirmMessageAction: payload => dispatch(deleteUserConfirmMessageAction(payload))
     }
 }
 

@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './TopNavigation.scss';
 import { connect } from 'react-redux';
-import { getUserAction, closeNav, confirmMessageAction } from '../../actions';
-import ConfirmMessage from '../../components/ConfirmMessage';
-
+import { getUserAction, closeNav, signOutConfirmMessageAction } from '../../actions';
 class TopNavigation extends Component {
 
     state = {
@@ -12,7 +10,7 @@ class TopNavigation extends Component {
     }
 
     logout = () => {
-        this.props.confirmMessageAction(true)
+        this.props.signOutConfirmMessageAction(true)
     }
 
     helloUser = () => {
@@ -57,7 +55,6 @@ class TopNavigation extends Component {
                         <i className="fas fa-power-off"></i><span>Sign Out</span>
                     </a>
                 </div>
-                {this.props.confirmMessage ? <ConfirmMessage headline='sign out'/> : null}
             </div>
         )
     }
@@ -65,7 +62,6 @@ class TopNavigation extends Component {
 const mapStateToProps = (state) => {
     return {
         currentUser: state.UserLogInReducer.currentUser,
-        confirmMessage: state.confirmMessageReducer.confirmMessage
         // navAction: state.closeNavReducer.navAction
     }
 }
@@ -73,7 +69,7 @@ const mapDispatchToProps = dispatch => {
     return {
         closeNav: payload => dispatch(closeNav(payload)),
         getUserAction: payload => dispatch(getUserAction(payload)),
-        confirmMessageAction: payload => dispatch(confirmMessageAction(payload)),
+        signOutConfirmMessageAction: payload => dispatch(signOutConfirmMessageAction(payload)),
         
     }
 }

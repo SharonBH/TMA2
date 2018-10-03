@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import { confirmMessageAction, getUserAction } from '../../actions';
+import { signOutConfirmMessageAction, deleteUserConfirmMessageAction, getUserAction } from '../../actions';
 import { DeleteUserRequest } from '../../actions/Api';
 import classes from './ConfirmMessage.scss';
 import history from '../../configuration/history';
@@ -13,12 +13,13 @@ class ConfirmMessage extends Component {
     }
 
     denied = () => {
-        this.props.confirmMessageAction(false)
+        this.props.signOutConfirmMessageAction(false)
+        this.props.deleteUserConfirmMessageAction(false)
     }
 
     approve = (headline, user) => {
         switch(headline) {
-            case 'delete':
+            case 'delete user':
                 this.props.DeleteUserRequest(user.username)
                 break
             case 'sign out':
@@ -37,7 +38,7 @@ class ConfirmMessage extends Component {
         return (
             <div className={classes.ConfirmMessageWrapper}>
                 <div className={classes.ConfirmMessage}>
-                    <p>Are you sure you want to - {headline} -</p>
+                    <p>Are you sure you want to - {headline} - {user.username}</p>
                     <div className={classes.btm}>
                         <BtnComp inputType="submit" name="Approve" content="Approve" onClick={() => this.approve(headline, user)}/>
                         <BtnComp inputType="submit" name="Denied" content="Denied" onClick={this.denied}/>
@@ -56,7 +57,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        confirmMessageAction: payload => dispatch(confirmMessageAction(payload)),
+        signOutConfirmMessageAction: payload => dispatch(signOutConfirmMessageAction(payload)),
+        deleteUserConfirmMessageAction: payload => dispatch(deleteUserConfirmMessageAction(payload)),
         DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
         getUserAction: payload => dispatch(getUserAction(payload)),
     }
