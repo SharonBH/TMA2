@@ -118,7 +118,6 @@ export class AllUsersAdmin extends Component {
         return (
             <div className={classes.usersWrapper}>
                 {this.successDeleteMessage()}
-                {/* {this.spinner()} */}
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
