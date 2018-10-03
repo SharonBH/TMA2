@@ -1,0 +1,39 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: tmafront
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: tmafront
+    spec:
+      containers:
+      - name: tmafront
+        image: bhcontreg.azurecr.io/tournamentmanagementapptmafront:#{buildtrigered}#
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tmafront
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: tmafront
