@@ -28,8 +28,8 @@ class UserSummary extends Component {
             changePassword: false,
             password: password,
             userDetailsArr: [
-                {edit: false, detail: 'Name', param: name, editInput: name},
                 {edit: false, detail: 'User Name', param: username, editInput: username},
+                {edit: false, detail: 'Name', param: name, editInput: name},
                 {edit: false, detail: 'eMail', param: email, editInput: email},
                 {edit: false, detail: 'User Type', param: role,  editInput: role},
             ],
@@ -107,15 +107,18 @@ class UserSummary extends Component {
                       </div> 
                     : <span>{item.param}</span>
                 }
-                <div className={classes.BTN}>
-
-                    <i className={ 
-                        edit 
-                            ?  classes.active + ' fas fa-pen' 
-                            : classes.notActive + ' fas fa-pen'  } 
-                        onClick={() => this.editDetailBtn(index)}>
-                    </i>
-                </div>
+                {
+                    item.detail !== 'User Type' || this.props.editThisUser 
+                    ?   <div className={classes.BTN}>
+                            <i className={ 
+                                edit 
+                                    ?  classes.active + ' fas fa-pen' 
+                                    : classes.notActive + ' fas fa-pen'  } 
+                                onClick={() => this.editDetailBtn(index)}>
+                            </i>
+                        </div> 
+                    :   null
+                }
             </div>
         )
     }
@@ -169,7 +172,6 @@ class UserSummary extends Component {
         setTimeout(() => {
             this.props.changePassOpenAction(true)
             this.closeWindowFunc()
-            
         }, 200)
     }
 
@@ -195,7 +197,7 @@ class UserSummary extends Component {
                         onClick={this.submitAllChangesDetails}
                     />
                 </span>
-                <span className={classes.changePass} onClick={this.changePassBtn}>Change Password</span>
+                {this.props.editThisUser ? null : <span className={classes.changePass} onClick={this.changePassBtn}>Change Password</span>}   
                 {this.props.passwords ? this.changePass() : null}
             </div>
         )
@@ -219,7 +221,8 @@ const mapStateToProps = (state) => {
         successMessage: state.successMessageReducer.successMessage,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
         passwords: state.changePassReducer.passwords,
-        currentUser: state.UserLogInReducer.currentUser
+        currentUser: state.UserLogInReducer.currentUser,
+        editThisUser: state.editUserReducer.editThisUser,
     }
 }
 

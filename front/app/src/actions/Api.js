@@ -1,6 +1,5 @@
 import axios from 'axios';
 import history from '../configuration/history';
-
 import {
     getUserAction,
     catchErrorAction,
@@ -12,10 +11,6 @@ import {
     changePassAction,
     successMessageAction,
     errorMessageAction,
-    accessDeniedAction,
-    registerDeniedAction,
-    changePassOpenAction,
-    editDeniedAction,
 } from './index';
 
 // register request
@@ -77,7 +72,6 @@ export const loginRequest = (userName, password) => {
                         });
                 } else {
                     const error = response.data.message
-                    // dispatch(accessDeniedAction(error))
                     dispatch(errorMessageAction(error))
                     dispatch(toggleLoaderAction(false))
                 }
@@ -89,8 +83,6 @@ export const loginRequest = (userName, password) => {
             });
     }
 };
-
-
 
 // register request
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
@@ -117,7 +109,6 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
     }
 };
 
-
 // get all users
 export const takeAllUsers = () => {
     return (dispatch) => {
@@ -140,11 +131,12 @@ export const takeAllUsers = () => {
 
 // edit profile Request
 export const editProfileRequest = (name, userName, email, password, userType) => {
-    console.log(name, userName, email, password, userType)
+    console.log( 'edit Profile Request', name, userName, email, password, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Password=${password}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
+                console.log('edit user response',response)
                 if (response.data.response === 'Success') {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
@@ -165,16 +157,16 @@ export const editProfileRequest = (name, userName, email, password, userType) =>
                 }
             })
             .catch((error) => {
+                console.log('error')
                 dispatch(catchErrorAction([error][0]))
                 dispatch(errorMessageAction([error][0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
- };
+};
 
 // edit User Request
 export const editThisUserAction = (email, name, userType, userName) => {
-    console.log(name, userName, email, userType)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
@@ -205,7 +197,6 @@ export const editThisUserAction = (email, name, userType, userName) => {
     }
 };
 
-
 // delete user
 export const DeleteUserRequest = (userName) => {
     return (dispatch) => {
@@ -214,7 +205,6 @@ export const DeleteUserRequest = (userName) => {
             .then((response) => {
                 if(response.data.response === 'Success') {
                     const data = response.data.message
-                    // dispatch(deleteUserAction(data))
                     dispatch(takeAllUsers())
                     dispatch(successMessageAction(data))
                     // history.push({pathname: '/all_users'})
@@ -234,11 +224,8 @@ export const forgotPassRequest = (email) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/ForgotPassword?Email=${email}`)
             .then((response) => {
-                console.log('QQQQ',response)
                 if (response.data.response === 'Success') {
                     const data = response.data.message
-                    
-                    // dispatch(forgotPassAction(data))
                     dispatch(successMessageAction(data))
                     dispatch(toggleLoaderAction(false))
                 } else {
@@ -264,7 +251,6 @@ export const changePasswordRequest = (username, password, newPassword, confirmPa
                 if (response.data.response === 'Success') {
                     const data = response.data.message
                     dispatch(changePassAction(data))
-                    // dispatch(changePassOpenAction(data))
                     dispatch(successMessageAction(data))
                     dispatch(toggleLoaderAction(false))
                 } else {
