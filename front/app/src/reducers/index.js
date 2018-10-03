@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import UserLogInReducer from './UserLogInReducer';
-import userReducer from './userReducer';
 import errorReducer from './errorReducer';
 import addNewUserReducer from './addNewUserReducer';
 import usersListReducer from './usersListReducer';
@@ -14,7 +13,6 @@ import closeNavReducer from './navReducer';
 
 const rootReducer = combineReducers({
   UserLogInReducer: UserLogInReducer,
-  userReducer: userReducer,
   errorReducer: errorReducer,
   addNewUserReducer: addNewUserReducer,
   usersListReducer: usersListReducer,

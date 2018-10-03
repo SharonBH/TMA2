@@ -1,5 +1,5 @@
 const InitialState = {
-    usersList: null,
+    usersList: [],
 }
 
 const usersListReducer = (state = InitialState, action) => {
