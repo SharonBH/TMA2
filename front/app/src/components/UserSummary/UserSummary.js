@@ -2,16 +2,13 @@ import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import EditBtn from '../UI/BtnComp/EditBtn';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
 import { editProfileRequest, changePasswordRequest } from '../../actions/Api';
-import { editDeniedAction } from '../../actions';
+import { successMessageAction, errorMessageAction } from '../../actions';
 import Spinner from '../UI/Spinner';
 import ChangePassword from '../ChangePassword/ChangePassword';
 import { changePassOpenAction }  from '../../actions';
-import history  from '../../configuration/history';
-import store  from '../../configuration/store';
 
 
 class UserSummary extends Component {
@@ -19,14 +16,7 @@ class UserSummary extends Component {
     constructor(props) {
         super(props)
 
-        // const userList = ''
-        // if(this.props.user !== '' || this.props.user !== null || this.props.user !== undefined){
-        //    userList = this.props.user 
-        // } else {
-        //    userList = this.state.currentUser 
-        // }
         const userData = this.props.user
-
         const name = userData.name
         const username = userData.username
         const email = userData.email
@@ -48,7 +38,8 @@ class UserSummary extends Component {
     }
     
     componentWillUnmount() {
-        this.props.editDeniedAction(null)
+        this.props.errorMessageAction(null)
+        this.props.successMessageAction(null)
         this.setState({changePassword: false})
     }
 
@@ -102,7 +93,7 @@ class UserSummary extends Component {
                             detail === 'User Type'
                             ? <SelectComp 
                                 onChange={(e) => this.editDetailInput(index, e)}
-                                options={['user', 'admin']}
+                                options={['User', 'Admin']}
                                 placeholder='Select User Type'
                             />
                             : <InputComp 
@@ -128,6 +119,7 @@ class UserSummary extends Component {
             </div>
         )
     }
+
     closeWindowFunc = () => {
         document.addEventListener("click", (evt) => {
             const changePassword = document.querySelector('.ChangePassword__changePass___3KRMY')
@@ -146,11 +138,19 @@ class UserSummary extends Component {
         });
     }
 
-
     errorMessage = () => {
         const error = this.props.errorMessage
         if (error !== null) {
-            return <p>{error}</p>
+            return <p className={classes.error}>{error}</p>
+        } else {
+            return null
+        }
+    }
+    successMessage = () => {
+        const success = this.props.successMessage
+        if (success !== null) {
+            this.props.errorMessageAction(null)
+            return <p className={classes.success}>{success}</p>
         } else {
             return null
         }
@@ -186,6 +186,7 @@ class UserSummary extends Component {
                     return this.detailLine(item, index)
                 })}
                 {this.errorMessage()}
+                {this.successMessage()}
                 <span className={classes.SubmitAll}>
                     <BtnComp 
                         className={classes.editBtn} 
@@ -214,10 +215,10 @@ class UserSummary extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.editErrorMessageReducer.errorMessage,
+        errorMessage: state.errorMessageReducer.errorMessage,
+        successMessage: state.successMessageReducer.successMessage,
         toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
         passwords: state.changePassReducer.passwords,
-        messageErr: state.changePassReducer.messageErr,
         currentUser: state.UserLogInReducer.currentUser
     }
 }
@@ -225,9 +226,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         editProfileRequest: (name, userName, email, password, userType) => dispatch(editProfileRequest(name, userName, email, password, userType)),
-        editDeniedAction: payload => dispatch(editDeniedAction(payload)),
         changePassOpenAction: payload => dispatch(changePassOpenAction(payload)),
-        changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword))
+        changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword)),
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        successMessageAction: payload => dispatch(successMessageAction(payload)),
     }
 }
 

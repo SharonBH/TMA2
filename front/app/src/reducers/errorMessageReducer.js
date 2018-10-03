@@ -2,10 +2,10 @@ const InitialState = {
     errorMessage: null
 }
 
-const changePasswordErrorMessageReducer = (state = InitialState, action) => {
+const errorMessageReducer = (state = InitialState, action) => {
     switch (action.type) {
 
-        case 'CHANGE_PASSWORD_ERROR':
+        case 'ERROR_MESSAGE':
             const message = action.payload
             return {
                 ...state,
@@ -17,4 +17,4 @@ const changePasswordErrorMessageReducer = (state = InitialState, action) => {
     return state;
 }
 
-export default changePasswordErrorMessageReducer;
+export default errorMessageReducer;
