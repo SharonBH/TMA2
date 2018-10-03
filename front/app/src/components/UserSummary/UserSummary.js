@@ -68,7 +68,6 @@ class UserSummary extends Component {
             this.state.userDetailsArr[1].editInput,
             this.state.userDetailsArr[2].editInput,
             this.state.userDetailsArr[3].editInput,
-            this.state.password
         )
     }
 
@@ -228,7 +227,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        editProfileRequest: (name, userName, email, password, userType) => dispatch(editProfileRequest(name, userName, email, password, userType)),
+        editProfileRequest: (userName, name, email, userType) => dispatch(editProfileRequest(userName, name, email, userType)),
         changePassOpenAction: payload => dispatch(changePassOpenAction(payload)),
         changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
