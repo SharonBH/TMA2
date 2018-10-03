@@ -32,7 +32,7 @@ class TopNavigation extends Component {
     render() {
         console.log('121212', this.props)
     return (
-        <div className={this.state.navState ? classes.TopNav : classes.TopNavClosed} >
+        <div className={this.state.navState ? classes.TopNavClosed : classes.TopNav} >
             <span className={classes.closeBtn}>
                 <i className="fas fa-bars"  onClick={this.navState}></i>
                 {this.helloUser()}
