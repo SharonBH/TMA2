@@ -6,7 +6,6 @@ import { successMessageAction, errorMessageAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import Spinner from '../UI/Spinner';
 
 class Register extends Component {
 
@@ -73,19 +72,10 @@ class Register extends Component {
         }
     }
 
-    spinner = () => {
-        if(this.props.toggleSpinner) {
-            return <Spinner />
-        } else {
-            return null
-        }
-    }
-
     rgisterFage = (headline, classStr) => {
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
-                {this.spinner()}
                 <form>
                     <InputComp inputType="email" name="email" placeholder="eMail" onChange={this.onEmailChange}/>
                     <InputComp inputType="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
@@ -125,7 +115,6 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
         errorMessage: state.errorMessageReducer.errorMessage,
         successMessage: state.successMessageReducer.successMessage
     }

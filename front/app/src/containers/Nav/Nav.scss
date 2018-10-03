@@ -2,15 +2,16 @@
 
 .nav {
     width: 250px;
-    background: #e5e5e5;
+    background: #03a3d0;
     box-sizing: border-box;
     padding: 5px;
     padding-top: 20px;
     transition: all ease .3s;
     left: 0;
-    z-index: 9;
+    z-index: 91;
+    height: 100vh;
     position: relative;
-    min-height: 550px;
+    min-height: 450px;
     overflow: hidden;
 
     a {
@@ -84,14 +85,16 @@
 }
 
 .navclosed {
-    background: #e5e5e5;
+    background: #03a3d0;
     padding-top: 20px;
     transition: all ease .3s;
-    z-index: 9;
+    z-index: 91;
     left: 0;
     position: relative;
-    width: 75px;
-    min-height: 550px;
+    width: 0;
+    min-height: 450px;
+    height: 100vh;
+    overflow: hidden;
 
         .navLink > span {
             display: none;

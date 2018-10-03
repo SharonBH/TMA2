@@ -9,8 +9,6 @@ import BtnComp from '../../UI/BtnComp/BtnComp';
 import PropTypes from 'prop-types';
 import Register from '../../Register';
 import { DeleteUserRequest } from '../../../actions/Api';
-import Spinner from '../../UI/Spinner';
-// import EditUser from '../EditUser/EditUser';
 import { addNewUserAction, editThisUserAction, successMessageAction, errorMessageAction }  from '../../../actions';
 
 export class AllUsersAdmin extends Component {
@@ -71,18 +69,6 @@ export class AllUsersAdmin extends Component {
             this.props.addNewUserAction(false)
         });
     }
-
-    spinner = () => {
-        if(this.props.usersList === null || this.state.userInEditMode === null) {
-            if (this.props.toggleSpinner) {
-                return <Spinner />
-            } else {
-                return null
-            }
-        } else{
-            return null
-        }
-    }
     
     addUserComp = () => {
         return <Register headline='Add User' classStr='none' />
@@ -123,7 +109,7 @@ export class AllUsersAdmin extends Component {
         return (
             <div className={classes.usersWrapper}>
                 {this.successDeleteMessage()}
-                {this.spinner()}
+                {/* {this.spinner()} */}
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
@@ -143,7 +129,6 @@ export class AllUsersAdmin extends Component {
 const mapStateToProps = (state) => {
     return {
         allUsersList: state.userReducer.allUsersList,
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
         addUser: state.addNewUserReducer.addUser,
         editThisUser: state.editUserReducer.editThisUser,
         newUsers: state.userReducer.newUsers,

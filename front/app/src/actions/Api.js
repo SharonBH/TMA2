@@ -6,16 +6,10 @@ import {
     catchErrorAction,
     toggleLoaderAction,
     addNewUserAction,
-    getAllUsersAction, 
-    deleteUserAction,
-    forgotPassAction,
+    getAllUsersAction,
     changePassAction,
     successMessageAction,
     errorMessageAction,
-    accessDeniedAction,
-    registerDeniedAction,
-    changePassOpenAction,
-    editDeniedAction,
 } from './index';
 
 // register request

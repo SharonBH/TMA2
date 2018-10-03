@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import classes from '../../Register/RegisterComp.scss';
 import { editThisUserAction } from "../../../actions/Api";
 import { connect } from 'react-redux';
 import InputComp from '../../UI/InputComp/InputComp';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp';
-import Spinner from '../../UI/Spinner/Spinner';
 
 class EditUser extends Component {
 
@@ -39,13 +37,6 @@ class EditUser extends Component {
     onUseTypeChange = (e) => { this.setState({userType: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
-    spinner = () => {
-        if (this.props.toggleSpinner) {
-            return <Spinner />
-        } else {
-            return null
-        }
-    }
     editSbmit = (e) => {
         const email = this.state.email
         const name = this.state.name
@@ -107,7 +98,6 @@ class EditUser extends Component {
         console.log('this.props', this.props)
         return (
             <div className={classes.RegisterWrapper}>
-                {this.spinner()}
                 {this.editFage()}
             </div>
         );
@@ -120,7 +110,6 @@ const mapStateToProps = (state) => {
         allUsersList: state.userReducer.allUsersList,
         editErrorMessage: state.editErrorMessageReducer.editErrorMessage,
         catchErrorNum: state.errorReducer.catchErrorNum,
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
 
