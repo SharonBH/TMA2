@@ -91,4 +91,9 @@ export const successMessageAction = (message) => {
     }
 }
 
-
+export const closeNav = (action) => {
+    return {
+        type: 'CLOSE_NAV',
+        payload: action
+    }
+}

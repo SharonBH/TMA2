@@ -7,7 +7,6 @@ import { loginRequest } from "../../actions/Api";
 import { errorMessageAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import Spinner from '../UI/Spinner';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 import ForgotPassword from '../ForgotPassword';
@@ -64,14 +63,6 @@ class Login extends Component {
         }
     }
 
-    spinner = () => {
-        if(this.props.toggleSpinner) {
-            return <Spinner />
-        } else {
-            return null
-        }
-    }
-
     rememberMe = () => {
         this.setState({rememberMe: !this.state.rememberMe})
     }
@@ -104,7 +95,6 @@ class Login extends Component {
         return (
             <div className={classes.LogIn}>
                 <h1>Sign In</h1>
-                {this.spinner()}
                 <form>
                     <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange} content={this.state.userName}/>
                     <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange} content={this.state.userPassword}/>
@@ -139,7 +129,6 @@ class Login extends Component {
 const mapStateToProps = (state) => {
     return {
         errorMessage: state.errorMessageReducer.errorMessage,
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
     }
 }
 

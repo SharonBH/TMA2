@@ -11,12 +11,13 @@ import NotFound from '../../components/NotFound';
 import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/UserSummary';
 import { connect } from 'react-redux';
-
+import history from '../../configuration/history';
 
 export class MainPage extends Component {
   render() {
     return (
         <div className={classes.MainPage}>
+        
             <Switch>
                 <Route
                     exact

@@ -6,7 +6,6 @@ import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
 import { editProfileRequest, changePasswordRequest } from '../../actions/Api';
 import { successMessageAction, errorMessageAction } from '../../actions';
-import Spinner from '../UI/Spinner';
 import ChangePassword from '../ChangePassword/ChangePassword';
 import { changePassOpenAction }  from '../../actions';
 
@@ -157,15 +156,6 @@ class UserSummary extends Component {
             return null
         }
     }
-    
-
-    spinner = () => {
-        if (this.props.toggleSpinner) {
-            return <Spinner />
-        } else {
-            return null
-        }
-    }
 
     changePassBtn = (username) => {
         setTimeout(() => {
@@ -182,7 +172,6 @@ class UserSummary extends Component {
         return (
             <div className={classes.Profile}>
                 <h1>{headline} {name}</h1>
-                {this.spinner()}
                 {this.state.userDetailsArr.map((item, index) => {
                     return this.detailLine(item, index)
                 })}
@@ -218,7 +207,6 @@ const mapStateToProps = (state) => {
     return {
         errorMessage: state.errorMessageReducer.errorMessage,
         successMessage: state.successMessageReducer.successMessage,
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
         passwords: state.changePassReducer.passwords,
         currentUser: state.UserLogInReducer.currentUser,
         editThisUser: state.editUserReducer.editThisUser,
