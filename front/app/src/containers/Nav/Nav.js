@@ -39,7 +39,7 @@ export class Nav extends Component {
 
     render(){
         console.log('nav',this.props)
-        return   <div className={this.props.navAction.navState ? classes.nav : classes.navclosed}>
+        return   <div className={this.props.navAction.navState ? classes.navclosed : classes.nav}>
             <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
             
             {/* <span className={classes.Menu} onClick={this.navState}>

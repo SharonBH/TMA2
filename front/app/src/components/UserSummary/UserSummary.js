@@ -103,7 +103,7 @@ class UserSummary extends Component {
         }
     }
 
-    detailLine = (item, index) => {
+    detailLine = (item, index, headline) => {
         const detail = item.detail
         return (
 
@@ -128,7 +128,7 @@ class UserSummary extends Component {
                             />
                         } 
                       </div> 
-                    : <span>{item.param}</span>
+                    : headline === "Edit" ? <span className={classes.editLineInput}>{item.param}</span> : <span>{item.param}</span>
                 }
                 {this.editBtnFunc(item, index)}
             </div>
@@ -182,12 +182,14 @@ class UserSummary extends Component {
         return <ChangePassword headline='Change Password' classStr='none' />
     }
     userSummary = (headline, user) => {
+        const headLine = headline;
+
         const name = user.name.charAt(0).toUpperCase() + user.name.slice(1)
         return (
             <div className={classes.Profile}>
                 <h1>{headline} {name}</h1>
                 {this.state.userDetailsArr.map((item, index) => {
-                    return this.detailLine(item, index)
+                    return this.detailLine(item, index, headLine)
                 })}
                 {this.errorMessage()}
                 {this.successMessage()}
