@@ -10,13 +10,14 @@ import PropTypes from 'prop-types';
 import Register from '../../Register';
 import { DeleteUserRequest } from '../../../actions/Api';
 import Spinner from '../../UI/Spinner';
-// import EditUser from '../EditUser/EditUser';
+import UserSummary from '../../UserSummary';
 import { addNewUserAction, editThisUserAction, successMessageAction, errorMessageAction }  from '../../../actions';
-
 export class AllUsersAdmin extends Component {
+
     static propTypes = {
         getAllUsers: PropTypes.func
     };
+
     constructor(props) {
         super(props)
         this.state = {
@@ -26,13 +27,16 @@ export class AllUsersAdmin extends Component {
         this.editUserBtn = this.editUserBtn.bind(this)
         this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
+
     componentDidMount(){
         this.props.takeAllUsers()
     }
+
     componentWillUnmount(){
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
     }
+
     DeleteUserBtn = (item) => {
         this.setState({userInEditMode: null})
         this.props.DeleteUserRequest(item.username)
@@ -46,6 +50,7 @@ export class AllUsersAdmin extends Component {
         }, 200)
 
     }
+
     addUserBtn = () => {
         setTimeout(() => {
             this.closeWindowFunc()
@@ -89,8 +94,9 @@ export class AllUsersAdmin extends Component {
     }
 
     editUserComp = () => {
-        // return <EditUser headline='Edit' user={this.state.userInEditMode}/>
+        return <UserSummary headline='Edit' user={this.state.userInEditMode}/>
     }
+
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
         ? <p className={classes.success}>
@@ -100,6 +106,7 @@ export class AllUsersAdmin extends Component {
         </p>
         : null 
     }
+
     closeMessage = () => {
         this.props.successMessageAction(null)
     }
@@ -112,7 +119,7 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.email}>{item.username}</div>
                 <div className={classes.role}>{item.role}</div>
                 <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item.username)}/></Link>
+                    <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
                  </div>
             </li>
@@ -135,7 +142,6 @@ export class AllUsersAdmin extends Component {
                 {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
                 {this.props.editThisUser ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
             </div>
-
         )
     }
 }
@@ -155,15 +161,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
 
     return{
-       takeAllUsers: payload => dispatch(takeAllUsers(payload)),
-       addNewUserAction: payload => dispatch(addNewUserAction(payload)),
-       DeleteUserRequest: (item) => dispatch(DeleteUserRequest(item)),
-       successMessageAction: payload => dispatch(successMessageAction(payload)),
-       errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        takeAllUsers: payload => dispatch(takeAllUsers(payload)),
+        addNewUserAction: payload => dispatch(addNewUserAction(payload)),
+        DeleteUserRequest: (item) => dispatch(DeleteUserRequest(item)),
+        successMessageAction: payload => dispatch(successMessageAction(payload)),
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         editThisUserAction: payload => dispatch(editThisUserAction(payload))
     }
 }
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllUsersAdmin);
