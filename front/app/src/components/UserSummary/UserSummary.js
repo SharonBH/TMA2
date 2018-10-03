@@ -86,9 +86,25 @@ class UserSummary extends Component {
         }, 200)
     }
 
+    editBtnFunc = (item, index) => {
+        if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisUser && item.detail !== 'User Name' )) {
+            return (
+                <div className={classes.BTN}>
+                    <i className={ 
+                        item.edit 
+                            ?  classes.active + ' fas fa-pen' 
+                            : classes.notActive + ' fas fa-pen'  } 
+                        onClick={() => this.editDetailBtn(index)}>
+                    </i>
+                </div> 
+            )
+        } else {
+            return null
+        }
+    }
+
     detailLine = (item, index) => {
         const detail = item.detail
-        const edit = item.edit
         return (
 
             <div key={index} className={classes.wrappLine}>
@@ -114,18 +130,7 @@ class UserSummary extends Component {
                       </div> 
                     : <span>{item.param}</span>
                 }
-                {
-                    item.detail !== 'User Type' || this.props.editThisUser 
-                    ?   <div className={classes.BTN}>
-                            <i className={ 
-                                edit 
-                                    ?  classes.active + ' fas fa-pen' 
-                                    : classes.notActive + ' fas fa-pen'  } 
-                                onClick={() => this.editDetailBtn(index)}>
-                            </i>
-                        </div> 
-                    :   null
-                }
+                {this.editBtnFunc(item, index)}
             </div>
         )
     }
