@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import InputComp from '../UI/InputComp/InputComp';
 import SelectComp from '../UI/SelectComp/SelectComp.js';
-import { editProfileRequest, changePasswordRequest } from '../../actions/Api';
+import { editProfileRequest, changePasswordRequest, editThisUserRequest } from '../../actions/Api';
 import { successMessageAction, errorMessageAction } from '../../actions';
 import ChangePassword from '../ChangePassword/ChangePassword';
 import { changePassOpenAction }  from '../../actions';
@@ -61,8 +61,17 @@ class UserSummary extends Component {
         })
     }
     
-    submitAllChangesDetails = () => {
+    submitProfileChanges = () => {
         this.props.editProfileRequest(
+            this.state.userDetailsArr[0].editInput,
+            this.state.userDetailsArr[1].editInput,
+            this.state.userDetailsArr[2].editInput,
+            this.state.userDetailsArr[3].editInput,
+        )
+    }
+
+    submitUserAditeChanges = () => {
+        this.props.editThisUserRequest(
             this.state.userDetailsArr[0].editInput,
             this.state.userDetailsArr[1].editInput,
             this.state.userDetailsArr[2].editInput,
@@ -182,7 +191,7 @@ class UserSummary extends Component {
                         className={classes.editBtn} 
                         inputType="submit" 
                         content='Submit All Changes'
-                        onClick={this.submitAllChangesDetails}
+                        onClick={this.props.headline === 'Your Profile' ? this.submitProfileChanges : this.submitUserAditeChanges}
                     />
                 </span>
                 {this.props.editThisUser ? null : <span className={classes.changePass} onClick={this.changePassBtn}>Change Password</span>}   
@@ -220,6 +229,7 @@ const mapDispatchToProps = dispatch => {
         changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
+        editThisUserRequest: (userName, name, email, userType) => dispatch(editThisUserRequest(userName, name, email, userType)),
     }
 }
 
