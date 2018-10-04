@@ -21,9 +21,6 @@ class ChangePassword extends Component {
         }
     }
     
-    componentDidMount(){
-        console.log(this.props)
-    }
     componentWillUnmount() {
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
@@ -57,7 +54,7 @@ class ChangePassword extends Component {
             return null
         }
     }
-    successMessage = () => {
+    successMessage = () => { 
         const success = this.props.successMessage
         if (success !== null) {
             this.props.errorMessageAction(null)
@@ -67,7 +64,6 @@ class ChangePassword extends Component {
         }
     }
     closePopUp = () => {
-        console.log("close good")
         this.props.changePassOpenAction(false)
     }
     render() {
