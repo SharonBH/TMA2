@@ -56,7 +56,6 @@ export const loginRequest = (userName, password) => {
                         .then((response) => {
                             sessionStorage.setItem('session', JSON.stringify(response.data));
                             const session = JSON.parse(sessionStorage.getItem('session'));
-
                             dispatch(getUserAction(session))
                             dispatch(toggleLoaderAction(false))
                             history.push({pathname: '/home', state:[response.data]})
@@ -101,7 +100,6 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                             dispatch(errorMessageAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
-                    
                 } else {
                     const error = response.data.message
                     dispatch(errorMessageAction(error))
@@ -131,7 +129,6 @@ export const takeAllUsers = () => {
                 dispatch(catchErrorAction([error][0]))
                 dispatch(errorMessageAction([error][0]))
                 dispatch(toggleLoaderAction(false))
-
             });  
     }
 };
@@ -222,7 +219,6 @@ export const DeleteUserRequest = (userName) => {
             });
     }
 };
-
 
 //forgot pass request
 export const forgotPassRequest = (email) => {
