@@ -158,17 +158,14 @@ class UserSummary extends Component {
         this.props.errorMessageAction(null)
         setTimeout(() => {
             this.props.changePassOpenAction(true)
+            this.setState({username: username})
         }, 200)
     }
 
     closePopUp = () => {
         this.props.editThisUserAction(false)
     }
-    changePass = () => {
-        return (
-           <ChangePassword headline='Change Password' classStr='none' />
-        )
-    }
+
     userSummary = (headline, user) => {
         const headLine = headline;
 
@@ -190,14 +187,15 @@ class UserSummary extends Component {
                     />
                 </span>
                 {headline === 'Edit' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
-                {this.props.editThisUser ? null : <span className={classes.changePass} onClick={this.changePassBtn}>Change Password</span>}   
-                {this.props.passwords ? this.changePass() : null}
+                {this.props.editThisUser ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
+                {this.props.passwords ? <ChangePassword headline='Change Password' user={user.username} classStr='none' /> : null}
                 
             </div>
         )
     }
 
     render() {
+        console.log('111', this.props)
         const { headline, user } = this.props
         return (
             <div className={classes.ProfileWrapper}>
