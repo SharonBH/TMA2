@@ -80,9 +80,8 @@ class ChangePassword extends Component {
                     <h1>Change Password?</h1>
                     {this.errorMessage()}
                     {this.successMessage()}
-                    {/* <InputComp inputType='text' name='username' placeholder='User Name' onChange={this.changeUsername} content={this.state.username}/> */}
                     <span className={chClasses.nameUserWrap}><span>User Name: </span><span className={chClasses.nameUser}>{this.props.user}</span></span>
-                    {history.location.pathname !== '/change_password' 
+                    {history.location.pathname !== `/change_password/${this.props.user}` 
                     ? <InputComp inputType='password' name='password' placeholder='Password' onChange={this.changePassword} content={this.state.password}/> 
                     : null}
                     
