@@ -80,7 +80,7 @@ export const loginRequest = (userName, password) => {
     }
 };
 
-// add NewUser Request
+// add New-User Request
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
@@ -212,11 +212,13 @@ export const DeleteUserRequest = (userName) => {
                     dispatch(takeAllUsers())
                     dispatch(successMessageAction(data))
                     // history.push({pathname: '/all_users'})
+                    dispatch(toggleLoaderAction(false))
                 }
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
                 dispatch(errorMessageAction([error][0]))
+                dispatch(toggleLoaderAction(false))
             });
     }
 };
