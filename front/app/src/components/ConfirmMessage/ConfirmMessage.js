@@ -8,8 +8,27 @@ import history from '../../configuration/history';
 
 class ConfirmMessage extends Component {
 
+    componentDidMount() {
+        document.addEventListener("click", (evt) => {
+            const confirmMessageWrapper = document.querySelector('.ConfirmMessage__ConfirmMessageWrapper___3lYEo')
+            const confirmMessage = document.querySelector('.ConfirmMessage__ConfirmMessage___Y5-uk')
+            let targetEl = evt.target
+            do { 
+               if (targetEl === confirmMessageWrapper) {
+                    this.denied()
+                } else if(targetEl === confirmMessage) {
+                    return
+                }
+                // Go up the DOM
+                targetEl = targetEl.parentNode;
+            }
+            while (targetEl)
+        });
+    }
+
     componentWillUnmount() {
         this.denied()
+        document.removeEventListener("click", (evt) => {})
     }
 
     denied = () => {
@@ -38,7 +57,7 @@ class ConfirmMessage extends Component {
         return (
             <div className={classes.ConfirmMessageWrapper}>
                 <div className={classes.ConfirmMessage}>
-                    <p>Are you sure you want to - {headline} - {user.username}</p>
+                    <p>Are you sure you want to {headline} {user.username}</p>
                     <div className={classes.btm}>
                         <BtnComp inputType="submit" name="Approve" content="Approve" onClick={() => this.approve(headline, user)}/>
                         <BtnComp inputType="submit" name="Denied" content="Denied" onClick={this.denied}/>
@@ -46,12 +65,6 @@ class ConfirmMessage extends Component {
                 </div>
             </div>
         );
-    }
-}
-
-const mapStateToProps = (state) => {
-    return {
-        
     }
 }
 
@@ -64,4 +77,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmMessage);
+export default connect(null, mapDispatchToProps)(ConfirmMessage);
