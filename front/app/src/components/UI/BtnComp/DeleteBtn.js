@@ -22,7 +22,9 @@ export class DeleteBtn extends Component {
                     type={this.props.inputType}
                     value={this.props.content}
                     onSubmit={this.props.onSubmit} 
-                    onClick={this.props.onClick} />
+                    onClick={this.props.onClick}
+                    id={this.props.id} 
+                />
             </div>
         )
     }
