@@ -36,6 +36,21 @@
             width: 100%;
             margin: 0 0 25px 0;
             display: block;
+            .closePopBtn{
+                display: inline-block;
+                width: 100%;
+                text-align: right;
+                margin-top: 10px;
+                span{
+                    padding: 5px;
+                    border: 1px solid;
+                    color: #03a3d0;
+                    &:hover {
+                        background: #03a3d0;
+                        color: #fff;
+                    }
+                }
+            }
         }
 
         input, select{

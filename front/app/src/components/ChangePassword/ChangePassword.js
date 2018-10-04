@@ -3,7 +3,7 @@ import classes from '../Register/RegisterComp.scss';
 import chClasses from './ChangePassword.scss';
 import { connect } from 'react-redux';
 import { changePasswordRequest } from "../../actions/Api";
-import { successMessageAction, errorMessageAction } from "../../actions";
+import { successMessageAction, errorMessageAction, changePassOpenAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 
@@ -66,7 +66,10 @@ class ChangePassword extends Component {
             return null
         }
     }
-    
+    closePopUp = () => {
+        console.log("close good")
+        this.props.changePassOpenAction(false)
+    }
     render() {
         return (
             <div className={chClasses.changePassWrapper}>
@@ -79,6 +82,7 @@ class ChangePassword extends Component {
                     <InputComp inputType='password' name='newPassword' placeholder='New Password' onChange={this.changeNewPassword} content={this.state.newPassword}/>
                     <InputComp inputType='password' name='confirmPassword' placeholder='Confirm Password' onChange={this.changeConfirmPassword} content={this.state.confirmPassword}/>
                     <div className={classes.changeBtn}><BtnComp inputType='button' content='Send' onClick={this.onClick}/></div>
+                    <div className={chClasses.closePopBtn} onClick={this.closePopUp}><span>Close</span></div>
                 </div>
                 <div className={chClasses.changePassBG}></div>
             </div>
@@ -98,6 +102,7 @@ const mapDispatchToProps = dispatch => {
         changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
+        changePassOpenAction: payload => dispatch(changePassOpenAction(payload)),
     }
 }
 

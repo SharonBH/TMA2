@@ -5,7 +5,7 @@
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    min-height: 100vh;
+    // min-height: 100vh;
     color: $black;
     
     .Profile {
@@ -19,6 +19,21 @@
         h1 {
             width: 100%;
             text-align: left;
+        }
+        .closePopBtn{
+            display: inline-block;
+            width: 100%;
+            text-align: right;
+            margin-top: 10px;
+            span{
+                padding: 5px;
+                border: 1px solid;
+                color: #03a3d0;
+                &:hover {
+                    background: #03a3d0;
+                    color: #fff;
+                }
+            }
         }
         
         .wrappLine{
