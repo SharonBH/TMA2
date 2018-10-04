@@ -95,15 +95,12 @@ export const closeNav = (action) => {
     }
 }
 
-<<<<<<< HEAD
-=======
 export const signOutConfirmMessageAction = (bool) => {
     return {
         type: 'MESSAGE_CONFIRMATION_SIGN_OUT',
         payload: bool
     }
 }
-
 
 export const deleteUserConfirmMessageAction = (bool) => {
     return {
@@ -112,4 +109,3 @@ export const deleteUserConfirmMessageAction = (bool) => {
     }
 }
 
->>>>>>> master
