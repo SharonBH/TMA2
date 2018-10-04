@@ -18,7 +18,6 @@ const UserLogInReducer = (state = InitialState, action) => {
             }
         default:
     }
-    console.log('UserLogInReducer', InitialState)
     return state;
 }
 

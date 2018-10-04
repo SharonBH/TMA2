@@ -7,7 +7,6 @@ const successMessageReducer = (state = InitialState, action) => {
 
         case 'SUCCESS_MESSAGE':
             const message = action.payload
-            console.log('mes', message)
             return {
                 ...state,
                 successMessage: message

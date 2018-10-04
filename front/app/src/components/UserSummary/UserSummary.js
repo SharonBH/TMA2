@@ -134,24 +134,6 @@ class UserSummary extends Component {
             </div>
         )
     }
-    
-    // closeWindowFunc = () => {
-    //     document.addEventListener("click", (evt) => {
-    //         const changePassword = document.querySelector('.ChangePassword__changePass___3KRMY')
-    //         const btn = document.querySelectorAll('.BtnComp__sendBtn___398uD')
-    //         let targetEl = evt.target
-    //         do {
-    //             if (targetEl === changePassword || targetEl === btn) {
-    //                 return 
-    //             }
-    //             targetEl = targetEl.parentNode;
-    //             // Go up the DOM
-    //         }
-    //         while (targetEl)
-    //         return  this.props.changePassOpenAction(false) || (this.props.messageErr(false))
-            
-    //     });
-    // }
 
     errorMessage = () => {
         const error = this.props.errorMessage
@@ -172,9 +154,10 @@ class UserSummary extends Component {
     }
 
     changePassBtn = (username) => {
+        this.props.successMessageAction(null)
+        this.props.errorMessageAction(null)
         setTimeout(() => {
             this.props.changePassOpenAction(true)
-            // this.closeWindowFunc()
         }, 200)
     }
 
