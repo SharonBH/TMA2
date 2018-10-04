@@ -51,7 +51,6 @@ class ForgotPassword extends Component {
 
     render() {
         const { closePop } = this.props
-        console.log('1111', this.props)
         return (
             <div className={classes.ForgotPasswordWrapper}>
                 <div className={classes.ForgotPassword}>
