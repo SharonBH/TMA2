@@ -22,12 +22,12 @@
         width: 40%;
         min-width: 400px;
         max-width: 500px;
-        margin-top: 50px;
+        margin-top: 0px;
         padding: 20px;
         background-color: $white;
         height: auto;
         display: inline-table;
-        
+        position: relative;
         h1 {
             width: 100%;
         }
@@ -40,11 +40,13 @@
                 display: inline-block;
                 width: 100%;
                 text-align: right;
-                margin-top: 10px;
+                margin-top: 15px;
                 span{
                     padding: 5px;
                     border: 1px solid;
                     color: #03a3d0;
+                    position: relative;
+                    z-index: 5;
                     &:hover {
                         background: #03a3d0;
                         color: #fff;
@@ -110,6 +112,13 @@
         margin-top: 100px;
     }
     .error{
-        color: red
+        background: #f18383;
+        position: absolute;
+        bottom: 25px;
+        width: 79%;
+        left: 20px;
+        padding: 5px;
+        text-align: center;
+        color: #fff;
     }
 }

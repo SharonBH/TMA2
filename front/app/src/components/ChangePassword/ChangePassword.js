@@ -6,6 +6,8 @@ import { changePasswordRequest } from "../../actions/Api";
 import { successMessageAction, errorMessageAction, changePassOpenAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
+import { Link } from 'react-router-dom';
+import history from '../../configuration/history'
 
 class ChangePassword extends Component {
     constructor(props) {
@@ -20,7 +22,9 @@ class ChangePassword extends Component {
             show: false
         }
     }
-    
+    componentDidMount(){
+        this.setState({username: this.props.user})
+    }
     componentWillUnmount() {
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
@@ -32,7 +36,7 @@ class ChangePassword extends Component {
     changeConfirmPassword = (e) => { this.setState({confirmPassword: e.target.value})}
 
     onClick = (e) => {
-        const username = this.state.username
+        const username = this.props.user
         const password = this.state.password
         const newPassword = this.state.newPassword
         const confirmPassword = this.state.confirmPassword
@@ -67,18 +71,27 @@ class ChangePassword extends Component {
         this.props.changePassOpenAction(false)
     }
     render() {
+        console.log('history', history)
+        console.log('this.props', this.props)
+        console.log('this.state', this.state)
         return (
             <div className={chClasses.changePassWrapper}>
                 <div className={chClasses.changePass}>
                     <h1>Change Password?</h1>
                     {this.errorMessage()}
                     {this.successMessage()}
-                    <InputComp inputType='text' name='username' placeholder='User Name' onChange={this.changeUsername} content={this.state.username}/>
-                    <InputComp inputType='password' name='password' placeholder='Password' onChange={this.changePassword} content={this.state.password}/>
-                    <InputComp inputType='password' name='newPassword' placeholder='New Password' onChange={this.changeNewPassword} content={this.state.newPassword}/>
-                    <InputComp inputType='password' name='confirmPassword' placeholder='Confirm Password' onChange={this.changeConfirmPassword} content={this.state.confirmPassword}/>
+                    {/* <InputComp inputType='text' name='username' placeholder='User Name' onChange={this.changeUsername} content={this.state.username}/> */}
+                    <span className={chClasses.nameUserWrap}><span>User Name: </span><span className={chClasses.nameUser}>{this.props.user}</span></span>
+                    {history.location.pathname !== '/change_password' 
+                    ? <InputComp inputType='password' name='password' placeholder='Password' onChange={this.changePassword} content={this.state.password}/> 
+                    : null}
+                    
+                    <InputComp inputType='password' name='newPassword' placeholder='New Password - must be A-Za-z0-9 + special character' onChange={this.changeNewPassword} content={this.state.newPassword}/>
+                    <InputComp inputType='password' name='confirmPassword' placeholder='Confirm Password - must be A-Za-z0-9 + special character' onChange={this.changeConfirmPassword} content={this.state.confirmPassword}/>
                     <div className={classes.changeBtn}><BtnComp inputType='button' content='Send' onClick={this.onClick}/></div>
-                    <div className={chClasses.closePopBtn} onClick={this.closePopUp}><span>Close</span></div>
+                    {history.location.pathname !== '/change_password' 
+                    ? <div className={chClasses.closePopBtn} onClick={this.closePopUp}><span>Close</span></div>
+                    : null}
                 </div>
                 <div className={chClasses.changePassBG}></div>
             </div>

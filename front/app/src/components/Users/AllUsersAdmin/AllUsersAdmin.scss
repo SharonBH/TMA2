@@ -115,5 +115,12 @@ div.EditBtn {
     width: 200px;
 }
 .error{
-    color: red
+    background: #f18383;
+    position: absolute;
+    bottom: 25px;
+    width: 79%;
+    left: 20px;
+    padding: 5px;
+    text-align: center;
+    color: #fff;
 }
