@@ -6,7 +6,6 @@ import { changePasswordRequest } from "../../actions/Api";
 import { successMessageAction, errorMessageAction, changePassOpenAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import { Link } from 'react-router-dom';
 import history from '../../configuration/history'
 
 class ChangePassword extends Component {
@@ -80,12 +79,12 @@ class ChangePassword extends Component {
                     <h1>Change Password?</h1>
                     {this.errorMessage()}
                     {this.successMessage()}
-                    
                     <span className={chClasses.nameUserWrap}><span>User Name: </span><span className={chClasses.nameUser}>{this.props.user}</span></span>
-                    {history.location.pathname !== '/change_password' 
+                    {history.location.pathname !== `/change_password/${this.props.user}` 
                     ? <InputComp inputType='password' name='password' placeholder='Password' onChange={this.changePassword} content={this.state.password}/> 
                     : null}
                     
+
                     <InputComp inputType='password' name='newPassword' placeholder='New Password - must be A-Za-z0-9 + special character' onChange={this.changeNewPassword} content={this.state.newPassword}/>
                     <InputComp inputType='password' name='confirmPassword' placeholder='Confirm Password - must be A-Za-z0-9 + special character' onChange={this.changeConfirmPassword} content={this.state.confirmPassword}/>
                     <div className={classes.changeBtn}><BtnComp inputType='button' content='Send' onClick={this.onClick}/></div>
