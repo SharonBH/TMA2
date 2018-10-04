@@ -58,13 +58,13 @@ export const changePassOpenAction = (pass) => {
         payload: pass
     }
 }
-export const changePassAction = (pass) => {
+// export const changePassAction = (pass) => {
     
-    return {
-        type: 'CHANGE_PASSWORD',
-        payload: pass
-    }
-}
+//     return {
+//         type: 'CHANGE_PASSWORD',
+//         payload: pass
+//     }
+// }
 // catch Error
 export const catchErrorAction = (number) => {
     return {
@@ -101,7 +101,6 @@ export const signOutConfirmMessageAction = (bool) => {
         payload: bool
     }
 }
-
 
 export const deleteUserConfirmMessageAction = (bool) => {
     return {

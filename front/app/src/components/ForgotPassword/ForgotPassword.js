@@ -18,9 +18,7 @@ class ForgotPassword extends Component {
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
     }
-    onChangeValue = (e) => {
-        this.setState({email: e.target.value})
-    }
+    onChangeValue = (e) => { this.setState({email: e.target.value})}
 
     onClick = (e) => {
         e.preventDefault()
@@ -52,6 +50,8 @@ class ForgotPassword extends Component {
     }
 
     render() {
+        const { closePop } = this.props
+        console.log('1111', this.props)
         return (
             <div className={classes.ForgotPasswordWrapper}>
                 <div className={classes.ForgotPassword}>
@@ -61,6 +61,7 @@ class ForgotPassword extends Component {
                     {this.successMessage()}
                     <InputComp inputType='email' name='email' placeholder='Email' onChange={this.onChangeValue} content={this.state.email}/>
                     <div className={classes.forgotBtn}><BtnComp inputType='button' content='Send' onClick={this.onClick}/></div>
+                    <div className={classes.closePopBtn} onClick={closePop}><span>Close</span></div>
                 </div>
                 
             </div>

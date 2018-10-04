@@ -6,7 +6,7 @@ import {
     toggleLoaderAction,
     addNewUserAction,
     getAllUsersAction,
-    changePassAction,
+    // changePassAction,
     successMessageAction,
     errorMessageAction,
 } from './index';
@@ -258,7 +258,7 @@ export const changePasswordRequest = (username, password, newPassword, confirmPa
             .then((response) => {
                 if (response.data.response === 'Success') {
                     const data = response.data.message
-                    dispatch(changePassAction(data))
+                    // dispatch(changePassAction(data))
                     dispatch(successMessageAction(data))
                     dispatch(toggleLoaderAction(false))
                 } else {
