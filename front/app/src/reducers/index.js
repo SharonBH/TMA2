@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import UserLogInReducer from './UserLogInReducer';
-import userReducer from './userReducer';
 import errorReducer from './errorReducer';
 import addNewUserReducer from './addNewUserReducer';
 import usersListReducer from './usersListReducer';
@@ -11,10 +10,10 @@ import changePassReducer from './changePassReducer';
 import successMessageReducer from './successMessageReducer';
 import errorMessageReducer from './errorMessageReducer';
 import closeNavReducer from './navReducer';
+import confirmMessageReducer from './confirmMessageReducer';
 
 const rootReducer = combineReducers({
   UserLogInReducer: UserLogInReducer,
-  userReducer: userReducer,
   errorReducer: errorReducer,
   addNewUserReducer: addNewUserReducer,
   usersListReducer: usersListReducer,
@@ -24,7 +23,8 @@ const rootReducer = combineReducers({
   changePassReducer: changePassReducer,
   successMessageReducer: successMessageReducer,
   errorMessageReducer: errorMessageReducer,
-  closeNavReducer: closeNavReducer
+  closeNavReducer: closeNavReducer,
+  confirmMessageReducer: confirmMessageReducer,
 });
 
 export default rootReducer;

@@ -88,10 +88,21 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
-                    history.push({pathname: '/all_users'})
-                    dispatch(addNewUserAction(false))
-                    dispatch(successMessageAction(response.data.message))
-                    dispatch(toggleLoaderAction(false))
+                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
+                        .then((response) => {
+                            const users = response.data
+                            dispatch(getAllUsersAction(users));
+                            history.push({pathname: '/all_users'})
+                            dispatch(addNewUserAction(false))
+                            dispatch(successMessageAction(response.data.message))
+                            dispatch(toggleLoaderAction(false))
+                        })
+                        .catch((error) => {
+                            dispatch(catchErrorAction([error][0]))
+                            dispatch(errorMessageAction([error][0]))
+                            dispatch(toggleLoaderAction(false))
+                        });
+                    
                 } else {
                     const error = response.data.message
                     dispatch(errorMessageAction(error))

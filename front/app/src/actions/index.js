@@ -73,9 +73,6 @@ export const catchErrorAction = (number) => {
     }
 }
 
-
-
-
 // error action
 export const errorMessageAction = (message) => {
     return {
@@ -98,3 +95,21 @@ export const closeNav = (action) => {
     }
 }
 
+<<<<<<< HEAD
+=======
+export const signOutConfirmMessageAction = (bool) => {
+    return {
+        type: 'MESSAGE_CONFIRMATION_SIGN_OUT',
+        payload: bool
+    }
+}
+
+
+export const deleteUserConfirmMessageAction = (bool) => {
+    return {
+        type: 'MESSAGE_CONFIRMATION_DELETE_USER',
+        payload: bool
+    }
+}
+
+>>>>>>> master

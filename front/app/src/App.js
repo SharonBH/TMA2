@@ -6,7 +6,8 @@ import history from './configuration/history';
 import Spinner from './components/UI/Spinner';
 import { connect } from 'react-redux';
 import { withCookies } from 'react-cookie';
-import  TopNavigation  from './containers/TopNavigation/TopNavigation';
+import ConfirmMessage from './components/ConfirmMessage';
+import TopNavigation  from './containers/TopNavigation/TopNavigation';
 
 class App extends Component {
   spinner = () => {
@@ -24,6 +25,7 @@ class App extends Component {
         {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <TopNavigation/>}
         {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <Nav />}
         <MainPage />
+        {this.props.signOutConfirmMessage ? <ConfirmMessage headline='sign out' user=''/> : null}
       </div>
     );
   }
@@ -31,7 +33,8 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner
+        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
+        signOutConfirmMessage: state.confirmMessageReducer.signOutConfirmMessage,
     }
 }
 
