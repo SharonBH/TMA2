@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './TopNavigation.scss';
 import { connect } from 'react-redux';
-import { getUserAction, closeNav, signOutConfirmMessageAction } from '../../actions';
+import { getUserAction, closeNav, signOutConfirmMessageAction, deleteUserConfirmMessageAction } from '../../actions';
 class TopNavigation extends Component {
 
     state = {
@@ -10,6 +10,7 @@ class TopNavigation extends Component {
     }
 
     logout = () => {
+        this.props.deleteUserConfirmMessageAction(false)
         this.props.signOutConfirmMessageAction(true)
     }
 
@@ -70,7 +71,7 @@ const mapDispatchToProps = dispatch => {
         closeNav: payload => dispatch(closeNav(payload)),
         getUserAction: payload => dispatch(getUserAction(payload)),
         signOutConfirmMessageAction: payload => dispatch(signOutConfirmMessageAction(payload)),
-        
+        deleteUserConfirmMessageAction: payload => dispatch(deleteUserConfirmMessageAction(payload)),
     }
 }
 

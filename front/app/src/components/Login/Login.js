@@ -4,7 +4,7 @@ import classes from '../Register/RegisterComp.scss';
 import loginClasses from '../Login/LoginComp.scss';
 import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
-import { errorMessageAction } from "../../actions";
+import { errorMessageAction, successMessageAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import { withCookies, Cookies } from 'react-cookie';
@@ -68,13 +68,14 @@ class Login extends Component {
     }
 
     forgotPassword = () => {
+        this.props.successMessageAction(null)
+        this.props.errorMessageAction(null)
         setTimeout(() => {
             this.setState({forgotPassword: true})
         }, 200)
     }
 
     closePopUp = () => {
-        console.log("close good")
         this.setState({forgotPassword: false})
     }
     loginFage = () => {
@@ -122,6 +123,8 @@ const mapDispatchToProps = dispatch => {
     return {
         loginRequest: (userName, password) => dispatch(loginRequest(userName, password)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        successMessageAction: payload => dispatch(successMessageAction(payload)),
+        
     }
 }
 

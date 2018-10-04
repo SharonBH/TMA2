@@ -72,7 +72,6 @@ class Register extends Component {
         }
     }
     closePopUp = () => {
-        console.log("close good")
         this.props.addNewUserAction(false)
     }
     rgisterFage = (headline, classStr) => {

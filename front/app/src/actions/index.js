@@ -34,7 +34,6 @@ export const addNewUserAction = (boll) => {
 
 //forgot pass Action
 export const forgotPassAction = (data) => {
-    console.log('action', data)
     return {
         type: 'FORGOT_PASS',
         payload: data
@@ -58,13 +57,7 @@ export const changePassOpenAction = (pass) => {
         payload: pass
     }
 }
-// export const changePassAction = (pass) => {
-    
-//     return {
-//         type: 'CHANGE_PASSWORD',
-//         payload: pass
-//     }
-// }
+
 // catch Error
 export const catchErrorAction = (number) => {
     return {
@@ -101,7 +94,6 @@ export const signOutConfirmMessageAction = (bool) => {
         payload: bool
     }
 }
-
 
 export const deleteUserConfirmMessageAction = (bool) => {
     return {
