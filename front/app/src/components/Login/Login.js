@@ -69,28 +69,14 @@ class Login extends Component {
 
     forgotPassword = () => {
         setTimeout(() => {
-            this.closeWindowFunc()
             this.setState({forgotPassword: true})
         }, 200)
     }
 
-    closeWindowFunc = () => {
-        document.addEventListener("click", (evt) => {
-            const forgotPassword = document.querySelector('.ForgotPassword__ForgotPassword___3K-sJ')
-            const btn = document.querySelectorAll('.forgotPass')
-            let targetEl = evt.target
-            do {
-                if (targetEl === forgotPassword || targetEl === btn) {
-                    return
-                }
-                // Go up the DOM
-                targetEl = targetEl.parentNode;
-            }
-            while (targetEl)
-            this.setState({forgotPassword: false})
-        });
+    closePopUp = () => {
+        console.log("close good")
+        this.setState({forgotPassword: false})
     }
-    
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
@@ -112,7 +98,7 @@ class Login extends Component {
                 <h3>Keep Calm</h3>
                 <h3>And</h3>
                 <Link to='/register'><h2>Register</h2></Link>
-                {this.state.forgotPassword ? <ForgotPassword /> : null}
+                {this.state.forgotPassword ? <ForgotPassword closePop={this.closePopUp} /> : null}
             </div>
         );
     }

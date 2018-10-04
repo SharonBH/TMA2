@@ -45,7 +45,7 @@ export class AllUsersAdmin extends Component {
     editUserBtn = (item) => {
         this.setState({userInEditMode: item})
         setTimeout(() => {
-            this.closeWindowFunc()
+            // this.closeWindowFunc()
             this.props.editThisUserAction(true)
         }, 200)
 
@@ -53,29 +53,29 @@ export class AllUsersAdmin extends Component {
 
     addUserBtn = () => {
         setTimeout(() => {
-            this.closeWindowFunc()
+            // this.closeWindowFunc()
             this.props.addNewUserAction(true)
         }, 200)
     }
 
-    closeWindowFunc = () => {
-            document.addEventListener("click", (evt) => {
-            const edit = document.querySelector('.UserSummary__Profile___3JQE2')
-            const addUser = document.querySelector('.RegisterComp__Register___2-9vC')
-            const btn = document.querySelectorAll('.BtnComp__smallBtn___3Bub3')
-            let targetEl = evt.target
-            do {
-                if (targetEl === addUser || targetEl === edit || targetEl === btn) {
-                    return
-                }
-                // Go up the DOM
-                targetEl = targetEl.parentNode;
-            }
-            while (targetEl)
-            this.props.editThisUserAction(false)
-            this.props.addNewUserAction(false)
-        });
-    }
+    // closeWindowFunc = () => {
+    //         document.addEventListener("click", (evt) => {
+    //         const edit = document.querySelector('.UserSummary__Profile___3JQE2')
+    //         const addUser = document.querySelector('.RegisterComp__Register___2-9vC')
+    //         const btn = document.querySelectorAll('.BtnComp__smallBtn___3Bub3')
+    //         let targetEl = evt.target
+    //         do {
+    //             if (targetEl === addUser || targetEl === edit || targetEl === btn) {
+    //                 return
+    //             }
+    //             // Go up the DOM
+    //             targetEl = targetEl.parentNode;
+    //         }
+    //         while (targetEl)
+    //         this.props.editThisUserAction(false)
+    //         this.props.addNewUserAction(false)
+    //     });
+    // }
     
     addUserComp = () => {
         return <Register headline='Add User' classStr='none' />
@@ -98,6 +98,7 @@ export class AllUsersAdmin extends Component {
     closeMessage = () => {
         this.props.successMessageAction(null)
     }
+
 
     ulserList = () => {
         return this.props.allUsersList.map((item, index) => {

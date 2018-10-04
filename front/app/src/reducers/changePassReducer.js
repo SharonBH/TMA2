@@ -11,12 +11,12 @@ const changePassReducer = (state = InitialState, action) => {
                 ...state,
                 passwords: pass
             }
-        case 'CHANGE_PASSWORD':
-        const data = action.payload
-        return {
-            ...state,
-            messageErr: data
-        }
+        // case 'CHANGE_PASSWORD':
+        // const data = action.payload
+        // return {
+        //     ...state,
+        //     messageErr: data
+        // }
 
         default:
     }

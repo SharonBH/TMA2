@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
-import { successMessageAction, errorMessageAction } from '../../actions'
+import { successMessageAction, errorMessageAction, addNewUserAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
@@ -71,7 +71,10 @@ class Register extends Component {
             return null
         }
     }
-
+    closePopUp = () => {
+        console.log("close good")
+        this.props.addNewUserAction(false)
+    }
     rgisterFage = (headline, classStr) => {
         return (
             <div className={classes.Register}>
@@ -90,7 +93,7 @@ class Register extends Component {
                         content={headline} 
                         onClick={ headline === 'Register' ?  this.registerSbmit : this.addNewUser}
                     />}
-                    
+                    {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
                 <div style={{display: classStr}}>
                     <h3>Have a user? Keep Calm.</h3>
@@ -126,6 +129,8 @@ const mapDispatchToProps = dispatch => {
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
+        addNewUserAction: (payload) => dispatch(addNewUserAction(payload)),
+        
     }
 }
 
