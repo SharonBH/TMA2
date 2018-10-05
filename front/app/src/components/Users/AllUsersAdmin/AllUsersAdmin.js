@@ -37,7 +37,9 @@ export class AllUsersAdmin extends Component {
             return null
         }
     }
-
+    componentDidMount(){
+        this.props.successMessageAction(null)
+    }
     componentWillUnmount(){
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)

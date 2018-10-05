@@ -92,7 +92,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                             dispatch(getAllUsersAction(users));
                             history.push({pathname: '/all_users'})
                             dispatch(addNewUserAction(false))
-                            dispatch(successMessageAction(response.data.message))
+                            dispatch(successMessageAction('User Added Successfuly'))
                             dispatch(toggleLoaderAction(false))
                         })
                         .catch((error) => {
@@ -176,7 +176,7 @@ export const editThisUserRequest = (userName, name, email, userType) => {
                         .then((response) => {
                                 const users = response.data
                                 dispatch(getAllUsersAction(users));
-                                dispatch(successMessageAction(response.data.message))
+                                dispatch(successMessageAction('Edited Successfuly'))
                                 history.push({pathname: '/all_users'})
                                 dispatch(toggleLoaderAction(false))
                         })
