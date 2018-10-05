@@ -56,7 +56,6 @@ export const loginRequest = (userName, password) => {
                         .then((response) => {
                             sessionStorage.setItem('session', JSON.stringify(response.data));
                             const session = JSON.parse(sessionStorage.getItem('session'));
-
                             dispatch(getUserAction(session))
                             dispatch(toggleLoaderAction(false))
                             history.push({pathname: '/home', state:[response.data]})
@@ -80,7 +79,7 @@ export const loginRequest = (userName, password) => {
     }
 };
 
-// add NewUser Request
+// add New-User Request
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
@@ -101,7 +100,6 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                             dispatch(errorMessageAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
-                    
                 } else {
                     const error = response.data.message
                     dispatch(errorMessageAction(error))
@@ -131,7 +129,6 @@ export const takeAllUsers = () => {
                 dispatch(catchErrorAction([error][0]))
                 dispatch(errorMessageAction([error][0]))
                 dispatch(toggleLoaderAction(false))
-
             });  
     }
 };
@@ -212,15 +209,16 @@ export const DeleteUserRequest = (userName) => {
                     dispatch(takeAllUsers())
                     dispatch(successMessageAction(data))
                     // history.push({pathname: '/all_users'})
+                    dispatch(toggleLoaderAction(false))
                 }
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
                 dispatch(errorMessageAction([error][0]))
+                dispatch(toggleLoaderAction(false))
             });
     }
 };
-
 
 //forgot pass request
 export const forgotPassRequest = (email) => {
