@@ -9,7 +9,7 @@ import BtnComp from '../../UI/BtnComp/BtnComp';
 import PropTypes from 'prop-types';
 import Register from '../../Register';
 import { deleteUserConfirmMessageAction } from '../../../actions';
-import UserSummary from '../../UserSummary';
+import UserSummary from '../UserSummary';
 import ConfirmMessage from '../../ConfirmMessage';
 
 import { addNewUserAction, editThisUserAction, successMessageAction, errorMessageAction }  from '../../../actions';
