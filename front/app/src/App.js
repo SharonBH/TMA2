@@ -6,7 +6,7 @@ import history from './configuration/history';
 import Spinner from './components/UI/Spinner';
 import { connect } from 'react-redux';
 import { withCookies } from 'react-cookie';
-import ConfirmMessage from './components/ConfirmMessage';
+import ConfirmMessage from './components/UI/ConfirmMessage';
 import TopNavigation  from './containers/TopNavigation/TopNavigation';
 
 class App extends Component {
