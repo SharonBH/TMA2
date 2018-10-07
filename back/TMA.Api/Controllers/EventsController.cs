@@ -69,7 +69,7 @@ namespace TMA.Api.Controllers
 
         [HttpPost]
         [Route("DeleteEvent")]
-        public JsonResult DeleteEvent(int eventId)
+        public JsonResult DeleteEvent([FromBody]int eventId)
         {
             try
             {

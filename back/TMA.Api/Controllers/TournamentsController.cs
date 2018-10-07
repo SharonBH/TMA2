@@ -65,7 +65,7 @@ namespace TMA.Api.Controllers
 
         [HttpPost]
         [Route("DeleteTournament")]
-        public JsonResult DeleteTournament(int tournamentId)
+        public JsonResult DeleteTournament([FromBody]int tournamentId)
         {
             try
             {
