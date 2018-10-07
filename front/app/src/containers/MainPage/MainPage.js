@@ -1,29 +1,27 @@
+
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { HomePage } from '../HomePage/HomePage';
 import  AllUsersAdmin  from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
-import  EditUser  from '../../components/Users/EditUser/EditUser';
-import LogIn from '../../components/LogIn';
+import Login from '../../components/Login';
 import Register from '../../components/Register';
 import classes from './MainPage.scss';
 import NotFound from '../../components/NotFound';
-
-import UserSummary from '../../components/UserSummary';
+import ChangePassword from '../../components/ChangePassword';
+import UserSummary from '../../components/Users/UserSummary';
 import { connect } from 'react-redux';
-
-import ForgotPassword from '../../components/ForgotPassword'
-
 
 export class MainPage extends Component {
   render() {
     return (
         <div className={classes.MainPage}>
+        
             <Switch>
                 <Route
                     exact
                     path='/'
-                    component={() => <LogIn />}
+                    component={() => <Login />}
                 />
                 <Route
                     path='/register'
@@ -43,11 +41,15 @@ export class MainPage extends Component {
                 />
                 <Route
                     path='/edit_user/:userName'
-                    component={EditUser}
+                    component={AllUsersAdmin}
                 />
                 <Route
                     path='/not_found'
                     component={NotFound}
+                />
+                <Route
+                    path='/change_password/:userName'
+                    component={() => <ChangePassword header='reset password' />}
                 />
             </Switch>
         </div>
@@ -57,7 +59,7 @@ export class MainPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.UserLogInReducer.currentUser
+        currentUser: state.userReducer.currentUser
     }
 }
 

@@ -2,6 +2,7 @@
 
 .usersWrapper {
     text-align: left;
+    padding: 45px 10px 0;
     div.role{
         border: 0;
         width: 10%
@@ -9,34 +10,91 @@
 
     div.username, div.email{
         width: 20%;
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+            height: 2px;
+            background: #c5c5c5;
+        }
+        &::-webkit-scrollbar-thumb{
+            background: $blue;
+        }
     }
 
     .usersHead {
-        padding: 18px 0;
-        background: #e6e6e6;
-        margin: 15px 15px 0;    
+        padding: 30px 0 5px;
+        display: inline-flex;
+        justify-content: space-between;
+        width: 100%;
+        border-bottom: 2px solid #e6e6e6;
+
         & > div {
-            display: inline-block;
-            padding: 0 20px;
+            padding: 0 0;
+            margin: 0 6px;
+            display: inline-flex;
+            justify-content: start;
+        }
+        .addBtn{
+            width: 146px;
         }
     }
 
     ul.uesrsList {
         list-style: none;
         padding: 0;
+        margin: 0;
         li{
             border-bottom: 1px solid #e5e5e5;
-            padding: 5px 0;
-            a{
+            padding: 9px 0;
+            display: flex;
+            width: 100%;
+            margin: 0;
+            justify-content: space-between;
+            line-height: 25px;
+        
+            & > a{
                 display: inline-block;
             }
-            &> div{
-                display: inline-block;
-                padding: 5px 20px;
+            & > div{
+                padding: 0 0;
+                margin: 0 6px;
+                display: inline-flex;
+                justify-content: start;
+                height: 27px;
+                white-space: nowrap;
             }
-            
         }
     }
+    
+    .success {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 300px;
+        margin: 0;
+        
+        span {
+            padding: 20px 40px;
+            background: #e6ffe7;
+            border-bottom: 1px solid#999;
+            position: relative;
+
+            .closeBTN {
+                padding: 0 5px;
+                background: #fff;
+                border: 1px solid #999;
+                border-radius: 11px;
+                position: absolute;
+                top: -8px;
+                right: -6px;
+                cursor: pointer;
+            }
+            &>:hover {
+                background: #000;
+                color: #fff;
+            }
+        }
+    }
+    
 }
 
 .AddUser {
@@ -44,14 +102,25 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100vh;
-    position: absolute;
-    padding-top: 350px; 
+    min-height: 100vh;
+    position: fixed;
     top: 0;
     left: 0;
     background-color: #999999de;
+    height: 100%;
+    z-index: 92;
 }
 
 div.EditBtn {
     width: 200px;
+}
+.error{
+    background: #f18383;
+    position: absolute;
+    bottom: 25px;
+    width: 79%;
+    left: 20px;
+    padding: 5px;
+    text-align: center;
+    color: #fff;
 }

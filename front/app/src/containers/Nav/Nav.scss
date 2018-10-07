@@ -2,22 +2,26 @@
 
 .nav {
     width: 250px;
-    display: inline-block;
-    background: $light-gray;
-    float: left;
-    height: 100ch;
+    background: #03a3d0;
     box-sizing: border-box;
     padding: 5px;
-    padding-top: 100px;
-    transition: width linear .1s;
+    padding-top: 20px;
+    transition: all ease .3s;
+    left: 0;
+    z-index: 91;
+    // height: 100vh;
+    position: relative;
+    min-height: 450px;
+    overflow: hidden;
 
     a {
         display: flex;
         text-align: left;
-        padding: 7px 20px;
+        padding: 7px 10px;
         text-decoration: none;
-        color: $black;
+        color: #000;
         font-weight: 600;
+        white-space: nowrap;
 
         i {
             margin-right: 10px;
@@ -33,8 +37,6 @@
     span.logo_image {
         display: block;
         width: 45px;
-        position: relative;
-        top: -65px;
         margin: 0 auto;
     }
 
@@ -42,18 +44,18 @@
         display: block;
         color: #000;
         font-weight: 600;
-        margin-bottom: 84px;
+        margin-bottom: 35px;
         font-size: 20px;
-        position: relative;
-        top: -40px;
         height: 60px;
+        margin-top: 10px;
+    
     }
 
     .Menu {
-        position: relative;
-        top: 250px;
-        left: 70px;
         cursor: pointer;
+        position: absolute;
+        bottom: 15px;
+        right: 30px;
 
         &:hover {
             color: $dark-gray;
@@ -79,19 +81,48 @@
     border: 0;
     border-bottom: 1px solid #a7a7a7;
     color: #757575;
+    
 }
 
 .navclosed {
-    width: 70px;
-    display: inline-block;
-    background: $light-gray;
-    float: left;
-    height: 100ch;
-    box-sizing: border-box;
-    padding: 5px;
-    padding-top: 100px;
-    transition: width linear .3s;
+    background: #03a3d0;
+    padding-top: 20px;
+    transition: all ease .3s;
+    z-index: 91;
+    left: 0;
+    position: relative;
+    width: 0;
+    min-height: 450px;
+    // height: 100vh;
+    overflow: hidden;
 
+        .navLink > span {
+            display: none;
+            white-space: nowrap;
+        }
+        .navLink:hover > span{
+            display: block;
+            position: absolute;
+            top: 12px;
+            left: 64px;
+            background: #03a3d0;
+            padding: 4px 6px;
+            color: #fff;
+            z-index: 999;
+            border-radius: 3px;
+            font-weight: 400;
+            font-size: 14px;
+        
+        }
+        .navLink:hover > span::before {
+            content: "\f0d9";
+            font-family: "Font Awesome 5 Free";
+            color: $blue;
+            position: absolute;
+            left: -6px;
+            font-size: 17px;
+            font-weight: 600;
+        }
     a {
         display: flex;
         text-align: center;
@@ -100,42 +131,36 @@
         color: #000;
         font-weight: 600;
         width: auto;
-
+        position: relative;
         i {
             width: 100%;
             height: 100%;
             font-size: 25px;
             line-height: 35px;
         }
-
         &:hover {
             color: $dark-gray;
         }
     }
-
+    
     span.logo_image {
         display: block;
         width: 45px;
-        position: relative;
-        top: -65px;
-        margin: 0 auto;
+        margin: 0 auto 70px;
+        img {
+            max-width: 100%;
+        }
     }
 
     span.Hello {
-        display: block;
-        color: #000;
-        font-weight: 600;
-        margin-bottom: 84px;
-        font-size: 20px;
-        position: relative;
-        top: -40px;
-        height: 60px;
+        display: none;
     }
 
     .Menu {
-        position: relative;
-        top: 165px;
         cursor: pointer;
+        position: absolute;
+        bottom: 15px;
+        right: 25px;
 
         &:hover {
             color: $dark-gray;

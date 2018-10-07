@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from '../Register/RegisterComp.scss';
-import loginClasses from '../LogIn/LoginComp.scss';
+import loginClasses from '../Login/LoginComp.scss';
 import { connect } from 'react-redux';
 import { loginRequest } from "../../actions/Api";
+import { errorMessageAction, successMessageAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import Spinner from '../UI/Spinner';
 import { withCookies, Cookies } from 'react-cookie';
 import { instanceOf } from 'prop-types';
 import ForgotPassword from '../ForgotPassword';
 
-class LogIn extends Component {
+class Login extends Component {
 
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -25,11 +25,13 @@ class LogIn extends Component {
         this.state = {
             userName: cookies.get('userName') || '',
             userPassword: cookies.get('userPassword') || '',
-            rememberMe: JSON.parse(cookies.get('rememberMe')) || false,
+            rememberMe: Boolean(cookies.get('rememberMe')) || false,
             forgotPassword: false
         }
     }
-    
+    componentWillUnmount(){
+        this.props.errorMessageAction(null)
+    }
     onUserNameChange = (e) => {
         this.setState({userName: e.target.value})
     }
@@ -54,16 +56,8 @@ class LogIn extends Component {
 
     errorMessage = () => {
         const error = this.props.errorMessage
-        if (error === 'Invalid login attempt.') {
-            return <p>{error}</p>
-        } else {
-            return null
-        }
-    }
-
-    spinner = () => {
-        if(this.props.toggleSpinner) {
-            return <Spinner />
+        if (error !== null) {
+            return <p className={classes.error}>{error}</p>
         } else {
             return null
         }
@@ -74,34 +68,20 @@ class LogIn extends Component {
     }
 
     forgotPassword = () => {
+        this.props.successMessageAction(null)
+        this.props.errorMessageAction(null)
         setTimeout(() => {
-            this.closeWindowFunc()
             this.setState({forgotPassword: true})
         }, 200)
     }
 
-    closeWindowFunc = () => {
-        document.addEventListener("click", (evt) => {
-            const forgotPassword = document.querySelector('.ForgotPassword__ForgotPassword___3K-sJ')
-            const btn = document.querySelectorAll('.forgotPass')
-            let targetEl = evt.target
-            do {
-                if (targetEl === forgotPassword || targetEl === btn) {
-                    return
-                }
-                // Go up the DOM
-                targetEl = targetEl.parentNode;
-            }
-            while (targetEl)
-            this.setState({forgotPassword: false})
-        });
+    closePopUp = () => {
+        this.setState({forgotPassword: false})
     }
-
     loginFage = () => {
         return (
             <div className={classes.LogIn}>
                 <h1>Sign In</h1>
-                {this.spinner()}
                 <form>
                     <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange} content={this.state.userName}/>
                     <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange} content={this.state.userPassword}/>
@@ -112,14 +92,14 @@ class LogIn extends Component {
                             <input type="checkbox" name="remember me" checked={this.state.rememberMe} onChange={this.rememberMe}/> 
                             <label>Remember Me</label>
                         </span> 
-                        <span className='forgotPass' onClick={this.forgotPassword}>Forgot Password</span>
+                        <span className={loginClasses.forgotPass} onClick={this.forgotPassword}>Forgot Password</span>
                     </div> 
                 </form>
                 <h3>Not a register user?</h3>
                 <h3>Keep Calm</h3>
                 <h3>And</h3>
                 <Link to='/register'><h2>Register</h2></Link>
-                {this.state.forgotPassword ? <ForgotPassword /> : null}
+                {this.state.forgotPassword ? <ForgotPassword closePop={this.closePopUp} /> : null}
             </div>
         );
     }
@@ -135,15 +115,17 @@ class LogIn extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.loginErrorMessageReducer.errorMessage,
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
+        errorMessage: state.sharedReducer.errorMessage,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         loginRequest: (userName, password) => dispatch(loginRequest(userName, password)),
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        successMessageAction: payload => dispatch(successMessageAction(payload)),
+        
     }
 }
 
-export default withCookies(connect(mapStateToProps, mapDispatchToProps)(LogIn));
+export default withCookies(connect(mapStateToProps, mapDispatchToProps)(Login));

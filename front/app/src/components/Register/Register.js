@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
+import { successMessageAction, errorMessageAction, addNewItemAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
-import SelectComp from '../UI/SelectComp/SelectComp';
-import Spinner from '../UI/Spinner';
 
 class Register extends Component {
 
@@ -17,9 +16,8 @@ class Register extends Component {
             password: '',
             confirmPassword: '',
             name: '',
-            userType: '',
+            userType: 'User',
             userName: '',
-            someSelectArrayFromApiProps:['User', 'Admin']
         }
     }
 
@@ -27,10 +25,12 @@ class Register extends Component {
     onPasswordChange = (e) => { this.setState({password: e.target.value})}
     onConfirmPasswordChange = (e) => { this.setState({confirmPassword: e.target.value})}
     onNameChange = (e) => { this.setState({ name: e.target.value})}
-    onUseTypeChange = (e) => { this.setState({userType: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
-
+    componentWillUnmount(){
+        this.props.errorMessageAction(null)
+        this.props.successMessageAction(null)
+    }
     registerSbmit = (e) => {
         const email = this.state.email
         const password = this.state.password
@@ -51,48 +51,48 @@ class Register extends Component {
         const userName = this.state.userName
         e.preventDefault()
         this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
+        
     }
 
     errorMessage = () => {
         const error = this.props.errorMessage
         if (error !== null) {
-            return <p>{error}</p>
+            return <p className={classes.error}>{error}</p>
         } else {
             return null
         }
     }
-
-    spinner = () => {
-        if(this.props.toggleSpinner) {
-            return <Spinner />
+    successMessage = () => {
+        const success = this.props.successMessage
+        if (success !== null) {
+            this.props.errorMessageAction(null)
+            return <p className={classes.success}>{success}</p>
         } else {
             return null
         }
     }
-
+    closePopUp = () => {
+        this.props.addNewItemAction(false)
+    }
     rgisterFage = (headline, classStr) => {
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
-                {this.spinner()}
                 <form>
                     <InputComp inputType="email" name="email" placeholder="eMail" onChange={this.onEmailChange}/>
                     <InputComp inputType="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
                     <InputComp inputType="password" name="ConfirmPassword" placeholder="ConfirmPassword" onChange={this.onConfirmPasswordChange}/>
                     <InputComp inputType="text" name="name" placeholder="Name" onChange={this.onNameChange}/>
-                    <SelectComp 
-                        onChange={this.onUseTypeChange}
-                        options={this.state.someSelectArrayFromApiProps}
-                        placeholder='Select User Type'
-                    />
                     <InputComp inputType="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
                     {this.errorMessage()}
-                    {
-                        headline === Register 
-                        ? <BtnComp inputType="submit" name="register" content={headline} onClick={this.registerSbmit}/>
-                        : <BtnComp inputType="submit" name="register" content={headline} onClick={this.addNewUser}/>
-                    }
-                    
+                    {this.successMessage()}
+                    {<BtnComp 
+                        inputType="submit" 
+                        name="register" 
+                        content={headline} 
+                        onClick={ headline === 'Register' ?  this.registerSbmit : this.addNewUser}
+                    />}
+                    {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
                 <div style={{display: classStr}}>
                     <h3>Have a user? Keep Calm.</h3>
@@ -117,8 +117,8 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.registerErrorMessageReducer.errorMessage,
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
+        errorMessage: state.sharedReducer.errorMessage,
+        successMessage: state.sharedReducer.successMessage
     }
 }
 
@@ -126,6 +126,10 @@ const mapDispatchToProps = dispatch => {
     return {
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        successMessageAction: (payload) => dispatch(successMessageAction(payload)),
+        addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
+        
     }
 }
 

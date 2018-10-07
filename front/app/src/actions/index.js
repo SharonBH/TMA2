@@ -1,3 +1,5 @@
+//USER ACTIONS
+
 // user login action 
 export const getUserAction = (response) => {
     return {
@@ -5,26 +7,30 @@ export const getUserAction = (response) => {
         payload: response
     }
 }
-// user login error action
-export const accessDeniedAction = (response) => {
+//forgot pass Action
+export const forgotPassAction = (data) => {
     return {
-        type: 'SET_LOGIN_ERROR_MESSAGE',
-        payload: response
+        type: 'FORGOT_PASS',
+        payload: data
+
+    }
+}
+// change pass Action
+export const changePassOpenAction = (pass) => {
+    
+    return {
+        type: 'CHANGE_PASSWORD_OPEN',
+        payload: pass
     }
 }
 
-// user register error action
-export const registerDeniedAction = (response) => {
+//SHARED ACTIONS
+
+// toggle Loader Action
+export const toggleLoaderAction = (boll) => {
     return {
-        type: 'SET_REGISTER_ERROR_MESSAGE',
-        payload: response
-    }
-}
-// user edit error action
-export const editDeniedAction = (response) => {
-    return {
-        type: 'SET_EDIT_ERROR_MESSAGE',
-        payload: response
+        type: 'TOGGLE_SPINNER',
+        payload: boll
     }
 }
 // catch Error
@@ -34,52 +40,76 @@ export const catchErrorAction = (number) => {
         payload: number
     }
 }
+// error action
+export const errorMessageAction = (message) => {
+    return {
+        type: 'ERROR_MESSAGE',
+        payload: message
+    }
+}
+// success action
+export const successMessageAction = (message) => {
+    return {
+        type: 'SUCCESS_MESSAGE',
+        payload: message
+    }
+}
+
+export const closeNav = (action) => {
+    return {
+        type: 'CLOSE_NAV',
+        payload: action
+    }
+}
+
+//CONFIRM MESSAGES
+
+// sign-Out Confirm Message Action
+export const signOutConfirmMessageAction = (bool) => {
+    return {
+        type: 'MESSAGE_CONFIRMATION_SIGN_OUT',
+        payload: bool
+    }
+}
+// delete-User Confirm Message Action
+export const deleteUserConfirmMessageAction = (bool) => {
+    return {
+        type: 'MESSAGE_CONFIRMATION_DELETE_USER',
+        payload: bool
+    }
+}
+
+
+
+
 
 //get all users
-export const getAllUsersAction = (response) => {
+export const getAllListAction = (response) => {
     return {
-        type: 'GET_ALL_USERS',
+        type: 'GET_ALL_LIST',
         payload: response
     }
 }
 
-
-// toggle Loader Action
-export const toggleLoaderAction = (boll) => {
-    return {
-        type: 'TOGGLE_SPINNER',
-        payload: boll
-    }
-}
-
 // add New User Action
-export const addNewUserAction = (boll) => {
+export const addNewItemAction = (boll) => {
     return {
-        type: 'ADD_A_NEW_USER',
+        type: 'ADD_A_NEW_ITEM',
         payload: boll
-    }
-}
-
-//delete user Action
-export const deleteUserAction = (data) => {
-    return {
-        type: 'DELETE_USER',
-        payload: data
-    }
-}
-export const forgotPassAction = (data) => {
-    console.log('action', data)
-    return {
-        type: 'FORGOT_PASS',
-        payload: data
-
     }
 }
 
 // edit This User Action
-export const editThisUserAction = (boll) => {
+export const editThisItemAction = (boll) => {
     return {
-        type: 'EDIT_THIS_USER',
+        type: 'EDIT_THIS_ITEM',
         payload: boll
     }
 }
+
+
+
+
+
+
+

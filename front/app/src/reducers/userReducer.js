@@ -1,39 +1,36 @@
+const session = JSON.parse(sessionStorage.getItem('session'));
+const sessionData = session === null ? null : session
+
 const InitialState = {
-    allUsersList: [],
-    isLoading: false
+    currentUser: sessionData,
+    forgotPass: '',
+    passwords: false,
 }
 
-
 const userReducer = (state = InitialState, action) => {
-    
     switch (action.type) {
-        case 'GET_ALL_USERS':
-        const usersArr = action.payload;
-        return {
-            ...state,
-            allUsersList: usersArr,
-            isLoading: false
-        }
-        case 'SET_ISLOADING_TO_TRUE':
-            const bool = action.payload
-            // console.log('true')
+
+        case 'GET_USER':
+            const user = action.payload
             return {
                 ...state,
-                isLoading: bool
+                currentUser: user
             }
-        case 'DELETE_USER':
+        case 'FORGOT_PASS':
             const data = action.payload
-            console.log('data reducer', data)
-            const newList = data.filter((result, j) => j !== action.data);
             return {
                 ...state,
-                allUsersList: newList
+                forgotPass: data
+            }
+        case 'CHANGE_PASSWORD_OPEN':
+            const pass = action.payload
+            return {
+                ...state,
+                passwords: pass
             }
         default:
     }
-    return state
-    
+    return state;
 }
-
 
 export default userReducer;

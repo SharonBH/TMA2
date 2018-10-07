@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './ForgotPassword.scss';
 import { connect } from 'react-redux';
 import { forgotPassRequest } from "../../actions/Api";
+import { successMessageAction, errorMessageAction } from "../../actions";
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 
@@ -13,10 +14,11 @@ class ForgotPassword extends Component {
             error:''
         }
     }
-    
-    onChangeValue = (e) => {
-        this.setState({email: e.target.value})
+    componentWillUnmount() {
+        this.props.errorMessageAction(null)
+        this.props.successMessageAction(null)
     }
+    onChangeValue = (e) => { this.setState({email: e.target.value})}
 
     onClick = (e) => {
         e.preventDefault()
@@ -29,30 +31,38 @@ class ForgotPassword extends Component {
         }
     }
 
-    componentWillUnmount() {
-        this.setState({error: ''})
-        this.setState({email: ''})
-    }
-
     errorMessage = () => {
         const error = this.props.errorMessage
-        if (error === 'Invalid login attempt.') {
-            return <p>{error}</p>
+        if (error !== null) {
+            return <p className={classes.error}>{error}</p>
+        } else {
+            return null
+        }
+    }
+    successMessage = () => {
+        const success = this.props.successMessage
+        if (success !== null) {
+            this.props.errorMessageAction(null)
+            return <p className={classes.success}>{success}</p>
         } else {
             return null
         }
     }
 
     render() {
+        const { closePop } = this.props
         return (
             <div className={classes.ForgotPasswordWrapper}>
                 <div className={classes.ForgotPassword}>
                     <h1>Forgot Password?</h1>
                     <h3>Enter email to reset password</h3>
-                    <p className={classes.error}>{this.state.error}</p>
+                    {this.errorMessage()}
+                    {this.successMessage()}
                     <InputComp inputType='email' name='email' placeholder='Email' onChange={this.onChangeValue} content={this.state.email}/>
-                    <BtnComp inputType='button' content='Send' onClick={this.onClick}/>
+                    <div className={classes.forgotBtn}><BtnComp inputType='button' content='Send' onClick={this.onClick}/></div>
+                    <div className={classes.closePopBtn} onClick={closePop}><span>Close</span></div>
                 </div>
+                
             </div>
         );
     }
@@ -61,13 +71,16 @@ class ForgotPassword extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.loginErrorMessageReducer.errorMessage,
+        errorMessage: state.sharedReducer.errorMessage,
+        successMessage: state.sharedReducer.successMessage,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        forgotPassRequest: (payload) => dispatch(forgotPassRequest(payload))
+        forgotPassRequest: (payload) => dispatch(forgotPassRequest(payload)),
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        successMessageAction: payload => dispatch(successMessageAction(payload)),
     }
 }
 

@@ -4,19 +4,30 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     width: 100%;
-    min-height: 100ch;
+    min-height: 100vh;
     color: $black;
-    
+    .forgotPass{
+        display: inline-block;
+        margin-top: 60px; 
+        .forgotBtn{
+            margin-top: 20px;
+            input[type=button]{
+                width: 100%;
+            }
+        }
+    }
     .Register, .LogIn {
         width: 40%;
         min-width: 400px;
         max-width: 500px;
-        margin-top: 40px;
-        max-height: 500px;
+        margin-top: 0px;
         padding: 20px;
         background-color: $white;
-        
+        height: auto;
+        display: inline-table;
+        position: relative;
         h1 {
             width: 100%;
         }
@@ -25,6 +36,23 @@
             width: 100%;
             margin: 0 0 25px 0;
             display: block;
+            .closePopBtn{
+                display: inline-block;
+                width: 100%;
+                text-align: right;
+                margin-top: 15px;
+                span{
+                    padding: 5px;
+                    border: 1px solid;
+                    color: #03a3d0;
+                    position: relative;
+                    z-index: 5;
+                    &:hover {
+                        background: #03a3d0;
+                        color: #fff;
+                    }
+                }
+            }
         }
 
         input, select{
@@ -84,6 +112,13 @@
         margin-top: 100px;
     }
     .error{
-        color: red
+        background: #f18383;
+        position: absolute;
+        bottom: 25px;
+        width: 79%;
+        left: 20px;
+        padding: 5px;
+        text-align: center;
+        color: #fff;
     }
 }
