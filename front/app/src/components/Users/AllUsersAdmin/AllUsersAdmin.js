@@ -12,7 +12,7 @@ import { deleteUserConfirmMessageAction } from '../../../actions';
 import UserSummary from '../UserSummary';
 import ConfirmMessage from '../../ConfirmMessage';
 
-import { addNewUserAction, editThisUserAction, successMessageAction, errorMessageAction }  from '../../../actions';
+import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction }  from '../../../actions';
 export class AllUsersAdmin extends Component {
 
     static propTypes = {
@@ -31,7 +31,7 @@ export class AllUsersAdmin extends Component {
     }
 
     componentWillMount(){
-        if(this.props.usersList.length === 0) {
+        if(this.props.allList.length === 0) {
             this.props.takeAllUsers()
         } else {
             return null
@@ -51,42 +51,23 @@ export class AllUsersAdmin extends Component {
         this.setState({userForDelete: item})
         this.setState({userInEditMode: null})
         this.props.deleteUserConfirmMessageAction(true)
+
     }
 
     editUserBtn = (item) => {
         this.setState({userInEditMode: item})
         setTimeout(() => {
-            // this.closeWindowFunc()
-            this.props.editThisUserAction(true)
+            this.props.editThisItemAction(true)
         }, 200)
 
     }
 
     addUserBtn = () => {
         setTimeout(() => {
-            // this.closeWindowFunc()
-            this.props.addNewUserAction(true)
+            this.props.addNewItemAction(true)
         }, 200)
     }
 
-    // closeWindowFunc = () => {
-    //         document.addEventListener("click", (evt) => {
-    //         const edit = document.querySelector('.UserSummary__Profile___3JQE2')
-    //         const addUser = document.querySelector('.RegisterComp__Register___2-9vC')
-    //         const btn = document.querySelectorAll('.BtnComp__smallBtn___3Bub3')
-    //         let targetEl = evt.target
-    //         do {
-    //             if (targetEl === addUser || targetEl === edit || targetEl === btn) {
-    //                 return
-    //             }
-    //             // Go up the DOM
-    //             targetEl = targetEl.parentNode;
-    //         }
-    //         while (targetEl)
-    //         this.props.editThisUserAction(false)
-    //         this.props.addNewUserAction(false)
-    //     });
-    // }
     
     addUserComp = () => {
         return <Register headline='Add User' classStr='none' />
@@ -112,7 +93,7 @@ export class AllUsersAdmin extends Component {
 
 
     ulserList = () => {
-        return this.props.usersList.map((item, index) => {
+        return this.props.allList.map((item, index) => {
             return <li key={index}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
@@ -138,8 +119,8 @@ export class AllUsersAdmin extends Component {
                     <div className={classes.addBtn}><BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/></div>
                 </div> 
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
-                {this.props.addUser ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
-                {this.props.editThisUser ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
+                {this.props.addItem ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
+                {this.props.editThisItem ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete user' user={this.state.userForDelete}/> : null}
             </div>
         )
@@ -148,10 +129,10 @@ export class AllUsersAdmin extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        usersList: state.usersListReducer.usersList,
-        addUser: state.addNewUserReducer.addUser,
-        editThisUser: state.editUserReducer.editThisUser,
-        successMessage: state.successMessageReducer.successMessage,
+        allList: state.allListReducer.allList,
+        addItem: state.addNewItemReducer.addItem,
+        editThisItem: state.editItemReducer.editThisItem,
+        successMessage: state.sharedReducer.successMessage,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage
     }
 }
@@ -160,11 +141,11 @@ const mapDispatchToProps = dispatch => {
 
     return{
         takeAllUsers: payload => dispatch(takeAllUsers(payload)),
-        addNewUserAction: payload => dispatch(addNewUserAction(payload)),
+        addNewItemAction: payload => dispatch(addNewItemAction(payload)),
         DeleteUserRequest: (item) => dispatch(DeleteUserRequest(item)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
-        editThisUserAction: payload => dispatch(editThisUserAction(payload)),
+        editThisItemAction: payload => dispatch(editThisItemAction(payload)),
         deleteUserConfirmMessageAction: payload => dispatch(deleteUserConfirmMessageAction(payload))
     }
 }

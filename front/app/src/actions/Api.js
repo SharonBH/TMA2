@@ -4,8 +4,8 @@ import {
     getUserAction,
     catchErrorAction,
     toggleLoaderAction,
-    addNewUserAction,
-    getAllUsersAction,
+    addNewItemAction,
+    getAllListAction,
     // changePassAction,
     successMessageAction,
     errorMessageAction,
@@ -89,9 +89,9 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
                         .then((response) => {
                             const users = response.data
-                            dispatch(getAllUsersAction(users));
+                            dispatch(getAllListAction(users));
                             history.push({pathname: '/all_users'})
-                            dispatch(addNewUserAction(false))
+                            dispatch(addNewItemAction(false))
                             dispatch(successMessageAction('User Added Successfuly'))
                             dispatch(toggleLoaderAction(false))
                         })
@@ -121,7 +121,7 @@ export const takeAllUsers = () => {
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
             .then((response) => {
                     const users = response.data
-                    dispatch(getAllUsersAction(users));
+                    dispatch(getAllListAction(users));
                     history.push({pathname: '/all_users'})
                     dispatch(toggleLoaderAction(false))
             })
@@ -175,7 +175,7 @@ export const editThisUserRequest = (userName, name, email, userType) => {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
                         .then((response) => {
                                 const users = response.data
-                                dispatch(getAllUsersAction(users));
+                                dispatch(getAllListAction(users));
                                 dispatch(successMessageAction('Edited Successfuly'))
                                 history.push({pathname: '/all_users'})
                                 dispatch(toggleLoaderAction(false))

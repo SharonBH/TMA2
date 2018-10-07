@@ -1,29 +1,10 @@
+//USER ACTIONS
+
 // user login action 
 export const getUserAction = (response) => {
     return {
         type: 'GET_USER',
         payload: response
-    }
-}
-//get all users
-export const getAllUsersAction = (response) => {
-    return {
-        type: 'GET_ALL_USERS',
-        payload: response
-    }
-}
-// toggle Loader Action
-export const toggleLoaderAction = (boll) => {
-    return {
-        type: 'TOGGLE_SPINNER',
-        payload: boll
-    }
-}
-// add New User Action
-export const addNewUserAction = (boll) => {
-    return {
-        type: 'ADD_A_NEW_USER',
-        payload: boll
     }
 }
 //forgot pass Action
@@ -34,19 +15,22 @@ export const forgotPassAction = (data) => {
 
     }
 }
-// edit This User Action
-export const editThisUserAction = (boll) => {
-    return {
-        type: 'EDIT_THIS_USER',
-        payload: boll
-    }
-}
 // change pass Action
 export const changePassOpenAction = (pass) => {
     
     return {
         type: 'CHANGE_PASSWORD_OPEN',
         payload: pass
+    }
+}
+
+//SHARED ACTIONS
+
+// toggle Loader Action
+export const toggleLoaderAction = (boll) => {
+    return {
+        type: 'TOGGLE_SPINNER',
+        payload: boll
     }
 }
 // catch Error
@@ -77,6 +61,9 @@ export const closeNav = (action) => {
         payload: action
     }
 }
+
+//CONFIRM MESSAGES
+
 // sign-Out Confirm Message Action
 export const signOutConfirmMessageAction = (bool) => {
     return {
@@ -91,4 +78,38 @@ export const deleteUserConfirmMessageAction = (bool) => {
         payload: bool
     }
 }
+
+
+
+
+
+//get all users
+export const getAllListAction = (response) => {
+    return {
+        type: 'GET_ALL_LIST',
+        payload: response
+    }
+}
+
+// add New User Action
+export const addNewItemAction = (boll) => {
+    return {
+        type: 'ADD_A_NEW_ITEM',
+        payload: boll
+    }
+}
+
+// edit This User Action
+export const editThisItemAction = (boll) => {
+    return {
+        type: 'EDIT_THIS_ITEM',
+        payload: boll
+    }
+}
+
+
+
+
+
+
 

@@ -115,7 +115,7 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.errorMessageReducer.errorMessage,
+        errorMessage: state.sharedReducer.errorMessage,
     }
 }
 

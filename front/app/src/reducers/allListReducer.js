@@ -1,15 +1,15 @@
 const InitialState = {
-    usersList: [],
+    allList: [],
 }
 
-const usersListReducer = (state = InitialState, action) => {
+const allListReducer = (state = InitialState, action) => {
     switch (action.type) {
 
-        case 'GET_ALL_USERS':
+        case 'GET_ALL_LIST':
             const users = action.payload
             return {
                 ...state,
-                usersList: users
+                allList: users
             }
 
         default:
@@ -17,4 +17,4 @@ const usersListReducer = (state = InitialState, action) => {
     return state;
 }
 
-export default usersListReducer;
+export default allListReducer;
