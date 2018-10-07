@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Register from '../../Register';
 import { deleteUserConfirmMessageAction } from '../../../actions';
 import UserSummary from '../UserSummary';
-import ConfirmMessage from '../../ConfirmMessage';
+import ConfirmMessage from '../../UI/ConfirmMessage';
 
 import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction }  from '../../../actions';
 export class AllUsersAdmin extends Component {
