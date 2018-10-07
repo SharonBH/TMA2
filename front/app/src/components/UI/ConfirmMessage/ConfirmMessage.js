@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import BtnComp from '../UI/BtnComp/BtnComp';
-import { signOutConfirmMessageAction, deleteUserConfirmMessageAction, getUserAction } from '../../actions';
-import { DeleteUserRequest } from '../../actions/Api';
+import BtnComp from '../BtnComp/BtnComp';
+import { signOutConfirmMessageAction, deleteUserConfirmMessageAction, getUserAction } from '../../../actions';
+import { DeleteUserRequest } from '../../../actions/Api';
 import classes from './ConfirmMessage.scss';
-import history from '../../configuration/history';
+import history from '../../../configuration/history';
 import Zoom from 'react-reveal/Zoom';
 
 class ConfirmMessage extends Component {
