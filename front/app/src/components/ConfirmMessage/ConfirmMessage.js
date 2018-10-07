@@ -5,6 +5,7 @@ import { signOutConfirmMessageAction, deleteUserConfirmMessageAction, getUserAct
 import { DeleteUserRequest } from '../../actions/Api';
 import classes from './ConfirmMessage.scss';
 import history from '../../configuration/history';
+import Zoom from 'react-reveal/Zoom';
 
 class ConfirmMessage extends Component {
 
@@ -56,13 +57,15 @@ class ConfirmMessage extends Component {
         const { headline, user } = this.props
         return (
             <div className={classes.ConfirmMessageWrapper}>
-                <div className={classes.ConfirmMessage}>
-                    <p>Are you sure you want to {headline} {user.username}</p>
-                    <div className={classes.btm}>
-                        <BtnComp inputType="submit" name="Approve" content="Approve" onClick={() => this.approve(headline, user)}/>
-                        <BtnComp inputType="submit" name="Denied" content="Denied" onClick={this.denied}/>
+                <Zoom duration={500}>
+                    <div className={classes.ConfirmMessage}>
+                        <p>Are you sure you want to {headline} {user.username}</p>
+                        <div className={classes.btm}>
+                            <BtnComp inputType="submit" name="Approve" content="Approve" onClick={() => this.approve(headline, user)}/>
+                            <BtnComp inputType="submit" name="Denied" content="Denied" onClick={this.denied}/>
+                        </div>
                     </div>
-                </div>
+                </Zoom>
             </div>
         );
     }

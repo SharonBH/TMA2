@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
-import BtnComp from '../UI/BtnComp/BtnComp';
-import InputComp from '../UI/InputComp/InputComp';
-import SelectComp from '../UI/SelectComp/SelectComp.js';
-import { editProfileRequest, changePasswordRequest, editThisUserRequest } from '../../actions/Api';
-import { successMessageAction, errorMessageAction, editThisUserAction } from '../../actions';
-import ChangePassword from '../ChangePassword/ChangePassword';
-import { changePassOpenAction }  from '../../actions';
-
+import BtnComp from '../../UI/BtnComp/BtnComp';
+import InputComp from '../../UI/InputComp/InputComp';
+import SelectComp from '../../UI/SelectComp/SelectComp.js';
+import { editProfileRequest, changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
+import ChangePassword from '../../ChangePassword/ChangePassword';
+import { changePassOpenAction, successMessageAction, errorMessageAction, editThisUserAction }  from '../../../actions';
 
 class UserSummary extends Component {
 

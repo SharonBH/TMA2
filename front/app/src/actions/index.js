@@ -5,7 +5,6 @@ export const getUserAction = (response) => {
         payload: response
     }
 }
-
 //get all users
 export const getAllUsersAction = (response) => {
     return {
@@ -13,7 +12,6 @@ export const getAllUsersAction = (response) => {
         payload: response
     }
 }
-
 // toggle Loader Action
 export const toggleLoaderAction = (boll) => {
     return {
@@ -21,7 +19,6 @@ export const toggleLoaderAction = (boll) => {
         payload: boll
     }
 }
-
 // add New User Action
 export const addNewUserAction = (boll) => {
     return {
@@ -29,9 +26,6 @@ export const addNewUserAction = (boll) => {
         payload: boll
     }
 }
-
-
-
 //forgot pass Action
 export const forgotPassAction = (data) => {
     return {
@@ -40,7 +34,6 @@ export const forgotPassAction = (data) => {
 
     }
 }
-
 // edit This User Action
 export const editThisUserAction = (boll) => {
     return {
@@ -48,7 +41,6 @@ export const editThisUserAction = (boll) => {
         payload: boll
     }
 }
-
 // change pass Action
 export const changePassOpenAction = (pass) => {
     
@@ -57,7 +49,6 @@ export const changePassOpenAction = (pass) => {
         payload: pass
     }
 }
-
 // catch Error
 export const catchErrorAction = (number) => {
     return {
@@ -65,7 +56,6 @@ export const catchErrorAction = (number) => {
         payload: number
     }
 }
-
 // error action
 export const errorMessageAction = (message) => {
     return {
@@ -87,14 +77,14 @@ export const closeNav = (action) => {
         payload: action
     }
 }
-
+// sign-Out Confirm Message Action
 export const signOutConfirmMessageAction = (bool) => {
     return {
         type: 'MESSAGE_CONFIRMATION_SIGN_OUT',
         payload: bool
     }
 }
-
+// delete-User Confirm Message Action
 export const deleteUserConfirmMessageAction = (bool) => {
     return {
         type: 'MESSAGE_CONFIRMATION_DELETE_USER',
