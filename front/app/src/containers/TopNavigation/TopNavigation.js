@@ -10,8 +10,9 @@ class TopNavigation extends Component {
     }
 
     logout = () => {
-        this.props.deleteUserConfirmMessageAction(false)
         this.props.signOutConfirmMessageAction(true)
+        this.props.deleteUserConfirmMessageAction(false)
+        
     }
 
     helloUser = () => {
@@ -47,11 +48,10 @@ class TopNavigation extends Component {
                         <i className="fas fa-users-cog"></i><span>Profile</span>
                     </Link>
                     {this.props.currentUser.role === 'Admin' 
-                    ? <Link to='/all_users' className={classes.navLink}>
+                    ?  <Link to='/all_users' className={classes.navLink}>
                         <i className="fas fa-users"></i><span>Users Managment</span>
-                    </Link>
-                    : null
-                    }
+                       </Link>
+                    : null }
                     <a href='#' onClick={this.logout} className={classes.navLink}>
                         <i className="fas fa-power-off"></i><span>Sign Out</span>
                     </a>
@@ -62,7 +62,7 @@ class TopNavigation extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.UserLogInReducer.currentUser,
+        currentUser: state.userReducer.currentUser,
         // navAction: state.closeNavReducer.navAction
     }
 }

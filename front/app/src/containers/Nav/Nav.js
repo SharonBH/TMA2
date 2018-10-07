@@ -41,8 +41,8 @@ export class Nav extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.UserLogInReducer.currentUser,
-        navAction: state.closeNavReducer.navAction
+        currentUser: state.userReducer.currentUser,
+        navAction: state.sharedReducer.navAction
     }
 }
 

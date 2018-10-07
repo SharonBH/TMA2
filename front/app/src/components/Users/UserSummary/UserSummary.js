@@ -6,7 +6,7 @@ import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
 import { editProfileRequest, changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
 import ChangePassword from '../../ChangePassword/ChangePassword';
-import { changePassOpenAction, successMessageAction, errorMessageAction, editThisUserAction }  from '../../../actions';
+import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction }  from '../../../actions';
 
 class UserSummary extends Component {
 
@@ -85,7 +85,7 @@ class UserSummary extends Component {
     }
 
     editBtnFunc = (item, index) => {
-        if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisUser && item.detail !== 'User Name' )) {
+        if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisItem && item.detail !== 'User Name' )) {
             return (
                 <div className={classes.BTN}>
                     <i className={ 
@@ -161,7 +161,7 @@ class UserSummary extends Component {
     }
 
     closePopUp = () => {
-        this.props.editThisUserAction(false)
+        this.props.editThisItemAction(false)
     }
 
     userSummary = (headline, user) => {
@@ -185,7 +185,7 @@ class UserSummary extends Component {
                     />
                 </span>
                 {headline === 'Edit' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
-                {this.props.editThisUser ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
+                {this.props.editThisItem ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
                 {this.props.passwords ? <ChangePassword headline='Change Password' user={user.username} classStr='none' /> : null}
                 
             </div>
@@ -205,11 +205,11 @@ class UserSummary extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.errorMessageReducer.errorMessage,
-        successMessage: state.successMessageReducer.successMessage,
-        passwords: state.changePassReducer.passwords,
-        currentUser: state.UserLogInReducer.currentUser,
-        editThisUser: state.editUserReducer.editThisUser
+        errorMessage: state.sharedReducer.errorMessage,
+        successMessage: state.sharedReducer.successMessage,
+        passwords: state.userReducer.passwords,
+        currentUser: state.userReducer.currentUser,
+        editThisItem: state.editItemReducer.editThisItem
     }
 }
 
@@ -220,7 +220,7 @@ const mapDispatchToProps = dispatch => {
         changePasswordRequest: (username, password, newPassword, confirmPassword) => dispatch(changePasswordRequest(username, password, newPassword, confirmPassword)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
-        editThisUserAction: (payload) => dispatch(editThisUserAction(payload)),
+        editThisItemAction: (payload) => dispatch(editThisItemAction(payload)),
         editThisUserRequest: (userName, name, email, userType) => dispatch(editThisUserRequest(userName, name, email, userType)),
     }
 }

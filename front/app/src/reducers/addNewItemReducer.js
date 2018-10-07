@@ -1,15 +1,15 @@
 const InitialState = {
-    editThisUser: false
+    addItem: false
 }
 
-const editUserReducer = (state = InitialState, action) => {
+const addNewItemReducer = (state = InitialState, action) => {
     switch (action.type) {
 
-        case 'EDIT_THIS_USER':
+        case 'ADD_A_NEW_ITEM':
             const boll = action.payload
             return {
                 ...state,
-                editThisUser: boll
+                addItem: boll
             }
 
         default:
@@ -17,4 +17,4 @@ const editUserReducer = (state = InitialState, action) => {
     return state;
 }
 
-export default editUserReducer;
+export default addNewItemReducer;

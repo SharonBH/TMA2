@@ -100,8 +100,8 @@ class ChangePassword extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.errorMessageReducer.errorMessage,
-        successMessage: state.successMessageReducer.successMessage,
+        errorMessage: state.sharedReducer.errorMessage,
+        successMessage: state.sharedReducer.successMessage,
     }
 }
 

@@ -48,7 +48,7 @@ export class MainPage extends Component {
                     component={NotFound}
                 />
                 <Route
-                    path='/change_password'
+                    path='/change_password/:userName'
                     component={() => <ChangePassword header='reset password' />}
                 />
             </Switch>
@@ -59,7 +59,7 @@ export class MainPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.UserLogInReducer.currentUser
+        currentUser: state.userReducer.currentUser
     }
 }
 

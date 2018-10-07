@@ -22,7 +22,7 @@ class NotFound extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        catchErrorNum: state.errorReducer.catchErrorNum
+        catchErrorNum: state.sharedReducer.catchErrorNum
     }
 }
 

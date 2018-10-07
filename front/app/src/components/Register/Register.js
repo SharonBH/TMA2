@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
-import { successMessageAction, errorMessageAction, addNewUserAction } from '../../actions'
+import { successMessageAction, errorMessageAction, addNewItemAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
@@ -72,7 +72,7 @@ class Register extends Component {
         }
     }
     closePopUp = () => {
-        this.props.addNewUserAction(false)
+        this.props.addNewItemAction(false)
     }
     rgisterFage = (headline, classStr) => {
         return (
@@ -117,8 +117,8 @@ class Register extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        errorMessage: state.errorMessageReducer.errorMessage,
-        successMessage: state.successMessageReducer.successMessage
+        errorMessage: state.sharedReducer.errorMessage,
+        successMessage: state.sharedReducer.successMessage
     }
 }
 
@@ -128,7 +128,7 @@ const mapDispatchToProps = dispatch => {
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
-        addNewUserAction: (payload) => dispatch(addNewUserAction(payload)),
+        addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
         
     }
 }

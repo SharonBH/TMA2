@@ -33,7 +33,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        toggleSpinner: state.toggleLoaderReducer.toggleSpinner,
+        toggleSpinner: state.sharedReducer.toggleSpinner,
         signOutConfirmMessage: state.confirmMessageReducer.signOutConfirmMessage,
     }
 }
