@@ -13,3 +13,5 @@ C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcore
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.DAL.pdb
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\TMA.Api.csproj.CopyComplete
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.BLL.dll
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.Api\bin\Debug\netcoreapp2.0\TMA.BLL.pdb

@@ -431,12 +431,14 @@ namespace TMA.Api.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction(nameof(ResetPasswordConfirmation));
+                return Redirect("https://tma-front.azurewebsites.net/change_password");
+                //return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(ResetPasswordConfirmation));
+                return Redirect("https://tma-front.azurewebsites.net/change_password?username="+ user.UserName);
+                //return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
             AddErrors(result);
             return View();
@@ -557,7 +559,7 @@ namespace TMA.Api.Controllers
                 // If successful
                 if (results.Succeeded)
                     // Redirect to Users page
-                    return Json(new { Response = "Success", Message = $"User [{user}] was edited successfully." });
+                    return Json(new { Response = "Success", Message = $"User {user} was edited successfully." });
 
                 else
                     return Json(new { Response = "Error", Message = results.Errors });

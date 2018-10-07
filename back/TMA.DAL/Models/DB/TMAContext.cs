@@ -22,10 +22,10 @@ namespace TMA.DAL.Models.DB
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual DbSet<EventResults> EventResults { get; set; }
         public virtual DbSet<Events> Events { get; set; }
         public virtual DbSet<LkpEvent> LkpEvent { get; set; }
-        public virtual DbSet<Players> Players { get; set; }
-        public virtual DbSet<Scores> Scores { get; set; }
+        public virtual DbSet<Tournaments> Tournaments { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -129,11 +129,30 @@ namespace TMA.DAL.Models.DB
                 entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
             });
 
+            modelBuilder.Entity<EventResults>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.EventId });
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventResults)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventResults_Events");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.EventResults)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventResults_AspNetUsers");
+            });
+
             modelBuilder.Entity<Events>(entity =>
             {
                 entity.HasKey(e => e.EventId);
 
-                entity.Property(e => e.EventId).ValueGeneratedNever();
+                entity.Property(e => e.EventDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.EventName)
                     .IsRequired()
@@ -144,6 +163,11 @@ namespace TMA.DAL.Models.DB
                     .HasForeignKey(d => d.EventTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Events_LKP_Event");
+
+                entity.HasOne(d => d.Tournament)
+                    .WithMany(p => p.Events)
+                    .HasForeignKey(d => d.TournamentId)
+                    .HasConstraintName("FK_Events_Tournaments");
             });
 
             modelBuilder.Entity<LkpEvent>(entity =>
@@ -159,18 +183,17 @@ namespace TMA.DAL.Models.DB
                     .HasMaxLength(150);
             });
 
-            modelBuilder.Entity<Players>(entity =>
+            modelBuilder.Entity<Tournaments>(entity =>
             {
-                entity.HasKey(e => e.PlayerId);
+                entity.HasKey(e => e.TournamentId);
 
-                entity.Property(e => e.PlayerName)
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.Property(e => e.TournamentName)
                     .IsRequired()
                     .HasMaxLength(150);
-            });
-
-            modelBuilder.Entity<Scores>(entity =>
-            {
-                entity.HasKey(e => new { e.PlayerId, e.EventId });
             });
         }
     }
