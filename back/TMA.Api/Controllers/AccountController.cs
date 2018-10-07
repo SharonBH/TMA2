@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using TMA.Api.Models;
 using TMA.Api.Models.AccountViewModels;
 using TMA.Api.Models.ManageViewModels;
 using TMA.Api.Services;
-using TMA.DAL;
 
 namespace TMA.Api.Controllers
 {
@@ -54,11 +50,11 @@ namespace TMA.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login([FromBody]LoginModel loginModel)
         {
             try
             {
-                var result = await _signInManager.PasswordSignInAsync(username, password, true, false);
+                var result = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, true, false);
                 if (result.Succeeded)
                     return Json(new { Response = "Success", Message = "Success" });
 

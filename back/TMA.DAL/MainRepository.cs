@@ -150,7 +150,7 @@ namespace TMA.DAL
 
         #region Tournaments
 
-        public void CreateTournament(string tournamentName, DateTime startDate, DateTime endDate, int? numberOfEvents)
+        public void CreateTournament(string tournamentName, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
         {
             try
             {
@@ -178,7 +178,7 @@ namespace TMA.DAL
             }
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, DateTime startDate, DateTime endDate, int? numberOfEvents)
+        public void EditTournament(int tournamentId, string tournamentName, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
         {
             try
             {
@@ -235,6 +235,8 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var tournament = context.Tournaments.FirstOrDefault(e => e.TournamentName == tournamentName && e.IsDeleted == false);
+                    if (tournament == null)
+                        throw new Exception($"Tournament for Tournament Name [{tournamentName}] was not found.");
                     return tournament;
                 }
             }

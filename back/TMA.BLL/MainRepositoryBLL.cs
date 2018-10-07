@@ -54,12 +54,12 @@ namespace TMA.BLL
 
         #region Tournaments
 
-        public void CreateTournament(string tournamentName, DateTime startDate, DateTime endDate, int? numberOfEvents)
+        public void CreateTournament(string tournamentName, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
         {
             _mainRepository.CreateTournament(tournamentName, startDate, endDate, numberOfEvents);
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, DateTime startDate, DateTime endDate, int? numberOfEvents)
+        public void EditTournament(int tournamentId, string tournamentName, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
         {
             _mainRepository.EditTournament(tournamentId, tournamentName, startDate, endDate, numberOfEvents);
         }
