@@ -11,7 +11,7 @@ import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp'
 
 import Register from '../../Register';
-// import UserSummary from '../UserSummary';
+import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
 import { takeAllTournaments, DeleteTournamentRequest } from '../../../actions/GamesApi';
@@ -30,12 +30,12 @@ export class TournamentsList extends Component {
             display: false,
             userDetailsArr: []
         }
-        // this.editTournamentBtn = this.editTournamentBtn.bind(this)
-        // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
+        this.editTournamentBtn = this.editTournamentBtn.bind(this)
+        this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
 
     componentWillMount(){
-        if(this.props.allList.length === 0 || this.props.allList === undefined) {
+        if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
         } else {
             return null
@@ -43,7 +43,7 @@ export class TournamentsList extends Component {
     }
     componentDidMount(){
         this.props.successMessageAction(null)
-        if(this.props.allList.length === 0 || this.props.allList === undefined) {
+        if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
         } else {
             return null
@@ -63,13 +63,13 @@ export class TournamentsList extends Component {
         this.props.deleteConfirmMessageAction(true)
     }
 
-    // editTournamentBtn = (item) => {
-    //     this.setState({tournamentInEditMode: item})
-    //     setTimeout(() => {
-    //         this.props.editThisTournamentAction(true)
-    //     }, 200)
+    editTournamentBtn = (item) => {
+        this.setState({tournamentInEditMode: item})
+        setTimeout(() => {
+            this.props.editThisItemAction(true)
+        }, 200)
 
-    // }
+    }
     editDetailInput = (index, e) => {
         const details = Object.assign([], this.state.userDetailsArr)
             details[index] = e.target.value
@@ -88,9 +88,9 @@ export class TournamentsList extends Component {
         return <Register headline='Add Tournament' classStr='none' />
     }
 
-    // editTournamentComp = () => {
-    //     return <UserSummary headline='Edit' user={this.state.tournamentInEditMode}/>
-    // }
+    editTournamentComp = () => {
+        return <UserSummary headline='Edit' user={this.state.tournamentInEditMode}/>
+    }
 
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
@@ -117,9 +117,9 @@ export class TournamentsList extends Component {
     }
 
     tournamentList = () => {
-        const allTous = this.props.allList !== undefined ? this.props.allList.map((item) => { return item}) : null
+        const allTous = this.props.allTournsList !== undefined ? this.props.allTournsList.map((item) => { return item}) : null
         const events = events === undefined ? ['no events'] : allTous.map((item) => { return item.eventName});
-        return this.props.allList !== undefined ? this.props.allList.map((item, index) => {        
+        return this.props.allTournsList !== undefined ? this.props.allTournsList.map((item, index) => {        
           
           return <li key={index}>
                 <div className={classes.username}>{item.tournamentName}</div>
@@ -168,7 +168,7 @@ export class TournamentsList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        allList: state.allListReducer.allList,
+        allTournsList: state.allListReducer.allTournsList,
         addItem: state.addNewItemReducer.addItem,
         editThisItem: state.editItemReducer.editThisItem,
         successMessage: state.sharedReducer.successMessage,
