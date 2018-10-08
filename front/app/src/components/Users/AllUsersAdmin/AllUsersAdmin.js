@@ -8,7 +8,7 @@ import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import PropTypes from 'prop-types';
 import Register from '../../Register';
-import { deleteUserConfirmMessageAction } from '../../../actions';
+import { deleteConfirmMessageAction } from '../../../actions';
 import UserSummary from '../UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
@@ -39,6 +39,7 @@ export class AllUsersAdmin extends Component {
     }
     componentDidMount(){
         this.props.successMessageAction(null)
+        this.props.takeAllUsers()
     }
     componentWillUnmount(){
         this.props.errorMessageAction(null)
@@ -50,7 +51,7 @@ export class AllUsersAdmin extends Component {
     DeleteUserBtn = (item) => {
         this.setState({userForDelete: item})
         this.setState({userInEditMode: null})
-        this.props.deleteUserConfirmMessageAction(true)
+        this.props.deleteConfirmMessageAction(true)
 
     }
 
@@ -146,7 +147,7 @@ const mapDispatchToProps = dispatch => {
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),
-        deleteUserConfirmMessageAction: payload => dispatch(deleteUserConfirmMessageAction(payload))
+        deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload))
     }
 }
 

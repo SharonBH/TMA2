@@ -5,7 +5,7 @@ import {
     catchErrorAction,
     toggleLoaderAction,
     addNewItemAction,
-    getAllListAction,
+    getAllUsersAction,
     // changePassAction,
     successMessageAction,
     errorMessageAction,
@@ -49,33 +49,36 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Login?username=${userName}&password=${password}`)
-            .then((response) => {
-                if(response.data.message === 'Success') {
-                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
-                        .then((response) => {
-                            sessionStorage.setItem('session', JSON.stringify(response.data));
-                            const session = JSON.parse(sessionStorage.getItem('session'));
-                            dispatch(getUserAction(session))
-                            dispatch(toggleLoaderAction(false))
-                            history.push({pathname: '/home', state:[response.data]})
-                        })
-                        .catch((error) => {
-                            dispatch(catchErrorAction([error][0]))
-                            dispatch(errorMessageAction([error][0]))
-                            dispatch(toggleLoaderAction(false))
-                        });
-                } else {
-                    const error = response.data.message
-                    dispatch(errorMessageAction(error))
-                    dispatch(toggleLoaderAction(false))
-                }
-            })
-            .catch((error) => {
-                dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction([error][0]))
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Login`, {
+            username: userName,
+            password: password
+        })
+        .then((response) => {
+            if(response.data.message === 'Success') {
+                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
+                    .then((response) => {
+                        sessionStorage.setItem('session', JSON.stringify(response.data));
+                        const session = JSON.parse(sessionStorage.getItem('session'));
+                        dispatch(getUserAction(session))
+                        dispatch(toggleLoaderAction(false))
+                        history.push({pathname: '/home', state:[response.data]})
+                    })
+                    .catch((error) => {
+                        dispatch(catchErrorAction([error][0]))
+                        dispatch(errorMessageAction([error][0]))
+                        dispatch(toggleLoaderAction(false))
+                    });
+            } else {
+                const error = response.data.message
+                dispatch(errorMessageAction(error))
                 dispatch(toggleLoaderAction(false))
-            });
+            }
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
     }
 };
 
@@ -89,7 +92,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
                         .then((response) => {
                             const users = response.data
-                            dispatch(getAllListAction(users));
+                            dispatch(getAllUsersAction(users));
                             history.push({pathname: '/all_users'})
                             dispatch(addNewItemAction(false))
                             dispatch(successMessageAction('User Added Successfuly'))
@@ -121,7 +124,7 @@ export const takeAllUsers = () => {
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
             .then((response) => {
                     const users = response.data
-                    dispatch(getAllListAction(users));
+                    dispatch(getAllUsersAction(users));
                     history.push({pathname: '/all_users'})
                     dispatch(toggleLoaderAction(false))
             })
@@ -175,7 +178,7 @@ export const editThisUserRequest = (userName, name, email, userType) => {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
                         .then((response) => {
                                 const users = response.data
-                                dispatch(getAllListAction(users));
+                                dispatch(getAllUsersAction(users));
                                 dispatch(successMessageAction('Edited Successfuly'))
                                 history.push({pathname: '/all_users'})
                                 dispatch(toggleLoaderAction(false))

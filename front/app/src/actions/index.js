@@ -72,7 +72,7 @@ export const signOutConfirmMessageAction = (bool) => {
     }
 }
 // delete-User Confirm Message Action
-export const deleteUserConfirmMessageAction = (bool) => {
+export const deleteConfirmMessageAction = (bool) => {
     return {
         type: 'MESSAGE_CONFIRMATION_DELETE_USER',
         payload: bool
@@ -84,9 +84,17 @@ export const deleteUserConfirmMessageAction = (bool) => {
 
 
 //get all users
-export const getAllListAction = (response) => {
+export const getAllUsersAction = (response) => {
     return {
-        type: 'GET_ALL_LIST',
+        type: 'GET_ALL_USERS',
+        payload: response
+    }
+}
+//get all Tournaments
+export const getAllToursAction = (response) => {
+    console.log('22', response)
+    return {
+        type: 'GET_ALL_TOURS',
         payload: response
     }
 }

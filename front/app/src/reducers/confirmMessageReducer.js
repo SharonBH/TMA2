@@ -18,6 +18,18 @@ const confirmMessageReducer = (state = InitialState, action) => {
                 ...state,
                 deleteUserConfirmMessage: boolean
             }
+        case 'MESSAGE_CONFIRMATION_DELETE_TOURNAMENT':
+            const boole = action.payload
+            return {
+                ...state,
+                deleteUserConfirmMessage: boole
+            }
+        case 'MESSAGE_CONFIRMATION_DELETE_EVENT':
+            const boolea = action.payload
+            return {
+                ...state,
+                deleteUserConfirmMessage: boolea
+            }
         default:
     }
     return state;
