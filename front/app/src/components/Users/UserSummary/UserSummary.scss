@@ -9,8 +9,7 @@
     color: $black;
     
     .Profile {
-        min-width: 500px;
-        max-width: 600px;
+        width: 600px;
         margin-top: 110px;
         padding: 20px;
         background-color: #fff;
@@ -75,7 +74,7 @@
             }
             
             & > .HeadLine {
-                width: 100px;
+                width: 130px;
                 text-align: left;
                 height: 100%;
                 line-height: 30px;

@@ -126,7 +126,7 @@ export class TournamentsList extends Component {
                 <div className={classes.username}>{item.tournamentName}</div>
                 <div className={classes.email}>{item.startDate}</div>
                 <div className={classes.email}>{item.endDate}</div>
-                <div className={classes.role}>{item.isDeleted}</div>
+                <div className={classes.role}>{item.numberOfEvents}</div>
                 <div className={classes.select}>
                     <SelectComp 
                         options={events}
@@ -154,7 +154,7 @@ export class TournamentsList extends Component {
                     <div className={classes.username}>Tournament Name</div>
                     <div className={classes.email}>Start Date</div>
                     <div className={classes.email}>End Date</div>
-                    <div className={classes.role}></div>
+                    <div className={classes.role}>Max Events</div>
                     <div className={classes.email}>Events</div>
                     <div className={classes.addBtn}><BtnComp inputType="submit" content='Add Tournament' onClick={this.addTournamentBtn}/></div>
                 </div> 
