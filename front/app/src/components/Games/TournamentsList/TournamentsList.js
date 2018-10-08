@@ -144,7 +144,7 @@ export class TournamentsList extends Component {
     }
     
     render (){
-        console.log(this.props)
+        // console.log(this.props)
         return (
             <div className={classes.usersWrapper}>
                 {this.successDeleteMessage()}
