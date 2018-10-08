@@ -92,7 +92,6 @@ export const getAllUsersAction = (response) => {
 }
 //get all Tournaments
 export const getAllToursAction = (response) => {
-    console.log('22', response)
     return {
         type: 'GET_ALL_TOURS',
         payload: response

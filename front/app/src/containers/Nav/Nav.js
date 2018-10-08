@@ -15,7 +15,7 @@ export class Nav extends Component {
                 <Link to='/all_events' className={classes.navLink}>
                     <i className="fas fa-gamepad"></i><span>Events</span>
                 </Link>
-                <Link to='/' onClick={this.logout} className={classes.navLink}>
+                <Link to='/scores' className={classes.navLink}>
                     <i className="fas fa-star-half-alt"></i><span>Scores - soon...</span>
                 </Link>
             </div>
