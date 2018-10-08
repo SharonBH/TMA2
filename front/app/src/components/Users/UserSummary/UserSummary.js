@@ -175,8 +175,8 @@ class UserSummary extends Component {
         )
     }
     editGameLine = (item, index) => {
-        const allTous = this.props.allTournsList !== undefined ? this.props.allTournsList.map((item) => { return item}) : null
-        const events = events === undefined ? ['no events'] : allTous.map((item) => { return item.eventName});
+        // const allTous = this.props.allTournsList !== undefined ? this.props.allTournsList.map((item) => { return item}) : null
+        // const events = events === undefined ? ['no events'] : allTous.map((item) => { return item.eventName});
         const detail = item.detail
         return (
 
@@ -187,11 +187,13 @@ class UserSummary extends Component {
                     ? <div className={classes.EditInput}>
                         {
                             detail === 'Max Events'
-                            ? <SelectComp 
+                            ? <InputComp 
+                                inputType={'number'}
+                                name={detail} 
+                                placeholder={detail} 
+                                content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
-                                options={events}
-                                placeholder='Select Max Number of Events'
-                            />
+                            /> 
                             : <InputComp 
                                 inputType={detail === 'Tournament Name' ? 'text' : 'date'}
                                 name={detail} 
