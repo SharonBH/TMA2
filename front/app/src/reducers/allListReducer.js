@@ -1,5 +1,6 @@
 const InitialState = {
     allList: [],
+    allTournsList: []
 }
 
 const allListReducer = (state = InitialState, action) => {
@@ -15,7 +16,7 @@ const allListReducer = (state = InitialState, action) => {
             const tours = action.payload
             return {
                 ...state,
-                allList: tours
+                allTournsList: tours
             }
         default:
     }
