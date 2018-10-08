@@ -7,3 +7,6 @@ C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcore
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcoreapp2.0\TMA.BLL.dll
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcoreapp2.0\TMA.BLL.pdb
 C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcoreapp2.0\TMA.BLL.csprojResolveAssemblyReference.cache
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\bin\Debug\netcoreapp2.0\TMA.DAL.dll
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\bin\Debug\netcoreapp2.0\TMA.DAL.pdb
+C:\Users\Tal\source\repos\TournamentManagementApp\back\TMA.BLL\obj\Debug\netcoreapp2.0\TMA.BLL.csproj.CopyComplete

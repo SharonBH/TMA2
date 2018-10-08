@@ -12,6 +12,7 @@ using TMA.Api.Data;
 using TMA.Api.Models;
 using TMA.Api.Services;
 using Swashbuckle.AspNetCore.Swagger;
+using Newtonsoft.Json;
 
 namespace TMA.Api
 {
@@ -37,7 +38,10 @@ namespace TMA.Api
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            }); ;
 
             services.AddSingleton<IConfiguration>(Configuration);
 
