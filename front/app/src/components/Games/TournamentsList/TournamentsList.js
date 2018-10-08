@@ -66,6 +66,7 @@ export class TournamentsList extends Component {
     editTournamentBtn = (item) => {
         this.setState({tournamentInEditMode: item})
         setTimeout(() => {
+            console.log(item)
             this.props.editThisItemAction(true)
         }, 200)
 
@@ -89,7 +90,7 @@ export class TournamentsList extends Component {
     }
 
     editTournamentComp = () => {
-        return <UserSummary headline='Edit' user={this.state.tournamentInEditMode}/>
+        return <UserSummary headline='Edit Tournament' tournament={this.state.tournamentInEditMode} user={null}/>
     }
 
     successDeleteMessage = () => {
@@ -135,7 +136,7 @@ export class TournamentsList extends Component {
                     />
                 </div>
                 <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link>
+                    <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
                  </div>
             </li>
@@ -159,7 +160,7 @@ export class TournamentsList extends Component {
                 </div> 
                 <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
-                {this.props.editThisItem ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
+                {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete tournament' item={this.state.tournamentForDelete}/> : null}
             </div>
         )

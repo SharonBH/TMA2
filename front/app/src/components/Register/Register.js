@@ -65,19 +65,12 @@ class Register extends Component {
         
     }
     addNewTournament = (e) => {
-        console.log('1')
         const tournamentName = this.state.TournamentName
         const tournamentStartDate = this.state.TournamentStartDate
-        // if(this.state.TournamentStartDate === ''){
-        //     return tournamentStartDate = Date.now()
-        // }else{
-        //     return tournamentStartDate = this.state.TournamentStartDate
-        // }
         const tournamentEndDate = this.state.TournamentEndDate
         const eventsMaxNum = this.state.EventsMaxNum
 
         e.preventDefault()
-        console.log('tournamentName', tournamentName)
         this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
     }
 
@@ -132,7 +125,6 @@ class Register extends Component {
         )
     }
     tournamentFage = (headline, classStr) => {
-        console.log('2')
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>

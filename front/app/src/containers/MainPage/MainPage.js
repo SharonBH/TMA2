@@ -35,7 +35,7 @@ export class MainPage extends Component {
                 />
                 <Route
                     path='/profile'
-                    component={() => <UserSummary headline={`Your Profile`} user={this.props.currentUser}/>}
+                    component={() => <UserSummary headline={`Your Profile`} user={this.props.currentUser} tournament={null}/>}
                 />
                 <Route
                     path='/all_users'
@@ -65,6 +65,10 @@ export class MainPage extends Component {
                 <Route
                     path='/scores'
                     // component={TournamentsList}
+                />
+                <Route
+                    path='/edit_tournament/:tournamentName'
+                    component={TournamentsList}
                 />
             </Switch>
         </div>

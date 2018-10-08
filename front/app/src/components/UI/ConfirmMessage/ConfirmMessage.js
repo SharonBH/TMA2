@@ -40,8 +40,7 @@ class ConfirmMessage extends Component {
 
     approve = (headline, user ) => {
         const { item } = this.props
-        const itemForDel = this.props.allList.find(id => { return id.tournamentId === item})
-        console.log('user!!!!!!!!', itemForDel.tournamentId)
+        const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
         switch(headline) {
             case 'delete user':
                 this.props.DeleteUserRequest(user.username)
@@ -62,7 +61,8 @@ class ConfirmMessage extends Component {
 
     popUpContent = () => {
         const { headline, user, item } = this.props
-        const itemForDel = this.props.allList.find(id => { return id.tournamentId === item})
+        const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
+        console.log('cnfirm____________',this.props)
         const name = headline === 'delete user' ? user.username : itemForDel.tournamentName
         
         
@@ -90,7 +90,8 @@ class ConfirmMessage extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        allList: state.allListReducer.allList
+        allList: state.allListReducer.allList,
+        allTournsList: state.allListReducer.allTournsList
     }
 }
 const mapDispatchToProps = dispatch => {

@@ -116,9 +116,10 @@ export const addNewTournamentRequest = (tournamentName, startDate, endDate, numb
 };
 
 // edit User Request
-export const editThisTournamentRequest = (tournamentId, tournamentName, startDate, endDate, numberOfEvents) => {
+export const editThisTournamentRequest = ( tournamentId, heading, tournamentName, startDate, endDate, numberOfEvents) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
+        console.log(tournamentId)
         return axios({
             method: 'post',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -136,10 +137,9 @@ export const editThisTournamentRequest = (tournamentId, tournamentName, startDat
                 dispatch(successMessageAction('Tournament Edited Successfuly'))
                 return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
                 .then((response) => {
-                    const users = response.data
-                    dispatch(getAllToursAction(users));
-                    // history.push({pathname: '/all_tournaments'})
-                    dispatch(addNewItemAction(false))
+                    const tournaments = response.data
+                    dispatch(getAllToursAction(tournaments));
+                    history.push({pathname: '/all_tournaments'})
                     dispatch(toggleLoaderAction(false))
                 })
                 .catch((error) => {
