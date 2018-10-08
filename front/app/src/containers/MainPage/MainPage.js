@@ -2,15 +2,17 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
+import classes from './MainPage.scss';
 import { HomePage } from '../HomePage/HomePage';
 import  AllUsersAdmin  from '../../components/Users/AllUsersAdmin/AllUsersAdmin';
 import Login from '../../components/Login';
 import Register from '../../components/Register';
-import classes from './MainPage.scss';
 import NotFound from '../../components/NotFound';
 import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/Users/UserSummary';
-import { connect } from 'react-redux';
+
+import TournamentsList from '../../components/Games/TournamentsList'
 
 export class MainPage extends Component {
   render() {
@@ -50,6 +52,19 @@ export class MainPage extends Component {
                 <Route
                     path='/change_password/:userName'
                     component={() => <ChangePassword header='reset password' />}
+                />
+
+                <Route
+                    path='/all_tournaments'
+                    component={TournamentsList}
+                />
+                <Route
+                    path='/all_events'
+                    // component={Events}
+                />
+                <Route
+                    path='/scores'
+                    // component={TournamentsList}
                 />
             </Switch>
         </div>

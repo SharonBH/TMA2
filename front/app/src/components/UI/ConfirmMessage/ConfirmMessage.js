@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import BtnComp from '../BtnComp/BtnComp';
-import { signOutConfirmMessageAction, deleteUserConfirmMessageAction, getUserAction } from '../../../actions';
+import { signOutConfirmMessageAction, deleteConfirmMessageAction, getUserAction } from '../../../actions';
 import { DeleteUserRequest } from '../../../actions/Api';
+import { DeleteTournamentRequest } from '../../../actions/GamesApi';
 import classes from './ConfirmMessage.scss';
 import history from '../../../configuration/history';
 import Zoom from 'react-reveal/Zoom';
@@ -34,13 +35,19 @@ class ConfirmMessage extends Component {
 
     denied = () => {
         this.props.signOutConfirmMessageAction(false)
-        this.props.deleteUserConfirmMessageAction(false)
+        this.props.deleteConfirmMessageAction(false)
     }
 
-    approve = (headline, user) => {
+    approve = (headline, user ) => {
+        const { item } = this.props
+        const itemForDel = this.props.allList.find(id => { return id.tournamentId === item})
+        console.log('user!!!!!!!!', itemForDel.tournamentId)
         switch(headline) {
             case 'delete user':
                 this.props.DeleteUserRequest(user.username)
+                break
+            case 'delete tournament':
+                this.props.DeleteTournamentRequest(itemForDel.tournamentId)
                 break
             case 'sign out':
                 this.props.getUserAction(null)
@@ -53,13 +60,18 @@ class ConfirmMessage extends Component {
         this.denied()
     }
 
-    render() {
-        const { headline, user } = this.props
+    popUpContent = () => {
+        const { headline, user, item } = this.props
+        const itemForDel = this.props.allList.find(id => { return id.tournamentId === item})
+        const name = headline === 'delete user' ? user.username : itemForDel.tournamentName
+        
+        
         return (
             <div className={classes.ConfirmMessageWrapper}>
                 <Zoom duration={500}>
                     <div className={classes.ConfirmMessage}>
-                        <p>Are you sure you want to {headline} {user.username}</p>
+                    
+                        <p>Are you sure you want to {headline} {name}</p>
                         <div className={classes.btm}>
                             <BtnComp inputType="submit" name="Approve" content="Approve" onClick={() => this.approve(headline, user)}/>
                             <BtnComp inputType="submit" name="Denied" content="Denied" onClick={this.denied}/>
@@ -69,15 +81,26 @@ class ConfirmMessage extends Component {
             </div>
         );
     }
-}
 
+    render() {
+        return (
+            this.popUpContent()
+        )
+    }
+}
+const mapStateToProps = (state) => {
+    return {
+        allList: state.allListReducer.allList
+    }
+}
 const mapDispatchToProps = dispatch => {
     return {
         signOutConfirmMessageAction: payload => dispatch(signOutConfirmMessageAction(payload)),
-        deleteUserConfirmMessageAction: payload => dispatch(deleteUserConfirmMessageAction(payload)),
+        deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
         DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
+        DeleteTournamentRequest: payload => dispatch(DeleteTournamentRequest(payload)),
         getUserAction: payload => dispatch(getUserAction(payload)),
     }
 }
 
-export default connect(null, mapDispatchToProps)(ConfirmMessage);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmMessage);

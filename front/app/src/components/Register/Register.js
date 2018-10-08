@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
+import { addNewTournamentRequest } from "../../actions/GamesApi";
 import { successMessageAction, errorMessageAction, addNewItemAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
@@ -18,6 +19,10 @@ class Register extends Component {
             name: '',
             userType: 'User',
             userName: '',
+            TournamentName:'',
+            TournamentStartDate: '',
+            TournamentEndDate: '',
+            EventsMaxNum: ''
         }
     }
 
@@ -26,6 +31,12 @@ class Register extends Component {
     onConfirmPasswordChange = (e) => { this.setState({confirmPassword: e.target.value})}
     onNameChange = (e) => { this.setState({ name: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
+
+    onTournamentNameChange = (e) => { this.setState({TournamentName: e.target.value})}
+    onStartDateChange = (e) => { this.setState({TournamentStartDate: e.target.value})}
+    onEndDateChange = (e) => { this.setState({TournamentEndDate: e.target.value})}
+    onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
+
 
     componentWillUnmount(){
         this.props.errorMessageAction(null)
@@ -52,6 +63,22 @@ class Register extends Component {
         e.preventDefault()
         this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
         
+    }
+    addNewTournament = (e) => {
+        console.log('1')
+        const tournamentName = this.state.TournamentName
+        const tournamentStartDate = this.state.TournamentStartDate
+        // if(this.state.TournamentStartDate === ''){
+        //     return tournamentStartDate = Date.now()
+        // }else{
+        //     return tournamentStartDate = this.state.TournamentStartDate
+        // }
+        const tournamentEndDate = this.state.TournamentEndDate
+        const eventsMaxNum = this.state.EventsMaxNum
+
+        e.preventDefault()
+        console.log('tournamentName', tournamentName)
+        this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
     }
 
     errorMessage = () => {
@@ -104,12 +131,47 @@ class Register extends Component {
             </div>
         )
     }
+    tournamentFage = (headline, classStr) => {
+        console.log('2')
+        return (
+            <div className={classes.Register}>
+                <h1>{headline}</h1>
+                <form>
+                    <InputComp inputType="text" name="tournamentName" placeholder="Tournament Name" onChange={this.onTournamentNameChange}/>
+                    <InputComp inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange}/>
+                    <InputComp inputType="date" name="endDate" placeholder="End Date" onChange={this.onEndDateChange}/>
+                    <InputComp inputType="number" name="maxNumOfEvents" placeholder="Maximum number Of Events" onChange={this.onMaxNumChange}/>
+                    {this.errorMessage()}
+                    {this.successMessage()}
+                    {<BtnComp 
+                        inputType="submit" 
+                        name="createTour" 
+                        content={headline} 
+                        onClick={ headline === 'Add Tournament' ?  this.addNewTournament : this.addNewEvent }
+                    />}
+                    {headline === 'Add Tournament' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
+                </form>
+                <div style={{display: classStr}}>
+                    <h3>Have a user? Keep Calm.</h3>
+                    <div className='loginLink'>
+                        <h2>And </h2>
+                        <Link to='/'><h2>Sign In</h2></Link>
+                    </div> 
+                </div>
+            </div>
+        )
+    }
+
+    eventFage = (headline, classStr) => {}
 
     render() {
         const { headline, classStr } = this.props
         return (
             <div className={classes.RegisterWrapper}>
-                {this.rgisterFage(headline, classStr)}
+                { headline === 'Register' || headline === 'Add User'
+                ? this.rgisterFage(headline, classStr)
+                : this.tournamentFage(headline, classStr)
+                }
             </div>
         );
     }
@@ -126,6 +188,7 @@ const mapDispatchToProps = dispatch => {
     return {
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
+        addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),

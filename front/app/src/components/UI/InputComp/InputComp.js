@@ -5,7 +5,7 @@ import classes from './InputComp.scss'
 export class InputComp extends Component {
     
     static propTypes = {  
-        inputType: PropTypes.oneOf(['text', 'number', 'password', 'email']).isRequired,
+        inputType: PropTypes.oneOf(['text', 'number', 'password', 'email', 'date']).isRequired,
         name: PropTypes.string.isRequired,
         onChange: PropTypes.func,
         content: PropTypes.oneOfType([
