@@ -61,16 +61,22 @@ class ConfirmMessage extends Component {
 
     popUpContent = () => {
         const { headline, user, item } = this.props
+        
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
-        console.log('cnfirm____________',this.props)
-        const name = headline === 'delete user' ? user.username : itemForDel.tournamentName
-        
-        
+        let name = ''
+        // headline === 'delete user' ? user.username : itemForDel.tournamentName
+        if(headline === 'delete user'){
+            name = user.username
+        } else if(headline === 'delete tournament'){
+            name =  itemForDel.tournamentName
+        } else if (headline === 'sign out'){
+            name = ''
+        }
+
         return (
             <div className={classes.ConfirmMessageWrapper}>
                 <Zoom duration={500}>
                     <div className={classes.ConfirmMessage}>
-                    
                         <p>Are you sure you want to {headline} {name}</p>
                         <div className={classes.btm}>
                             <BtnComp inputType="submit" name="Approve" content="Approve" onClick={() => this.approve(headline, user)}/>
