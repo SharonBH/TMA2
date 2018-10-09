@@ -13,6 +13,7 @@ import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/Users/UserSummary';
 
 import TournamentsList from '../../components/Games/TournamentsList'
+import EventsList from '../../components/Games/EventsList'
 
 export class MainPage extends Component {
   render() {
@@ -37,10 +38,7 @@ export class MainPage extends Component {
                     path='/profile'
                     component={() => <UserSummary headline={`Your Profile`} user={this.props.currentUser} tournament={null}/>}
                 />
-                <Route
-                    path='/all_users'
-                    component={AllUsersAdmin}
-                />
+                {this.props.currentUser !== null ? this.props.currentUser.role === 'Adimn' ? <Route path='/all_users' component={AllUsersAdmin}/> : null : null}
                 <Route
                     path='/edit_user/:userName'
                     component={AllUsersAdmin}
@@ -60,7 +58,7 @@ export class MainPage extends Component {
                 />
                 <Route
                     path='/all_events'
-                    // component={Events}
+                    component={EventsList}
                 />
                 <Route
                     path='/scores'
@@ -70,6 +68,7 @@ export class MainPage extends Component {
                     path='/edit_tournament/:tournamentName'
                     component={TournamentsList}
                 />
+                <Route component={NotFound} />
             </Switch>
         </div>
     );

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import BtnComp from '../BtnComp/BtnComp';
 import { signOutConfirmMessageAction, deleteConfirmMessageAction, getUserAction } from '../../../actions';
 import { DeleteUserRequest } from '../../../actions/Api';
-import { DeleteTournamentRequest } from '../../../actions/GamesApi';
+import { DeleteTournamentRequest, DeleteEventRequest } from '../../../actions/GamesApi';
 import classes from './ConfirmMessage.scss';
 import history from '../../../configuration/history';
 import Zoom from 'react-reveal/Zoom';
@@ -41,12 +41,16 @@ class ConfirmMessage extends Component {
     approve = (headline, user ) => {
         const { item } = this.props
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
+        const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
         switch(headline) {
             case 'delete user':
                 this.props.DeleteUserRequest(user.username)
                 break
             case 'delete tournament':
                 this.props.DeleteTournamentRequest(itemForDel.tournamentId)
+                break
+            case 'Delete Event':
+                this.props.DeleteEventRequest(eventForDel.eventId)
                 break
             case 'sign out':
                 this.props.getUserAction(null)
@@ -61,8 +65,8 @@ class ConfirmMessage extends Component {
 
     popUpContent = () => {
         const { headline, user, item } = this.props
-        
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
+        const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
         let name = ''
         // headline === 'delete user' ? user.username : itemForDel.tournamentName
         if(headline === 'delete user'){
@@ -71,7 +75,10 @@ class ConfirmMessage extends Component {
             name =  itemForDel.tournamentName
         } else if (headline === 'sign out'){
             name = ''
+        }else if(headline === 'Delete Event'){
+            name =  eventForDel.eventName
         }
+
 
         return (
             <div className={classes.ConfirmMessageWrapper}>
@@ -97,7 +104,8 @@ class ConfirmMessage extends Component {
 const mapStateToProps = (state) => {
     return {
         allList: state.allListReducer.allList,
-        allTournsList: state.allListReducer.allTournsList
+        allTournsList: state.allListReducer.allTournsList,
+        allEventsList: state.allListReducer.allEventsList,
     }
 }
 const mapDispatchToProps = dispatch => {
@@ -106,6 +114,7 @@ const mapDispatchToProps = dispatch => {
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
         DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
         DeleteTournamentRequest: payload => dispatch(DeleteTournamentRequest(payload)),
+        DeleteEventRequest: payload => dispatch(DeleteEventRequest(payload)),
         getUserAction: payload => dispatch(getUserAction(payload)),
     }
 }

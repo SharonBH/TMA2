@@ -97,9 +97,23 @@ export const getAllToursAction = (response) => {
         payload: response
     }
 }
-
+//get all Events
+export const getAllEventsAction = (response) => {
+    return {
+        type: 'GET_ALL_EVENTS',
+        payload: response
+    }
+}
+//get all Event Types
+export const getAllEventTypesAction = (response) => {
+    return {
+        type: 'GET_ALL_EVENT_TYPES',
+        payload: response
+    }
+}
 // add New User Action
 export const addNewItemAction = (boll) => {
+    console.log(boll,'sadasdasdasd')
     return {
         type: 'ADD_A_NEW_ITEM',
         payload: boll
