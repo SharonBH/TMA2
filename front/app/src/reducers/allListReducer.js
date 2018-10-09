@@ -33,9 +33,6 @@ const allListReducer = (state = InitialState, action) => {
                 allEventTypesList: eventTypes
             }
         default:
-            console.log(state.allList)
-            console.log(state.allTournsList)
-            console.log(state.allEventsList)
     }
     return state;
 }
