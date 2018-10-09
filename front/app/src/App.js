@@ -9,8 +9,6 @@ import { withCookies } from 'react-cookie';
 import ConfirmMessage from './components/UI/ConfirmMessage';
 import TopNavigation  from './containers/TopNavigation/TopNavigation';
 import { appCallTakeAllTournaments, appCallTakeAllEvents } from './actions/GamesApi';
-import { appCallTakeAllUsers } from './actions/Api';
-
 class App extends Component {
   spinner = () => {
     if (this.props.toggleSpinner) {
@@ -23,9 +21,6 @@ class App extends Component {
 componentWillMount() {
     this.props.appCallTakeAllTournaments()
     this.props.appCallTakeAllEvents()
-    if(this.props.currentUser.role === 'Admin') {
-        this.props.appCallTakeAllUsers()
-    }
 }
 
     render() {
@@ -46,7 +41,6 @@ const mapStateToProps = (state) => {
     return {
         toggleSpinner: state.sharedReducer.toggleSpinner,
         signOutConfirmMessage: state.confirmMessageReducer.signOutConfirmMessage,
-        currentUser: state.userReducer.currentUser
     }
 }
 
@@ -54,7 +48,6 @@ const mapDispatchToProps = dispatch => {
     return {
         appCallTakeAllTournaments: payload => dispatch(appCallTakeAllTournaments(payload)),
         appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
-        appCallTakeAllUsers: payload => dispatch(appCallTakeAllUsers(payload)),
     }
 }
 

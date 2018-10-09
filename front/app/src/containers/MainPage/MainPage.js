@@ -11,7 +11,6 @@ import Register from '../../components/Register';
 import NotFound from '../../components/NotFound';
 import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/Users/UserSummary';
-
 import TournamentsList from '../../components/Games/TournamentsList'
 import EventsList from '../../components/Games/EventsList'
 
