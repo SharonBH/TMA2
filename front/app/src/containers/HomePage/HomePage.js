@@ -5,12 +5,12 @@ import { appCallTakeAllUsers } from '../../actions/Api';
 
 export class HomePage extends Component {
 
-    // componentDidMount() {
-    //     const user = this.props.currentUser
-    //     if(user !== null && user.role === 'Admin') {
-    //         this.props.appCallTakeAllUsers()
-    //     }
-    // }
+    componentDidMount() {
+        const user = this.props.currentUser
+        if(user !== null && user !== undefined && user.role === 'Admin') {
+            this.props.appCallTakeAllUsers()
+        }
+    }
     
     render(){
         return (

@@ -37,7 +37,7 @@ export class MainPage extends Component {
                     path='/profile'
                     component={() => <UserSummary headline={`Your Profile`} user={this.props.currentUser} tournament={null}/>}
                 />
-                {this.props.currentUser !== null ? this.props.currentUser.role === 'Adimn' ? <Route path='/all_users' component={AllUsersAdmin}/> : null : null}
+                {(this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin') ? <Route path='/all_users' component={AllUsersAdmin}/> : null}
                 <Route
                     path='/edit_user/:userName'
                     component={AllUsersAdmin}

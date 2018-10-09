@@ -292,7 +292,6 @@ export const appCallTakeAllTournaments = () => {
             .then((response) => {
                     const tournaments = response.data
                     dispatch(getAllToursAction(tournaments));
-                    history.push({pathname: '/all_tournaments'})
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
@@ -314,12 +313,8 @@ export const appCallTakeAllEvents = () => {
                     dispatch(getAllEventsAction(events));
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEventTypes`)
                     .then((response) => {
-                        
-                        const eventTypes = response.data
-                        console.log('response2', eventTypes)
-                        
+                        const eventTypes = response.data                
                         dispatch(getAllEventTypesAction(eventTypes));
-                        history.push({pathname: '/all_events'})
                     })
                     .catch((error) => {
                         dispatch(catchErrorAction([error][0]))
