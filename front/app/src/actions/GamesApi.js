@@ -305,7 +305,6 @@ export const appCallTakeAllEvents = () => {
     return (dispatch) => {
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEvents`)
             .then((response) => {
-                console.log('response', response)
                 // if(response.data.response === 'Success') {
                     // const data = response.data.message
                     // dispatch(successMessageAction(data))

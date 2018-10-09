@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { withCookies } from 'react-cookie';
 import ConfirmMessage from './components/UI/ConfirmMessage';
 import TopNavigation  from './containers/TopNavigation/TopNavigation';
-import { appCallTakeAllTournaments, appCallTakeAllEvents } from './actions/GamesApi';
 class App extends Component {
   spinner = () => {
     if (this.props.toggleSpinner) {
@@ -16,11 +15,6 @@ class App extends Component {
     } else {
         return null
     }
-}
-
-componentWillMount() {
-    this.props.appCallTakeAllTournaments()
-    this.props.appCallTakeAllEvents()
 }
 
     render() {
@@ -44,16 +38,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        appCallTakeAllTournaments: payload => dispatch(appCallTakeAllTournaments(payload)),
-        appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
-    }
-}
-
-export default withCookies(connect(mapStateToProps, mapDispatchToProps)(App));
-
-
-
-
-
+export default withCookies(connect(mapStateToProps)(App));

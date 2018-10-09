@@ -261,7 +261,6 @@ export const appCallTakeAllUsers = () => {
             .then((response) => {
                     const users = response.data
                     dispatch(getAllUsersAction(users));
-                    history.push({pathname: '/all_users'})
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
