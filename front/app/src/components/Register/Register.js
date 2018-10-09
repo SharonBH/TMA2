@@ -199,7 +199,7 @@ class Register extends Component {
                         />
                         
                     </div>
-                    <InputComp inputType="datetime-local" name="deteOfEvent" placeholder="dateOfEvent" onChange={this.onDateOfEventChange}/>
+                    <InputComp inputType="date" name="deteOfEvent" placeholder="dateOfEvent" onChange={this.onDateOfEventChange}/>
                     {this.errorMessage()}
                     {this.successMessage()}
                     {<BtnComp 
