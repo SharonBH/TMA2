@@ -29,7 +29,6 @@ const userReducer = (state = InitialState, action) => {
                 passwords: pass
             }
         default:
-            console.log(state.currentUser)
     }
     return state;
 }
