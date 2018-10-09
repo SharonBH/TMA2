@@ -144,14 +144,13 @@ export class EventsList extends Component {
                         <Link to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
                         <DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content='Delete'/>
                     </div>
+
                 </li>
         })
         : null
     }
     
     render (){
-        console.log('allEventTypesList', this.props.allEventTypesList)
-        console.log(this.props)
         return (
             <div className={classes.usersWrapper}>
                 {this.successDeleteMessage()}
