@@ -1,6 +1,8 @@
 const InitialState = {
     allList: [],
-    allTournsList: []
+    allTournsList: [],
+    allEventsList: [],
+    allEventTypesList: []
 }
 
 const allListReducer = (state = InitialState, action) => {
@@ -17,6 +19,18 @@ const allListReducer = (state = InitialState, action) => {
             return {
                 ...state,
                 allTournsList: tours
+            }
+        case 'GET_ALL_EVENTS':
+            const events = action.payload
+            return {
+                ...state,
+                allEventsList: events
+            }
+        case 'GET_ALL_EVENT_TYPES':
+            const eventTypes = action.payload
+            return {
+                ...state,
+                allEventTypesList: eventTypes
             }
         default:
     }

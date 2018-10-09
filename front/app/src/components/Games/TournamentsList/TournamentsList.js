@@ -90,7 +90,7 @@ export class TournamentsList extends Component {
     }
 
     editTournamentComp = () => {
-        return <UserSummary headline='Edit Tournament' tournament={this.state.tournamentInEditMode} user={null}/>
+        return <UserSummary headline='Edit Tournament' event={null} tournament={this.state.tournamentInEditMode} user={null}/>
     }
 
     successDeleteMessage = () => {

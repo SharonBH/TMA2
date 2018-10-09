@@ -75,7 +75,7 @@ export class AllUsersAdmin extends Component {
     }
 
     editUserComp = () => {
-        return <UserSummary headline='Edit' tournament={null} user={this.state.userInEditMode}/>
+        return <UserSummary headline='Edit' tournament={null} event={null} user={this.state.userInEditMode}/>
     }
 
     successDeleteMessage = () => {
