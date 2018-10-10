@@ -285,6 +285,7 @@ export const editThisTournamentRequest = ( tournamentId, heading, tournamentName
     }
 };
 
+
 // edit Event
 export const editThisEventRequest = (eventID, eventName, eventN, tournN, eventDate) => {
     return (dispatch) => {
@@ -330,5 +331,48 @@ export const editThisEventRequest = (eventID, eventName, eventN, tournN, eventDa
             dispatch(errorMessageAction([error][0]))
             dispatch(toggleLoaderAction(false))
         });
+    }
+}
+// get all tournaments by app comp
+export const appCallTakeAllTournaments = () => {
+    return (dispatch) => {
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
+            .then((response) => {
+                    const tournaments = response.data
+                    dispatch(getAllToursAction(tournaments));
+            })
+            .catch((error) => {
+                dispatch(catchErrorAction([error][0]))
+                dispatch(errorMessageAction([error][0]))
+            });  
+    }
+};
+
+// get all events by app comp
+export const appCallTakeAllEvents = () => {
+    return (dispatch) => {
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEvents`)
+            .then((response) => {
+                // if(response.data.response === 'Success') {
+                    // const data = response.data.message
+                    // dispatch(successMessageAction(data))
+                    const events = response.data
+                    dispatch(getAllEventsAction(events));
+                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEventTypes`)
+                    .then((response) => {
+                        const eventTypes = response.data                
+                        dispatch(getAllEventTypesAction(eventTypes));
+                    })
+                    .catch((error) => {
+                        dispatch(catchErrorAction([error][0]))
+                        dispatch(errorMessageAction([error][0]))
+                    });
+                // }  
+            })
+            .catch((error) => {
+                dispatch(catchErrorAction([error][0]))
+                dispatch(errorMessageAction([error][0]))
+            });  
+
     }
 };

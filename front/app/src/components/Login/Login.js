@@ -124,7 +124,6 @@ const mapDispatchToProps = dispatch => {
         loginRequest: (userName, password) => dispatch(loginRequest(userName, password)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
-        
     }
 }
 

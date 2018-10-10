@@ -253,3 +253,18 @@ export const changePasswordRequest = (username, password, newPassword, confirmPa
             });
     }
 };
+
+// get all users by app comp
+export const appCallTakeAllUsers = () => {
+    return (dispatch) => {
+        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
+            .then((response) => {
+                    const users = response.data
+                    dispatch(getAllUsersAction(users));
+            })
+            .catch((error) => {
+                dispatch(catchErrorAction([error][0]))
+                dispatch(errorMessageAction([error][0]))
+            });  
+    }
+};
