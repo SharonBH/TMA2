@@ -77,6 +77,7 @@ export class EventsList extends Component {
         this.setState({eventInEditMode: item})
         setTimeout(() => {
             this.props.editThisItemAction(true)
+            // console.log('edit event',item)
         }, 200)
 
     }

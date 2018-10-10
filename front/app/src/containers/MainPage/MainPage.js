@@ -38,11 +38,12 @@ export class MainPage extends Component {
                     path='/profile'
                     component={() => <UserSummary headline={`Your Profile`} user={this.props.currentUser} tournament={null}/>}
                 />
-                {this.props.currentUser !== null ? this.props.currentUser.role === 'Adimn' ? <Route path='/all_users' component={AllUsersAdmin}/> : null : null}
+                {/* {this.props.currentUser !== null ? this.props.currentUser.role === 'Adimn' ? <Route path='/all_users' component={AllUsersAdmin}/> : null : null} */}
                 <Route
                     path='/edit_user/:userName'
                     component={AllUsersAdmin}
                 />
+                <Route path='/all_users' component={AllUsersAdmin}/> 
                 <Route
                     path='/not_found'
                     component={NotFound}
@@ -68,7 +69,11 @@ export class MainPage extends Component {
                     path='/edit_tournament/:tournamentName'
                     component={TournamentsList}
                 />
-                <Route component={NotFound} />
+                <Route
+                    path='/edit_event/:eventName'
+                    component={EventsList}
+                />
+                {/* <Route component={NotFound} /> */}
             </Switch>
         </div>
     );

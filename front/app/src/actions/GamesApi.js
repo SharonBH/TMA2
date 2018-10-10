@@ -284,3 +284,51 @@ export const editThisTournamentRequest = ( tournamentId, heading, tournamentName
         });
     }
 };
+
+// edit Event
+export const editThisEventRequest = (eventID, eventName, eventN, tournN, eventDate) => {
+    return (dispatch) => {
+        console.log('edit event', eventID, eventName, eventN, tournN, eventDate)
+        
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'post',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/EditEvent',
+            data: {
+                eventId: eventID,
+                eventName: eventName,
+                eventTypeName: eventN,
+                tournamentName: tournN,
+                eventDate: eventDate,
+
+            }
+        })
+        .then((response) => {
+            console.log('edit response', response)
+            if (response.data.response === 'Success') {
+                dispatch(successMessageAction('Event Edited Successfuly'))
+                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEvents`)
+                .then((response) => {
+                    const events = response.data
+                    dispatch(getAllEventsAction(events));
+                    history.push({pathname: '/all_events'})
+                    dispatch(toggleLoaderAction(false))
+                })
+                .catch((error) => {
+                    dispatch(errorMessageAction([error][0]))
+                    dispatch(toggleLoaderAction(false))
+                });
+            } else {
+                const error = response.data.message
+                dispatch(errorMessageAction(error))
+                dispatch(toggleLoaderAction(false))
+            }
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+};
