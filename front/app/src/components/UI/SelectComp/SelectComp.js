@@ -21,11 +21,13 @@ export class SelectComp extends Component {
                     onChange={this.props.onChange}
                     className={classes.SelectCompInput}>
                 <option value="">{this.props.placeholder}</option>
-                {this.props.options.map(opt => {
+
+                {this.props.options.map((data,key) => {
                     return (
                     <option
-                        key={opt}
-                        value={opt}>{opt}
+                        key={key}
+                        value={data.value}
+                    >{data.value}
                     </option>
                     );
                 })}

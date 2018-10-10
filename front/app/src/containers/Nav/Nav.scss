@@ -1,7 +1,7 @@
 @import '../../styles/colors.scss';
 
 .nav {
-    width: 250px;
+    width: 13%;
     background: #03a3d0;
     box-sizing: border-box;
     padding: 5px;
@@ -9,37 +9,32 @@
     transition: all ease .3s;
     left: 0;
     z-index: 91;
-    // height: 100vh;
     position: relative;
-    min-height: 450px;
+    min-height: 100vh;
+    text-align: left;
     overflow: hidden;
-
+    
     a {
-        display: flex;
-        text-align: left;
+        color: #fff;
+        position: relative;
+        display: block;
         padding: 7px 10px;
-        text-decoration: none;
-        color: #000;
-        font-weight: 600;
         white-space: nowrap;
-
+        text-decoration: none;
         i {
             margin-right: 10px;
-            width: 20px;
-            height: 20px;
         }
-
         &:hover {
-            color: $dark-gray;
+            background: #15bbe8;
+            color: #ffffff;
+            box-shadow: 0 0 12px 0px #03a3d0 inset;
         }
     }
-
     span.logo_image {
         display: block;
         width: 45px;
-        margin: 0 auto;
+        margin: 0 auto 100px;
     }
-
     span.Hello {
         display: block;
         color: #000;
@@ -81,7 +76,6 @@
     border: 0;
     border-bottom: 1px solid #a7a7a7;
     color: #757575;
-    
 }
 
 .navclosed {
@@ -91,45 +85,21 @@
     z-index: 91;
     left: 0;
     position: relative;
-    width: 0;
+    width: 80px;
     min-height: 450px;
-    // height: 100vh;
-    overflow: hidden;
 
-        .navLink > span {
-            display: none;
-            white-space: nowrap;
-        }
-        .navLink:hover > span{
-            display: block;
-            position: absolute;
-            top: 12px;
-            left: 64px;
-            background: #03a3d0;
-            padding: 4px 6px;
-            color: #fff;
-            z-index: 999;
-            border-radius: 3px;
-            font-weight: 400;
-            font-size: 14px;
-        
-        }
-        .navLink:hover > span::before {
-            content: "\f0d9";
-            font-family: "Font Awesome 5 Free";
-            color: $blue;
-            position: absolute;
-            left: -6px;
-            font-size: 17px;
-            font-weight: 600;
-        }
+    .navLink > span {
+        display: none;
+        white-space: nowrap;
+    }
+
     a {
         display: flex;
         text-align: center;
         padding: 5px 00px;
         text-decoration: none;
-        color: #000;
-        font-weight: 600;
+        color: #fff;
+        font-weight: 400;
         width: auto;
         position: relative;
         i {
@@ -138,8 +108,20 @@
             font-size: 25px;
             line-height: 35px;
         }
-        &:hover {
-            color: $dark-gray;
+        &:hover span {
+            display: block;
+            position: absolute;
+            top: 12px;
+            left: 64px;
+            background: #ffffff;
+            box-shadow: 0px 0px 3px 0px #03a3d0;
+            padding: 4px 6px;
+            color: #000;
+            z-index: 999;
+            font-weight: 400;
+            font-size: 14px;
+            width: 110px;
+            text-align: left;
         }
     }
     
@@ -176,4 +158,81 @@
 }
 
 
+@media only screen and  (max-width: 1365px) {
+    .nav {
+        width: 80px;
+        z-index: 91;
+        position: relative;
+        overflow: visible;
     
+        .navLink > span {
+            display: none;
+            white-space: nowrap;
+        }
+    
+        a {
+            display: flex;
+            text-align: center;
+            padding: 5px 00px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 400;
+            width: auto;
+            position: relative;
+            i {
+                width: 100%;
+                height: 100%;
+                font-size: 25px;
+                line-height: 35px;
+                margin: 0;
+            }
+            &:hover span {
+                display: block;
+                position: absolute;
+                top: 12px;
+                left: 64px;
+                background: #ffffff;
+                box-shadow: 0px 0px 3px 0px #03a3d0;
+                padding: 4px 6px;
+                color: #000;
+                z-index: 999;
+                font-weight: 400;
+                font-size: 14px;
+                width: 110px;
+                text-align: left;
+            }
+        }
+        
+        span.logo_image {
+            display: block;
+            width: 45px;
+            margin: 0 auto 70px;
+            img {
+                max-width: 100%;
+            }
+        }
+    
+        span.Hello {
+            display: none;
+        }
+    
+        .Menu {
+            cursor: pointer;
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+    
+            &:hover {
+                color: $dark-gray;
+            }
+    
+            i {
+                margin: 10px 0;
+                width: 20px;
+                height: 20px;
+                font-size: 25px;
+            }
+        }
+    }
+}
+

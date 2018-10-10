@@ -9,13 +9,11 @@
     color: $black;
     
     .Profile {
-        min-width: 500px;
-        max-width: 600px;
+        width: 600px;
         margin-top: 110px;
-        max-height: 500px;
         padding: 20px;
         background-color: #fff;
-        height: 375px;
+        height: auto;
         position: relative;
 
         .success {
@@ -76,7 +74,7 @@
             }
             
             & > .HeadLine {
-                width: 100px;
+                width: 130px;
                 text-align: left;
                 height: 100%;
                 line-height: 30px;
@@ -84,6 +82,8 @@
             div.EditInput {
                 height: 100%;
                 width: 70%;
+                // max-width: 322px;
+                overflow: hidden;
                 &*{
                     border: 0;
                 }
