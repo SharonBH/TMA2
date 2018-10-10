@@ -12,8 +12,8 @@ class ConfirmMessage extends Component {
 
     componentDidMount() {
         document.addEventListener("click", (evt) => {
-            const confirmMessageWrapper = document.querySelector('.ConfirmMessage__ConfirmMessageWrapper___3lYEo')
-            const confirmMessage = document.querySelector('.ConfirmMessage__ConfirmMessage___Y5-uk')
+            const confirmMessageWrapper = document.querySelector('.ConfirmMessage__ConfirmMessageWrapper___2SxOr')
+            const confirmMessage = document.querySelector('.ConfirmMessage__ConfirmMessage___195l6')
             let targetEl = evt.target
             do { 
                if (targetEl === confirmMessageWrapper) {
