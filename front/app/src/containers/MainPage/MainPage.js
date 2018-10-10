@@ -81,6 +81,10 @@ export class MainPage extends Component {
                         path='/edit_tournament/:tournamentName'
                         component={TournamentsList}
                     />
+                    <Route
+                        path='/edit_event/:eventName'
+                        component={EventsList}
+                    />
                     <Route component={NotFound} />
                 </Switch>
             </div>

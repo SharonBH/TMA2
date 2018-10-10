@@ -174,7 +174,8 @@ const mapStateToProps = (state) => {
         editThisItem: state.editItemReducer.editThisItem,
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
-        deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage
+        deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
+
     }
 }
 
