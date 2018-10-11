@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
+
+import classes from '../../Games/TournamentPage/TournamentPage..scss';
+
 import moment from 'moment'
 
-import classes from '../../Users/AllUsersAdmin/AllUsersAdmin.scss';
 
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
@@ -15,9 +17,9 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
-export class TournamentsList extends Component {
+export class TournamentPage extends Component {
 
     static propTypes = {
         getAllUsers: PropTypes.func
@@ -30,26 +32,30 @@ export class TournamentsList extends Component {
             tournamentForDelete: null,
             display: false,
             userDetailsArr: [],
-            someId:''
+            currentPage:'',
         }
-        this.editTournamentBtn = this.editTournamentBtn.bind(this)
-        this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
+        // this.editTournamentBtn = this.editTournamentBtn.bind(this)
+        // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
 
     componentWillMount(){
+        this.setState({currentPage: this.props.tournById})
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
         } else {
             return null
         }
+        
     }
     componentDidMount(){
+        
         this.props.successMessageAction(null)
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
         } else {
             return null
         }
+        
         
     }
     componentWillUnmount(){
@@ -65,32 +71,30 @@ export class TournamentsList extends Component {
         this.props.deleteConfirmMessageAction(true)
     }
 
-    editTournamentBtn = (item) => {
-        this.setState({tournamentInEditMode: item})
-        setTimeout(() => {
-            console.log(item)
-            this.props.editThisItemAction(true)
-        }, 200)
+    // editTournamentBtn = (item) => {
+    //     this.setState({tournamentInEditMode: item})
+    //     setTimeout(() => {
+    //         this.props.editThisItemAction(true)
+    //     }, 200)
 
-    }
-    addEventBtn = (item) => {
-        setTimeout(() => {
-            console.log('add event', item)
-            this.props.addNewEventAction(true)
-        }, 200)
-    }
-    editDetailInput = (index, e) => {
-        const details = Object.assign([], this.state.userDetailsArr)
-            details[index] = e.target.value
-        this.setState({
-            userDetailsArr: details
-        })
-    }
-    addTournamentBtn = () => {
-        setTimeout(() => {
-            this.props.addNewTournamentAction(true)
-        }, 200)
-    }
+    // }
+    // addEventBtn = (item) => {
+    //     setTimeout(() => {
+    //         this.props.addNewEventAction(true)
+    //     }, 200)
+    // }
+    // editDetailInput = (index, e) => {
+    //     const details = Object.assign([], this.state.userDetailsArr)
+    //         details[index] = e.target.value
+    //     this.setState({
+    //         userDetailsArr: details
+    //     })
+    // }
+    // addTournamentBtn = () => {
+    //     setTimeout(() => {
+    //         this.props.addNewTournamentAction(true)
+    //     }, 200)
+    // }
 
     
     addTournamentComp = () => {
@@ -102,7 +106,6 @@ export class TournamentsList extends Component {
     editTournamentComp = () => {
         return <UserSummary headline='Edit Tournament' event={null} tournament={this.state.tournamentInEditMode} user={null}/>
     }
-
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
         ? <p className={classes.success}>
@@ -121,56 +124,59 @@ export class TournamentsList extends Component {
         </p>
         : null 
     }
-    getTournById=(tournIdToPage)=>{
-        this.setState({someId: tournIdToPage})
-        this.props.goToTournPageRequest(tournIdToPage)
-        console.log('someparam', tournIdToPage)
 
-    }
     closeMessage = () => {
         this.props.successMessageAction(null)
         this.props.errorMessageAction(null)
     }
 
-    tournamentList = () => {
-  
-        return this.props.allTournsList !== undefined ? this.props.allTournsList.map((item, index) => {        
-          
-          return <li key={index}>
-                <div className={classes.username}><Link to={`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
-                <div className={classes.email}>{moment(item.startDate).format('LLLL')}</div>
-                <div className={classes.email}>{moment(item.endDate).format('LLLL')}</div>
-                <div className={classes.role}>{item.numberOfEvents}</div>
-                <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/${item.tournamentName}/add_event`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
-                    <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link>
-                    <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
-                 </div>
-            </li>
-        })
-        : null
-    }
+
     
     render (){
-console.log('tourn LIST', this.props)
+        console.log('tournament page state',this.state)
+        console.log('tournament page props',this.props)
+        const tournamentHeadig = this.props.location.pathname.slice(1)
+        const currentTournament = this.props.tournById !== null ? this.props.tournById : null
+        console.log('currentTournament',currentTournament.events)
         return (
-            <div className={classes.usersWrapper}>
-                <h1>Tournaments List</h1>
+            <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
-                <div className={classes.usersHead}>
-                    <div className={classes.username}>Tournament Name</div>
-                    <div className={classes.email}>Start Date</div>
-                    <div className={classes.email}>End Date</div>
-                    <div className={classes.role}>Max Events</div>
-                    <div className={classes.addBtn}><BtnComp inputType="submit" content='Add Tournament' onClick={this.addTournamentBtn}/></div>
-                </div> 
-                <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
-                {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
-                {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
+                <div><h1>Tournament Name: {tournamentHeadig}</h1></div>
+                <div className={classes.tournTime}><h3>Tournament timing:</h3> <h4>from </h4> {moment(currentTournament.startDate).format('LLLL')} <h4>to </h4> {moment(currentTournament.endDate).format('LLLL')}</div>
+                <div>Maximum of events: {currentTournament.numberOfEvents}</div>
+                <div>
+                    <div className={classes.eventsTable}>
+                        <h3>All events of tournament</h3>
+                        <div><span className={classes.eventName}>Event Name</span><span className={classes.eventDate}>Event Date</span></div>
+                        <ul>
+                        {currentTournament.events.map((item, index) => {
+                            return <li key={index}>
+                                <div className={classes.eventName}>{item.eventName}</div>
+                                <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
+                            </li>
+                        })}
+                        </ul>
+                    </div>
+                    <div className={classes.eventsTable}>
+                        <h3>All users of tournament</h3>
+                        <div><span className={classes.eventName}>Event Name</span><span className={classes.eventDate}>Event Date</span></div>
+                        <ul>
+                        {currentTournament.events.map((item, index) => {
+                            return <li key={index}>
+                                <div className={classes.eventName}>{item.eventName}</div>
+                                <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
+                            </li>
+                        })}
+                        </ul>
+                    </div>
+                </div>
+    
+                {/* {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null} */}
+                {/* {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
                 {this.props.addTournament ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete tournament' item={this.state.tournamentForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete tournament' item={this.state.tournamentForDelete}/> : null}  */}
             </div>
         )
     }
@@ -179,6 +185,8 @@ console.log('tourn LIST', this.props)
 const mapStateToProps = (state) => {
     return {
         allTournsList: state.allListReducer.allTournsList,
+        allEventsList: state.allListReducer.allEventsList,
+        tournById: state.allListReducer.tournById,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,
         addTournament: state.addNewItemReducer.addTournament,
@@ -201,9 +209,8 @@ const mapDispatchToProps = dispatch => {
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
-        deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
-        goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload))
+        deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TournamentsList);
+export default connect(mapStateToProps, mapDispatchToProps)(TournamentPage);
