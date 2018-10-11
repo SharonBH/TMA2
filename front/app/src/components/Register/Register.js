@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
 import { addNewTournamentRequest, addNewEventRequest } from "../../actions/GamesApi";
-import { successMessageAction, errorMessageAction, addNewItemAction } from '../../actions'
+import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
@@ -114,7 +114,12 @@ class Register extends Component {
         }
     }
     closePopUp = () => {
+        // console.log('close', this.props)
+        // const heading = this.props.headline
+        this.props.addNewEventAction(false)
         this.props.addNewItemAction(false)
+        this.props.addNewTournamentAction(false)
+
     }
     rgisterFage = (headline, classStr) => {
         return (
@@ -134,7 +139,7 @@ class Register extends Component {
                         content={headline} 
                         onClick={ headline === 'Register' ?  this.registerSbmit : this.addNewUser}
                     />}
-                    {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
+                    {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={this.closePopUp()}><span>Close</span></div> : null}
                 </form>
                 <div style={{display: classStr}}>
                     <h3>Have a user? Keep Calm.</h3>
@@ -252,6 +257,8 @@ const mapDispatchToProps = dispatch => {
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
+        addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
+        addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
         
     }
 }

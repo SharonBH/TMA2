@@ -99,7 +99,7 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.email}>{item.email}</div>
                 <div className={classes.email}>{item.username}</div>
                 <div className={classes.role}>{item.role}</div>
-                <div id={index} className={classes.allUsButtons}>
+                <div className={classes.allUsButtons} id={index}>
                     <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
                  </div>
@@ -110,6 +110,7 @@ export class AllUsersAdmin extends Component {
     render (){
         return (
             <div className={classes.usersWrapper}>
+                <h1>Users List</h1>
                 {this.successDeleteMessage()}
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>
