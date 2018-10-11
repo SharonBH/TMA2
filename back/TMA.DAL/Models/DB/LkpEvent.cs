@@ -7,12 +7,12 @@ namespace TMA.DAL.Models.DB
     {
         public LkpEvent()
         {
-            Events = new HashSet<Events>();
+            Tournaments = new HashSet<Tournaments>();
         }
 
         public int EventTypeId { get; set; }
         public string EventTypeName { get; set; }
 
-        public ICollection<Events> Events { get; set; }
+        public ICollection<Tournaments> Tournaments { get; set; }
     }
 }

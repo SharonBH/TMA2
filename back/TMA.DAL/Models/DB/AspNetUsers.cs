@@ -11,6 +11,7 @@ namespace TMA.DAL.Models.DB
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             EventResults = new HashSet<EventResults>();
+            UsersGroups = new HashSet<UsersGroups>();
         }
 
         public string Id { get; set; }
@@ -34,5 +35,6 @@ namespace TMA.DAL.Models.DB
         public ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public ICollection<EventResults> EventResults { get; set; }
+        public ICollection<UsersGroups> UsersGroups { get; set; }
     }
 }

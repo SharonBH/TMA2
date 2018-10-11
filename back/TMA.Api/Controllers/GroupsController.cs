@@ -1,35 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TMA.BLL;
 
 namespace TMA.Api.Controllers
 {
     [Produces("application/json")]
-    [Route("Tournaments")]
-    public class TournamentsController : Controller
+    [Route("Groups")]
+    public class GroupsController : Controller
     {
         private readonly MainRepositoryBLL _mainRepository = new MainRepositoryBLL();
 
         [HttpPost]
-        [Route("CreateTournament")]
-        public JsonResult CreateTournament([FromBody]TournamentModel tournamentModel)
+        [Route("CreateGroup")]
+        public JsonResult CreateGroup([FromBody]GroupModel groupModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents);
+                    _mainRepository.CreateGroup(groupModel.GroupName, groupModel.UserIds);
 
-                    return Json(new { Response = "Success", Message = "Tournament created successfully." });
+                    return Json(new { Response = "Success", Message = "Group created successfully." });
                 }
                 else if (ModelState.ErrorCount > 0)
                 {
                     var error = ModelState.Where(x => x.Value.ValidationState.ToString() == "Invalid").FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
-                    return Json(new { Response = "Error", Message = error });
+                    return Json(new { Response = "Error", Message = $"Model is invalid: {error}" });
                 }
 
-                return Json(new { Response = "Error", Message = "An error occoured creating a new tournament." });
+                return Json(new { Response = "Error", Message = "An error occoured creating a new group." });
             }
             catch (Exception ex)
             {
@@ -38,24 +41,24 @@ namespace TMA.Api.Controllers
         }
 
         [HttpPost]
-        [Route("EditTournament")]
-        public JsonResult EditTournament([FromBody]TournamentModel tournamentModel)
+        [Route("EditGroup")]
+        public JsonResult EditGroup([FromBody]GroupModel groupModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.EditTournament(tournamentModel.TournamentId, tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents);
+                    _mainRepository.EditGroup(groupModel.GroupId, groupModel.GroupName, groupModel.UserIds);
 
-                    return Json(new { Response = "Success", Message = "Tournament edited successfully." });
+                    return Json(new { Response = "Success", Message = "Group edited successfully." });
                 }
                 else if (ModelState.ErrorCount > 0)
                 {
                     var error = ModelState.Where(x => x.Value.ValidationState.ToString() == "Invalid").FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
-                    return Json(new { Response = "Error", Message = error });
+                    return Json(new { Response = "Error", Message = $"Model is invalid: {error}" });
                 }
 
-                return Json(new { Response = "Error", Message = "An error occoured editing tournament." });
+                return Json(new { Response = "Error", Message = "An error occoured editing group." });
             }
             catch (Exception ex)
             {
@@ -64,29 +67,13 @@ namespace TMA.Api.Controllers
         }
 
         [HttpPost]
-        [Route("DeleteTournament")]
-        public JsonResult DeleteTournament([FromBody]int tournamentId)
+        [Route("DeleteGroup")]
+        public JsonResult DeleteGroup([FromBody]int groupId)
         {
             try
             {
-                _mainRepository.DeleteTournament(tournamentId);
-                return Json(new { Response = "Success", Message = "Tournament deleted successfully." });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Response = "Error", Message = ex.InnerException.Message });
-            }
-        }
-
-        [HttpGet]
-        [HttpPost]
-        [Route("GetTournamentByName")]
-        public JsonResult GetTournamentByName([FromBody]string tournamentName)
-        {
-            try
-            {
-                var getTournament = _mainRepository.GetTournamentByName(tournamentName);
-                return Json(getTournament);
+                _mainRepository.DeleteGroup(groupId);
+                return Json(new { Response = "Success", Message = "Group deleted successfully." });
             }
             catch (Exception ex)
             {
@@ -96,13 +83,13 @@ namespace TMA.Api.Controllers
 
         [HttpGet]
         [HttpPost]
-        [Route("GetTournamentById")]
-        public JsonResult GetTournamentById([FromBody]int tournamentId)
+        [Route("GetGroupByName")]
+        public JsonResult GetGroupByName([FromBody]string groupName)
         {
             try
             {
-                var getTournament = _mainRepository.GetTournamentById(tournamentId);
-                return Json(getTournament);
+                var getGroup = _mainRepository.GetGroupByName(groupName);
+                return Json(getGroup);
             }
             catch (Exception ex)
             {
@@ -112,13 +99,29 @@ namespace TMA.Api.Controllers
 
         [HttpGet]
         [HttpPost]
-        [Route("GetTournaments")]
-        public JsonResult GetTournaments()
+        [Route("GetGroupById")]
+        public JsonResult GetGroupById([FromBody]int groupId)
         {
             try
             {
-                var getTournaments = _mainRepository.GetTournaments();
-                return Json(getTournaments);
+                var getGroup = _mainRepository.GetGroupById(groupId);
+                return Json(getGroup);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpGet]
+        [HttpPost]
+        [Route("GetGroups")]
+        public JsonResult GetGroups()
+        {
+            try
+            {
+                var getGroups = _mainRepository.GetGroups();
+                return Json(getGroups);
             }
             catch (Exception ex)
             {

@@ -11,7 +11,7 @@ namespace TMA.DAL
     {
         #region Events
 
-        public void CreateEvent(string eventName, LkpEvent eventType, DateTime eventDate, int? tournamentId)
+        public void CreateEvent(string eventName, DateTime eventDate, int? tournamentId)
         {
             try
             {
@@ -25,7 +25,6 @@ namespace TMA.DAL
                     var newEvent = new Events
                     {
                         EventName = eventName,
-                        EventTypeId = eventType.EventTypeId,
                         EventDate = eventDate,
                         TournamentId = tournamentId
                     };
@@ -40,7 +39,7 @@ namespace TMA.DAL
             }
         }
 
-        public void EditEvent(int eventId, string eventName, LkpEvent eventType, DateTime eventDate, int? tournamentId)
+        public void EditEvent(int eventId, string eventName, DateTime eventDate, int? tournamentId)
         {
             try
             {
@@ -53,9 +52,6 @@ namespace TMA.DAL
 
                     if (getEvent.EventName.ToLower() != eventName.ToLower())
                         getEvent.EventName = eventName;
-
-                    if (getEvent.EventTypeId != eventType.EventTypeId)
-                        getEvent.EventTypeId = eventType.EventTypeId;
 
                     if (getEvent.TournamentId != tournamentId)
                         getEvent.TournamentId = tournamentId;
@@ -127,6 +123,11 @@ namespace TMA.DAL
             }
         }
 
+        public object GetEventById(object eventId)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Events> GetEvents()
         {
             try
@@ -150,7 +151,7 @@ namespace TMA.DAL
 
         #region Tournaments
 
-        public void CreateTournament(string tournamentName, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
+        public void CreateTournament(string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
         {
             try
             {
@@ -165,6 +166,7 @@ namespace TMA.DAL
                     {
                         TournamentName = tournamentName,
                         StartDate = startDate,
+                        EventTypeId = eventType.EventTypeId,
                         EndDate = endDate,
                         NumberOfEvents = numberOfEvents
                     };
@@ -178,7 +180,7 @@ namespace TMA.DAL
             }
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
+        public void EditTournament(int tournamentId, string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
         {
             try
             {
@@ -191,6 +193,9 @@ namespace TMA.DAL
 
                     if (tournament.StartDate != startDate)
                         tournament.StartDate = startDate;
+
+                    if (tournament.EventTypeId != eventType.EventTypeId)
+                        tournament.EventTypeId = eventType.EventTypeId;
 
                     if (tournament.EndDate != endDate)
                         tournament.EndDate = endDate;
@@ -234,7 +239,9 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var tournament = context.Tournaments.FirstOrDefault(e => e.TournamentName == tournamentName && e.IsDeleted == false);
+                    var tournament = context.Tournaments
+                        .Include(t => t.Events)
+                        .FirstOrDefault(e => e.TournamentName == tournamentName && e.IsDeleted == false);
                     if (tournament == null)
                         throw new Exception($"Tournament for Tournament Name [{tournamentName}] was not found.");
                     return tournament;
@@ -252,7 +259,9 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var tournament = context.Tournaments.FirstOrDefault(e => e.TournamentId == tournamentId);
+                    var tournament = context.Tournaments
+                        .Include(t=> t.Events)
+                        .FirstOrDefault(e => e.TournamentId == tournamentId);
                     if (tournament == null)
                         throw new Exception($"Tournament for TournamentId [{tournamentId}] was not found.");
                     return tournament;
@@ -337,6 +346,175 @@ namespace TMA.DAL
             catch (Exception ex)
             {
                 throw new Exception($"An error occuored on 'GetEventTypeById'.", ex);
+            }
+        }
+
+
+        #endregion
+
+        #region Groups
+
+        public void CreateGroup(string groupName, List<string> userIds)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var isGroupExisting = context.Groups.Any(e => e.GroupName.ToLower() == groupName.ToLower() && e.IsDeleted == false);
+                    if (isGroupExisting)
+                        throw new Exception($"There is an existing '{groupName}' group.");
+
+                    var newGroup = new Groups
+                    {
+                        GroupName = groupName
+                    };
+
+                    context.Groups.Add(newGroup);
+                    context.SaveChanges();
+
+                    var createdGroup = context.Groups.FirstOrDefault(g => g.GroupName.ToLower() == groupName.ToLower());
+                    if(createdGroup == null)
+                        throw new Exception($"An error occuored creating new group");
+
+                    var groupId = createdGroup.GroupId;
+                    var usersGroups = new List<UsersGroups>();
+                    foreach (var userId in userIds)
+                    {
+                        var userGroup = new UsersGroups
+                        {
+                            UserId = userId,
+                            GroupId = groupId
+                        };
+                        usersGroups.Add(userGroup);
+                    }
+                    context.UsersGroups.AddRange(usersGroups);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'CreateGroup'.", ex);
+            }
+        }
+
+        public void EditGroup(int groupId, string groupName, List<string> userIds)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var group = context.Groups.Include(x=> x.UsersGroups).FirstOrDefault(e => e.GroupId== groupId);
+
+                    if (group == null)
+                        throw new Exception($"Group for groupId [{groupId}] was not found.");
+
+                    if (group.GroupName.ToLower() != groupName.ToLower())
+                        group.GroupName = groupName;
+
+                    var usersGroups = new List<UsersGroups>();
+                    foreach (var userId in userIds)
+                    {
+                        var userGroup = new UsersGroups
+                        {
+                            UserId = userId,
+                            GroupId = groupId
+                        };
+                        usersGroups.Add(userGroup);
+                    }
+
+                    if (group.UsersGroups != usersGroups)
+                    {
+                        context.UsersGroups.RemoveRange(group.UsersGroups);
+                        context.SaveChanges();
+                        group.UsersGroups = usersGroups;
+                    }
+
+                    context.Groups.Update(group);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'EditGroup'.", ex);
+            }
+        }
+
+        public List<Groups> GetGroups()
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var groups = context.Groups
+                        .Include(x => x.UsersGroups).ThenInclude(x=> x.User)
+                        .Where(e => e.IsDeleted == false)
+                        .ToList();
+                    return groups;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetGroups'.", ex);
+            }
+        }
+
+        public Groups GetGroupById(int groupId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var group = context.Groups
+                        .Include(x => x.UsersGroups).ThenInclude(x => x.User)
+                        .FirstOrDefault(e => e.GroupId == groupId && e.IsDeleted == false);
+                    if (group == null)
+                        throw new Exception($"Group for groupId [{groupId}] was not found.");
+                    return group;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetGroupById'.", ex);
+            }
+        }
+
+        public Groups GetGroupByName(string groupName)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var group = context.Groups
+                        .Include(x => x.UsersGroups).ThenInclude(x => x.User )
+                        .FirstOrDefault(e => e.GroupName.ToLower() == groupName.ToLower() && e.IsDeleted == false);
+                    if (group == null)
+                        throw new Exception($"Group for groupName [{groupName}] was not found.");
+                    return group;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetGroupByName'.", ex);
+            }
+        }
+
+        public void DeleteGroup(int groupId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var group = context.Groups.FirstOrDefault(e => e.GroupId == groupId);
+                    if (group == null)
+                        throw new Exception($"Event for groupId [{groupId}] was not found.");
+                    group.IsDeleted = true;
+                    context.Groups.Update(group);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'DeleteEvent'.", ex);
             }
         }
 
