@@ -1,9 +1,14 @@
+const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
+const storageData = storage === null ? null : storage
+
 const InitialState = {
     allList: [],
     allTournsList: [],
     allEventsList: [],
-    allEventTypesList: []
+    allEventTypesList: [],
+    tournById: storageData
 }
+
 
 const allListReducer = (state = InitialState, action) => {
     switch (action.type) {
@@ -31,6 +36,12 @@ const allListReducer = (state = InitialState, action) => {
             return {
                 ...state,
                 allEventTypesList: eventTypes
+            }
+        case 'GET_TOURN_BY_ID':
+            const tournId = action.payload
+            return {
+                ...state,
+                tournById: tournId
             }
         default:
     }

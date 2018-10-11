@@ -7,14 +7,16 @@
     width: 100%;
     // min-height: 100vh;
     color: $black;
+    height: 100%;
     
     .Profile {
         width: 600px;
-        margin-top: 110px;
+        // margin-top: 110px;
         padding: 20px;
         background-color: #fff;
         height: auto;
         position: relative;
+        margin: auto auto;
 
         .success {
             position: absolute;

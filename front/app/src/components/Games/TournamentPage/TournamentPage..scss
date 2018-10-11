@@ -1,0 +1,38 @@
+
+.tournPageWrapper{
+    text-align: left;
+    margin-top: 75px;
+    padding: 0 10px;
+    div h1{
+        margin: 0;
+    }
+    .tournTime{
+        &>*{
+            display: inline-block;
+        }
+    }
+    .eventsTable{
+        display: inline-block;
+        width: 48%;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+        padding: 15px;
+        margin: 1%;
+        h3{
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd; 
+        }
+        ul{
+            list-style: none;
+            padding: 0;
+            li{
+                margin-bottom: 10px; 
+            }
+        }
+        .eventDate, .eventName{
+            display: inline-block;
+            width: 50%;
+        }
+    }
+}

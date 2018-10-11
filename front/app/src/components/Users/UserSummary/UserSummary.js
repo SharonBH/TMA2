@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
+
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';

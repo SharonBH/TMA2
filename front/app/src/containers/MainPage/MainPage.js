@@ -13,19 +13,21 @@ import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/Users/UserSummary';
 import TournamentsList from '../../components/Games/TournamentsList';
 import EventsList from '../../components/Games/EventsList';
+import TournamentPage from '../../components/Games/TournamentPage';
 import { appCallTakeAllTournaments, appCallTakeAllEvents } from '../../actions/GamesApi';
 import { appCallTakeAllUsers } from '../../actions/Api';
+
 
 export class MainPage extends Component {
 
     componentWillMount() {
         const user = this.props.currentUser
 
-        this.props.appCallTakeAllTournaments()
-        this.props.appCallTakeAllEvents()
+        // this.props.appCallTakeAllTournaments()
+        // this.props.appCallTakeAllEvents()
         
         if(user !== null && user !== undefined && user.role === 'Admin') {
-            this.props.appCallTakeAllUsers()
+            // this.props.appCallTakeAllUsers()
         }
     }
 
@@ -70,6 +72,15 @@ export class MainPage extends Component {
                         component={TournamentsList}
                     />
                     <Route
+                        path='/:tournamentName/add_event'
+                        component={TournamentsList}
+                    />
+                    <Route
+                    exact
+                        path='/:tournamentName'
+                        component={TournamentPage}
+                    />
+                    <Route
                         path='/all_events'
                         component={EventsList}
                     />
@@ -78,6 +89,7 @@ export class MainPage extends Component {
                         // component={TournamentsList}
                     />
                     <Route
+                        exact
                         path='/edit_tournament/:tournamentName'
                         component={TournamentsList}
                     />
@@ -85,7 +97,7 @@ export class MainPage extends Component {
                         path='/edit_event/:eventName'
                         component={EventsList}
                     />
-                    <Route component={NotFound} />
+                    {/* <Route component={NotFound} /> */}
                 </Switch>
             </div>
         );
