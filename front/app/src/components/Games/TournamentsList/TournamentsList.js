@@ -95,21 +95,21 @@ export class TournamentsList extends Component {
 
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
-        ? <p className={classes.success}>
-            <span>{this.props.successMessage}
-                <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
-            </span>
-        </p>
-        : null 
+          ? <p className={classes.success}>
+                <span>{this.props.successMessage}
+                    <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
+                </span>
+            </p>
+          : null 
     }
     errorDeleteMessage = () => {
         return this.props.errorMessage !== null 
-        ? <p className={classes.errorPop}>
-            <span>{this.props.errorMessage}
-                <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
-            </span>
-        </p>
-        : null 
+          ? <p className={classes.errorPop}>
+                <span>{this.props.errorMessage}
+                    <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
+                </span>
+            </p>
+          : null 
     }
 
     closeMessage = () => {

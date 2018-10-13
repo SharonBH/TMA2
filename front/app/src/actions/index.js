@@ -127,6 +127,13 @@ export const editThisItemAction = (boll) => {
         payload: boll
     }
 }
+// get all groups
+export const getAllGroups = (arr) => {
+    return {
+        type: 'GET_ALL_GROUPS',
+        payload: arr
+    }
+}
 
 
 

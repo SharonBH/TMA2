@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
-import { addNewTournamentRequest, addNewEventRequest } from "../../actions/GamesApi";
+import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest } from "../../actions/GamesApi";
 import { successMessageAction, errorMessageAction, addNewItemAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
@@ -29,7 +29,13 @@ class Register extends Component {
             EventName: '',
             EventTypeName:'',
             Tournament: '',
-            EventDate: ''
+            EventDate: '',
+
+            groupName: '',
+            searchUsers: '',
+            searchUsersResult: [],
+            addSearchUsersResult: [],
+            usersIds: ['13a3366c-3fa1-4273-82e8-a073af234890'],
         }
     }
 
@@ -48,6 +54,32 @@ class Register extends Component {
     onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
     onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
     onDateOfEventChange = (e) => { this.setState({EventDate: e.target.value})}
+
+    onGroupNameChange = (e) => { this.setState({groupName: e.target.value})}
+    onSearchUsersChange = (e) => { 
+        this.setState({ searchUsersResult: [] })
+        this.setState({searchUsers: e.target.value})
+        setTimeout(() => {
+            this.props.allList.map((user) => {
+                const searchFor = this.state.searchUsers
+                if(searchFor.length > 0 && (user.username).includes(searchFor)) {
+                    let arr = []
+                    const newSearchUsersResult = Object.assign(...{}, user)
+                    arr = [...this.state.searchUsersResult, newSearchUsersResult]
+                    const deduped = [...new Set(arr)];
+                    this.setState({searchUsersResult: deduped})
+                }
+            })
+        }, 300)
+    }
+
+    addSearchUsers = (user) => {
+        let arr = []
+        const newAddUsers = Object.assign(...{}, user)
+        arr = [...this.state.addSearchUsersResult, newAddUsers]
+        const deduped = [...new Set(arr)];
+        this.setState({addSearchUsersResult: deduped})
+    }
 
 
 
@@ -86,6 +118,14 @@ class Register extends Component {
         e.preventDefault()
         this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
     }
+
+    addNewGroup = (e) => {
+        const groupName = this.state.groupName
+        const usersIds = this.state.usersIds
+        e.preventDefault()
+        this.props.addNewGroupRequest(groupName, usersIds)
+    }
+
     addNewEvent = (e) => {
         const EventName = this.state.EventName
         const EventTypeName = this.state.EventTypeName
@@ -213,6 +253,70 @@ class Register extends Component {
             </div>
         )
     }
+
+    selectUser = (e) => {
+        this.setState({ searchUsersResult: [] })
+        this.setState({searchUsers: ''})
+        
+        setTimeout((e) => {
+            this.addSearchUsers(e.target)
+            console.log(e.target)
+        }, 300)
+    }
+
+    addNewGroupPage = (headline) => {
+        const usernamesOption = []
+        this.state.searchUsersResult.map((user, index) => usernamesOption.push({value: user.username, key: user.userId}))
+        return (
+            <div className={classes.Register}>
+                <h1>{headline}</h1>
+                <form>
+                    {this.errorMessage()}
+                    {this.successMessage()}
+                    <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
+                    <div>
+                        <div className={classes.usersWrapper}>
+                            {this.state.addSearchUsersResult.length > 0 
+                                ?   this.state.addSearchUsersResult.map((user, index) => {
+                                        return <span className={classes.user} key={index}>
+                                            {user.username} 
+                                            <i className="far fa-times-circle"></i>
+                                        </span>
+                                    })
+                                :   null}
+                        </div>
+                        <InputComp inputType="text" name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
+                        <div className={classes.usersWrapper} >
+                            {/* {this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null} */}
+                            
+                            {/* {this.state.searchUsersResult.map((user, index) => (  
+                                <span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+                                    {user.username}
+                                    <i className="far fa-plus-square"></i>
+                                </span>      
+                            ))} */}
+                        </div>
+                        <div className={classes.select}>
+                            <SelectComp 
+                                options={usernamesOption}
+                                placeholder={"Users Search Result List:"}
+                                name={'event'}
+                                onChange={(options) => {this.selectUser(options)}}   
+                            />
+                        </div>
+                    </div>
+                    <BtnComp 
+                        inputType="submit" 
+                        name="createGroup" 
+                        content={headline} 
+                        onClick={this.addNewGroup}
+                    />
+                    {headline === 'Add New Group' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
+                </form>
+            </div>
+        )
+    }
+
     outputToRender = () => {
         const { headline, classStr } = this.props
         if(headline === 'Register' || headline === 'Add User'){
@@ -221,10 +325,11 @@ class Register extends Component {
             return this.tournamentFage(headline)
         } else if( headline === 'Add Event' ){
             return this.eventFage(headline)
+        } else if( headline === 'Add New Group' ){
+            return this.addNewGroupPage(headline)
         }
     }
     render() {
-        console.log('props register', this.props )
         const { headline, classStr } = this.props
         return (
             <div className={classes.RegisterWrapper}>
@@ -240,6 +345,7 @@ const mapStateToProps = (state) => {
         successMessage: state.sharedReducer.successMessage,
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
+        allList: state.allListReducer.allList,
     }
 }
 
@@ -252,7 +358,7 @@ const mapDispatchToProps = dispatch => {
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
-        
+        addNewGroupRequest: (groupName, usersIds) => dispatch(addNewGroupRequest(groupName, usersIds)),        
     }
 }
 

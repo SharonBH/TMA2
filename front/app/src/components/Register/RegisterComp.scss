@@ -36,11 +36,13 @@
             width: 100%;
             margin: 0 0 25px 0;
             display: block;
+
             .closePopBtn{
                 display: inline-block;
                 width: 100%;
                 text-align: right;
                 margin-top: 15px;
+
                 span{
                     padding: 5px;
                     border: 1px solid;
@@ -51,6 +53,32 @@
                         background: #03a3d0;
                         color: #fff;
                     }
+                }
+            }
+
+            .usersWrapper {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                width: 100%;
+                // background-color: $blue;
+                border: 1px solid $blue; 
+
+                .searchResult {
+                    width: 100%;
+                    background-color: $blue;
+                }
+
+                .user {
+                    width: 100%;
+                    margin: 5px 5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    border: 1px solid #03a3d0;
+                    border-radius: 10px;
+                    padding: 5px;
+                    background-color: #fff;
                 }
             }
         }

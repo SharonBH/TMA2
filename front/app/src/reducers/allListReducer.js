@@ -2,7 +2,8 @@ const InitialState = {
     allList: [],
     allTournsList: [],
     allEventsList: [],
-    allEventTypesList: []
+    allEventTypesList: [],
+    groupsList: null
 }
 
 const allListReducer = (state = InitialState, action) => {
@@ -32,8 +33,15 @@ const allListReducer = (state = InitialState, action) => {
                 ...state,
                 allEventTypesList: eventTypes
             }
+        case 'GET_ALL_GROUPS':
+            const groups = action.payload
+            return {
+                ...state,
+                groupsList: groups
+            }
         default:
     }
+    console.log('ddddddddddddddddd', state.allList)
     return state;
 }
 
