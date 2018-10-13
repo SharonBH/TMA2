@@ -56,31 +56,56 @@
                 }
             }
 
-            .usersWrapper {
-                display: flex;
-                flex-wrap: wrap;
-                align-items: center;
-                width: 100%;
-                // background-color: $blue;
-                border: 1px solid $blue; 
+            .searchUsersWrapper{
+                position: relative;
 
-                .searchResult {
-                    width: 100%;
-                    background-color: $blue;
-                }
-
-                .user {
-                    width: 100%;
-                    margin: 5px 5px;
+                .usersWrapper, .usersAddedWrapper {
                     display: flex;
+                    flex-wrap: wrap;
                     align-items: center;
-                    justify-content: space-between;
-                    border: 1px solid #03a3d0;
-                    border-radius: 10px;
-                    padding: 5px;
-                    background-color: #fff;
+                    width: 100%;
+                    background-color: $white;
+                    border: 1px solid $blue;
+                    position: absolute; 
+                    z-index: 100;
+                    max-height: 315px;
+                    overflow-y: scroll;
+    
+                    .searchResult {
+                        width: 100%;
+                        background-color: $blue;
+                        padding: 5px;
+                    }
+    
+                    .user {
+                        width: 100%;
+                        margin: 5px 5px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        border: 1px solid #03a3d0;
+                        border-radius: 10px;
+                        padding: 5px;
+                        background-color: $white;
+                        cursor: pointer;
+                    }
+                    .user:hover {
+                        background-color: $blue;
+                    }
                 }
-            }
+
+                .usersAddedWrapper {
+                    position: relative;
+                    overflow-y: unset;
+                    max-height: unset;
+                    border: none;
+                    justify-content: space-between;
+
+                    .user {
+                        width: 142px;
+                    }
+                }
+            } 
         }
 
         input, select{
