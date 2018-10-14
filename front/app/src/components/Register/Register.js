@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
 import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest } from "../../actions/GamesApi";
-import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction } from '../../actions'
+import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction, editThisGroupAction } from '../../actions';
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
@@ -82,7 +82,7 @@ class Register extends Component {
     }
 
     removeSelectedUser = (index) => {
-        let removeAddUser = Object.assign(...{}, this.state.addSearchUsersResult)
+        let removeAddUser = [...this.state.addSearchUsersResult]
         removeAddUser.splice(index, 1)
         this.setState({addSearchUsersResult: removeAddUser})
     }
@@ -172,7 +172,7 @@ class Register extends Component {
         this.props.addNewEventAction(false)
         this.props.addNewItemAction(false)
         this.props.addNewTournamentAction(false)
-
+        this.props.editThisGroupAction(false)
     }
     rgisterFage = (headline, classStr) => {
         return (
@@ -287,12 +287,20 @@ class Register extends Component {
     //     }, 300)
     // }
 
-    addNewGroupPage = (headline) => {
+    addNewGroupPage = (headline, group) => {
         // const usernamesOption = []
         // this.state.searchUsersResult.map((user, index) => usernamesOption.push({value: user.username, key: user.userId}))
+        if(headline === 'Edit Group') {
+            let usersList = []
+            group.usersGroups.map(user => {
+                usersList.push(user.user)
+            })
+            console.log('group', usersList)
+            // this.setState({addSearchUsersResult: usersList})
+        }
         return (
             <div className={classes.Register}>
-                <h1>{headline}</h1>
+                <h1>{headline} {headline === 'Edit Group' ? group.groupName : null}</h1>
                 <form>
                     {this.errorMessage()}
                     {this.successMessage()}
@@ -334,14 +342,14 @@ class Register extends Component {
                         content={headline} 
                         onClick={this.addNewGroup}
                     />
-                    {headline === 'Add New Group' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
+                    {(headline === 'Add New Group' || headline === 'Edit Group') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
             </div>
         )
     }
 
     outputToRender = () => {
-        const { headline, classStr } = this.props
+        const { headline, classStr, group } = this.props
         if(headline === 'Register' || headline === 'Add User'){
            return this.rgisterFage(headline, classStr)
         } else if(headline === 'Add Tournament'){
@@ -350,10 +358,12 @@ class Register extends Component {
             return this.eventFage(headline)
         } else if( headline === 'Add New Group' ){
             return this.addNewGroupPage(headline)
+        } else if( headline === 'Edit Group' ){
+            return this.addNewGroupPage(headline, group)
         }
     }
     render() {
-        const { headline, classStr } = this.props
+        const { headline, classStr, group } = this.props
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
@@ -384,6 +394,7 @@ const mapDispatchToProps = dispatch => {
         addNewGroupRequest: (groupName, usersIds, arr) => dispatch(addNewGroupRequest(groupName, usersIds, arr)),        
         addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
+        editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
     }
 }
 
