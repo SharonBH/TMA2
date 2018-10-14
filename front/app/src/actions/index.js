@@ -97,6 +97,13 @@ export const getAllToursAction = (response) => {
         payload: response
     }
 }
+//get Tournament by ID
+export const getTournByIdAction = (response) => {
+    return {
+        type: 'GET_TOURN_BY_ID',
+        payload: response
+    }
+}
 //get all Events
 export const getAllEventsAction = (response) => {
     return {
@@ -111,15 +118,28 @@ export const getAllEventTypesAction = (response) => {
         payload: response
     }
 }
+// add New Tournament Action
+export const addNewTournamentAction = (boll) => {
+    return {
+        type: 'ADD_A_NEW_TOURNAMENT',
+        payload: boll
+    }
+}
+// add New Event Action
+export const addNewEventAction = (boll) => {
+    return {
+        type: 'ADD_A_NEW_EVENT',
+        payload: boll
+    }
+}
 // add New User Action
 export const addNewItemAction = (boll) => {
-    console.log(boll,'sadasdasdasd')
+    console.log('12', boll)
     return {
         type: 'ADD_A_NEW_ITEM',
         payload: boll
     }
 }
-
 // edit This User Action
 export const editThisItemAction = (boll) => {
     return {

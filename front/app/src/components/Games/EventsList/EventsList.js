@@ -15,7 +15,7 @@ import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
 import { takeAllTournaments, DeleteEventRequest, takeAllEvents } from '../../../actions/GamesApi';
-import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
+import { addNewEventAction, editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 export class EventsList extends Component {
 
     static propTypes = {
@@ -77,6 +77,7 @@ export class EventsList extends Component {
         this.setState({eventInEditMode: item})
         setTimeout(() => {
             this.props.editThisItemAction(true)
+            // console.log('edit event',item)
         }, 200)
 
     }
@@ -89,7 +90,7 @@ export class EventsList extends Component {
     }
     addEventBtn = () => {
         setTimeout(() => {
-            this.props.addNewItemAction(true)
+            this.props.addNewEventAction(true)
         }, 200)
     }
 
@@ -191,7 +192,7 @@ const mapDispatchToProps = dispatch => {
         takeAllEvents: payload => dispatch(takeAllEvents(payload)),
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
         DeleteEventRequest: (item) => dispatch(DeleteEventRequest(item)),
-        addNewItemAction: payload => dispatch(addNewItemAction(payload)),
+        addNewEventAction: payload => dispatch(addNewEventAction(payload)),
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),

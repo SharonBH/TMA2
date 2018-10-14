@@ -10,6 +10,7 @@ namespace TMA.Api.Controllers
 
         [Required]
         public string TournamentName { get; set; }
+        public string EventTypeName { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int? NumberOfEvents { get; set; }

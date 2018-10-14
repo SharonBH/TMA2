@@ -24,8 +24,10 @@ namespace TMA.DAL.Models.DB
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<EventResults> EventResults { get; set; }
         public virtual DbSet<Events> Events { get; set; }
+        public virtual DbSet<Groups> Groups { get; set; }
         public virtual DbSet<LkpEvent> LkpEvent { get; set; }
         public virtual DbSet<Tournaments> Tournaments { get; set; }
+        public virtual DbSet<UsersGroups> UsersGroups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -158,16 +160,23 @@ namespace TMA.DAL.Models.DB
                     .IsRequired()
                     .HasMaxLength(150);
 
-                entity.HasOne(d => d.EventType)
-                    .WithMany(p => p.Events)
-                    .HasForeignKey(d => d.EventTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Events_LKP_Event");
-
                 entity.HasOne(d => d.Tournament)
                     .WithMany(p => p.Events)
                     .HasForeignKey(d => d.TournamentId)
                     .HasConstraintName("FK_Events_Tournaments");
+            });
+
+            modelBuilder.Entity<Groups>(entity =>
+            {
+                entity.HasKey(e => e.GroupId);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.GroupName)
+                    .IsRequired()
+                    .HasMaxLength(250);
             });
 
             modelBuilder.Entity<LkpEvent>(entity =>
@@ -194,6 +203,29 @@ namespace TMA.DAL.Models.DB
                 entity.Property(e => e.TournamentName)
                     .IsRequired()
                     .HasMaxLength(150);
+
+                entity.HasOne(d => d.EventType)
+                    .WithMany(p => p.Tournaments)
+                    .HasForeignKey(d => d.EventTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Tournaments_LKP_Event");
+            });
+
+            modelBuilder.Entity<UsersGroups>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.GroupId });
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.UsersGroups)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UsersGroups_Groups");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UsersGroups)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UsersGroups_AspNetUsers");
             });
         }
     }

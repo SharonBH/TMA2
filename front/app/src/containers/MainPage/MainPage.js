@@ -14,8 +14,10 @@ import UserSummary from '../../components/Users/UserSummary';
 import TournamentsList from '../../components/Games/TournamentsList';
 import EventsList from '../../components/Games/EventsList';
 import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest } from '../../actions/GamesApi';
+import TournamentPage from '../../components/Games/TournamentPage';
 import { appCallTakeAllUsers } from '../../actions/Api';
 import Groups from '../../components/Games/Groups';
+
 
 export class MainPage extends Component {
 
@@ -73,6 +75,20 @@ export class MainPage extends Component {
                         component={TournamentsList}
                     />
                     <Route
+                        path='/:tournamentName/add_event'
+                        component={TournamentsList}
+                    />
+                    <Route
+                    exact
+                        path='/:tournamentName'
+                        component={TournamentPage}
+                    />
+                    <Route
+                    exact
+                        path='/:tournamentName/edit_tournament'
+                        component={TournamentPage}
+                    />
+                    <Route
                         path='/all_events'
                         component={EventsList}
                     />
@@ -81,6 +97,7 @@ export class MainPage extends Component {
                         // component={TournamentsList}
                     />
                     <Route
+                        exact
                         path='/edit_tournament/:tournamentName'
                         component={TournamentsList}
                     />
@@ -89,6 +106,11 @@ export class MainPage extends Component {
                         component={Groups}
                     />
                     <Route component={NotFound} />
+                    <Route 
+                        path='/edit_event/:eventName'
+                        component={EventsList}
+                    />
+                    
                 </Switch>
             </div>
         );

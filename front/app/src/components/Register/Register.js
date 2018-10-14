@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
 import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest } from "../../actions/GamesApi";
-import { successMessageAction, errorMessageAction, addNewItemAction } from '../../actions'
+import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction } from '../../actions'
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
@@ -27,7 +27,7 @@ class Register extends Component {
             EventsMaxNum: '',
 
             EventName: '',
-            EventTypeName:'',
+            // EventTypeName:'',
             Tournament: '',
             EventDate: '',
 
@@ -51,8 +51,8 @@ class Register extends Component {
     onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
 
     onEventNameChange = (e) => { this.setState({EventName: e.target.value})}
-    onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
-    onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
+    // onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
+    // onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
     onDateOfEventChange = (e) => { this.setState({EventDate: e.target.value})}
 
     onGroupNameChange = (e) => { this.setState({groupName: e.target.value})}
@@ -98,10 +98,12 @@ class Register extends Component {
         this.setState({groupName: '', usersIds: [], searchUsers: '', searchUsersResult: [], addSearchUsersResult: []})
     }
 
+
     componentWillUnmount(){
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
     }
+
     registerSbmit = (e) => {
         const email = this.state.email
         const password = this.state.password
@@ -114,18 +116,20 @@ class Register extends Component {
     }
 
     addNewUser = (e) => {
-        const email = this.state.email
-        const password = this.state.password
-        const confirmPassword = this.state.confirmPassword
-        const name = this.state.name
-        const userType = this.state.userType
-        const userName = this.state.userName
+        const { email, password, confirmPassword, name, userType, userName } = this.state
+        // const email = this.state.email
+        // const password = this.state.password
+        // const confirmPassword = this.state.confirmPassword
+        // const name = this.state.name
+        // const userType = this.state.userType
+        // const userName = this.state.userName
         e.preventDefault()
         this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
         
     }
     addNewTournament = (e) => {
-        const tournamentName = this.state.TournamentName
+        const { tournamentName } = this.state
+        // const tournamentName = this.state.TournamentName
         const tournamentStartDate = this.state.TournamentStartDate
         const tournamentEndDate = this.state.TournamentEndDate
         const eventsMaxNum = this.state.EventsMaxNum
@@ -135,13 +139,14 @@ class Register extends Component {
     }
 
     addNewEvent = (e) => {
+        const {tourn} = this.props
         const EventName = this.state.EventName
-        const EventTypeName = this.state.EventTypeName
-        const Tournament = this.state.Tournament
+        // const EventTypeName = this.state.EventTypeName
+        const Tournament = tourn.tournamentName
         const EventDate = this.state.EventDate
 
         e.preventDefault()
-        this.props.addNewEventRequest(EventName, EventTypeName, Tournament, EventDate)
+        this.props.addNewEventRequest(EventName, Tournament, EventDate)
     }
 
     errorMessage = () => {
@@ -162,7 +167,12 @@ class Register extends Component {
         }
     }
     closePopUp = () => {
+        // console.log('close', this.props)
+        // const heading = this.props.headline
+        this.props.addNewEventAction(false)
         this.props.addNewItemAction(false)
+        this.props.addNewTournamentAction(false)
+
     }
     rgisterFage = (headline, classStr) => {
         return (
@@ -182,7 +192,7 @@ class Register extends Component {
                         content={headline} 
                         onClick={ headline === 'Register' ?  this.registerSbmit : this.addNewUser}
                     />}
-                    {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
+                    {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={()=>this.closePopUp()}><span>Close</span></div> : null}
                 </form>
                 <div style={{display: classStr}}>
                     <h3>Have a user? Keep Calm.</h3>
@@ -194,6 +204,7 @@ class Register extends Component {
             </div>
         )
     }
+
     tournamentFage = (headline) => {
         return (
             <div className={classes.Register}>
@@ -217,10 +228,13 @@ class Register extends Component {
         )
     }
     eventFage = (headline) => {
-        const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
-        const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
+        const {tourn} = this.props
 
-        console.log('eventTypes', eventTypes)
+        const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
+        // const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
+
+        console.log('tournaments', this.props)
+        // console.log('tourn', tourn.tournamentName)
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
@@ -228,16 +242,17 @@ class Register extends Component {
                     <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
                     {/* <InputComp inputType="text" name="typeEvent" placeholder="Type of Event" onChange={this.onTypeOfEventChange}/> */}
                     <div className={classes.select}>
-                        <SelectComp 
+                        {/* <SelectComp 
                             options={eventTypes}
                             placeholder={"Choose Event Type"}
                             name={'eventType'}
                             onChange={(e) => this.onTypeOfEventChange(e)}  
                             // selectedOption={eventTypes.value} 
-                        />                             
+                        />                              */}
                         
                     </div>
-                    <div className={classes.select}>
+                    <span className={classes.TName}>{tourn.tournamentName}</span>
+                    {/* <div className={classes.select}>
                         <SelectComp 
                             key={tournaments}
                             options={tournaments}
@@ -246,7 +261,7 @@ class Register extends Component {
                             onChange={(e) => this.onTournamentChange(e)}   
                         />
                         
-                    </div>
+                    </div> */}
                     <InputComp inputType="date" name="deteOfEvent" placeholder="dateOfEvent" onChange={this.onDateOfEventChange}/>
                     {this.errorMessage()}
                     {this.successMessage()}
@@ -362,11 +377,13 @@ const mapDispatchToProps = dispatch => {
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
         addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)),
-        addNewEventRequest: (EventName, EventTypeName, Tournament, EventDate) => dispatch(addNewEventRequest(EventName, EventTypeName, Tournament, EventDate)),
+        addNewEventRequest: (EventName, Tournament, EventDate) => dispatch(addNewEventRequest(EventName, Tournament, EventDate)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
         addNewGroupRequest: (groupName, usersIds, arr) => dispatch(addNewGroupRequest(groupName, usersIds, arr)),        
+        addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
+        addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
     }
 }
 

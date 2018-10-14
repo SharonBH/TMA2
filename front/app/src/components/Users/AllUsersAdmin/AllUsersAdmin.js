@@ -27,6 +27,7 @@ export class AllUsersAdmin extends Component {
             display: false
         }
         this.editUserBtn = this.editUserBtn.bind(this)
+        // this.addUserBtn = this.addUserBtn.bind(this)
         this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
 
@@ -63,9 +64,9 @@ export class AllUsersAdmin extends Component {
     }
 
     addUserBtn = () => {
-        setTimeout(() => {
+        // setTimeout(() => {
             this.props.addNewItemAction(true)
-        }, 200)
+        // }, 200)
     }
 
     
@@ -89,6 +90,7 @@ export class AllUsersAdmin extends Component {
 
     closeMessage = () => {
         this.props.successMessageAction(null)
+        // this.props.addNewItemAction(false)
     }
 
 
@@ -99,7 +101,7 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.email}>{item.email}</div>
                 <div className={classes.email}>{item.username}</div>
                 <div className={classes.role}>{item.role}</div>
-                <div id={index} className={classes.allUsButtons}>
+                <div className={classes.allUsButtons} id={index}>
                     <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
                  </div>
@@ -108,8 +110,10 @@ export class AllUsersAdmin extends Component {
     }
     
     render (){
+        console.log('1234', this.props)
         return (
             <div className={classes.usersWrapper}>
+                <h1>Users List</h1>
                 {this.successDeleteMessage()}
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>

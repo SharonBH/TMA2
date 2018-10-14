@@ -23,7 +23,7 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.CreateEvent(eventModel.EventName, eventModel.EventTypeName, eventModel.EventDate, eventModel.TournamentName);
+                    _mainRepository.CreateEvent(eventModel.EventName, eventModel.EventDate, eventModel.TournamentName);
 
                     return Json(new { Response = "Success", Message = "Event created successfully." });
                 }
@@ -49,7 +49,7 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.EditEvent(eventModel.EventId, eventModel.EventName, eventModel.EventTypeName, eventModel.EventDate, eventModel.TournamentName);
+                    _mainRepository.EditEvent(eventModel.EventId, eventModel.EventName, eventModel.EventDate, eventModel.TournamentName);
 
                     return Json(new { Response = "Success", Message = "Event edited successfully." });
                 }

@@ -16,7 +16,9 @@ namespace TMA.DAL.Models.DB
         public DateTime? EndDate { get; set; }
         public long? NumberOfEvents { get; set; }
         public bool IsDeleted { get; set; }
+        public int EventTypeId { get; set; }
 
+        public LkpEvent EventType { get; set; }
         public ICollection<Events> Events { get; set; }
     }
 }

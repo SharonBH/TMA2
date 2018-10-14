@@ -12,11 +12,12 @@ export class Nav extends Component {
                 <Link to='/all_tournaments' className={classes.navLink}>
                     <i className="fas fa-trophy"></i><span>Tournaments</span>
                 </Link>
-                <Link to='/all_events' className={classes.navLink}>
+                {/* <Link to='/all_events' className={classes.navLink}>
                     <i className="fas fa-gamepad"></i><span>Events</span>
-                </Link>
+                </Link>*/}
+
                 <Link to='/groups' className={classes.navLink}>
-                <i className="fas fa-users"></i><span>Groups</span>
+                    <i className="fas fa-users"></i><span>Groups</span>
                 </Link>
                 <Link to='/scores' className={classes.navLink}>
                     <i className="fas fa-star-half-alt"></i><span>Scores - soon...</span>
