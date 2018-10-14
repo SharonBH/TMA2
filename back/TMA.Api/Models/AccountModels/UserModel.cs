@@ -6,6 +6,7 @@ namespace TMA.Api.Models.AccountViewModels
     [Serializable]
     public class UserModel
     {
+        public string UserId { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

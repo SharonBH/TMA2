@@ -587,6 +587,7 @@ namespace TMA.Api.Controllers
 
                 var userModel = new UserModel()
                 {
+                    UserId = user.Id,
                     Email = user.Email,
                     Name = user.Name,
                     Username = user.UserName,
@@ -618,6 +619,7 @@ namespace TMA.Api.Controllers
 
                     var userModel = new UserModel()
                     {
+                        UserId = user.Id,
                         Email = user.Email,
                         Name = user.Name,
                         Username = user.UserName,
