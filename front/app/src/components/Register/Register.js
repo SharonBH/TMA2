@@ -66,8 +66,8 @@ class Register extends Component {
                     let arr = []
                     const newSearchUsersResult = Object.assign(...{}, user)
                     arr = [...this.state.searchUsersResult, newSearchUsersResult]
-                    const deduped = [...new Set(arr)];
-                    this.setState({searchUsersResult: deduped})
+                    const removeDuplicateArr = [...new Set(arr)];
+                    this.setState({searchUsersResult: removeDuplicateArr})
                 }
             })
         }, 300)
@@ -77,8 +77,8 @@ class Register extends Component {
         let arr = []
         const newAddUsers = Object.assign(...{}, user)
         arr = [...this.state.addSearchUsersResult, newAddUsers]
-        const deduped = [...new Set(arr)];
-        this.setState({addSearchUsersResult: deduped})
+        const removeDuplicateArr = [...new Set(arr)];
+        this.setState({addSearchUsersResult: removeDuplicateArr})
     }
 
     removeSelectedUser = (index) => {

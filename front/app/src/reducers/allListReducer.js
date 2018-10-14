@@ -41,7 +41,7 @@ const allListReducer = (state = InitialState, action) => {
             }
         default:
     }
-    console.log('ddddddddddddddddd', state.allList)
+    console.log('ddddddddddddddddd', state.groupsList)
     return state;
 }
 

@@ -403,3 +403,45 @@ export const addNewGroupRequest = (groupName, usersIds) => {
         });
     }
 }
+
+// delete tournament
+export const DeleteGroupRequest = (groupId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'post',
+            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/DeleteGroup',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            data: groupId
+        })
+        .then((response) => {
+            if(response.data.response === 'Success') {
+                const data = response.data.message
+                dispatch(successMessageAction(data))
+                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/GetGroups`)
+                .then((response) => {
+                    const groups = response.data
+                        dispatch(getAllGroups(groups));
+                        history.push({pathname: '/groups'})
+                        dispatch(addNewItemAction(false))
+                        dispatch(successMessageAction('Groups Added Successfuly'))
+                        dispatch(toggleLoaderAction(false))
+                })
+                .catch((error) => {
+                    dispatch(catchErrorAction([error][0]))
+                    dispatch(errorMessageAction([error][0]))
+                    dispatch(toggleLoaderAction(false))
+                }); 
+            } else {
+                const error = response.data.message
+                dispatch(errorMessageAction(error))
+                dispatch(toggleLoaderAction(false))
+            }
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+};

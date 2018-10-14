@@ -23,6 +23,8 @@ export class Groups extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            groupForDelete: null,
+            groupInEditMode: null,
         }
         // this.editTournamentBtn = this.editTournamentBtn.bind(this)
         // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
@@ -65,11 +67,11 @@ export class Groups extends Component {
         this.props.errorMessageAction(null)
     }
 
-    // DeleteTournamentBtn = (item) => {
-    //     this.setState({tournamentForDelete: item})
-    //     this.setState({tournamentInEditMode: null})
-    //     this.props.deleteConfirmMessageAction(true)
-    // }
+    DeleteGoupBtn = (item) => {
+        this.setState({groupForDelete: item})
+        this.setState({groupInEditMode: null})
+        this.props.deleteConfirmMessageAction(true)
+    }
 
     // editTournamentBtn = (item) => {
     //     this.setState({tournamentInEditMode: item})
@@ -130,7 +132,7 @@ export class Groups extends Component {
 
                 <div id={index} className={classes.allUsButtons}>
                     <Link to={`/edit_tournament/${group.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(group)}/></Link>
-                    <DeleteBtn onClick={() => this.DeleteTournamentBtn(group.tournamentId)} inputType={'button'} content='Delete'/>
+                    <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>
                  </div>
             </li>
         })
@@ -147,7 +149,7 @@ export class Groups extends Component {
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}
 
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete tournament' item={this.state.tournamentForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete group' item={this.state.groupForDelete}/> : null}
             </div>
         )
     }
