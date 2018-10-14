@@ -72,7 +72,7 @@ class UserSummary extends Component {
             const usersGroups = groupData.usersGroups
             return ([
                     {edit: false, detail: 'Group Name', param: name, editInput: name},
-                    {edit: false, detail: 'Created Date', param: createdDate, editInput: createdDate},
+                    // {edit: false, detail: 'Created Date', param: createdDate, editInput: createdDate},
                     // {edit: false, detail: 'Group Users', param: usersGroups, editInput: usersGroups},
             ])
         } 
