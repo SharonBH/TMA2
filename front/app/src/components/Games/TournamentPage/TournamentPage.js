@@ -33,6 +33,8 @@ export class TournamentPage extends Component {
             display: false,
             userDetailsArr: [],
             currentPage:'',
+            eventInEditMode: null,
+            eventForDelete: null,
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
         // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
@@ -134,15 +136,33 @@ export class TournamentPage extends Component {
         this.props.errorMessageAction(null)
     }
 
+    DeleteEventBtn = (item) => {
+        console.log('delete', item)
+        this.setState({eventForDelete: item})
+        this.setState({eventInEditMode: null})
+        this.props.deleteConfirmMessageAction(true)
+        
+    }
+    editEventBtn = (item) => {
+        this.setState({eventInEditMode: item})
+        setTimeout(() => {
+            this.props.editThisItemAction(true)
+            // console.log('edit event',item)
+        }, 200)
 
-    
+    }
+    editEventComp = () => {
+        return <UserSummary headline='Edit Event' event={this.state.eventInEditMode} tournament={null} user={null}/>
+    }
     render (){
         console.log('tournament page state',this.state)
         console.log('tournament page props',this.props)
     
         const tournamentHeadig = this.props.location.pathname.slice(1)
         const currentTournament = this.props.tournById !== null ? this.props.tournById : null
+        const eventItem = currentTournament.events.map((event) => {return event.eventId})
         console.log('currentTournament',currentTournament)
+        console.log('eventItem',eventItem)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
@@ -170,6 +190,8 @@ export class TournamentPage extends Component {
                             return <li key={index}>
                                 <div className={classes.eventName}>{item.eventName}</div>
                                 <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
+                                <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item.eventId)}/></Link>
+                                <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content='Delete'/></div>
                             </li>
                         })}
                         </ul>
@@ -189,6 +211,8 @@ export class TournamentPage extends Component {
                 </div>
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
+                {this.props.editThisItem ? <div className={classes.AddUser}>{this.editEventComp()}</div> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='Delete Event' item={this.state.eventForDelete}/> : null}
                 {/* {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null} */}
                 {/* 
                 {this.props.addTournament ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
