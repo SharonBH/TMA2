@@ -11,7 +11,7 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import { getAllGroupsRequest } from '../../../actions/GamesApi';
-import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
+import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import moment from 'moment';
 
 export class Groups extends Component {
@@ -73,14 +73,15 @@ export class Groups extends Component {
         this.props.deleteConfirmMessageAction(true)
     }
 
-    // editTournamentBtn = (item) => {
-    //     this.setState({tournamentInEditMode: item})
-    //     setTimeout(() => {
-    //         console.log(item)
-    //         this.props.editThisItemAction(true)
-    //     }, 200)
+    editGroupBtn = (group) => {
+        this.setState({groupInEditMode: group})
+        setTimeout(() => {
+            console.log(group)
+            this.props.editThisGroupAction(true)
+        }, 200)
 
-    // }
+    }
+
     // editDetailInput = (index, e) => {
     //     const details = Object.assign([], this.state.userDetailsArr)
     //         details[index] = e.target.value
@@ -89,9 +90,9 @@ export class Groups extends Component {
     //     })
     // }
     
-    // editTournamentComp = () => {
-    //     return <UserSummary headline='Edit Tournament' event={null} tournament={this.state.tournamentInEditMode} user={null}/>
-    // }
+    editGroupComp = () => {
+        return <UserSummary headline='Edit Group' event={null} tournament={null} user={null} group={this.state.groupInEditMode}/>
+    }
 
     addNewGroupBtn = () => {
         setTimeout(() => {
@@ -131,7 +132,7 @@ export class Groups extends Component {
                 </div>
 
                 <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/edit_tournament/${group.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(group)}/></Link>
+                    <Link to={`/groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>
                  </div>
             </li>
@@ -140,6 +141,7 @@ export class Groups extends Component {
     }
 
     render() {
+        console.log('1111111111', this.props)
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
@@ -147,8 +149,7 @@ export class Groups extends Component {
                 {this.tableHeader()}
                 <ul className={classes.groupsList}>{this.groupsList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}
-
-                {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
+                {this.props.editThisGroup ? <div className={classes.AddUser}>{this.editGroupComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete group' item={this.state.groupForDelete}/> : null}
             </div>
         )
@@ -161,8 +162,8 @@ const mapStateToProps = (state) => {
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         addItem: state.addNewItemReducer.addItem,
-        editThisItem: state.editItemReducer.editThisItem,
-        deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage
+        editThisGroup: state.editItemReducer.editThisGroup,
+        deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
     }
 }
 
@@ -171,7 +172,7 @@ const mapDispatchToProps = dispatch => {
     return{
         getAllGroupsRequest: (payload) => dispatch(getAllGroupsRequest(payload)),
         addNewItemAction: payload => dispatch(addNewItemAction(payload)),
-        editThisItemAction: payload => dispatch(editThisItemAction(payload)),
+        editThisGroupAction: payload => dispatch(editThisGroupAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload))

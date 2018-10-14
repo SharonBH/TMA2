@@ -135,6 +135,14 @@ export const getAllGroups = (arr) => {
     }
 }
 
+// edit This group Action
+export const editThisGroupAction = (boll) => {
+    return {
+        type: 'EDIT_THIS_GROUP',
+        payload: boll
+    }
+}
+
 
 
 
