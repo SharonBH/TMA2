@@ -134,6 +134,7 @@ export const addNewEventAction = (boll) => {
 }
 // add New User Action
 export const addNewItemAction = (boll) => {
+    console.log('12', boll)
     return {
         type: 'ADD_A_NEW_ITEM',
         payload: boll

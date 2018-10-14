@@ -30,7 +30,8 @@ export class TournamentsList extends Component {
             tournamentForDelete: null,
             display: false,
             userDetailsArr: [],
-            someId:''
+            someId:'',
+            tournamentID:''
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
@@ -76,6 +77,7 @@ export class TournamentsList extends Component {
     addEventBtn = (item) => {
         setTimeout(() => {
             console.log('add event', item)
+            this.setState({tournamentID: item})
             this.props.addNewEventAction(true)
         }, 200)
     }
@@ -97,7 +99,7 @@ export class TournamentsList extends Component {
         return <Register headline='Add Tournament' classStr='none' />
     }
     addEventComp = () => {
-        return <Register headline='Add Event' classStr='none' />
+        return <Register headline='Add Event' tourn={this.state.tournamentID} classStr='none' />
     }
     editTournamentComp = () => {
         return <UserSummary headline='Edit Tournament' event={null} tournament={this.state.tournamentInEditMode} user={null}/>
@@ -195,7 +197,7 @@ const mapDispatchToProps = dispatch => {
     return{
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
         DeleteTournamentRequest: (item) => dispatch(DeleteTournamentRequest(item)),
-        addNewItemAction: payload => dispatch(addNewItemAction(payload)),
+        // addNewItemAction: payload => dispatch(addNewItemAction(payload)),
         addNewEventAction: payload => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: payload => dispatch(addNewTournamentAction(payload)),
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),

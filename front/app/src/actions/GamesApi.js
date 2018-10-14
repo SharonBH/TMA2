@@ -197,7 +197,7 @@ export const addNewTournamentRequest = (tournamentName, startDate, endDate, numb
     }
 };
 // add New-eVENT Request
-export const addNewEventRequest = (EventName, EventType, Tournament, EventDate) => {
+export const addNewEventRequest = (EventName, Tournament, EventDate) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -206,7 +206,6 @@ export const addNewEventRequest = (EventName, EventType, Tournament, EventDate) 
             url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/CreateEvent',
             data: {
                 eventName: EventName,
-                eventTypeName: EventType,
                 tournamentName: Tournament,
                 eventDate: EventDate
             }
