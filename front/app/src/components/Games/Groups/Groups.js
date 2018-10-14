@@ -91,7 +91,7 @@ export class Groups extends Component {
     // }
     
     editGroupComp = () => {
-        return <UserSummary headline='Edit Group' event={null} tournament={null} user={null} group={this.state.groupInEditMode}/>
+        return <Register headline='Edit Group' classStr='none' group={this.state.groupInEditMode}/>
     }
 
     addNewGroupBtn = () => {

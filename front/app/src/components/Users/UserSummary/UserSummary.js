@@ -50,16 +50,6 @@ class UserSummary extends Component {
                     {edit: false, detail: 'eMail', param: email, editInput: email},
                     {edit: false, detail: 'User Type', param: role,  editInput: role},
             ])
-        } else if (headline === 'Edit Group'){
-            const groupData = this.props.group
-            const name = groupData.groupName
-            const createdDate = groupData.createdDate
-            const usersGroups = groupData.usersGroups
-            return ([
-                    {edit: false, detail: 'Group Name', param: name, editInput: name},
-                    {edit: false, detail: 'Created Date', param: createdDate, editInput: createdDate},
-                    // {edit: false, detail: 'Group Users', param: usersGroups, editInput: usersGroups},
-            ])
         } else if( headline === 'Edit Event' ){
             const eventData = this.props.event
             const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventData.eventTypeId} ): null
@@ -75,7 +65,17 @@ class UserSummary extends Component {
                 {edit: false, detail: 'Tournament Name', param: tournN, editInput: tournN},
                 {edit: false, detail: 'Event Date', param: eventDate,  editInput: eventDate},
             ])
-        }
+        } else if (headline === 'Edit Group'){
+            const groupData = this.props.group
+            const name = groupData.groupName
+            const createdDate = groupData.createdDate
+            const usersGroups = groupData.usersGroups
+            return ([
+                    {edit: false, detail: 'Group Name', param: name, editInput: name},
+                    // {edit: false, detail: 'Created Date', param: createdDate, editInput: createdDate},
+                    // {edit: false, detail: 'Group Users', param: usersGroups, editInput: usersGroups},
+            ])
+        } 
     }
     componentWillUnmount() {
         this.props.errorMessageAction(null)
@@ -239,34 +239,6 @@ class UserSummary extends Component {
         )
     }
 
-
-    detailGroupLine = (item, index, headLine) => {
-        // const allTous = this.props.allTournsList !== undefined ? this.props.allTournsList.map((item) => { return item}) : null
-        // const events = events === undefined ? ['no events'] : allTous.map((item) => { return item.eventName});
-        const detail = item.detail
-        return (
-            <div key={index} className={classes.wrappLine}>
-                <label className={classes.HeadLine} name={detail}>{detail}:</label>
-                {
-                    this.state.userDetailsArr[index].edit
-                    ? <div className={classes.EditInput}>
-                    {
-                        <InputComp 
-                             inputType={detail === 'Group Name' ? 'text' : 'date'}
-                             name={detail} 
-                             placeholder={detail} 
-                             content={this.state.userDetailsArr[index].editInput}
-                             onChange={(e) => this.editDetailInput(index, e)}
-                         /> 
-                     } 
-                     </div> 
-                    : <span className={classes.editLineInput}>{item.param}</span>
-                }
-                {this.editBtnFunc(item, index)}
-            </div>
-        )
-    }
-
     eventEditLine = (item, index) => {
         const detail = item.detail
         const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
@@ -299,7 +271,34 @@ class UserSummary extends Component {
         )
     }
 
-    userSummary = (headline, user, tournament,group, event) => {
+    detailGroupLine = (item, index, headLine) => {
+        // const allTous = this.props.allTournsList !== undefined ? this.props.allTournsList.map((item) => { return item}) : null
+        // const events = events === undefined ? ['no events'] : allTous.map((item) => { return item.eventName});
+        const detail = item.detail
+        return (
+            <div key={index} className={classes.wrappLine}>
+                <label className={classes.HeadLine} name={detail}>{detail}:</label>
+                {
+                    this.state.userDetailsArr[index].edit
+                    ? <div className={classes.EditInput}>
+                    {
+                        <InputComp 
+                             inputType={detail === 'Group Name' ? 'text' : 'date'}
+                             name={detail} 
+                             placeholder={detail} 
+                             content={this.state.userDetailsArr[index].editInput}
+                             onChange={(e) => this.editDetailInput(index, e)}
+                         /> 
+                     } 
+                     </div> 
+                    : <span className={classes.editLineInput}>{item.param}</span>
+                }
+                {this.editBtnFunc(item, index)}
+            </div>
+        )
+    }
+
+    userSummary = (headline, user, tournament, group, event) => {
         const headLine = headline;
         let name = ''
         if(headline === 'Edit User'){
@@ -311,7 +310,6 @@ class UserSummary extends Component {
         } else if(headline === 'Edit Group'){
             name = group !== null ? group.groupName : null
         }
-        
         return (
             <div className={classes.Profile} >
                 {<h1>{headline} {name}</h1>}
@@ -330,7 +328,6 @@ class UserSummary extends Component {
                 })}
                 {this.errorMessage()}
                 {this.successMessage()}
-
                 <span className={classes.SubmitAll}>
                     <BtnComp 
                         className={classes.editBtn} 
