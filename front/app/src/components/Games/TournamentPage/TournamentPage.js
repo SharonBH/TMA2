@@ -34,8 +34,9 @@ export class TournamentPage extends Component {
             userDetailsArr: [],
             currentPage:'',
         }
-        // this.editTournamentBtn = this.editTournamentBtn.bind(this)
+        this.editTournamentBtn = this.editTournamentBtn.bind(this)
         // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
+
     }
 
     componentWillMount(){
@@ -71,18 +72,18 @@ export class TournamentPage extends Component {
         this.props.deleteConfirmMessageAction(true)
     }
 
-    // editTournamentBtn = (item) => {
-    //     this.setState({tournamentInEditMode: item})
-    //     setTimeout(() => {
-    //         this.props.editThisItemAction(true)
-    //     }, 200)
+    editTournamentBtn = (item) => {
+        this.setState({tournamentInEditMode: item})
+        setTimeout(() => {
+            this.props.editThisItemAction(true)
+        }, 200)
 
-    // }
-    // addEventBtn = (item) => {
-    //     setTimeout(() => {
-    //         this.props.addNewEventAction(true)
-    //     }, 200)
-    // }
+    }
+    addEventBtn = (item) => {
+        setTimeout(() => {
+            this.props.addNewEventAction(true)
+        }, 200)
+    }
     // editDetailInput = (index, e) => {
     //     const details = Object.assign([], this.state.userDetailsArr)
     //         details[index] = e.target.value
@@ -101,10 +102,13 @@ export class TournamentPage extends Component {
         return <Register headline='Add Tournament' classStr='none' />
     }
     addEventComp = () => {
-        return <Register headline='Add Event' classStr='none' />
+        return <Register headline='Add Event' tourn={this.props.tournById} classStr='none' />
+    }
+    editEventComp = () => {
+        return <UserSummary headline='Edit Event' event={this.state.eventInEditMode} tournament={null} user={null}/>
     }
     editTournamentComp = () => {
-        return <UserSummary headline='Edit Tournament' event={null} tournament={this.state.tournamentInEditMode} user={null}/>
+        return <UserSummary headline='Edit Tournament' event={null} tournament={this.props.tournById} user={null}/>
     }
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
@@ -135,20 +139,32 @@ export class TournamentPage extends Component {
     render (){
         console.log('tournament page state',this.state)
         console.log('tournament page props',this.props)
+    
         const tournamentHeadig = this.props.location.pathname.slice(1)
         const currentTournament = this.props.tournById !== null ? this.props.tournById : null
-        console.log('currentTournament',currentTournament.events)
+        console.log('currentTournament',currentTournament)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
-                <div><h1>Tournament Name: {tournamentHeadig}</h1></div>
+                <div className={classes.headTPage}>
+                    <h1>Tournament Name: {tournamentHeadig}</h1>
+                    <div className={classes.tournPButtons}>
+                        <Link className={classes.backBtn} to='/all_tournaments'><BtnComp content='Back to Tournaments List' inputType='button'/></Link>
+                        <BtnComp content='Add Event' inputType='button' onClick={this.addEventBtn}/>
+                        {/* <Link to={`/${currentTournament.tournamentName}/edit_tournament`}> */}
+                        <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
+                        {/* </Link> */}
+                        
+                    </div>
+                </div>
                 <div className={classes.tournTime}><h3>Tournament timing:</h3> <h4>from </h4> {moment(currentTournament.startDate).format('LLLL')} <h4>to </h4> {moment(currentTournament.endDate).format('LLLL')}</div>
+                {/* <div className={classes.tournTime}><h3>Tournament timing:</h3> <h4>from </h4> {(currentTournament.startDate)} <h4>to </h4> {(currentTournament.endDate)}</div> */}
                 <div>Maximum of events: {currentTournament.numberOfEvents}</div>
                 <div>
                     <div className={classes.eventsTable}>
                         <h3>All events of tournament</h3>
-                        <div><span className={classes.eventName}>Event Name</span><span className={classes.eventDate}>Event Date</span></div>
+                        <div><h4 className={classes.eventName}>Event Name</h4><h4 className={classes.eventDate}>Event Date</h4></div>
                         <ul>
                         {currentTournament.events.map((item, index) => {
                             return <li key={index}>
@@ -160,7 +176,7 @@ export class TournamentPage extends Component {
                     </div>
                     <div className={classes.eventsTable}>
                         <h3>All users of tournament</h3>
-                        <div><span className={classes.eventName}>Event Name</span><span className={classes.eventDate}>Event Date</span></div>
+                        <div><h4 className={classes.eventName}>User Name</h4><h4 className={classes.eventDate}>Event Date</h4></div>
                         <ul>
                         {currentTournament.events.map((item, index) => {
                             return <li key={index}>
@@ -171,11 +187,12 @@ export class TournamentPage extends Component {
                         </ul>
                     </div>
                 </div>
-    
-                {/* {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null} */}
-                {/* {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
-                {this.props.addTournament ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
+                {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
+                {/* {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null} */}
+                {/* 
+                {this.props.addTournament ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
+                
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete tournament' item={this.state.tournamentForDelete}/> : null}  */}
             </div>
         )
@@ -203,7 +220,7 @@ const mapDispatchToProps = dispatch => {
     return{
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
         DeleteTournamentRequest: (item) => dispatch(DeleteTournamentRequest(item)),
-        addNewItemAction: payload => dispatch(addNewItemAction(payload)),
+        // addNewItemAction: payload => dispatch(addNewItemAction(payload)),
         addNewEventAction: payload => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: payload => dispatch(addNewTournamentAction(payload)),
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),

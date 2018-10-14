@@ -29,8 +29,6 @@
     "history": "^4.7.2",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
-    "material-ui": "^0.20.2",
-    "material-ui-datetimepicker": "^1.0.7",
     "moment": "^2.22.2",
     "node-sass": "^4.9.3",
     "object-assign": "4.1.1",
