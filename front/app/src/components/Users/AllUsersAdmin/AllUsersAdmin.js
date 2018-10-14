@@ -27,6 +27,7 @@ export class AllUsersAdmin extends Component {
             display: false
         }
         this.editUserBtn = this.editUserBtn.bind(this)
+        // this.addUserBtn = this.addUserBtn.bind(this)
         this.DeleteUserBtn = this.DeleteUserBtn.bind(this)
     }
 
@@ -63,9 +64,9 @@ export class AllUsersAdmin extends Component {
     }
 
     addUserBtn = () => {
-        setTimeout(() => {
+        // setTimeout(() => {
             this.props.addNewItemAction(true)
-        }, 200)
+        // }, 200)
     }
 
     
@@ -89,6 +90,7 @@ export class AllUsersAdmin extends Component {
 
     closeMessage = () => {
         this.props.successMessageAction(null)
+        // this.props.addNewItemAction(false)
     }
 
 
@@ -108,6 +110,7 @@ export class AllUsersAdmin extends Component {
     }
     
     render (){
+        console.log('1234', this.props)
         return (
             <div className={classes.usersWrapper}>
                 <h1>Users List</h1>

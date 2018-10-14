@@ -88,6 +88,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
         dispatch(toggleLoaderAction(true))
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
+                console.log('response', response)
                 if (response.data.response === 'Success') {
                     return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
                         .then((response) => {

@@ -23,11 +23,11 @@ export class MainPage extends Component {
     componentWillMount() {
         const user = this.props.currentUser
 
-        // this.props.appCallTakeAllTournaments()
-        // this.props.appCallTakeAllEvents()
+        this.props.appCallTakeAllTournaments()
+        this.props.appCallTakeAllEvents()
         
         if(user !== null && user !== undefined && user.role === 'Admin') {
-            // this.props.appCallTakeAllUsers()
+            this.props.appCallTakeAllUsers()
         }
     }
 
@@ -78,6 +78,11 @@ export class MainPage extends Component {
                     <Route
                     exact
                         path='/:tournamentName'
+                        component={TournamentPage}
+                    />
+                    <Route
+                    exact
+                        path='/:tournamentName/edit_tournament'
                         component={TournamentPage}
                     />
                     <Route
