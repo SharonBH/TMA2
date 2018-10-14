@@ -76,10 +76,8 @@ export class Groups extends Component {
     editGroupBtn = (group) => {
         this.setState({groupInEditMode: group})
         setTimeout(() => {
-            console.log(group)
             this.props.editThisGroupAction(true)
         }, 200)
-
     }
 
     // editDetailInput = (index, e) => {
@@ -116,7 +114,7 @@ export class Groups extends Component {
     groupsList = () => {
         return this.props.groupsList !== null ? this.props.groupsList.map((group, index) => { 
             const usersInGroup = []
-            group.usersGroups.forEach((user) => usersInGroup.push({value: user.user.name}))
+            group.users.forEach((user) => usersInGroup.push({value: user.username}))
             return <li key={group.groupId}>
                 <div className={classes.groupName}>{group.groupName}</div>
                 <div className={classes.createdDate}>{moment(group.createdDate).format('LLLL')}</div>
@@ -141,7 +139,6 @@ export class Groups extends Component {
     }
 
     render() {
-        console.log('1111111111', this.props)
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}

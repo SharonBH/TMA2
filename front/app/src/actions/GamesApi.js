@@ -334,7 +334,6 @@ export const editThisEventRequest = (eventID, eventName, eventN, tournN, eventDa
 }
 // get all tournaments by app comp
 export const appCallTakeAllTournaments = () => {
-    console.log('1')
     return (dispatch) => {
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
             .then((response) => {
@@ -516,3 +515,46 @@ export const DeleteGroupRequest = (groupId) => {
         });
     }
 };
+
+// edit group
+export const editGroupRequest = (groupId, groupName, userIds) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'post',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/EditGroup',
+            data: {
+                groupId: groupId,
+                groupName: groupName,
+                userIds: userIds
+            }
+        })
+        .then((response) => {
+            if (response.data.response === 'Success') {
+                dispatch(successMessageAction('Group Edited Successfuly'))
+                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/GetGroups`)
+                .then((response) => {
+                    const groups = response.data
+                        dispatch(getAllGroups(groups));
+                        history.push({pathname: '/groups'})
+                        dispatch(successMessageAction('Groups removed Successfuly'))
+                        dispatch(toggleLoaderAction(false))
+                })
+                .catch((error) => {
+                    dispatch(errorMessageAction([error][0]))
+                    dispatch(toggleLoaderAction(false))
+                });
+            } else {
+                const error = response.data.message
+                dispatch(errorMessageAction(error))
+                dispatch(toggleLoaderAction(false))
+            }
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+}
