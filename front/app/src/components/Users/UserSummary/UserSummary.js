@@ -8,7 +8,7 @@ import SelectComp from '../../UI/SelectComp/SelectComp.js';
 import {  changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
 import {  editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
-import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction }  from '../../../actions';
+import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisGroupAction }  from '../../../actions';
 
 class UserSummary extends Component {
 
@@ -36,7 +36,7 @@ class UserSummary extends Component {
                     {edit: false, detail: 'Start Date', param: startDate, editInput: startDate},
                     {edit: false, detail: 'End Date', param: endDate, editInput: endDate},
                     {edit: false, detail: 'Max Events', param: numberOfEvents,  editInput: numberOfEvents},
-                ])
+            ])
         } else if( headline === 'Edit' || headline === 'Your Profile' ){
             const userData = this.props.user
             const name = userData.name
@@ -49,7 +49,17 @@ class UserSummary extends Component {
                     {edit: false, detail: 'Name', param: name, editInput: name},
                     {edit: false, detail: 'eMail', param: email, editInput: email},
                     {edit: false, detail: 'User Type', param: role,  editInput: role},
-                ])
+            ])
+        } else if (headline === 'Edit Group'){
+            const groupData = this.props.group
+            const name = groupData.groupName
+            const createdDate = groupData.createdDate
+            const usersGroups = groupData.usersGroups
+            return ([
+                    {edit: false, detail: 'Group Name', param: name, editInput: name},
+                    {edit: false, detail: 'Created Date', param: createdDate, editInput: createdDate},
+                    // {edit: false, detail: 'Group Users', param: usersGroups, editInput: usersGroups},
+            ])
         } else if( headline === 'Edit Event' ){
             const eventData = this.props.event
             const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventData.eventTypeId} ): null
@@ -138,6 +148,7 @@ class UserSummary extends Component {
 
     closePopUp = () => {
         this.props.editThisItemAction(false)
+        this.props.editThisGroupAction(false)
     }
 
     submitUserAditeChanges = (headline) => {
@@ -227,6 +238,35 @@ class UserSummary extends Component {
             </div>
         )
     }
+
+
+    detailGroupLine = (item, index, headLine) => {
+        // const allTous = this.props.allTournsList !== undefined ? this.props.allTournsList.map((item) => { return item}) : null
+        // const events = events === undefined ? ['no events'] : allTous.map((item) => { return item.eventName});
+        const detail = item.detail
+        return (
+            <div key={index} className={classes.wrappLine}>
+                <label className={classes.HeadLine} name={detail}>{detail}:</label>
+                {
+                    this.state.userDetailsArr[index].edit
+                    ? <div className={classes.EditInput}>
+                    {
+                        <InputComp 
+                             inputType={detail === 'Group Name' ? 'text' : 'date'}
+                             name={detail} 
+                             placeholder={detail} 
+                             content={this.state.userDetailsArr[index].editInput}
+                             onChange={(e) => this.editDetailInput(index, e)}
+                         /> 
+                     } 
+                     </div> 
+                    : <span className={classes.editLineInput}>{item.param}</span>
+                }
+                {this.editBtnFunc(item, index)}
+            </div>
+        )
+    }
+
     eventEditLine = (item, index) => {
         const detail = item.detail
         const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
@@ -250,23 +290,26 @@ class UserSummary extends Component {
                                 options={detail === 'Tournament Name' ? tournaments : eventTypes} 
                                 placeholder={detail === 'Tournament Name' ? "Choose tournament name" : "Choose Event Type"}
                         />
-                        }
-                      </div> 
+                        } 
+                        </div> 
                     : <span className={classes.editLineInput}>{item.param}</span>
                 }
                 {this.editBtnFunc(item, index)}
             </div>
         )
     }
-    userSummary = (headline, user, tournament, event) => {
+
+    userSummary = (headline, user, tournament,group, event) => {
         const headLine = headline;
         let name = ''
-        if(headline !== 'Edit Tournament'){
+        if(headline === 'Edit User'){
              name = user !== null ?  user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
         } else if( headline === 'Edit Tournament' ){
             name = tournament !== null ? tournament.tournamentName : null
         } else if ( headline === 'Edit Event' ){
             name = event !== null ? event.eventName : null
+        } else if(headline === 'Edit Group'){
+            name = group !== null ? group.groupName : null
         }
         
         return (
@@ -279,10 +322,15 @@ class UserSummary extends Component {
                         return this.detailLine(item, index, headLine)
                     } else if( headline === 'Edit Event' ){
                         return this.eventEditLine(item, index, headLine)
+                    } else if(headline === 'Edit User'){
+                        return this.detailLine(item, index, headLine)
+                    } else if(headline === 'Edit Group'){
+                        return this.detailGroupLine(item, index, headLine)
                     }
                 })}
                 {this.errorMessage()}
                 {this.successMessage()}
+
                 <span className={classes.SubmitAll}>
                     <BtnComp 
                         className={classes.editBtn} 
@@ -292,7 +340,7 @@ class UserSummary extends Component {
                     />
                 </span>
                 {(headline !== 'Register' && headline !== 'Your Profile') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
-                {this.props.editThisItem ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
+                {(this.props.editThisItem || this.props.editThisGroup) ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
                 {this.props.passwords ? <ChangePassword headline='Change Password' user={user.username} classStr='none' /> : null}
                 
             </div>
@@ -300,12 +348,10 @@ class UserSummary extends Component {
     }
 
     render() {
-        console.log('state', this.state)
-        console.log('111', this.props)
-        const { headline, user, tournament } = this.props
+        const { headline, user, tournament, group } = this.props
         return (
             <div className={classes.ProfileWrapper}>
-                {this.userSummary(headline, user, tournament)}
+                {this.userSummary(headline, user, tournament, group)}
             </div>
         );
     }
@@ -318,6 +364,7 @@ const mapStateToProps = (state) => {
         passwords: state.userReducer.passwords,
         currentUser: state.userReducer.currentUser,
         editThisItem: state.editItemReducer.editThisItem,
+        editThisGroup: state.editItemReducer.editThisGroup,
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
     }
@@ -330,6 +377,7 @@ const mapDispatchToProps = dispatch => {
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         editThisItemAction: (payload) => dispatch(editThisItemAction(payload)),
+        editThisGroupAction: payload => dispatch(editThisGroupAction(payload)),
         editThisUserRequest: (headline, userName, name, email, userType) => dispatch(editThisUserRequest(headline, userName, name, email, userType)),
         editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate)),
         editThisTournamentRequest: (tournamentId, headline, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, headline, tournamentName, startDate, endDate, numberOfEvents)),

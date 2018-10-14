@@ -102,26 +102,26 @@ export class TournamentsList extends Component {
         return <Register headline='Add Event' tourn={this.state.tournamentID} classStr='none' />
     }
     editTournamentComp = () => {
-        return <UserSummary headline='Edit Tournament' event={null} tournament={this.state.tournamentInEditMode} user={null}/>
+        return <UserSummary headline='Edit Tournament' event={null} tournament={this.state.tournamentInEditMode} user={null} group={null}/>
     }
 
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
-        ? <p className={classes.success}>
-            <span>{this.props.successMessage}
-                <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
-            </span>
-        </p>
-        : null 
+          ? <p className={classes.success}>
+                <span>{this.props.successMessage}
+                    <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
+                </span>
+            </p>
+          : null 
     }
     errorDeleteMessage = () => {
         return this.props.errorMessage !== null 
-        ? <p className={classes.errorPop}>
-            <span>{this.props.errorMessage}
-                <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
-            </span>
-        </p>
-        : null 
+          ? <p className={classes.errorPop}>
+                <span>{this.props.errorMessage}
+                    <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
+                </span>
+            </p>
+          : null 
     }
     getTournById=(tournIdToPage)=>{
         this.setState({someId: tournIdToPage})

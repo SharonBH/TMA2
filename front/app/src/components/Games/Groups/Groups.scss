@@ -1,0 +1,161 @@
+@import '../../../styles/colors.scss';
+
+.groupsTable {
+    text-align: left;
+    padding: 45px 10px 0;
+
+    div.role{
+        border: 0;
+        width: 10%
+    }
+
+    div.headline, div.users{
+        width: 20%;
+        overflow-y: auto;
+        &::-webkit-scrollbar{
+            height: 2px;
+            background: #c5c5c5;
+        }
+        &::-webkit-scrollbar-thumb{
+            background: $blue;
+        }
+    }
+    .select{
+        display: block !important;
+        width: 20%;
+        border: 1px solid #ddd;
+    }
+
+    .Head {
+        padding: 30px 0 5px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        border-bottom: 2px solid #e6e6e6;
+
+        div {
+            width: 25%;
+            display: flex;
+            justify-content: flex-start;
+        }
+    }
+
+    ul.groupsList {
+        list-style: none;
+        margin: 0;
+        text-align: left;
+        padding: 0;
+        
+        li{
+            border-bottom: 1px solid #e5e5e5;
+            padding: 9px 0;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin: 0;
+            justify-content: space-between;
+        
+            & > a{
+                display: inline-block;
+            }
+            & > div{
+                display: flex;
+                justify-content: flex-start;
+                height: 27px;
+                width: 25%;
+            }
+
+            .select {
+                width: 250px;
+            }
+        }
+    }
+    
+    .success {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 300px;
+        margin: 0;
+        
+        span {
+            padding: 20px 40px;
+            background: #e6ffe7;
+            border-bottom: 1px solid#999;
+            position: relative;
+
+            .closeBTN {
+                padding: 0 5px;
+                background: #fff;
+                border: 1px solid #999;
+                border-radius: 11px;
+                position: absolute;
+                top: -8px;
+                right: -6px;
+                cursor: pointer;
+            }
+            &>:hover {
+                background: #000;
+                color: #fff;
+            }
+        }
+    }
+    .errorPop {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        top: 300px;
+        margin: 0;
+        
+        span {
+            padding: 20px 40px;
+            background: #f18383;
+            border-bottom: 1px solid#999;
+            position: relative;
+
+            .closeBTN {
+                padding: 0 5px;
+                background: #fff;
+                border: 1px solid #999;
+                border-radius: 11px;
+                position: absolute;
+                top: -8px;
+                right: -6px;
+                cursor: pointer;
+            }
+            &>:hover {
+                background: #000;
+                color: #fff;
+            }
+        }
+    }
+    
+}
+
+.AddUser {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #999999de;
+    height: 100%;
+    z-index: 92;
+}
+
+div.EditBtn {
+    width: 200px;
+}
+.error{
+    background: #f18383;
+    position: absolute;
+    bottom: 25px;
+    width: 79%;
+    left: 20px;
+    padding: 5px;
+    text-align: center;
+    color: #fff;
+}

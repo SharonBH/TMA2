@@ -1,5 +1,6 @@
 const InitialState = {
-    editThisItem: false
+    editThisItem: false,
+    editThisGroup: false
 }
 
 const editItemReducer = (state = InitialState, action) => {
@@ -11,7 +12,12 @@ const editItemReducer = (state = InitialState, action) => {
                 ...state,
                 editThisItem: boll
             }
-
+        case 'EDIT_THIS_GROUP':
+            const group = action.payload
+            return {
+                ...state,
+                editThisGroup: group
+            }
         default:
     }
     return state;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import BtnComp from '../BtnComp/BtnComp';
 import { signOutConfirmMessageAction, deleteConfirmMessageAction, getUserAction } from '../../../actions';
 import { DeleteUserRequest } from '../../../actions/Api';
-import { DeleteTournamentRequest, DeleteEventRequest } from '../../../actions/GamesApi';
+import { DeleteTournamentRequest, DeleteEventRequest, DeleteGroupRequest } from '../../../actions/GamesApi';
 import classes from './ConfirmMessage.scss';
 import history from '../../../configuration/history';
 import Zoom from 'react-reveal/Zoom';
@@ -12,8 +12,8 @@ class ConfirmMessage extends Component {
 
     componentDidMount() {
         document.addEventListener("click", (evt) => {
-            const confirmMessageWrapper = document.querySelector('.ConfirmMessage__ConfirmMessageWrapper___3lYEo')
-            const confirmMessage = document.querySelector('.ConfirmMessage__ConfirmMessage___Y5-uk')
+            const confirmMessageWrapper = document.querySelector('.ConfirmMessage__ConfirmMessageWrapper___2SxOr')
+            const confirmMessage = document.querySelector('.ConfirmMessage__ConfirmMessage___195l6')
             let targetEl = evt.target
             do { 
                if (targetEl === confirmMessageWrapper) {
@@ -58,6 +58,9 @@ class ConfirmMessage extends Component {
                 sessionStorage.clear();
                 history.push({pathname: '/'})
                 break
+            case 'delete group':
+                this.props.DeleteGroupRequest(item.groupId)
+                break
             default: 
         }
         this.denied()
@@ -77,6 +80,8 @@ class ConfirmMessage extends Component {
             name = ''
         }else if(headline === 'Delete Event'){
             name =  eventForDel.eventName
+        }else if(headline === 'delete group'){
+            name =  item.groupName
         }
 
 
@@ -116,6 +121,7 @@ const mapDispatchToProps = dispatch => {
         DeleteTournamentRequest: payload => dispatch(DeleteTournamentRequest(payload)),
         DeleteEventRequest: payload => dispatch(DeleteEventRequest(payload)),
         getUserAction: payload => dispatch(getUserAction(payload)),
+        DeleteGroupRequest: payload => dispatch(DeleteGroupRequest(payload)),
     }
 }
 

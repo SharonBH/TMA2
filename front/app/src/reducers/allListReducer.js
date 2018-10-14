@@ -6,6 +6,7 @@ const InitialState = {
     allTournsList: [],
     allEventsList: [],
     allEventTypesList: [],
+    groupsList: null,
     tournById: storageData
 }
 
@@ -37,6 +38,12 @@ const allListReducer = (state = InitialState, action) => {
                 ...state,
                 allEventTypesList: eventTypes
             }
+        case 'GET_ALL_GROUPS':
+            const groups = action.payload
+            return {
+                ...state,
+                groupsList: groups
+            }
         case 'GET_TOURN_BY_ID':
             const tournId = action.payload
             return {
@@ -45,6 +52,7 @@ const allListReducer = (state = InitialState, action) => {
             }
         default:
     }
+    // console.log('ddddddddddddddddd', state.groupsList)
     return state;
 }
 

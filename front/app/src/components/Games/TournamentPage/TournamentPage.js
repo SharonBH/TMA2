@@ -159,6 +159,7 @@ export class TournamentPage extends Component {
                     </div>
                 </div>
                 <div className={classes.tournTime}><h3>Tournament timing:</h3> <h4>from </h4> {moment(currentTournament.startDate).format('LLLL')} <h4>to </h4> {moment(currentTournament.endDate).format('LLLL')}</div>
+                {/* <div className={classes.tournTime}><h3>Tournament timing:</h3> <h4>from </h4> {(currentTournament.startDate)} <h4>to </h4> {(currentTournament.endDate)}</div> */}
                 <div>Maximum of events: {currentTournament.numberOfEvents}</div>
                 <div>
                     <div className={classes.eventsTable}>

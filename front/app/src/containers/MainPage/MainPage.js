@@ -13,9 +13,10 @@ import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/Users/UserSummary';
 import TournamentsList from '../../components/Games/TournamentsList';
 import EventsList from '../../components/Games/EventsList';
+import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest } from '../../actions/GamesApi';
 import TournamentPage from '../../components/Games/TournamentPage';
-import { appCallTakeAllTournaments, appCallTakeAllEvents } from '../../actions/GamesApi';
 import { appCallTakeAllUsers } from '../../actions/Api';
+import Groups from '../../components/Games/Groups';
 
 
 export class MainPage extends Component {
@@ -25,10 +26,12 @@ export class MainPage extends Component {
 
         this.props.appCallTakeAllTournaments()
         this.props.appCallTakeAllEvents()
+        this.props.mainPageGetAllGroupsRequest()
+        this.props.appCallTakeAllUsers()
         
-        if(user !== null && user !== undefined && user.role === 'Admin') {
-            this.props.appCallTakeAllUsers()
-        }
+        // if(user !== null && user !== undefined && user.role === 'Admin') {
+        //     this.props.appCallTakeAllUsers()
+        // }
     }
 
     render() {
@@ -66,7 +69,10 @@ export class MainPage extends Component {
                         path='/change_password/:userName'
                         component={() => <ChangePassword header='reset password' />}
                     />
-
+                    <Route
+                        path='/groups'
+                        component={Groups}
+                    />
                     <Route
                         path='/all_tournaments'
                         component={TournamentsList}
@@ -98,11 +104,13 @@ export class MainPage extends Component {
                         path='/edit_tournament/:tournamentName'
                         component={TournamentsList}
                     />
-                    <Route
+                    
+                    <Route component={NotFound} />
+                    <Route 
                         path='/edit_event/:eventName'
                         component={EventsList}
                     />
-                    {/* <Route component={NotFound} /> */}
+                    
                 </Switch>
             </div>
         );
@@ -120,6 +128,7 @@ const mapDispatchToProps = dispatch => {
         appCallTakeAllTournaments: payload => dispatch(appCallTakeAllTournaments(payload)),
         appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
         appCallTakeAllUsers: payload => dispatch(appCallTakeAllUsers(payload)),
+        mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
     }
 }
 
