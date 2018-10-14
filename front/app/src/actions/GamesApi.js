@@ -288,7 +288,7 @@ export const editThisTournamentRequest = ( tournamentId, heading, tournamentName
 
 
 // edit Event
-export const editThisEventRequest = (eventID, eventName, eventN, tournN, eventDate) => {
+export const editThisEventRequest = (eventID, eventName, tournN, eventDate) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -298,7 +298,6 @@ export const editThisEventRequest = (eventID, eventName, eventN, tournN, eventDa
             data: {
                 eventId: eventID,
                 eventName: eventName,
-                eventTypeName: eventN,
                 tournamentName: tournN,
                 eventDate: eventDate,
 

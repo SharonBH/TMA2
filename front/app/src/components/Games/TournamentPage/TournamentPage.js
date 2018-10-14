@@ -18,7 +18,7 @@ import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
 import { takeAllTournaments, DeleteTournamentRequest } from '../../../actions/GamesApi';
-import { addNewItemAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
+import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 export class TournamentPage extends Component {
 
     static propTypes = {
@@ -107,10 +107,10 @@ export class TournamentPage extends Component {
         return <Register headline='Add Event' tourn={this.props.tournById} classStr='none' />
     }
     editEventComp = () => {
-        return <UserSummary headline='Edit Event' event={this.state.eventInEditMode} tournament={null} user={null}/>
+        return <UserSummary headline='Edit Event' event={this.state.eventInEditMode} tournament={null} user={null} group={null}/>
     }
     editTournamentComp = () => {
-        return <UserSummary headline='Edit Tournament' event={null} tournament={this.props.tournById} user={null}/>
+        return <UserSummary headline='Edit Tournament' event={null} tournament={this.props.tournById} user={null}  group={null}/>
     }
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
@@ -137,7 +137,7 @@ export class TournamentPage extends Component {
     }
 
     DeleteEventBtn = (item) => {
-        console.log('delete', item)
+        // console.log('delete', item)
         this.setState({eventForDelete: item})
         this.setState({eventInEditMode: null})
         this.props.deleteConfirmMessageAction(true)
@@ -145,30 +145,29 @@ export class TournamentPage extends Component {
     }
     editEventBtn = (item) => {
         this.setState({eventInEditMode: item})
-        setTimeout(() => {
-            this.props.editThisItemAction(true)
-            // console.log('edit event',item)
-        }, 200)
+        console.log('edit this.state.eventInEditMode',this.state.eventInEditMode)
+        // setTimeout(() => {
+            this.props.editThisEventAction(true)
+            console.log('edit event',item)
+        // }, 200)
 
     }
-    editEventComp = () => {
-        return <UserSummary headline='Edit Event' event={this.state.eventInEditMode} tournament={null} user={null}/>
-    }
+    
     render (){
         console.log('tournament page state',this.state)
         console.log('tournament page props',this.props)
     
-        const tournamentHeadig = this.props.location.pathname.slice(1)
+        // const tournamentHeadig = this.props.location.pathname.slice(1)
         const currentTournament = this.props.tournById !== null ? this.props.tournById : null
         const eventItem = currentTournament.events.map((event) => {return event.eventId})
-        console.log('currentTournament',currentTournament)
+
         console.log('eventItem',eventItem)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
                 <div className={classes.headTPage}>
-                    <h1>Tournament Name: {tournamentHeadig}</h1>
+                    <h1>Tournament Name: {currentTournament.tournamentName}</h1>
                     <div className={classes.tournPButtons}>
                         <Link className={classes.backBtn} to='/all_tournaments'><BtnComp content='Back to Tournaments List' inputType='button'/></Link>
                         <BtnComp content='Add Event' inputType='button' onClick={this.addEventBtn}/>
@@ -190,7 +189,7 @@ export class TournamentPage extends Component {
                             return <li key={index}>
                                 <div className={classes.eventName}>{item.eventName}</div>
                                 <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
-                                <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item.eventId)}/></Link>
+                                <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
                                 <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content='Delete'/></div>
                             </li>
                         })}
@@ -211,7 +210,7 @@ export class TournamentPage extends Component {
                 </div>
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
-                {this.props.editThisItem ? <div className={classes.AddUser}>{this.editEventComp()}</div> : null}
+                {this.props.editThisEvent ? <div className={classes.AddUser}>{this.editEventComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='Delete Event' item={this.state.eventForDelete}/> : null}
                 {/* {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null} */}
                 {/* 
@@ -232,6 +231,7 @@ const mapStateToProps = (state) => {
         addEvent: state.addNewItemReducer.addEvent,
         addTournament: state.addNewItemReducer.addTournament,
         editThisItem: state.editItemReducer.editThisItem,
+        editThisEvent: state.editItemReducer.editThisEvent,
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
@@ -244,7 +244,7 @@ const mapDispatchToProps = dispatch => {
     return{
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
         DeleteTournamentRequest: (item) => dispatch(DeleteTournamentRequest(item)),
-        // addNewItemAction: payload => dispatch(addNewItemAction(payload)),
+        editThisEventAction: payload => dispatch(editThisEventAction(payload)),
         addNewEventAction: payload => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: payload => dispatch(addNewTournamentAction(payload)),
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),
