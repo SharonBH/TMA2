@@ -69,7 +69,10 @@ export class MainPage extends Component {
                         path='/change_password/:userName'
                         component={() => <ChangePassword header='reset password' />}
                     />
-
+                    <Route
+                        path='/groups'
+                        component={Groups}
+                    />
                     <Route
                         path='/all_tournaments'
                         component={TournamentsList}
@@ -101,10 +104,7 @@ export class MainPage extends Component {
                         path='/edit_tournament/:tournamentName'
                         component={TournamentsList}
                     />
-                    <Route
-                        path='/groups'
-                        component={Groups}
-                    />
+                    
                     <Route component={NotFound} />
                     <Route 
                         path='/edit_event/:eventName'

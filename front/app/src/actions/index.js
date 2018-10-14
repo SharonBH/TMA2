@@ -140,6 +140,14 @@ export const addNewItemAction = (boll) => {
         payload: boll
     }
 }
+// add New User Action
+export const addNewGroupAction = (boll) => {
+    console.log('12', boll)
+    return {
+        type: 'ADD_A_NEW_GROUP',
+        payload: boll
+    }
+}
 // edit This User Action
 export const editThisItemAction = (boll) => {
     return {
