@@ -24,7 +24,6 @@ const addNewItemReducer = (state = InitialState, action) => {
             case 'ADD_A_NEW_EVENT':
             
             const event = action.payload
-            console.log('ADD_A_NEW_EVENT', event)
             return {
                 ...state,
                 addEvent: event

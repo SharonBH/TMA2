@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest } from "../../actions/Api";
-import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest } from "../../actions/GamesApi";
+import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest, editGroupRequest } from "../../actions/GamesApi";
 import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction, editThisGroupAction } from '../../actions';
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
@@ -36,6 +36,7 @@ class Register extends Component {
             searchUsersResult: [],
             addSearchUsersResult: [],
             usersIds: [],
+            editGroupName: false
         }
     }
 
@@ -98,6 +99,17 @@ class Register extends Component {
         this.setState({groupName: '', usersIds: [], searchUsers: '', searchUsersResult: [], addSearchUsersResult: []})
     }
 
+    componentWillMount() {
+        const { headline, group } = this.props
+        if(headline === 'Edit Group') {
+            let usersList = []
+            group.users.map(user => {
+                usersList.push(user)
+            })
+            this.setState({addSearchUsersResult: usersList})
+            this.setState({groupName: group.groupName})
+        }
+    }
 
     componentWillUnmount(){
         this.props.errorMessageAction(null)
@@ -127,6 +139,7 @@ class Register extends Component {
         this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
         
     }
+
     addNewTournament = (e) => {
         const { tournamentName } = this.state
         // const tournamentName = this.state.TournamentName
@@ -157,6 +170,7 @@ class Register extends Component {
             return null
         }
     }
+
     successMessage = () => {
         const success = this.props.successMessage
         if (success !== null) {
@@ -166,6 +180,7 @@ class Register extends Component {
             return null
         }
     }
+
     closePopUp = () => {
         // console.log('close', this.props)
         // const heading = this.props.headline
@@ -174,6 +189,7 @@ class Register extends Component {
         this.props.addNewTournamentAction(false)
         this.props.editThisGroupAction(false)
     }
+
     rgisterFage = (headline, classStr) => {
         return (
             <div className={classes.Register}>
@@ -227,13 +243,11 @@ class Register extends Component {
             </div>
         )
     }
+
     eventFage = (headline) => {
         const {tourn} = this.props
-
         const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
         // const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
-
-        console.log('tournaments', this.props)
         // console.log('tourn', tourn.tournamentName)
         return (
             <div className={classes.Register}>
@@ -249,7 +263,6 @@ class Register extends Component {
                             onChange={(e) => this.onTypeOfEventChange(e)}  
                             // selectedOption={eventTypes.value} 
                         />                              */}
-                        
                     </div>
                     <span className={classes.TName}>{tourn.tournamentName}</span>
                     {/* <div className={classes.select}>
@@ -260,7 +273,6 @@ class Register extends Component {
                             name={'tournament'}
                             onChange={(e) => this.onTournamentChange(e)}   
                         />
-                        
                     </div> */}
                     <InputComp inputType="date" name="deteOfEvent" placeholder="dateOfEvent" onChange={this.onDateOfEventChange}/>
                     {this.errorMessage()}
@@ -290,21 +302,33 @@ class Register extends Component {
     addNewGroupPage = (headline, group) => {
         // const usernamesOption = []
         // this.state.searchUsersResult.map((user, index) => usernamesOption.push({value: user.username, key: user.userId}))
-        if(headline === 'Edit Group') {
-            let usersList = []
-            group.usersGroups.map(user => {
-                usersList.push(user.user)
-            })
-            console.log('group', usersList)
-            // this.setState({addSearchUsersResult: usersList})
-        }
         return (
             <div className={classes.Register}>
                 <h1>{headline} {headline === 'Edit Group' ? group.groupName : null}</h1>
                 <form>
                     {this.errorMessage()}
                     {this.successMessage()}
-                    <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
+                    {
+                        headline === 'Edit Group'
+                        ?   <div className={classes.wrappLine}>
+                                <label className={classes.HeadLine} name={'Group Name'}>{'Group Name'}:</label>
+                                {
+                                    this.state.editGroupName
+                                    ?   <div className={classes.EditInput}>
+                                            <InputComp 
+                                                inputType={'text'}
+                                                name={'Group Name'} 
+                                                placeholder={'Group Name'} 
+                                                content={this.state.groupName} 
+                                                onChange={(e) => this.onGroupNameChange(e)}
+                                            />
+                                        </div> 
+                                    : <span className={classes.editLineInput}>{this.state.groupName}</span>
+                                }
+                                {this.editBtnFunc()}
+                            </div>
+                        :   <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
+                    }
                     <div className={classes.searchUsersWrapper}>
                         <div className={classes.usersAddedWrapper}>
                             {this.state.addSearchUsersResult.length > 0 
@@ -340,13 +364,41 @@ class Register extends Component {
                         inputType="submit" 
                         name="createGroup" 
                         content={headline} 
-                        onClick={this.addNewGroup}
+                        onClick={headline === 'Add New Group' ? this.addNewGroup : (e) => this.editGroupRequest(e, group)}
                     />
                     {(headline === 'Add New Group' || headline === 'Edit Group') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
             </div>
         )
     }
+
+    editGroupRequest = (e, group) => {
+        e.preventDefault()
+        let userIds = []
+        const groupId = group.groupId
+        const groupName = this.state.groupName
+        this.state.addSearchUsersResult.map(user => {
+            userIds.push(user.userId)
+        })
+        this.props.editGroupRequest(groupId, groupName, userIds)
+    }
+
+    editBtnFunc = () => {
+        return (
+            <div className={classes.BTN}>
+                <i className={ 
+                    this.state.editGroupName 
+                    ?   classes.active + ' fas fa-pen' 
+                    :   classes.notActive + ' fas fa-pen'  } 
+                    onClick={() => this.editGroupNameBtn()}>
+                </i>
+            </div> 
+        )
+    }
+
+    editGroupNameBtn = () => {
+        this.setState({editGroupName: !this.state.editGroupName})
+    }    
 
     outputToRender = () => {
         const { headline, classStr, group } = this.props
@@ -363,7 +415,6 @@ class Register extends Component {
         }
     }
     render() {
-        const { headline, classStr, group } = this.props
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
@@ -395,6 +446,7 @@ const mapDispatchToProps = dispatch => {
         addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
         editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
+        editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
     }
 }
 
