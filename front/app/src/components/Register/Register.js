@@ -65,10 +65,8 @@ class Register extends Component {
             this.props.allList.map((user) => {
                 const searchFor = this.state.searchUsers
                 if(searchFor.length > 0 && (user.username).includes(searchFor)) {
-                    let arr = []
-                    const newSearchUsersResult = {...user}
-                    arr = [...this.state.searchUsersResult, newSearchUsersResult]
-                    const removeDuplicateArr = [...new Set(arr)];
+                    let arr = [...this.state.searchUsersResult, user]
+                    const removeDuplicateArr = [...new Set(arr)]
                     this.setState({searchUsersResult: removeDuplicateArr})
                 }
             })
@@ -76,11 +74,9 @@ class Register extends Component {
     }
 
     addSearchUsers = (user) => {
-        let arr = []
-        const newAddUsers = {...user}
-        arr = [...this.state.addSearchUsersResult, newAddUsers]
-        const removeDuplicateArr = [...new Set(arr)];
-        this.setState({addSearchUsersResult: removeDuplicateArr})
+        const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId))
+        const arr = [...fill, user]
+        this.setState({addSearchUsersResult: arr})
     }
 
     removeSelectedUser = (index) => {
@@ -275,6 +271,13 @@ class Register extends Component {
         )
     }
 
+    handleBlur = () => {
+        setTimeout(() => {
+            this.setState({searchUsers: ''})
+            this.setState({searchUsersResult: []})
+        }, 100)
+    }
+
     addNewGroupPage = (headline, group) => {
         return (
             <div className={classes.Register}>
@@ -304,9 +307,8 @@ class Register extends Component {
                         :   <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
                     }
                     <div className={classes.searchUsersWrapper}>
-                        <InputComp inputType="text" name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
+                        <InputComp inputType="text" onBlur={this.handleBlur} name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
-                            <label className={classes.HeadLine} name={'Group Users'}>{'Group Users'}:</label>
                             {this.state.addSearchUsersResult.length > 0 
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
                                         return <span className={classes.user} key={index}>
@@ -318,7 +320,6 @@ class Register extends Component {
                         </div>
                         <div className={classes.usersWrapper} >
                             {this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null}
-                            
                             {this.state.searchUsersResult.map((user, index) => (  
                                 <span className={classes.user} key={index}>
                                     {user.username}
@@ -382,6 +383,7 @@ class Register extends Component {
         }
     }
     render() {
+        console.log('searchUsers::', this.state.searchUsers)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
