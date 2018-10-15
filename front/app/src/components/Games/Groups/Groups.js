@@ -43,7 +43,7 @@ export class Groups extends Component {
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
           ? <p className={classes.success}>
-                <span>{this.props.successMessage}
+                <span className={classes.successMessage}>{this.props.successMessage}
                     <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
                 </span>
             </p>

@@ -25,6 +25,8 @@ export class InputComp extends Component {
                     value={this.props.content}
                     onChange={this.props.onChange}
                     placeholder={this.props.placeholder}
+                    onFocus={this.props.onFocus}
+                    onBlur={this.onBlur}
                 />
             </div>
         )
