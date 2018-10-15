@@ -303,7 +303,7 @@ class Register extends Component {
                     <div className={classes.searchUsersWrapper}>
                         <InputComp inputType="text" name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
-                            <label className={classes.HeadLine} name={'Group Users'}>{'Group Users'}:</label>
+                            <label className={classes.HeadLine} name={'Group Users'}>Group Users:</label>
                             {this.state.addSearchUsersResult.length > 0 
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
                                         return <span className={classes.user} key={index}>
