@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TMA.Api.Models.AccountViewModels;
 using TMA.BLL;
 
 namespace TMA.Api.Controllers
@@ -120,8 +121,31 @@ namespace TMA.Api.Controllers
         {
             try
             {
-                var getGroups = _mainRepository.GetGroups();
-                return Json(getGroups);
+                var groupsModel = new List<GroupModel>();
+                var groups = _mainRepository.GetGroups();
+                foreach (var group in groups)
+                {
+                    var groupModel = new GroupModel
+                    {
+                        GroupName = group.GroupName,
+                        GroupId = group.GroupId
+                    };
+                    var users = new List<UserModel>();
+                    foreach (var usersGroups in group.UsersGroups)
+                    {
+                        var user = new UserModel
+                        {
+                            UserId = usersGroups.User.Id,
+                            Email = usersGroups.User.Email,
+                            Username = usersGroups.User.UserName,
+                            Name = usersGroups.User.Name
+                        };
+                        users.Add(user);
+                    }
+                    groupModel.Users = users;
+                    groupsModel.Add(groupModel);
+                }
+                return Json(groupsModel);
             }
             catch (Exception ex)
             {

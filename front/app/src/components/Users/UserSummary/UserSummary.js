@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
+<<<<<<< HEAD
 import moment from 'moment'
+=======
+>>>>>>> master
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
@@ -68,18 +71,9 @@ class UserSummary extends Component {
                 {edit: false, detail: 'Tournament Name', param: tournN, editInput: tournN},
                 {edit: false, detail: 'Event Date', param: eventDate,  editInput: eventDate},
             ])
-        } else if (headline === 'Edit Group'){
-            const groupData = this.props.group
-            const name = groupData.groupName
-            const createdDate = groupData.createdDate
-            const usersGroups = groupData.usersGroups
-            return ([
-                    {edit: false, detail: 'Group Name', param: name, editInput: name},
-                    // {edit: false, detail: 'Created Date', param: createdDate, editInput: createdDate},
-                    // {edit: false, detail: 'Group Users', param: usersGroups, editInput: usersGroups},
-            ])
-        } 
+        }
     }
+    
     componentWillUnmount() {
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
@@ -151,7 +145,6 @@ class UserSummary extends Component {
 
     closePopUp = () => {
         this.props.editThisItemAction(false)
-        this.props.editThisGroupAction(false)
     }
 
     submitUserAditeChanges = (headline) => {
@@ -218,7 +211,6 @@ class UserSummary extends Component {
         const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
         const detail = item.detail
         return (
-
             <div key={index} className={classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
@@ -291,34 +283,7 @@ class UserSummary extends Component {
         )
     }
 
-    detailGroupLine = (item, index, headLine) => {
-        // const allTous = this.props.allTournsList !== undefined ? this.props.allTournsList.map((item) => { return item}) : null
-        // const events = events === undefined ? ['no events'] : allTous.map((item) => { return item.eventName});
-        const detail = item.detail
-        return (
-            <div key={index} className={classes.wrappLine}>
-                <label className={classes.HeadLine} name={detail}>{detail}:</label>
-                {
-                    this.state.userDetailsArr[index].edit
-                    ? <div className={classes.EditInput}>
-                    {
-                        <InputComp 
-                             inputType={detail === 'Group Name' ? 'text' : 'date'}
-                             name={detail} 
-                             placeholder={detail} 
-                             content={this.state.userDetailsArr[index].editInput}
-                             onChange={(e) => this.editDetailInput(index, e)}
-                         /> 
-                     } 
-                     </div> 
-                    : <span className={classes.editLineInput}>{item.param}</span>
-                }
-                {this.editBtnFunc(item, index)}
-            </div>
-        )
-    }
-
-    userSummary = (headline, user, tournament, group, event) => {
+    userSummary = (headline, user, tournament, event) => {
         const headLine = headline;
         let name = ''
         if(headline === 'Edit User'){
@@ -327,8 +292,6 @@ class UserSummary extends Component {
             name = tournament !== null ? tournament.tournamentName : null
         } else if ( headline === 'Edit Event' ){
             name = event !== null ? event.eventName : null
-        } else if(headline === 'Edit Group'){
-            name = group !== null ? group.groupName : null
         }
         return (
             <div className={classes.Profile} >
@@ -342,8 +305,6 @@ class UserSummary extends Component {
                         return this.eventEditLine(item, index, headLine)
                     } else if(headline === 'Edit User'){
                         return this.detailLine(item, index, headLine)
-                    } else if(headline === 'Edit Group'){
-                        return this.detailGroupLine(item, index, headLine)
                     }
                 })}
                 {this.errorMessage()}
@@ -365,11 +326,18 @@ class UserSummary extends Component {
     }
 
     render() {
+<<<<<<< HEAD
         const { headline, user, tournament, group, event } = this.props
         console.log('123123123', this.props)
         return (
             <div className={classes.ProfileWrapper}>
                 {this.userSummary(headline, user, tournament, group, event)}
+=======
+        const { headline, user, tournament } = this.props
+        return (
+            <div className={classes.ProfileWrapper}>
+                {this.userSummary(headline, user, tournament)}
+>>>>>>> master
             </div>
         );
     }

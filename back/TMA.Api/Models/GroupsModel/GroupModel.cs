@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TMA.Api.Models.AccountViewModels;
 
 namespace TMA.Api.Controllers
 {
@@ -14,5 +15,8 @@ namespace TMA.Api.Controllers
 
         [Required]
         public List<string> UserIds { get; set; }
+
+        public List<UserModel> Users { get; set; }
+
     }
 }
