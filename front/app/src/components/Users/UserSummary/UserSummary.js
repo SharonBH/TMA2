@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
-<<<<<<< HEAD
 import moment from 'moment'
-=======
->>>>>>> master
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
@@ -326,18 +323,11 @@ class UserSummary extends Component {
     }
 
     render() {
-<<<<<<< HEAD
         const { headline, user, tournament, group, event } = this.props
         console.log('123123123', this.props)
         return (
             <div className={classes.ProfileWrapper}>
                 {this.userSummary(headline, user, tournament, group, event)}
-=======
-        const { headline, user, tournament } = this.props
-        return (
-            <div className={classes.ProfileWrapper}>
-                {this.userSummary(headline, user, tournament)}
->>>>>>> master
             </div>
         );
     }
