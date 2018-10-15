@@ -268,13 +268,11 @@ class Register extends Component {
         )
     }
 
-    handleFocus = () => {
-        console.log('im handleFocus')
-    }
-
-    handleBlur = (e) => {
-        this.setState({searchUsers: ''})
-        console.log('------------------------------')
+    handleBlur = () => {
+        setTimeout(() => {
+            this.setState({searchUsers: ''})
+            this.setState({searchUsersResult: []})
+        }, 100)
     }
 
     addNewGroupPage = (headline, group) => {
