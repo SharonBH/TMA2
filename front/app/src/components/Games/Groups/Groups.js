@@ -111,7 +111,7 @@ export class Groups extends Component {
                     <div className={classes.select}>
                         <SelectComp 
                             options={usersInGroup}
-                            placeholder={"see all users"}
+                            placeholder={"group users list"}
                             name={'event'}
                             onChange={() => {}}
                         />
