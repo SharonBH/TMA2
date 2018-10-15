@@ -8,7 +8,6 @@ import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp'
 import Register from '../../Register';
-import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import { getAllGroupsRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
@@ -26,8 +25,6 @@ export class Groups extends Component {
             groupForDelete: null,
             groupInEditMode: null,
         }
-        // this.editTournamentBtn = this.editTournamentBtn.bind(this)
-        // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
 
     componentWillMount(){
@@ -79,14 +76,6 @@ export class Groups extends Component {
             this.props.editThisGroupAction(true)
         }, 200)
     }
-
-    // editDetailInput = (index, e) => {
-    //     const details = Object.assign([], this.state.userDetailsArr)
-    //         details[index] = e.target.value
-    //     this.setState({
-    //         userDetailsArr: details
-    //     })
-    // }
     
     editGroupComp = () => {
         return <Register headline='Edit Group' classStr='none' group={this.state.groupInEditMode}/>
@@ -124,11 +113,10 @@ export class Groups extends Component {
                             options={usersInGroup}
                             placeholder={"see all users"}
                             name={'event'}
-                            onChange={(e) => this.editDetailInput(index, e)}   
+                            onChange={() => {}}
                         />
                     </div>
                 </div>
-
                 <div id={index} className={classes.allUsButtons}>
                     <Link to={`/groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>

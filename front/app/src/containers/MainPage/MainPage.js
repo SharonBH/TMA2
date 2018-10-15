@@ -22,13 +22,11 @@ import Groups from '../../components/Games/Groups';
 export class MainPage extends Component {
 
     componentWillMount() {
-        const user = this.props.currentUser
-
+        // const user = this.props.currentUser
         this.props.appCallTakeAllTournaments()
         this.props.appCallTakeAllEvents()
         this.props.mainPageGetAllGroupsRequest()
         this.props.appCallTakeAllUsers()
-        
         // if(user !== null && user !== undefined && user.role === 'Admin') {
         //     this.props.appCallTakeAllUsers()
         // }

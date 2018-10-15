@@ -40,9 +40,9 @@ class Register extends Component {
         }
     }
 
-    onEmailChange = (e) => { this.setState({ email: e.target.value })}
-    onPasswordChange = (e) => { this.setState({password: e.target.value})}
-    onConfirmPasswordChange = (e) => { this.setState({confirmPassword: e.target.value})}
+    onEmailChange = (e) => {this.setState({ email: e.target.value })}
+    onPasswordChange = (e) => {this.setState({password: e.target.value})}
+    onConfirmPasswordChange = (e) => {this.setState({confirmPassword: e.target.value})}
     onNameChange = (e) => { this.setState({ name: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
@@ -66,7 +66,7 @@ class Register extends Component {
                 const searchFor = this.state.searchUsers
                 if(searchFor.length > 0 && (user.username).includes(searchFor)) {
                     let arr = []
-                    const newSearchUsersResult = Object.assign(...{}, user)
+                    const newSearchUsersResult = {...user}
                     arr = [...this.state.searchUsersResult, newSearchUsersResult]
                     const removeDuplicateArr = [...new Set(arr)];
                     this.setState({searchUsersResult: removeDuplicateArr})
@@ -77,7 +77,7 @@ class Register extends Component {
 
     addSearchUsers = (user) => {
         let arr = []
-        const newAddUsers = Object.assign(...{}, user)
+        const newAddUsers = {...user}
         arr = [...this.state.addSearchUsersResult, newAddUsers]
         const removeDuplicateArr = [...new Set(arr)];
         this.setState({addSearchUsersResult: removeDuplicateArr})
@@ -93,7 +93,7 @@ class Register extends Component {
         e.preventDefault()
         const { groupName, addSearchUsersResult} = this.state
         let arr = []
-        addSearchUsersResult.map((user, index) => {
+        addSearchUsersResult.map((user) => {
             arr.push(user.userId)
         })
         this.props.addNewGroupRequest(groupName, arr)
@@ -131,15 +131,8 @@ class Register extends Component {
 
     addNewUser = (e) => {
         const { email, password, confirmPassword, name, userType, userName } = this.state
-        // const email = this.state.email
-        // const password = this.state.password
-        // const confirmPassword = this.state.confirmPassword
-        // const name = this.state.name
-        // const userType = this.state.userType
-        // const userName = this.state.userName
         e.preventDefault()
         this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
-        
     }
 
     addNewTournament = (e) => {
@@ -155,11 +148,11 @@ class Register extends Component {
 
     addNewEvent = (e) => {
         const {tourn} = this.props
-        const { EventName, Tournament, EventDate } = this.state
+        const { EventName, EventDate } = this.state
 
         // const EventName = this.state.EventName
         // const EventTypeName = this.state.EventTypeName
-        // const Tournament = tourn.tournamentName
+        const Tournament = tourn.tournamentName
         // const EventDate = this.state.EventDate
 
         e.preventDefault()
@@ -282,19 +275,7 @@ class Register extends Component {
         )
     }
 
-    // selectUser = (e) => {
-    //     this.setState({ searchUsersResult: [] })
-    //     this.setState({searchUsers: ''})
-        
-    //     setTimeout((e) => {
-    //         this.addSearchUsers(e.target)
-    //         console.log(e.target)
-    //     }, 300)
-    // }
-
     addNewGroupPage = (headline, group) => {
-        // const usernamesOption = []
-        // this.state.searchUsersResult.map((user, index) => usernamesOption.push({value: user.username, key: user.userId}))
         return (
             <div className={classes.Register}>
                 <h1>{headline} {headline === 'Edit Group' ? group.groupName : null}</h1>
@@ -323,35 +304,28 @@ class Register extends Component {
                         :   <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
                     }
                     <div className={classes.searchUsersWrapper}>
+                        <InputComp inputType="text" name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
+                            <label className={classes.HeadLine} name={'Group Users'}>{'Group Users'}:</label>
                             {this.state.addSearchUsersResult.length > 0 
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
-                                        return <span className={classes.user} key={index} onClick={() => this.removeSelectedUser(index)}>
+                                        return <span className={classes.user} key={index}>
                                             {user.username} 
-                                            <i className="far fa-times-circle"></i>
+                                            <i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
                                         </span>
                                     })
                                 :   null}
                         </div>
-                        <InputComp inputType="text" name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersWrapper} >
                             {this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null}
                             
                             {this.state.searchUsersResult.map((user, index) => (  
-                                <span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+                                <span className={classes.user} key={index}>
                                     {user.username}
-                                    <i className="far fa-plus-square"></i>
+                                    <i className="far fa-plus-square" onClick={() => this.addSearchUsers(user)}></i>
                                 </span>      
                             ))}
                         </div>
-                        {/* <div className={classes.select}>
-                            <SelectComp 
-                                options={usernamesOption}
-                                placeholder={"Users Search Result List:"}
-                                name={'event'}
-                                onChange={(options) => {this.selectUser(options)}}   
-                            />
-                        </div> */}
                     </div>
                     <BtnComp 
                         inputType="submit" 
