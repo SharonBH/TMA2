@@ -24,7 +24,7 @@ export class InputComp extends Component {
                     type={this.props.inputType}
                     value={this.props.content}
                     onChange={this.props.onChange}
-                    placeholder={this.props.placeholder} 
+                    placeholder={this.props.placeholder}
                 />
             </div>
         )

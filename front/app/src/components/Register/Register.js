@@ -330,24 +330,25 @@ class Register extends Component {
                         :   <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
                     }
                     <div className={classes.searchUsersWrapper}>
+                        <InputComp inputType="text" name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
+                            <label className={classes.HeadLine} name={'Group Users'}>{'Group Users'}:</label>
                             {this.state.addSearchUsersResult.length > 0 
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
-                                        return <span className={classes.user} key={index} onClick={() => this.removeSelectedUser(index)}>
+                                        return <span className={classes.user} key={index}>
                                             {user.username} 
-                                            <i className="far fa-times-circle"></i>
+                                            <i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
                                         </span>
                                     })
                                 :   null}
                         </div>
-                        <InputComp inputType="text" name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersWrapper} >
                             {this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null}
                             
                             {this.state.searchUsersResult.map((user, index) => (  
-                                <span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+                                <span className={classes.user} key={index}>
                                     {user.username}
-                                    <i className="far fa-plus-square"></i>
+                                    <i className="far fa-plus-square" onClick={() => this.addSearchUsers(user)}></i>
                                 </span>      
                             ))}
                         </div>
