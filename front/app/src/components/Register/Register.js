@@ -275,7 +275,7 @@ class Register extends Component {
         setTimeout(() => {
             this.setState({searchUsers: ''})
             this.setState({searchUsersResult: []})
-        }, 100)
+        }, 200)
     }
 
     addNewGroupPage = (headline, group) => {
@@ -307,7 +307,7 @@ class Register extends Component {
                         :   <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
                     }
                     <div className={classes.searchUsersWrapper}>
-                        <InputComp inputType="text" onBlur={this.handleBlur} name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
+                        <InputComp inputType="text" onBlur={this.handleBlur} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
                             {this.state.addSearchUsersResult.length > 0 
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
@@ -383,7 +383,6 @@ class Register extends Component {
         }
     }
     render() {
-        console.log('searchUsers::', this.state.searchUsers)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
