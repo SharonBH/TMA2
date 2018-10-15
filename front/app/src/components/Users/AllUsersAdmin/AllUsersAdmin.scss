@@ -3,10 +3,7 @@
 .usersWrapper {
     text-align: left;
     padding: 45px 10px 0;
-    div.role{
-        border: 0;
-        width: 10%
-    }
+    
     
     div.username, div.email, div.role{
         width: 20%;
@@ -18,6 +15,10 @@
         &::-webkit-scrollbar-thumb{
             background: $blue;
         }
+    }
+    div.role{
+        border: 0;
+        width: 15%
     }
     .select{
         display: block !important;

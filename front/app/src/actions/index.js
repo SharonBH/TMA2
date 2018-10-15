@@ -184,3 +184,9 @@ export const editThisGroupAction = (boll) => {
 
 
 
+export const sendEventDataAction = (data) => {
+    return {
+        type: 'SEND_EVENT_DATA',
+        payload: data
+    }
+}

@@ -7,7 +7,8 @@ const InitialState = {
     allEventsList: [],
     allEventTypesList: [],
     groupsList: null,
-    tournById: storageData
+    tournById: storageData,
+    eventDataArr: ''
 }
 
 
@@ -49,6 +50,12 @@ const allListReducer = (state = InitialState, action) => {
             return {
                 ...state,
                 tournById: tournId
+            }
+        case 'SEND_EVENT_DATA':
+            const eventData = action.payload
+            return {
+                ...state,
+                eventDataArr: eventData
             }
         default:
     }

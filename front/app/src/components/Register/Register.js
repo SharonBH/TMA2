@@ -53,10 +53,11 @@ class Register extends Component {
 
     onEventNameChange = (e) => { this.setState({EventName: e.target.value})}
     // onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
-    // onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
+    onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
     onDateOfEventChange = (e) => { this.setState({EventDate: e.target.value})}
 
     onGroupNameChange = (e) => { this.setState({groupName: e.target.value})}
+
     onSearchUsersChange = (e) => { 
         this.setState({ searchUsersResult: [] })
         this.setState({searchUsers: e.target.value})
@@ -117,12 +118,13 @@ class Register extends Component {
     }
 
     registerSbmit = (e) => {
-        const email = this.state.email
-        const password = this.state.password
-        const confirmPassword = this.state.confirmPassword
-        const name = this.state.name
-        const userType = this.state.userType
-        const userName = this.state.userName
+        const { email, password, confirmPassword, name, userType, userName } = this.state
+        // const email = this.state.email
+        // const password = this.state.password
+        // const confirmPassword = this.state.confirmPassword
+        // const name = this.state.name
+        // const userType = this.state.userType
+        // const userName = this.state.userName
         e.preventDefault()
         this.props.registerRequest(email, password, confirmPassword, name, userType, userName)
     }
@@ -141,11 +143,11 @@ class Register extends Component {
     }
 
     addNewTournament = (e) => {
-        const { tournamentName } = this.state
+        const { tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum } = this.state
         // const tournamentName = this.state.TournamentName
-        const tournamentStartDate = this.state.TournamentStartDate
-        const tournamentEndDate = this.state.TournamentEndDate
-        const eventsMaxNum = this.state.EventsMaxNum
+        // const tournamentStartDate = this.state.TournamentStartDate
+        // const tournamentEndDate = this.state.TournamentEndDate
+        // const eventsMaxNum = this.state.EventsMaxNum
 
         e.preventDefault()
         this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
@@ -153,10 +155,12 @@ class Register extends Component {
 
     addNewEvent = (e) => {
         const {tourn} = this.props
-        const EventName = this.state.EventName
+        const { EventName, Tournament, EventDate } = this.state
+
+        // const EventName = this.state.EventName
         // const EventTypeName = this.state.EventTypeName
-        const Tournament = tourn.tournamentName
-        const EventDate = this.state.EventDate
+        // const Tournament = tourn.tournamentName
+        // const EventDate = this.state.EventDate
 
         e.preventDefault()
         this.props.addNewEventRequest(EventName, Tournament, EventDate)
@@ -247,33 +251,22 @@ class Register extends Component {
     eventFage = (headline) => {
         const {tourn} = this.props
         const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
-        // const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
-        // console.log('tourn', tourn.tournamentName)
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
                     <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
                     {/* <InputComp inputType="text" name="typeEvent" placeholder="Type of Event" onChange={this.onTypeOfEventChange}/> */}
+                    {/* <span className={classes.TName}>{tourn.tournamentName}</span> */}
                     <div className={classes.select}>
-                        {/* <SelectComp 
-                            options={eventTypes}
-                            placeholder={"Choose Event Type"}
-                            name={'eventType'}
-                            onChange={(e) => this.onTypeOfEventChange(e)}  
-                            // selectedOption={eventTypes.value} 
-                        />                              */}
-                    </div>
-                    <span className={classes.TName}>{tourn.tournamentName}</span>
-                    {/* <div className={classes.select}>
                         <SelectComp 
                             key={tournaments}
                             options={tournaments}
-                            placeholder={"Choose tournament name"}
+                            placeholder={tourn.tournamentName}
                             name={'tournament'}
                             onChange={(e) => this.onTournamentChange(e)}   
                         />
-                    </div> */}
+                    </div>
                     <InputComp inputType="date" name="deteOfEvent" placeholder="dateOfEvent" onChange={this.onDateOfEventChange}/>
                     {this.errorMessage()}
                     {this.successMessage()}

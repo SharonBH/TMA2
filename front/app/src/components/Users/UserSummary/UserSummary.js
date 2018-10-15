@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import moment from 'moment'
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
+
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
 import {  changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
 import {  editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
 import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisGroupAction, editThisEventAction }  from '../../../actions';
+
 
 class UserSummary extends Component {
 
@@ -73,6 +75,7 @@ class UserSummary extends Component {
     
     componentWillUnmount() {
         this.props.errorMessageAction(null)
+
         this.props.successMessageAction(null)
         this.setState({changePassword: false})
     }
@@ -142,23 +145,14 @@ class UserSummary extends Component {
 
     closePopUp = () => {
         this.props.editThisItemAction(false)
+        this.props.editThisEventAction(false)
     }
 
     submitUserAditeChanges = (headline) => {
-        console.log('headline',  this.state.userDetailsArr)
         const editRequestParam = []
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput)
-        })
-  
-            // this.state.userDetailsArr[0].editInput,
-            // this.state.userDetailsArr[1].editInput,
-            // this.state.userDetailsArr[2].editInput,
-            // this.state.userDetailsArr[3].editInput, 
-            // this.state.userDetailsArr[4].editInput,
-            
-        
-        console.log('editRequestParamEvent', editRequestParam)
+        })            
         
         if(headline === 'Edit' || headline === 'Your Profile') {
             this.props.editThisUserRequest(headline,editRequestParam[0],editRequestParam[1],editRequestParam[2],editRequestParam[3])
@@ -315,7 +309,7 @@ class UserSummary extends Component {
                     />
                 </span>
                 {(headline !== 'Register' && headline !== 'Your Profile') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
-                {(this.props.editThisItem || this.props.editThisGroup) ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
+                {(this.props.editThisItem || this.props.editThisGroup || this.props.editThisEvent) ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
                 {this.props.passwords ? <ChangePassword headline='Change Password' user={user.username} classStr='none' /> : null}
                 
             </div>
@@ -328,6 +322,7 @@ class UserSummary extends Component {
         return (
             <div className={classes.ProfileWrapper}>
                 {this.userSummary(headline, user, tournament, group, event)}
+                
             </div>
         );
     }

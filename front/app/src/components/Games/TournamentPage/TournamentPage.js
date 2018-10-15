@@ -18,7 +18,8 @@ import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
 import { takeAllTournaments, DeleteTournamentRequest } from '../../../actions/GamesApi';
-import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
+import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, 
+    successMessageAction, errorMessageAction, deleteConfirmMessageAction, sendEventDataAction }  from '../../../actions';
 export class TournamentPage extends Component {
 
     static propTypes = {
@@ -134,6 +135,7 @@ export class TournamentPage extends Component {
     closeMessage = () => {
         this.props.successMessageAction(null)
         this.props.errorMessageAction(null)
+        this.props.editThisEventAction(null)
     }
 
     DeleteEventBtn = (item) => {
@@ -144,6 +146,7 @@ export class TournamentPage extends Component {
         
     }
     editEventBtn = (item) => {
+        this.props.sendEventDataAction(item)
         this.setState({eventInEditMode: item})
         console.log('edit this.state.eventInEditMode',this.state.eventInEditMode)
         // setTimeout(() => {
@@ -178,7 +181,6 @@ export class TournamentPage extends Component {
                     </div>
                 </div>
                 <div className={classes.tournTime}><h3>Tournament timing:</h3> <h4>from </h4> {moment(currentTournament.startDate).format('LLLL')} <h4>to </h4> {moment(currentTournament.endDate).format('LLLL')}</div>
-                {/* <div className={classes.tournTime}><h3>Tournament timing:</h3> <h4>from </h4> {(currentTournament.startDate)} <h4>to </h4> {(currentTournament.endDate)}</div> */}
                 <div>Maximum of events: {currentTournament.numberOfEvents}</div>
                 <div>
                     <div className={classes.eventsTable}>
@@ -250,8 +252,11 @@ const mapDispatchToProps = dispatch => {
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
-        deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload))
+        deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
+
+        sendEventDataAction: payload => dispatch(sendEventDataAction(payload)),
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TournamentPage);
+
