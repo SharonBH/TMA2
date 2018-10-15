@@ -9,6 +9,8 @@ import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import SelectComp from '../UI/SelectComp/SelectComp';
 
+import {ADD_TOURNAMENT, EDIT_GROUP, ADD_USER, REGISTER, ADD_NEW_GROUP, ADD_EVENT} from '../../configuration/config'
+
 class Register extends Component {
 
     constructor(props) {
@@ -102,7 +104,7 @@ class Register extends Component {
 
     componentWillMount() {
         const { headline, group } = this.props
-        if(headline === 'Edit Group') {
+        if(headline === EDIT_GROUP) {
             let usersList = []
             group.users.map(user => {
                 usersList.push(user)
@@ -203,9 +205,9 @@ class Register extends Component {
                         inputType="submit" 
                         name="register" 
                         content={headline} 
-                        onClick={ headline === 'Register' ?  this.registerSbmit : this.addNewUser}
+                        onClick={ headline === REGISTER ?  this.registerSbmit : this.addNewUser}
                     />}
-                    {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={()=>this.closePopUp()}><span>Close</span></div> : null}
+                    {headline === ADD_USER ? <div className={classes.closePopBtn} onClick={()=>this.closePopUp()}><span>Close</span></div> : null}
                 </form>
                 <div style={{display: classStr}}>
                     <h3>Have a user? Keep Calm.</h3>
@@ -235,7 +237,7 @@ class Register extends Component {
                         content={headline} 
                         onClick={this.addNewTournament}
                     />}
-                    {headline === 'Add Tournament' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
+                    {headline === ADD_TOURNAMENT ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
             </div>
         )
@@ -269,7 +271,7 @@ class Register extends Component {
                         content={headline} 
                         onClick={this.addNewEvent}
                     />}
-                    {headline === 'Add Event' ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
+                    {headline === ADD_EVENT ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
             </div>
         )
@@ -278,12 +280,12 @@ class Register extends Component {
     addNewGroupPage = (headline, group) => {
         return (
             <div className={classes.Register}>
-                <h1>{headline} {headline === 'Edit Group' ? group.groupName : null}</h1>
+                <h1>{headline} {headline === EDIT_GROUP ? group.groupName : null}</h1>
                 <form>
                     {this.errorMessage()}
                     {this.successMessage()}
                     {
-                        headline === 'Edit Group'
+                        headline === EDIT_GROUP
                         ?   <div className={classes.wrappLine}>
                                 <label className={classes.HeadLine} name={'Group Name'}>{'Group Name'}:</label>
                                 {
@@ -331,9 +333,9 @@ class Register extends Component {
                         inputType="submit" 
                         name="createGroup" 
                         content={headline} 
-                        onClick={headline === 'Add New Group' ? this.addNewGroup : (e) => this.editGroupRequest(e, group)}
+                        onClick={headline === ADD_NEW_GROUP ? this.addNewGroup : (e) => this.editGroupRequest(e, group)}
                     />
-                    {(headline === 'Add New Group' || headline === 'Edit Group') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
+                    {(headline === ADD_NEW_GROUP || headline === EDIT_GROUP) ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
             </div>
         )
@@ -369,15 +371,15 @@ class Register extends Component {
 
     outputToRender = () => {
         const { headline, classStr, group } = this.props
-        if(headline === 'Register' || headline === 'Add User'){
+        if(headline === REGISTER || headline === ADD_USER){
            return this.rgisterFage(headline, classStr)
-        } else if(headline === 'Add Tournament'){
+        } else if(headline === ADD_TOURNAMENT){
             return this.tournamentFage(headline)
-        } else if( headline === 'Add Event' ){
+        } else if( headline === ADD_EVENT ){
             return this.eventFage(headline)
-        } else if( headline === 'Add New Group' ){
+        } else if( headline === ADD_NEW_GROUP ){
             return this.addNewGroupPage(headline)
-        } else if( headline === 'Edit Group' ){
+        } else if( headline === EDIT_GROUP ){
             return this.addNewGroupPage(headline, group)
         }
     }

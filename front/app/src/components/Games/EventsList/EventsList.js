@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 import classes from '../../Users/AllUsersAdmin/AllUsersAdmin.scss';
+import { ADD_EVENT, EDIT_EVENT, DELETE_EVENT } from '../../../configuration/config'
 
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
@@ -96,11 +97,11 @@ export class EventsList extends Component {
 
     
     addEventComp = () => {
-        return <Register headline='Add Event' classStr='none' />
+        return <Register headline={ADD_EVENT} classStr='none' />
     }
 
     editEventComp = () => {
-        return <UserSummary headline='Edit Event' event={this.state.eventInEditMode} tournament={null} user={null}/>
+        return <UserSummary headline={EDIT_EVENT} event={this.state.eventInEditMode} tournament={null} user={null}/>
     }
 
     successDeleteMessage = () => {
@@ -166,7 +167,7 @@ export class EventsList extends Component {
                 <ul className={classes.uesrsList}>{this.eventList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editEventComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='Delete Event' item={this.state.eventForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_EVENT} item={this.state.eventForDelete}/> : null}
             </div>
         )
     }

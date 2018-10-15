@@ -11,6 +11,7 @@ import Register from '../../Register';
 import { deleteConfirmMessageAction } from '../../../actions';
 import UserSummary from '../UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
+import { ADD_USER, EDIT, DELETE_USER } from '../../../configuration/config'
 
 import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction }  from '../../../actions';
 export class AllUsersAdmin extends Component {
@@ -71,11 +72,11 @@ export class AllUsersAdmin extends Component {
 
     
     addUserComp = () => {
-        return <Register headline='Add User' classStr='none' />
+        return <Register headline={ADD_USER} classStr='none' />
     }
 
     editUserComp = () => {
-        return <UserSummary headline='Edit' tournament={null} event={null} user={this.state.userInEditMode}/>
+        return <UserSummary headline={EDIT} tournament={null} event={null} user={this.state.userInEditMode}/>
     }
 
     successDeleteMessage = () => {
@@ -125,7 +126,7 @@ export class AllUsersAdmin extends Component {
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete user' user={this.state.userForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_USER} user={this.state.userForDelete}/> : null}
             </div>
         )
     }

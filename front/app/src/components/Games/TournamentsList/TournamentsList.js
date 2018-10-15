@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment'
 
 import classes from '../../Users/AllUsersAdmin/AllUsersAdmin.scss';
+import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, ADD_TOURNAMENT, DELETE_TOURNAMENT } from '../../../configuration/config'
 
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
@@ -99,13 +100,13 @@ export class TournamentsList extends Component {
 
     
     addTournamentComp = () => {
-        return <Register headline='Add Tournament' classStr='none' />
+        return <Register headline={ADD_TOURNAMENT} classStr='none' />
     }
     addEventComp = () => {
-        return <Register headline='Add Event' tourn={this.state.tournamentID} classStr='none' />
+        return <Register headline={ADD_EVENT} tourn={this.state.tournamentID} classStr='none' />
     }
     editTournamentComp = () => {
-        return <UserSummary headline='Edit Tournament' event={null} tournament={this.state.tournamentInEditMode} user={null} group={null}/>
+        return <UserSummary headline={EDIT_TOURNAMENT} event={null} tournament={this.state.tournamentInEditMode} user={null} group={null}/>
     }
 
     successDeleteMessage = () => {
@@ -182,7 +183,7 @@ console.log('tourn LIST', this.props)
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
                 {this.props.addTournament ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete tournament' item={this.state.tournamentForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_TOURNAMENT} item={this.state.tournamentForDelete}/> : null}
             </div>
         )
     }

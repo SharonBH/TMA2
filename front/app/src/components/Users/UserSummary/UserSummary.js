@@ -10,7 +10,7 @@ import {  changePasswordRequest, editThisUserRequest } from '../../../actions/Ap
 import {  editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
 import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisGroupAction, editThisEventAction }  from '../../../actions';
-
+import { EDIT_TOURNAMENT, YOUR_PROFILE, EDIT, EDIT_EVENT, EDIT_USER } from '../../../configuration/config'
 
 class UserSummary extends Component {
 
@@ -27,7 +27,7 @@ class UserSummary extends Component {
     }
     detailsToState = () => {
         const headline = this.props.headline
-        if(headline === 'Edit Tournament'){
+        if(headline === EDIT_TOURNAMENT){
             const tournamentData = this.props.tournament
             const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null 
             ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
@@ -43,7 +43,7 @@ class UserSummary extends Component {
                     {edit: false, detail: 'End Date', param: endDate, editInput: endDate},
                     {edit: false, detail: 'Max Events', param: numberOfEvents,  editInput: numberOfEvents},
             ])
-        } else if( headline === 'Edit' || headline === 'Your Profile' ){
+        } else if( headline === EDIT || headline === YOUR_PROFILE ){
             const userData = this.props.user
             const name = userData.name
             const username = userData.username
@@ -56,7 +56,7 @@ class UserSummary extends Component {
                     {edit: false, detail: 'eMail', param: email, editInput: email},
                     {edit: false, detail: 'User Type', param: role,  editInput: role},
             ])
-        } else if( headline === 'Edit Event' ){
+        } else if( headline === EDIT_EVENT ){
             const eventData = this.props.event
 
             const TournamName = this.props.allEventTypesList !== undefined ? this.props.allTournsList.find((tourn) => {return tourn.tournamentId === eventData.tournamentId}): null
@@ -154,13 +154,13 @@ class UserSummary extends Component {
           return  editRequestParam.push(item.editInput)
         })            
         
-        if(headline === 'Edit' || headline === 'Your Profile') {
+        if(headline === EDIT || headline === YOUR_PROFILE) {
             this.props.editThisUserRequest(headline,editRequestParam[0],editRequestParam[1],editRequestParam[2],editRequestParam[3])
         }
-        else if(headline === 'Edit Tournament'){
+        else if(headline === EDIT_TOURNAMENT){
             const tournamentId = this.props.tournament.tournamentId
             this.props.editThisTournamentRequest( tournamentId, editRequestParam[1], editRequestParam[0], editRequestParam[2], editRequestParam[3], editRequestParam[4])
-        } else if(headline === 'Edit Event'){
+        } else if(headline === EDIT_EVENT){
             const eventId = this.props.event.eventId
             this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2])
         }
@@ -277,24 +277,24 @@ class UserSummary extends Component {
     userSummary = (headline, user, tournament, event) => {
         const headLine = headline;
         let name = ''
-        if(headline === 'Edit User'){
+        if(headline === EDIT_USER){
              name = user !== null ?  user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
-        } else if( headline === 'Edit Tournament' ){
+        } else if( headline === EDIT_TOURNAMENT ){
             name = tournament !== null ? tournament.tournamentName : null
-        } else if ( headline === 'Edit Event' ){
+        } else if ( headline === EDIT_EVENT ){
             name = event !== null ? event.eventName : null
         }
         return (
             <div className={classes.Profile} >
                 {<h1>{headline} {name}</h1>}
                 {this.state.userDetailsArr.map((item, index) => { 
-                    if(headline === 'Edit Tournament'){
+                    if(headline === EDIT_TOURNAMENT){
                         return this.editGameLine(item, index, headLine)
-                    } else if( headline === 'Edit' || headline === 'Your Profile' ){
+                    } else if( headline === EDIT || headline === YOUR_PROFILE ){
                         return this.detailLine(item, index, headLine)
-                    } else if( headline === 'Edit Event' ){
+                    } else if( headline === EDIT_EVENT ){
                         return this.eventEditLine(item, index, headLine)
-                    } else if(headline === 'Edit User'){
+                    } else if(headline === EDIT_USER){
                         return this.detailLine(item, index, headLine)
                     }
                 })}

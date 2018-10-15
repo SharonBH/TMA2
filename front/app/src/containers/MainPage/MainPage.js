@@ -17,6 +17,7 @@ import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRe
 import TournamentPage from '../../components/Games/TournamentPage';
 import { appCallTakeAllUsers } from '../../actions/Api';
 import Groups from '../../components/Games/Groups';
+import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 
 
 export class MainPage extends Component {
@@ -44,7 +45,7 @@ export class MainPage extends Component {
                     />
                     <Route
                         path='/register'
-                        component={() => <Register headline='Register' />}
+                        component={() => <Register headline={REGISTER} />}
                     />
                     <Route
                         path='/home'
@@ -52,7 +53,7 @@ export class MainPage extends Component {
                     />
                     <Route
                         path='/profile'
-                        component={() => <UserSummary headline={`Your Profile`} user={this.props.currentUser} tournament={null}/>}
+                        component={() => <UserSummary headline={YOUR_PROFILE} user={this.props.currentUser} tournament={null}/>}
                     />
                     {(this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin') ? <Route path='/all_users' component={AllUsersAdmin}/> : null}
                     <Route
