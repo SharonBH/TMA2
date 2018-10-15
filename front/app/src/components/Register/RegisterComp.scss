@@ -75,43 +75,57 @@
                     align-items: center;
                     width: 100%;
                     background-color: $white;
-                    border: 1px solid $blue;
                     position: absolute; 
                     z-index: 100;
                     max-height: 315px;
                     overflow-y: scroll;
+                    border-left: 1px solid $blue;
+                    border-bottom: 1px solid $blue;
     
                     .searchResult {
                         width: 100%;
-                        background-color: $blue;
+                        background-color: rgba(128, 128, 128, 0.3);
                         padding: 5px;
+                        font-size: 15px;
                     }
     
                     .user {
                         width: 100%;
-                        margin: 5px 5px;
+                        margin: 5px 0 5px 0;
                         display: flex;
                         align-items: center;
                         justify-content: space-between;
                         border-radius: 10px;
-                        padding: 5px;
+                        padding: 5px 10px 5px 10px;
                         background-color: $white;
-                        cursor: pointer;
+
+                        i {
+                            font-size: 20px;
+                            color: $blue;
+                            border-left: 1px solid $blue;
+                            padding: 0 5px 0 10px;
+                            cursor: pointer;
+                        }
                     }
                     .user:hover {
-                        background-color: $blue;
+                        background-color: rgba(128, 128, 128, 0.3);
                     }
                 }
 
                 .usersAddedWrapper {
                     position: relative;
-                    overflow-y: unset;
-                    max-height: unset;
                     border: none;
                     justify-content: space-between;
+                    margin: 10px 0;
+                    max-height: 210px;
+
+                    .HeadLine, .user {
+                        width: 142px;
+                        border-bottom: 1px solid $black;
+                        padding: 5px;
+                    }
 
                     .user {
-                        width: 142px;
                         border: 1px solid #03a3d0;
                     }
                 }
@@ -142,7 +156,8 @@
                 
                 & > .HeadLine {
                     width: 100px;
-                    text-align: left;
+                    display: flex;
+                    align-items: center;
                     height: 100%;
                     line-height: 30px;
                 }
@@ -167,6 +182,12 @@
                             margin: 0;
                         }
                     }       
+                }
+
+                span.editLineInput {
+                    background-color: rgba(128, 128, 128, 0.3);
+                    display: flex;
+                    align-items: center;
                 }
 
                 & > span {
