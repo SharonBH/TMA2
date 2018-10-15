@@ -155,6 +155,13 @@ export const editThisItemAction = (boll) => {
         payload: boll
     }
 }
+// edit This Event Action
+export const editThisEventAction = (boll) => {
+    return {
+        type: 'EDIT_THIS_EVENT',
+        payload: boll
+    }
+}
 // get all groups
 export const getAllGroups = (arr) => {
     return {
@@ -177,3 +184,9 @@ export const editThisGroupAction = (boll) => {
 
 
 
+export const sendEventDataAction = (data) => {
+    return {
+        type: 'SEND_EVENT_DATA',
+        payload: data
+    }
+}

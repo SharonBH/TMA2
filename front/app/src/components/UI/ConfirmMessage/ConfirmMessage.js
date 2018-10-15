@@ -69,8 +69,9 @@ class ConfirmMessage extends Component {
     popUpContent = () => {
         const { headline, user, item } = this.props
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
-        const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
+        const eventForDel = this.props.tournById.events.find(id => { return id.eventId === item})
         let name = ''
+        
         // headline === 'delete user' ? user.username : itemForDel.tournamentName
         if(headline === 'delete user'){
             name = user.username
@@ -83,7 +84,6 @@ class ConfirmMessage extends Component {
         }else if(headline === 'delete group'){
             name =  item.groupName
         }
-
 
         return (
             <div className={classes.ConfirmMessageWrapper}>
@@ -111,6 +111,7 @@ const mapStateToProps = (state) => {
         allList: state.allListReducer.allList,
         allTournsList: state.allListReducer.allTournsList,
         allEventsList: state.allListReducer.allEventsList,
+        tournById: state.allListReducer.tournById,
     }
 }
 const mapDispatchToProps = dispatch => {

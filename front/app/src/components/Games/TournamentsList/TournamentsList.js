@@ -15,8 +15,10 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
+
 import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest } from '../../../actions/GamesApi';
-import { addNewItemAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
+import { addNewItemAction, addNewEventAction, addNewTournamentAction, 
+     editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 export class TournamentsList extends Component {
 
     static propTypes = {
@@ -68,6 +70,7 @@ export class TournamentsList extends Component {
 
     editTournamentBtn = (item) => {
         this.setState({tournamentInEditMode: item})
+
         setTimeout(() => {
             console.log(item)
             this.props.editThisItemAction(true)
@@ -135,14 +138,20 @@ export class TournamentsList extends Component {
     }
 
     tournamentList = () => {
+
   
+        
+        
+
         return this.props.allTournsList !== undefined ? this.props.allTournsList.map((item, index) => {        
-          
+            const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
+            const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
           return <li key={index}>
                 <div className={classes.username}><Link to={`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
                 <div className={classes.email}>{moment(item.startDate).format('LLLL')}</div>
                 <div className={classes.email}>{moment(item.endDate).format('LLLL')}</div>
                 <div className={classes.role}>{item.numberOfEvents}</div>
+                <div className={classes.role}>{eventN}</div>
                 <div id={index} className={classes.allUsButtons}>
                     <Link to={`/${item.tournamentName}/add_event`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
                     <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link>
@@ -165,6 +174,7 @@ console.log('tourn LIST', this.props)
                     <div className={classes.email}>Start Date</div>
                     <div className={classes.email}>End Date</div>
                     <div className={classes.role}>Max Events</div>
+                    <div className={classes.role}>Event Type</div>
                     <div className={classes.addBtn}><BtnComp inputType="submit" content='Add Tournament' onClick={this.addTournamentBtn}/></div>
                 </div> 
                 <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
@@ -181,6 +191,7 @@ console.log('tourn LIST', this.props)
 const mapStateToProps = (state) => {
     return {
         allTournsList: state.allListReducer.allTournsList,
+        allEventTypesList: state.allListReducer.allEventTypesList,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,
         addTournament: state.addNewItemReducer.addTournament,
@@ -204,7 +215,9 @@ const mapDispatchToProps = dispatch => {
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
-        goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload))
+        goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
+
+        
     }
 }
 
