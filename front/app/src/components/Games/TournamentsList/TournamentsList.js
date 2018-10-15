@@ -143,6 +143,7 @@ export class TournamentsList extends Component {
                 <div className={classes.email}>{moment(item.startDate).format('LLLL')}</div>
                 <div className={classes.email}>{moment(item.endDate).format('LLLL')}</div>
                 <div className={classes.role}>{item.numberOfEvents}</div>
+                <div className={classes.role}>{item.eventType}</div>
                 <div id={index} className={classes.allUsButtons}>
                     <Link to={`/${item.tournamentName}/add_event`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
                     <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link>
@@ -165,6 +166,7 @@ console.log('tourn LIST', this.props)
                     <div className={classes.email}>Start Date</div>
                     <div className={classes.email}>End Date</div>
                     <div className={classes.role}>Max Events</div>
+                    <div className={classes.role}>Event Type</div>
                     <div className={classes.addBtn}><BtnComp inputType="submit" content='Add Tournament' onClick={this.addTournamentBtn}/></div>
                 </div> 
                 <ul className={classes.uesrsList}>{this.tournamentList()}</ul>

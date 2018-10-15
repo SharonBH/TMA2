@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
 import moment from 'moment'
-
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
-import { changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
-import { editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
+import {  changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
+import {  editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
 import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisGroupAction, editThisEventAction }  from '../../../actions';
 
@@ -28,12 +27,16 @@ class UserSummary extends Component {
         const headline = this.props.headline
         if(headline === 'Edit Tournament'){
             const tournamentData = this.props.tournament
+            const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null 
+            ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
+            const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
             const tournamentName = tournamentData.tournamentName
             const startDate = tournamentData.startDate
             const endDate = tournamentData.endDate
             const numberOfEvents = tournamentData.numberOfEvents
             return ([
                     {edit: false, detail: 'Tournament Name', param: tournamentName, editInput: tournamentName},
+                    {edit: false, detail: 'Event Type', param: eventN, editInput: eventN},
                     {edit: false, detail: 'Start Date', param: startDate, editInput: startDate},
                     {edit: false, detail: 'End Date', param: endDate, editInput: endDate},
                     {edit: false, detail: 'Max Events', param: numberOfEvents,  editInput: numberOfEvents},
@@ -53,18 +56,15 @@ class UserSummary extends Component {
             ])
         } else if( headline === 'Edit Event' ){
             const eventData = this.props.event
-            console.log('eventDate', eventData)
-            // const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventData.eventTypeId} ): null
-            // const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
 
             const TournamName = this.props.allEventTypesList !== undefined ? this.props.allTournsList.find((tourn) => {return tourn.tournamentId === eventData.tournamentId}): null
             const tournN = TournamName !== undefined ?  Object.values(TournamName)[1] : null
             const eventName = eventData.eventName
             const eventDate = eventData.eventDate
-            
+
+            console.log('event!!', eventDate )
             return ( [
                 {edit: false, detail: 'Event Name', param: eventName, editInput: eventName},
-                // {edit: false, detail: 'Event Type', param: eventN, editInput: eventN},
                 {edit: false, detail: 'Tournament Name', param: tournN, editInput: tournN},
                 {edit: false, detail: 'Event Date', param: eventDate,  editInput: eventDate},
             ])
@@ -106,7 +106,7 @@ class UserSummary extends Component {
     }
 
     editBtnFunc = (item, index) => {
-        if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisItem && item.detail !== 'User Name' ) || this.props.editThisEvent) {
+        if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisItem && item.detail !== 'User Name' ) || this.props.editThisEvent ) {
             return (
                 <div className={classes.BTN}>
                     <i className={ 
@@ -151,29 +151,34 @@ class UserSummary extends Component {
 
     closePopUp = () => {
         this.props.editThisItemAction(false)
-        this.props.editThisEventAction(false)
         this.props.editThisGroupAction(false)
     }
 
     submitUserAditeChanges = (headline) => {
-        const editRequestParam = [
-            headline,
-            this.state.userDetailsArr[0].editInput,
-            this.state.userDetailsArr[1].editInput,
-            this.state.userDetailsArr[2].editInput,
-            this.state.userDetailsArr[3].editInput,
-            this.state.userDetailsArr[4].editInput,
-        ]
+        console.log('headline',  this.state.userDetailsArr)
+        const editRequestParam = []
+        this.state.userDetailsArr.map((item) => {
+          return  editRequestParam.push(item.editInput)
+        })
+  
+            // this.state.userDetailsArr[0].editInput,
+            // this.state.userDetailsArr[1].editInput,
+            // this.state.userDetailsArr[2].editInput,
+            // this.state.userDetailsArr[3].editInput, 
+            // this.state.userDetailsArr[4].editInput,
+            
         
-        if(headline === 'Edit Tournament'){
+        console.log('editRequestParamEvent', editRequestParam)
+        
+        if(headline === 'Edit' || headline === 'Your Profile') {
+            this.props.editThisUserRequest(headline,editRequestParam[0],editRequestParam[1],editRequestParam[2],editRequestParam[3])
+        }
+        else if(headline === 'Edit Tournament'){
             const tournamentId = this.props.tournament.tournamentId
-            this.props.editThisTournamentRequest(tournamentId, editRequestParam[0], editRequestParam[1], editRequestParam[2], editRequestParam[3], editRequestParam[4])
-        } else if(headline === 'Edit' || headline === 'Your Profile') {
-            this.props.editThisUserRequest(editRequestParam[0],editRequestParam[1],editRequestParam[2],editRequestParam[3],editRequestParam[4])
-        }  else if(headline === 'Edit Event'){
+            this.props.editThisTournamentRequest( tournamentId, editRequestParam[1], editRequestParam[0], editRequestParam[2], editRequestParam[3], editRequestParam[4])
+        } else if(headline === 'Edit Event'){
             const eventId = this.props.event.eventId
-            console.log('eventId!!!!!!!', eventId)
-            this.props.editThisEventRequest(eventId, editRequestParam[0], editRequestParam[1], editRequestParam[2])
+            this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2])
         }
         
     }
@@ -210,8 +215,7 @@ class UserSummary extends Component {
         )
     }
     editGameLine = (item, index) => {
-        // const allTous = this.props.allTournsList !== undefined ? this.props.allTournsList.map((item) => { return item}) : null
-        // const events = events === undefined ? ['no events'] : allTous.map((item) => { return item.eventName});
+        const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
         const detail = item.detail
         return (
 
@@ -228,14 +232,22 @@ class UserSummary extends Component {
                                 placeholder={detail} 
                                 content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
-                            /> 
-                            : <InputComp 
+                            />
+                            : detail === 'Event Type'
+                            ? <SelectComp 
+                                onChange={(e) => this.editDetailInput(index, e)} 
+                                options={eventTypes} 
+                                placeholder={detail}
+                                /> 
+                            :
+                            <InputComp 
                                 inputType={detail === 'Tournament Name' ? 'text' : 'date'}
                                 name={detail} 
                                 placeholder={detail} 
                                 content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
                             /> 
+                            
                         } 
                       </div> 
                     : <span className={classes.editLineInput}>{item.param}</span>
@@ -265,14 +277,14 @@ class UserSummary extends Component {
                                 onChange={(e) => this.editDetailInput(index, e)} />
                             : <SelectComp 
                                 onChange={(e) => this.editDetailInput(index, e)} 
-                                options={detail === 'Tournament Name' ? tournaments : eventTypes} 
+                                options={tournaments} 
                                 placeholder={detail}
                         />
                         } 
                         </div> 
                     : <span className={classes.editLineInput}>
-                        {detail === 'Event Date' ? moment(item.param).format('LLLL') : item.param}
-                    </span>
+                    {detail === 'Event Date' ? moment(item.param).format('LLLL') : item.param}
+                </span>
                 }
                 {this.editBtnFunc(item, index)}
             </div>
@@ -307,11 +319,10 @@ class UserSummary extends Component {
     }
 
     userSummary = (headline, user, tournament, group, event) => {
-        console.log('ffffff this.props', this.state)
         const headLine = headline;
         let name = ''
         if(headline === 'Edit User'){
-            name = user !== null ?  user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
+             name = user !== null ?  user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
         } else if( headline === 'Edit Tournament' ){
             name = tournament !== null ? tournament.tournamentName : null
         } else if ( headline === 'Edit Event' ){
@@ -346,7 +357,7 @@ class UserSummary extends Component {
                     />
                 </span>
                 {(headline !== 'Register' && headline !== 'Your Profile') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
-                {(this.props.editThisItem || this.props.editThisGroup || this.props.editThisEvent) ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
+                {(this.props.editThisItem || this.props.editThisGroup) ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
                 {this.props.passwords ? <ChangePassword headline='Change Password' user={user.username} classStr='none' /> : null}
                 
             </div>
@@ -355,6 +366,7 @@ class UserSummary extends Component {
 
     render() {
         const { headline, user, tournament, group, event } = this.props
+        console.log('123123123', this.props)
         return (
             <div className={classes.ProfileWrapper}>
                 {this.userSummary(headline, user, tournament, group, event)}
@@ -387,8 +399,8 @@ const mapDispatchToProps = dispatch => {
         editThisGroupAction: payload => dispatch(editThisGroupAction(payload)),
         editThisEventAction: payload => dispatch(editThisEventAction(payload)),
         editThisUserRequest: (headline, userName, name, email, userType) => dispatch(editThisUserRequest(headline, userName, name, email, userType)),
-        editThisEventRequest: (eventId, eventName, tournN, eventDate) => dispatch(editThisEventRequest(eventId, eventName, tournN, eventDate)),
-        editThisTournamentRequest: (tournamentId, headline, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, headline, tournamentName, startDate, endDate, numberOfEvents)),
+        editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate)),
+        editThisTournamentRequest: (tournamentId, eventType, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, eventType, tournamentName, startDate, endDate, numberOfEvents)),
         
 
     }
