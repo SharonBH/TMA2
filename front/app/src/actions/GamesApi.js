@@ -243,8 +243,9 @@ export const addNewEventRequest = (EventName, Tournament, EventDate) => {
 }
 
 // edit User Request
-export const editThisTournamentRequest = ( tournamentId, heading, tournamentName, startDate, endDate, numberOfEvents) => {
+export const editThisTournamentRequest = ( tournamentId, eventType, tournamentName, startDate, endDate, numberOfEvents) => {
     return (dispatch) => {
+        console.log('tournamentId, eventType, tournamentName, startDate, endDate, numberOfEvents', tournamentId, eventType, tournamentName, startDate, endDate, numberOfEvents)
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'post',
@@ -253,12 +254,14 @@ export const editThisTournamentRequest = ( tournamentId, heading, tournamentName
             data: {
                 tournamentId: tournamentId,
                 tournamentName: tournamentName,
+                EventTypeName : eventType,
                 startDate: startDate,
                 endDate: endDate,
                 numberOfEvents: numberOfEvents
             }
         })
         .then((response) => {
+            console.log('response', response)
             if (response.data.response === 'Success') {
                 dispatch(successMessageAction('Tournament Edited Successfuly'))
                 return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
@@ -288,7 +291,7 @@ export const editThisTournamentRequest = ( tournamentId, heading, tournamentName
 
 
 // edit Event
-export const editThisEventRequest = (eventID, eventName, eventN, tournN, eventDate) => {
+export const editThisEventRequest = (eventID, eventName, tournN, eventDate) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -298,7 +301,6 @@ export const editThisEventRequest = (eventID, eventName, eventN, tournN, eventDa
             data: {
                 eventId: eventID,
                 eventName: eventName,
-                eventTypeName: eventN,
                 tournamentName: tournN,
                 eventDate: eventDate,
 

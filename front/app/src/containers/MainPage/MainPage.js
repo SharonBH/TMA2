@@ -93,6 +93,10 @@ export class MainPage extends Component {
                         path='/all_events'
                         component={EventsList}
                     />
+                    <Route 
+                        path='/edit_event/:eventName'
+                        component={TournamentPage}
+                    />
                     <Route
                         path='/scores'
                         // component={TournamentsList}
@@ -104,10 +108,7 @@ export class MainPage extends Component {
                     />
                     
                     <Route component={NotFound} />
-                    <Route 
-                        path='/edit_event/:eventName'
-                        component={EventsList}
-                    />
+                    
                     
                 </Switch>
             </div>

@@ -17,6 +17,12 @@
         height: 100%;
         z-index: 92;
     }
+    .editBTN{
+        display: inline-block;
+    }
+    .deleteBTN{
+        display: inline-block;
+    }
     div h1{
         margin: 0;
     }
@@ -71,7 +77,7 @@
         }
         .eventDate, .eventName{
             display: inline-block;
-            width: 50%;
+            width: 41%;
         }
     }
 }
