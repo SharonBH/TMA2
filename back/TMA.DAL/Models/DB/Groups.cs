@@ -7,6 +7,7 @@ namespace TMA.DAL.Models.DB
     {
         public Groups()
         {
+            Tournaments = new HashSet<Tournaments>();
             UsersGroups = new HashSet<UsersGroups>();
         }
 
@@ -15,6 +16,7 @@ namespace TMA.DAL.Models.DB
         public DateTime CreatedDate { get; set; }
         public bool IsDeleted { get; set; }
 
+        public ICollection<Tournaments> Tournaments { get; set; }
         public ICollection<UsersGroups> UsersGroups { get; set; }
     }
 }

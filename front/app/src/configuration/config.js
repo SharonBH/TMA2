@@ -1,7 +1,20 @@
-// const users = [
-//     {id: 1, name: 'test1', email: 'test1@test.com', username: 'test1', password: 'test1', role: 'admin'},
-//     {id: 2, name: 'test2', email: 'test2@test.com', username: 'test2', password: 'test2', role: 'regular'},
-//     {id: 3, name: 'test3', email: 'test3@test.com', username: 'test3', password: 'test3', role: 'admin'},
-//     {id: 4, name: 'test4', email: 'test4@test.com', username: 'test4', password: 'test4', role: 'regular'}
-// ]
-// export default users;
+
+export const REGISTER = 'Register'
+export const ADD_USER = 'Add User'
+export const ADD_TOURNAMENT = 'Add Tournament'
+export const ADD_EVENT = 'Add Event'
+export const ADD_NEW_GROUP = 'Add New Group'
+
+export const EDIT = 'Edit'
+export const EDIT_USER = 'Edit User'
+export const EDIT_GROUP = 'Edit Group'
+export const EDIT_EVENT = 'Edit Event'
+export const EDIT_TOURNAMENT = 'Edit Tournament'
+export const YOUR_PROFILE = 'Your Profile'
+
+export const DELETE_USER = 'delete user'
+export const DELETE_EVENT = 'delete event'
+export const DELETE_TOURNAMENT = 'delete tournament'
+export const DELETE_GROUP = 'delete group'
+
+export const SING_OUT = 'sign out'

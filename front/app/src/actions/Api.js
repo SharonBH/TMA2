@@ -10,7 +10,7 @@ import {
     successMessageAction,
     errorMessageAction,
 } from './index';
-
+import { EDIT, YOUR_PROFILE } from '../configuration/config'
 // register request
 export const registerRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
@@ -144,7 +144,7 @@ export const editThisUserRequest = (headline, userName, name, email, userType ) 
         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
-                    if(headline === 'Edit'){
+                    if(headline === EDIT){
                         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUsers`)
                             .then((response) => {
                                     const users = response.data
@@ -157,7 +157,7 @@ export const editThisUserRequest = (headline, userName, name, email, userType ) 
                                 dispatch(errorMessageAction([error][0]))
                                 dispatch(toggleLoaderAction(false))
                             });
-                    } else if( headline === 'Your Profile' ) {
+                    } else if( headline === YOUR_PROFILE ) {
                         return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             const user = response.data

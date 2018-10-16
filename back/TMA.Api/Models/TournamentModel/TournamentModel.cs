@@ -14,5 +14,8 @@ namespace TMA.Api.Controllers
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int? NumberOfEvents { get; set; }
+        [Required]
+        public int GroupId { get; set; }
+        public GroupModel GroupModel { get; set; }
     }
 }

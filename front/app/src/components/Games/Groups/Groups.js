@@ -9,6 +9,7 @@ import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp'
 import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
+import { EDIT_GROUP, ADD_NEW_GROUP, DELETE_GROUP } from '../../../configuration/config'
 import { getAllGroupsRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import moment from 'moment';
@@ -78,7 +79,7 @@ export class Groups extends Component {
     }
     
     editGroupComp = () => {
-        return <Register headline='Edit Group' classStr='none' group={this.state.groupInEditMode}/>
+        return <Register headline={EDIT_GROUP} classStr='none' group={this.state.groupInEditMode}/>
     }
 
     addNewGroupBtn = () => {
@@ -88,7 +89,7 @@ export class Groups extends Component {
     }
 
     addGroupComp = () => {
-        return <Register headline='Add New Group' classStr='none' />
+        return <Register headline={ADD_NEW_GROUP} classStr='none' />
     }
 
     tableHeader = () => (
@@ -135,7 +136,7 @@ export class Groups extends Component {
                 <ul className={classes.groupsList}>{this.groupsList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}
                 {this.props.editThisGroup ? <div className={classes.AddUser}>{this.editGroupComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='delete group' item={this.state.groupForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_GROUP} item={this.state.groupForDelete}/> : null}
             </div>
         )
     }
