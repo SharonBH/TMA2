@@ -98,6 +98,7 @@
                         border-radius: 10px;
                         padding: 5px 10px 5px 10px;
                         background-color: $white;
+                        cursor: pointer;
 
                         i {
                             font-size: 20px;
@@ -123,6 +124,7 @@
                     .user {
                         border: 1px solid #03a3d0;
                         width: 140px;
+                        cursor: default;
                     }
                 }
             }
