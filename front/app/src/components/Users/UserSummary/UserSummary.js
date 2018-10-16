@@ -29,8 +29,9 @@ class UserSummary extends Component {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
             const tournamentData = this.props.tournament
-            const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null 
-            ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
+            const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
+            console.log('eventTName',eventTName)
+            console.log('tournamentData',tournamentData.eventTypeId)
             const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
             const tournamentName = tournamentData.tournamentName
             const startDate = tournamentData.startDate
