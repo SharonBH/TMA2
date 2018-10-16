@@ -133,12 +133,14 @@ namespace TMA.Api.Controllers
                         NumberOfEvents = (int?)tournament.NumberOfEvents,
                         GroupId = tournament.GroupId
                     };
+
                     var group = _mainRepository.GetGroupById(tournament.GroupId);
                     var groupModel = new GroupModel
                     {
                         GroupName = group.GroupName,
                         GroupId = group.GroupId
                     };
+
                     var users = new List<UserModel>();
                     foreach (var usersGroups in group.UsersGroups)
                     {
@@ -153,6 +155,19 @@ namespace TMA.Api.Controllers
                     }
                     groupModel.Users = users;
                     tournamentModel.GroupModel = groupModel;
+
+                    var tournamentsEvents = new List<EventModel>();
+                    foreach (var tournamentEvent in tournament.Events)
+                    {
+                        var eventModel = new EventModel
+                        {
+                            EventName = tournamentEvent.EventName,
+                            EventDate = tournamentEvent.EventDate,
+                            EventId = tournamentEvent.EventId
+                        };
+                        tournamentsEvents.Add(eventModel);
+                    }
+                    tournamentModel.Events = tournamentsEvents;
                     tournamentsModel.Add(tournamentModel);
                 }
 

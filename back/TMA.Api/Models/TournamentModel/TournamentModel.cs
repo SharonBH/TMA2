@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMA.Api.Controllers
@@ -17,5 +18,6 @@ namespace TMA.Api.Controllers
         [Required]
         public int GroupId { get; set; }
         public GroupModel GroupModel { get; set; }
+        public List<EventModel> Events {get;set;}
     }
 }
