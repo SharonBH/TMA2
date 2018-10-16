@@ -29,10 +29,9 @@ class UserSummary extends Component {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
             const tournamentData = this.props.tournament
+            console.log('this.props.tournById,', this.props.tournById)
             const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
-            console.log('eventTName',eventTName)
-            console.log('tournamentData',tournamentData.eventTypeId)
-            const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
+            const eventN = eventTName.eventTypeName
             const tournamentName = tournamentData.tournamentName
             const startDate = tournamentData.startDate
             const endDate = tournamentData.endDate
@@ -101,7 +100,7 @@ class UserSummary extends Component {
     }
 
     editBtnFunc = (item, index) => {
-        if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisItem && item.detail !== 'User Name' ) || this.props.editThisEvent ) {
+        if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisItem && item.detail !== 'User Name' ) || this.props.editThisEvent || (this.props.editThisEvent && item.detail !== 'Tournament Name' ) ) {
             return (
                 <div className={classes.BTN}>
                     <i className={ 
@@ -259,16 +258,19 @@ class UserSummary extends Component {
                                 placeholder={detail} 
                                 content={this.state.userDetailsArr[index].editInput} 
                                 onChange={(e) => this.editDetailInput(index, e)} />
-                            : <SelectComp 
-                                onChange={(e) => this.editDetailInput(index, e)} 
-                                options={tournaments} 
-                                placeholder={detail}
-                        />
+                            : detail === 'Tournament Name'
+                            ? <InputComp 
+                                inputType="text" 
+                                name="tournament" 
+                                placeholder={tournaments.tournamentName} 
+                                content={this.state.userDetailsArr[index].editInput}
+                                />
+                            : null
                         } 
                         </div> 
                     : <span className={classes.editLineInput}>
-                    {detail === 'Event Date' ? moment(item.param).format('LLLL') : item.param}
-                </span>
+                        {detail === 'Event Date' ? moment(item.param).format('LLLL') : item.param}
+                    </span>
                 }
                 {this.editBtnFunc(item, index)}
             </div>
@@ -340,6 +342,7 @@ const mapStateToProps = (state) => {
         editThisEvent: state.editItemReducer.editThisEvent,
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
+        tournById: state.allListReducer.tournById,
     }
 }
 

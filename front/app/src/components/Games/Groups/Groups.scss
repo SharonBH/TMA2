@@ -42,6 +42,9 @@
             display: flex;
             justify-content: flex-start;
         }
+        .addBtn{
+            width: 200px;
+        }
     }
 
     ul.groupsList {
@@ -49,7 +52,11 @@
         margin: 0;
         text-align: left;
         padding: 0;
-        
+        height: calc(100vh - 178px);
+        overflow-y: auto;
+        .allUsButtons{
+            width: 200px;
+        }
         li{
             border-bottom: 1px solid #e5e5e5;
             padding: 9px 0;
@@ -76,17 +83,25 @@
     }
     
     .success {
-        position: absolute;
+        position: fixed;
         width: 100%;
         text-align: center;
-        top: 300px;
+        top: 0;
         margin: 0;
+        height: 100vh;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
         span {
             padding: 20px 40px;
-            background: #e6ffe7;
-            border-bottom: 1px solid#999;
+            background: #9dfca1;
+            border-bottom: 1px solid #999;
             position: relative;
+            width: auto;
+            height: auto;
+            max-width: 477px;
 
             .closeBTN {
                 padding: 0 5px;
@@ -105,17 +120,25 @@
         }
     }
     .errorPop {
-        position: absolute;
+        position: fixed;
         width: 100%;
         text-align: center;
-        top: 300px;
+        top: 0;
         margin: 0;
+        height: 100vh;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
         span {
             padding: 20px 40px;
             background: #f18383;
             border-bottom: 1px solid#999;
             position: relative;
+            width: auto;
+            height: auto;
+            max-width: 477px;
 
             .closeBTN {
                 padding: 0 5px;
