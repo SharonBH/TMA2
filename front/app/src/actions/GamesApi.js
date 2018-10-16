@@ -540,7 +540,7 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
                         history.push({pathname: '/groups'})
-                        dispatch(successMessageAction('Groups removed Successfuly'))
+                        dispatch(successMessageAction('Groups Was Edited Successfully'))
                         dispatch(toggleLoaderAction(false))
                 })
                 .catch((error) => {
