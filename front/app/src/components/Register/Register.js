@@ -87,13 +87,19 @@ class Register extends Component {
 
     addNewGroup = (e) => {
         e.preventDefault()
-        const { groupName, addSearchUsersResult} = this.state
+        if(this.state.groupName === '') {
+            this.props.errorMessageAction('group must have a name')
+        } else if (this.state.addSearchUsersResult.length === 0) {
+            this.props.errorMessageAction('select users for this group')
+        } else {
+            const { groupName, addSearchUsersResult} = this.state
         let arr = []
         addSearchUsersResult.map((user) => {
             arr.push(user.userId)
         })
         this.props.addNewGroupRequest(groupName, arr)
         this.setState({groupName: '', usersIds: [], searchUsers: '', searchUsersResult: [], addSearchUsersResult: []})
+        }
     }
 
     componentWillMount() {
@@ -113,45 +119,39 @@ class Register extends Component {
         this.props.successMessageAction(null)
     }
 
-    registerSbmit = (e) => {
-        const { email, password, confirmPassword, name, userType, userName } = this.state
-        // const email = this.state.email
-        // const password = this.state.password
-        // const confirmPassword = this.state.confirmPassword
-        // const name = this.state.name
-        // const userType = this.state.userType
-        // const userName = this.state.userName
-        e.preventDefault()
-        this.props.registerRequest(email, password, confirmPassword, name, userType, userName)
-    }
-
-    addNewUser = (e) => {
+    addNewUser = (e, headline) => {
         const { email, password, confirmPassword, name, userType, userName } = this.state
         e.preventDefault()
-        this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
+        if(!email.includes('@')) {
+            this.props.errorMessageAction('you must enter a valid email address')
+        } else if (password.length < 6) {
+            this.props.errorMessageAction('password must have at least 6 characters')
+        } else if (password !== confirmPassword) {
+            this.props.errorMessageAction('confirm password doesn\'t match  password')
+        } else if (name === '') {
+            this.props.errorMessageAction('you must enter a name')
+        } else if (userName === '') {
+            this.props.errorMessageAction('you must enter a user name')
+        } else {
+            headline === 'Register' 
+            ? this.props.registerRequest(email, password, confirmPassword, name, userType, userName) 
+            : this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
+        }
     }
 
     addNewTournament = (e) => {
         const { tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum } = this.state
-        // const tournamentName = this.state.TournamentName
-        // const tournamentStartDate = this.state.TournamentStartDate
-        // const tournamentEndDate = this.state.TournamentEndDate
-        // const eventsMaxNum = this.state.EventsMaxNum
-
         e.preventDefault()
+        
         this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
     }
 
     addNewEvent = (e) => {
         const {tourn} = this.props
-        const { EventName, EventDate } = this.state
-
-        // const EventName = this.state.EventName
-        // const EventTypeName = this.state.EventTypeName
+        const { EventName, EventDate, EventTypeName } = this.state
         const Tournament = tourn.tournamentName
-        // const EventDate = this.state.EventDate
-
         e.preventDefault()
+
         this.props.addNewEventRequest(EventName, Tournament, EventDate)
     }
 
@@ -199,7 +199,7 @@ class Register extends Component {
                         inputType="submit" 
                         name="register" 
                         content={headline} 
-                        onClick={ headline === 'Register' ?  this.registerSbmit : this.addNewUser}
+                        onClick={(e, headline) => this.addNewUser(e, headline)}
                     />}
                     {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={()=>this.closePopUp()}><span>Close</span></div> : null}
                 </form>
@@ -271,7 +271,7 @@ class Register extends Component {
         )
     }
 
-    handleBlur = () => {
+    CleaningInputFromUsers = () => {
         setTimeout(() => {
             this.setState({searchUsers: ''})
             this.setState({searchUsersResult: []})
@@ -307,7 +307,7 @@ class Register extends Component {
                         :   <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
                     }
                     <div className={classes.searchUsersWrapper}>
-                        <InputComp inputType="text" onBlur={this.handleBlur} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add User By UserName" onChange={this.onSearchUsersChange}/>
+                        <InputComp inputType="text" onBlur={this.CleaningInputFromUsers} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add Users" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
                             {this.state.addSearchUsersResult.length > 0 
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
@@ -342,13 +342,20 @@ class Register extends Component {
 
     editGroupRequest = (e, group) => {
         e.preventDefault()
-        let userIds = []
-        const groupId = group.groupId
-        const groupName = this.state.groupName
-        this.state.addSearchUsersResult.map(user => {
+        if(this.state.groupName === '') {
+            this.props.errorMessageAction('group must have a name')
+        } else if (this.state.addSearchUsersResult.length === 0) {
+            this.props.errorMessageAction('select users for this group')
+        } else {
+            let userIds = []
+            const groupId = group.groupId
+            const groupName = this.state.groupName
+            this.state.addSearchUsersResult.map(user => {
             userIds.push(user.userId)
-        })
-        this.props.editGroupRequest(groupId, groupName, userIds)
+            })
+            this.props.editGroupRequest(groupId, groupName, userIds)
+        }
+        
     }
 
     editBtnFunc = () => {
@@ -410,7 +417,7 @@ const mapDispatchToProps = dispatch => {
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
-        addNewGroupRequest: (groupName, usersIds, arr) => dispatch(addNewGroupRequest(groupName, usersIds, arr)),        
+        addNewGroupRequest: (groupName, usersIds) => dispatch(addNewGroupRequest(groupName, usersIds)),        
         addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
         editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),

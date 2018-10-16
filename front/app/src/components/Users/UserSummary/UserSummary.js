@@ -16,7 +16,6 @@ class UserSummary extends Component {
 
     constructor(props) {
         super(props)
-
         this.state = {
             currentUser: '',
             changePassword: false,
@@ -75,7 +74,6 @@ class UserSummary extends Component {
     
     componentWillUnmount() {
         this.props.errorMessageAction(null)
-
         this.props.successMessageAction(null)
         this.setState({changePassword: false})
     }
@@ -124,6 +122,7 @@ class UserSummary extends Component {
             return null
         }
     }
+
     successMessage = () => {
         const success = this.props.successMessage
         if (success !== null) {
@@ -153,9 +152,14 @@ class UserSummary extends Component {
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput)
         })            
-        
         if(headline === 'Edit' || headline === 'Your Profile') {
-            this.props.editThisUserRequest(headline,editRequestParam[0],editRequestParam[1],editRequestParam[2],editRequestParam[3])
+            if(!editRequestParam[2].includes('@')) {
+                this.props.errorMessageAction('you must enter a valid email address')
+            } else if (editRequestParam[1] === '') {
+                this.props.errorMessageAction('you must enter a name')
+            } else {
+                this.props.editThisUserRequest(headline,editRequestParam[0],editRequestParam[1],editRequestParam[2],editRequestParam[3])
+            }
         }
         else if(headline === 'Edit Tournament'){
             const tournamentId = this.props.tournament.tournamentId
@@ -164,13 +168,11 @@ class UserSummary extends Component {
             const eventId = this.props.event.eventId
             this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2])
         }
-        
     }
+    
     detailLine = (item, index, headline) => {
-
         const detail = item.detail
         return (
-
             <div key={index} className={classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
@@ -278,7 +280,7 @@ class UserSummary extends Component {
         const headLine = headline;
         let name = ''
         if(headline === 'Edit User'){
-             name = user !== null ?  user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
+            name = user !== null ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
         } else if( headline === 'Edit Tournament' ){
             name = tournament !== null ? tournament.tournamentName : null
         } else if ( headline === 'Edit Event' ){
@@ -311,7 +313,6 @@ class UserSummary extends Component {
                 {(headline !== 'Register' && headline !== 'Your Profile') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 {(this.props.editThisItem || this.props.editThisGroup || this.props.editThisEvent) ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
                 {this.props.passwords ? <ChangePassword headline='Change Password' user={user.username} classStr='none' /> : null}
-                
             </div>
         )
     }

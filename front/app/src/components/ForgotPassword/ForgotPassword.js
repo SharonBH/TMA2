@@ -23,10 +23,10 @@ class ForgotPassword extends Component {
     onClick = (e) => {
         e.preventDefault()
         const email = this.state.email
-        if(email === ''){
-            this.setState({error: 'Must be Email'})
+
+        if(!email.includes('@')) {
+            this.props.errorMessageAction('you must enter a valid email address')
         } else {
-            this.setState({error: ''})
             this.props.forgotPassRequest(email)           
         }
     }
