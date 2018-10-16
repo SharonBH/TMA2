@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import SelectComp from '../UI/SelectComp/SelectComp';
+import CreateInputsSection from './CreateInputsSection';
 
 import {ADD_TOURNAMENT, EDIT_GROUP, ADD_USER, REGISTER, ADD_NEW_GROUP, ADD_EVENT} from '../../configuration/config'
 
@@ -23,10 +24,10 @@ class Register extends Component {
             userType: 'User',
             userName: '',
 
-            TournamentName:'',
-            TournamentStartDate: '',
-            TournamentEndDate: '',
-            EventsMaxNum: '',
+            // TournamentName:'',
+            // TournamentStartDate: '',
+            // TournamentEndDate: '',
+            // EventsMaxNum: '',
 
             EventName: '',
             // EventTypeName:'',
@@ -48,10 +49,10 @@ class Register extends Component {
     onNameChange = (e) => { this.setState({ name: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
-    onTournamentNameChange = (e) => { this.setState({TournamentName: e.target.value})}
-    onStartDateChange = (e) => { this.setState({TournamentStartDate: e.target.value})}
-    onEndDateChange = (e) => { this.setState({TournamentEndDate: e.target.value})}
-    onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
+    // onTournamentNameChange = (e) => { this.setState({TournamentName: e.target.value})}
+    // onStartDateChange = (e) => { this.setState({TournamentStartDate: e.target.value})}
+    // onEndDateChange = (e) => { this.setState({TournamentEndDate: e.target.value})}
+    // onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
 
     onEventNameChange = (e) => { this.setState({EventName: e.target.value})}
     // onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
@@ -137,16 +138,17 @@ class Register extends Component {
         this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
     }
 
-    addNewTournament = (e) => {
-        const { tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum } = this.state
-        // const tournamentName = this.state.TournamentName
-        // const tournamentStartDate = this.state.TournamentStartDate
-        // const tournamentEndDate = this.state.TournamentEndDate
-        // const eventsMaxNum = this.state.EventsMaxNum
+    // addNewTournament = (e) => {
+    //     // const { tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum } = this.state
+    //     const { tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum } = this.props
+    //     // const tournamentName = this.state.TournamentName
+    //     // const tournamentStartDate = this.state.TournamentStartDate
+    //     // const tournamentEndDate = this.state.TournamentEndDate
+    //     // const eventsMaxNum = this.state.EventsMaxNum
 
-        e.preventDefault()
-        this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
-    }
+    //     e.preventDefault()
+    //     this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
+    // }
 
     addNewEvent = (e) => {
         const {tourn} = this.props
@@ -225,12 +227,14 @@ class Register extends Component {
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
-                    <InputComp inputType="text" name="tournamentName" placeholder="Tournament Name" onChange={this.onTournamentNameChange}/>
+                   <CreateInputsSection/>
+                    {/* <InputComp inputType="text" name="tournamentName" placeholder="Tournament Name" onChange={this.onTournamentNameChange}/>
                     <InputComp inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange}/>
                     <InputComp inputType="date" name="endDate" placeholder="End Date" onChange={this.onEndDateChange}/>
-                    <InputComp inputType="number" name="maxNumOfEvents" placeholder="Maximum number Of Events" onChange={this.onMaxNumChange}/>
+                    <InputComp inputType="number" name="maxNumOfEvents" placeholder="Maximum number Of Events" onChange={this.onMaxNumChange}/> */}
                     {this.errorMessage()}
                     {this.successMessage()}
+                    
                     {<BtnComp 
                         inputType="submit" 
                         name="createTour" 
@@ -374,7 +378,7 @@ class Register extends Component {
         if(headline === REGISTER || headline === ADD_USER){
            return this.rgisterFage(headline, classStr)
         } else if(headline === ADD_TOURNAMENT){
-            return this.tournamentFage(headline)
+            return  this.tournamentFage(headline)
         } else if( headline === ADD_EVENT ){
             return this.eventFage(headline)
         } else if( headline === ADD_NEW_GROUP ){
