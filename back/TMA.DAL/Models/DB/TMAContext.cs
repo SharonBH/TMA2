@@ -209,6 +209,12 @@ namespace TMA.DAL.Models.DB
                     .HasForeignKey(d => d.EventTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tournaments_LKP_Event");
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.Tournaments)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Tournaments_Groups");
             });
 
             modelBuilder.Entity<UsersGroups>(entity =>

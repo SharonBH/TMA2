@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace TMA.Api.Controllers
@@ -14,5 +15,9 @@ namespace TMA.Api.Controllers
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int? NumberOfEvents { get; set; }
+        [Required]
+        public int GroupId { get; set; }
+        public GroupModel GroupModel { get; set; }
+        public List<EventModel> Events {get;set;}
     }
 }

@@ -151,7 +151,7 @@ namespace TMA.DAL
 
         #region Tournaments
 
-        public void CreateTournament(string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
+        public void CreateTournament(string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
         {
             try
             {
@@ -168,7 +168,8 @@ namespace TMA.DAL
                         StartDate = startDate,
                         EventTypeId = eventType.EventTypeId,
                         EndDate = endDate,
-                        NumberOfEvents = numberOfEvents
+                        NumberOfEvents = numberOfEvents,
+                        GroupId = groupId
                     };
                     context.Tournaments.Add(tournament);
                     context.SaveChanges();
@@ -180,7 +181,7 @@ namespace TMA.DAL
             }
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
+        public void EditTournament(int tournamentId, string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
         {
             try
             {
@@ -202,6 +203,9 @@ namespace TMA.DAL
 
                     if (tournament.NumberOfEvents != numberOfEvents)
                         tournament.NumberOfEvents = numberOfEvents;
+
+                    if (tournament.GroupId != groupId)
+                        tournament.GroupId = groupId;
 
                     context.Tournaments.Update(tournament);
                     context.SaveChanges();
@@ -280,9 +284,12 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var tournaments = context.Tournaments
-                        .Include(x=> x.Events).ThenInclude(t=> t.EventResults)
+                        .Include(x => x.Events).ThenInclude(t => t.EventResults)
+                        .Include(x => x.EventType)
                         .Where(e => e.IsDeleted == false)
                         .ToList();
+
+                    tournaments.ForEach(x => x.Events = x.Events.Where(e => e.IsDeleted == false).ToList());
                     return tournaments;
                 }
             }

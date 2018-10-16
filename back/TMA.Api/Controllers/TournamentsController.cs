@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using TMA.Api.Models.AccountViewModels;
 using TMA.BLL;
 
 namespace TMA.Api.Controllers
@@ -19,7 +21,7 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents);
+                    _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId);
 
                     return Json(new { Response = "Success", Message = "Tournament created successfully." });
                 }
@@ -45,7 +47,7 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.EditTournament(tournamentModel.TournamentId, tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents);
+                    _mainRepository.EditTournament(tournamentModel.TournamentId, tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId);
 
                     return Json(new { Response = "Success", Message = "Tournament edited successfully." });
                 }
@@ -117,8 +119,59 @@ namespace TMA.Api.Controllers
         {
             try
             {
-                var getTournaments = _mainRepository.GetTournaments();
-                return Json(getTournaments);
+                var tournamentsModel = new List<TournamentModel>();
+                var tournaments = _mainRepository.GetTournaments();
+                foreach (var tournament in tournaments)
+                {
+                    var tournamentModel = new TournamentModel
+                    {
+                        TournamentId = tournament.TournamentId,
+                        TournamentName = tournament.TournamentName,
+                        EventTypeName = tournament.EventType.EventTypeName,
+                        StartDate = tournament.StartDate,
+                        EndDate = tournament.EndDate,
+                        NumberOfEvents = (int?)tournament.NumberOfEvents,
+                        GroupId = tournament.GroupId
+                    };
+
+                    var group = _mainRepository.GetGroupById(tournament.GroupId);
+                    var groupModel = new GroupModel
+                    {
+                        GroupName = group.GroupName,
+                        GroupId = group.GroupId
+                    };
+
+                    var users = new List<UserModel>();
+                    foreach (var usersGroups in group.UsersGroups)
+                    {
+                        var user = new UserModel
+                        {
+                            UserId = usersGroups.User.Id,
+                            Email = usersGroups.User.Email,
+                            Username = usersGroups.User.UserName,
+                            Name = usersGroups.User.Name
+                        };
+                        users.Add(user);
+                    }
+                    groupModel.Users = users;
+                    tournamentModel.GroupModel = groupModel;
+
+                    var tournamentsEvents = new List<EventModel>();
+                    foreach (var tournamentEvent in tournament.Events)
+                    {
+                        var eventModel = new EventModel
+                        {
+                            EventName = tournamentEvent.EventName,
+                            EventDate = tournamentEvent.EventDate,
+                            EventId = tournamentEvent.EventId
+                        };
+                        tournamentsEvents.Add(eventModel);
+                    }
+                    tournamentModel.Events = tournamentsEvents;
+                    tournamentsModel.Add(tournamentModel);
+                }
+
+                return Json(tournamentsModel);
             }
             catch (Exception ex)
             {
