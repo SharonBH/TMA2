@@ -52,16 +52,16 @@ namespace TMA.BLL
 
         #region Tournaments
 
-        public void CreateTournament(string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
+        public void CreateTournament(string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
         {
             var eventType = _mainRepository.GetEventTypeByName(eventTypeName);
-            _mainRepository.CreateTournament(tournamentName, eventType, startDate, endDate, numberOfEvents);
+            _mainRepository.CreateTournament(tournamentName, eventType, startDate, endDate, numberOfEvents, groupId);
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents)
+        public void EditTournament(int tournamentId, string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
         {
             var eventType = _mainRepository.GetEventTypeByName(eventTypeName);
-            _mainRepository.EditTournament(tournamentId, tournamentName, eventType, startDate, endDate, numberOfEvents);
+            _mainRepository.EditTournament(tournamentId, tournamentName, eventType, startDate, endDate, numberOfEvents, groupId);
         }
 
         public void DeleteTournament(int tournamentId)
