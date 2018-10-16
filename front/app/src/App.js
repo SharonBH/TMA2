@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { withCookies } from 'react-cookie';
 import ConfirmMessage from './components/UI/ConfirmMessage';
 import TopNavigation  from './containers/TopNavigation/TopNavigation';
+import { SING_OUT } from './configuration/config'
 class App extends Component {
   spinner = () => {
     if (this.props.toggleSpinner) {
@@ -25,7 +26,7 @@ class App extends Component {
                 {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <TopNavigation/>}
                 {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <Nav />}
                 <MainPage />
-                {this.props.signOutConfirmMessage ? <ConfirmMessage headline='sign out' user=''/> : null}
+                {this.props.signOutConfirmMessage ? <ConfirmMessage headline={SING_OUT} user=''/> : null}
             </div>
         );
     }

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import classes from '../../Games/TournamentPage/TournamentPage..scss';
 
 import moment from 'moment'
-
+import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, ADD_TOURNAMENT, DELETE_EVENT } from '../../../configuration/config'
 
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
@@ -17,7 +17,7 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-import { takeAllTournaments, DeleteTournamentRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents } from '../../../actions/GamesApi';
 import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, 
     successMessageAction, errorMessageAction, deleteConfirmMessageAction, sendEventDataAction }  from '../../../actions';
 export class TournamentPage extends Component {
@@ -56,6 +56,7 @@ export class TournamentPage extends Component {
         this.props.successMessageAction(null)
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
+            this.props.takeAllEvents()
         } else {
             return null
         }
@@ -102,16 +103,16 @@ export class TournamentPage extends Component {
 
     
     addTournamentComp = () => {
-        return <Register headline='Add Tournament' classStr='none' />
+        return <Register headline={ADD_TOURNAMENT} classStr='none' />
     }
     addEventComp = () => {
-        return <Register headline='Add Event' tourn={this.props.tournById} classStr='none' />
+        return <Register headline={ADD_EVENT} tourn={this.props.tournById} classStr='none' />
     }
     editEventComp = () => {
-        return <UserSummary headline='Edit Event' event={this.state.eventInEditMode} tournament={null} user={null} group={null}/>
+        return <UserSummary headline={EDIT_EVENT} event={this.state.eventInEditMode} tournament={null} user={null} group={null}/>
     }
     editTournamentComp = () => {
-        return <UserSummary headline='Edit Tournament' event={null} tournament={this.props.tournById} user={null}  group={null}/>
+        return <UserSummary headline={EDIT_TOURNAMENT} event={null} tournament={this.props.tournById} user={null}  group={null}/>
     }
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
@@ -213,7 +214,7 @@ export class TournamentPage extends Component {
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
                 {this.props.editThisEvent ? <div className={classes.AddUser}>{this.editEventComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline='Delete Event' item={this.state.eventForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_EVENT} item={this.state.eventForDelete}/> : null}
                 {/* {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null} */}
                 {/* 
                 {this.props.addTournament ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
@@ -245,6 +246,7 @@ const mapDispatchToProps = dispatch => {
 
     return{
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
+        takeAllEvents: payload => dispatch(takeAllEvents(payload)),
         DeleteTournamentRequest: (item) => dispatch(DeleteTournamentRequest(item)),
         editThisEventAction: payload => dispatch(editThisEventAction(payload)),
         addNewEventAction: payload => dispatch(addNewEventAction(payload)),

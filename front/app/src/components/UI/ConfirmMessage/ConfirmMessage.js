@@ -7,6 +7,7 @@ import { DeleteTournamentRequest, DeleteEventRequest, DeleteGroupRequest } from 
 import classes from './ConfirmMessage.scss';
 import history from '../../../configuration/history';
 import Zoom from 'react-reveal/Zoom';
+import { DELETE_EVENT, DELETE_GROUP, DELETE_TOURNAMENT, DELETE_USER, SING_OUT } from '../../../configuration/config'
 
 class ConfirmMessage extends Component {
 
@@ -43,22 +44,22 @@ class ConfirmMessage extends Component {
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
         const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
         switch(headline) {
-            case 'delete user':
+            case DELETE_USER:
                 this.props.DeleteUserRequest(user.username)
                 break
-            case 'delete tournament':
+            case DELETE_TOURNAMENT:
                 this.props.DeleteTournamentRequest(itemForDel.tournamentId)
                 break
-            case 'Delete Event':
+            case DELETE_EVENT:
                 this.props.DeleteEventRequest(eventForDel.eventId)
                 break
-            case 'sign out':
+            case SING_OUT:
                 this.props.getUserAction(null)
                 localStorage.clear();
                 sessionStorage.clear();
                 history.push({pathname: '/'})
                 break
-            case 'delete group':
+            case DELETE_GROUP:
                 this.props.DeleteGroupRequest(item.groupId)
                 break
             default: 
@@ -73,15 +74,15 @@ class ConfirmMessage extends Component {
         let name = ''
         
         // headline === 'delete user' ? user.username : itemForDel.tournamentName
-        if(headline === 'delete user'){
+        if(headline === DELETE_USER){
             name = user.username
-        } else if(headline === 'delete tournament'){
+        } else if(headline === DELETE_TOURNAMENT){
             name =  itemForDel.tournamentName
-        } else if (headline === 'sign out'){
+        } else if (headline === SING_OUT){
             name = ''
-        }else if(headline === 'Delete Event'){
+        }else if(headline === DELETE_EVENT){
             name =  eventForDel.eventName
-        }else if(headline === 'delete group'){
+        }else if(headline === DELETE_GROUP){
             name =  item.groupName
         }
 
