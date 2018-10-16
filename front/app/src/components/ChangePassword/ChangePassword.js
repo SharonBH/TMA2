@@ -36,15 +36,14 @@ class ChangePassword extends Component {
 
     onClick = (e) => {
         const username = this.props.user
-        const password = this.state.password
-        const newPassword = this.state.newPassword
-        const confirmPassword = this.state.confirmPassword
-        
-
-        if(username === '' || password === '' || newPassword === '' || confirmPassword === ''){
-            this.setState({error: 'Must be all data'})
-        }else{
-            this.setState({error: ''})
+        const { password, newPassword, confirmPassword } = this.state
+        if(password === '') {
+            this.props.errorMessageAction('you must enter your password')
+        } else if (newPassword.length < 6) {
+            this.props.errorMessageAction('the new password must have at least 6 characters')
+        } else if (password !== confirmPassword) {
+            this.props.errorMessageAction('confirm password doesn\'t match  password')
+        } else {
             this.props.changePasswordRequest(username, password, newPassword, confirmPassword)
         }
     }
@@ -70,9 +69,6 @@ class ChangePassword extends Component {
         this.props.changePassOpenAction(false)
     }
     render() {
-        console.log('history', history)
-        console.log('this.props', this.props)
-        console.log('this.state', this.state)
         return (
             <div className={chClasses.changePassWrapper}>
                 <div className={chClasses.changePass}>
