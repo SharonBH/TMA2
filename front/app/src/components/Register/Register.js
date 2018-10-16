@@ -321,9 +321,9 @@ class Register extends Component {
                         <div className={classes.usersWrapper} >
                             {this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null}
                             {this.state.searchUsersResult.map((user, index) => (  
-                                <span className={classes.user} key={index}>
+                                <span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
                                     {user.username}
-                                    <i className="far fa-plus-square" onClick={() => this.addSearchUsers(user)}></i>
+                                    <i className="far fa-plus-square"></i>
                                 </span>      
                             ))}
                         </div>
