@@ -13,8 +13,16 @@ import { EDIT_GROUP, ADD_NEW_GROUP, DELETE_GROUP } from '../../../configuration/
 import { getAllGroupsRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import moment from 'moment';
-
 export class Groups extends Component {
+
+    static propTypes = {
+        groupsList: PropTypes.array,
+        successMessage: PropTypes.string,
+        errorMessage: PropTypes.string,
+        addItem: PropTypes.bool,
+        editThisGroup: PropTypes.bool,
+        deleteUserConfirmMessage: PropTypes.bool
+    };
 
     static propTypes = {
         getAllGroupsRequest: PropTypes.func
@@ -128,6 +136,7 @@ export class Groups extends Component {
     }
 
     render() {
+        console.log('this.props',this.props)
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
