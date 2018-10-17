@@ -247,12 +247,12 @@ class Register extends Component {
                         <SelectComp 
                             key={eventTypes}
                             options={eventTypes}
-                            placeholder={'Event Type'}
+                            placeholder={'Tournament Type'}
                             name={'eventType'}
                             onChange={(e) => this.onTypeOfEventChange(e)}   
                         />
                     </div>
-                    <InputComp inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange}/>
+                    <InputComp  inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange}  />
                     <InputComp inputType="date" name="endDate" placeholder="End Date" onChange={this.onEndDateChange}/>
                     <InputComp inputType="number" name="maxNumOfEvents" placeholder="Maximum number Of Events" onChange={this.onMaxNumChange}/>
                     {this.errorMessage()}
