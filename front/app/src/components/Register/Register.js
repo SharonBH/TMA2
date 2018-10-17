@@ -238,7 +238,6 @@ class Register extends Component {
                         <SelectIdComp 
                             key={groupL}
                             options={groupL}
-                            selectedOption={groupL.eventTypeId}
                             placeholder={'Choose group'}
                             name={'groups'}
                             onChange={(e) => this.onGroupsChange(e)}   
