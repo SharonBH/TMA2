@@ -15,12 +15,15 @@ import {
     addNewGroupAction,
 } from './index';
 
+const cors = 'https://cors-anywhere.herokuapp.com/'
+const url = 'https://tma-api.azurewebsites.net/'
+
 // get all tournaments
 export const takeAllTournaments = () => {
     console.log('2')
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
+        return axios.post(cors + url + `Tournaments/GetTournaments`)
             .then((response) => {
                     const tournaments = response.data
                     dispatch(getAllToursAction(tournaments));
@@ -29,7 +32,7 @@ export const takeAllTournaments = () => {
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction([error][0]))
+                dispatch(errorMessageAction(error[0]))
                 dispatch(toggleLoaderAction(false))
             });  
     }
@@ -39,7 +42,7 @@ export const takeAllTournaments = () => {
 export const takeAllEvents = () => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEvents`)
+        return axios.post(cors + url + `Events/GetEvents`)
             .then((response) => {
                 console.log('response', response)
                 // if(response.data.response === 'Success') {
@@ -47,7 +50,7 @@ export const takeAllEvents = () => {
                     // dispatch(successMessageAction(data))
                     const events = response.data
                     dispatch(getAllEventsAction(events));
-                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEventTypes`)
+                    return axios.post(cors + url + `Events/GetEventTypes`)
                     .then((response) => {
                         
                         const eventTypes = response.data
@@ -79,7 +82,7 @@ export const DeleteTournamentRequest = (tournamentId) => {
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'post',
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/DeleteTournament',
+            url: cors + url + 'Tournaments/DeleteTournament',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: tournamentId
         })
@@ -87,7 +90,7 @@ export const DeleteTournamentRequest = (tournamentId) => {
             if(response.data.response === 'Success') {
                 const data = response.data.message
                 dispatch(successMessageAction(data))
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
+                return axios.post(cors + url + `Tournaments/GetTournaments`)
                 .then((response) => {
                     const tournaments = response.data
                     dispatch(getAllToursAction(tournaments))
@@ -120,7 +123,7 @@ export const DeleteEventRequest = (eventId) => {
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'post',
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/DeleteEvent',
+            url: cors + url + 'Events/DeleteEvent',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: eventId
         })
@@ -128,14 +131,14 @@ export const DeleteEventRequest = (eventId) => {
             if(response.data.response === 'Success') {
                 const data = response.data.message
                 dispatch(successMessageAction(data))
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEvents`)
+                return axios.post(cors + url + `Events/GetEvents`)
                 .then((response) => {
                     const events = response.data
                     dispatch(getAllEventsAction(events))
                     // history.push({pathname: '/tournament_page'})
                     
                     dispatch(toggleLoaderAction(false))
-                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEventTypes`)
+                    return axios.post(cors + url + `Events/GetEventTypes`)
                     .then((response) => {
                         
                         const eventTypes = response.data
@@ -177,7 +180,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
         return axios({
             method: 'post',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/CreateTournament',
+            url: cors + url + 'Tournaments/CreateTournament',
             data: {
                 tournamentName: tournamentName,
                 eventTypeName: EventTypeName,
@@ -189,7 +192,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
         })
         .then((response) => {
             if (response.data.response === 'Success') {
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
+                return axios.post(cors + url + `Tournaments/GetTournaments`)
                     .then((response) => {
                         const tournaments = response.data
                         dispatch(getAllToursAction(tournaments));
@@ -223,7 +226,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate) => {
         return axios({
             method: 'post',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/CreateEvent',
+            url: cors + url + 'Events/CreateEvent',
             data: {
                 eventName: EventName,
                 tournamentName: Tournament,
@@ -232,7 +235,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate) => {
         })
         .then((response) => {
             if (response.data.response === 'Success') {
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEvents`)
+                return axios.post(cors + url + `Events/GetEvents`)
                     .then((response) => {
                         const events = response.data
                         dispatch(getAllEventsAction(events));
@@ -267,7 +270,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupName, t
         return axios({
             method: 'post',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/EditTournament',
+            url: cors + url + 'Tournaments/EditTournament',
             data: {
                 tournamentId: tournamentId,
                 tournamentName: tournamentName,
@@ -282,7 +285,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupName, t
             
             if (response.data.response === 'Success') {
                 dispatch(successMessageAction('Tournament Edited Successfuly'))
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
+                return axios.post(cors + url + `Tournaments/GetTournaments`)
                 .then((response) => {
                     dispatch(successMessageAction('Tournament Edited Successfuly'))
                     const tournaments = response.data
@@ -316,7 +319,7 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate) => {
         return axios({
             method: 'post',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/EditEvent',
+            url: cors + url + 'Events/EditEvent',
             data: {
                 eventId: eventID,
                 eventName: eventName,
@@ -328,7 +331,7 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate) => {
         .then((response) => {
             if (response.data.response === 'Success') {
                 dispatch(successMessageAction('Event Edited Successfuly'))
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEvents`)
+                return axios.post(cors + url + `Events/GetEvents`)
                 .then((response) => {
                     const events = response.data
                     dispatch(getAllEventsAction(events));
@@ -356,14 +359,14 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate) => {
 // get all tournaments by app comp
 export const appCallTakeAllTournaments = () => {
     return (dispatch) => {
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournaments`)
+        return axios.post(cors + url + `Tournaments/GetTournaments`)
             .then((response) => {
                 const tournaments = response.data
                 dispatch(getAllToursAction(tournaments));
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction([error][0]))
+                dispatch(errorMessageAction(error[0]))
             });  
     }
 };
@@ -371,14 +374,14 @@ export const appCallTakeAllTournaments = () => {
 // get all events by main page comp
 export const appCallTakeAllEvents = () => {
     return (dispatch) => {
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEvents`)
+        return axios.post(cors + url + `Events/GetEvents`)
             .then((response) => {
                 // if(response.data.response === 'Success') {
                     // const data = response.data.message
                     // dispatch(successMessageAction(data))
                     const events = response.data
                     dispatch(getAllEventsAction(events));
-                    return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Events/GetEventTypes`)
+                    return axios.post(cors + url + `Events/GetEventTypes`)
                     .then((response) => {
                         const eventTypes = response.data
                         dispatch(getAllEventTypesAction(eventTypes));
@@ -391,7 +394,7 @@ export const appCallTakeAllEvents = () => {
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction([error][0]))
+                dispatch(errorMessageAction(error[0]))
             });  
 
     }
@@ -400,7 +403,7 @@ export const appCallTakeAllEvents = () => {
 export const appCallgetAllGroupsRequest = () => {
     return (dispatch) => {
         // dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/GetGroups`)
+        return axios.post(cors + url + `Groups/GetGroups`)
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
@@ -422,7 +425,7 @@ export const goToTournPageRequest = (tournamentId) => {
         return axios({
             method: 'post',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Tournaments/GetTournamentById',
+            url: cors + url + 'Tournaments/GetTournamentById',
             data: tournamentId
         })
         .then((response) => {
@@ -443,7 +446,7 @@ export const goToTournPageRequest = (tournamentId) => {
 export const getAllGroupsRequest = () => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/GetGroups`)
+        return axios.post(cors + url + `Groups/GetGroups`)
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
@@ -461,7 +464,7 @@ export const getAllGroupsRequest = () => {
 // get all groups by main page comp 
 export const mainPageGetAllGroupsRequest = () => {
     return (dispatch) => {
-        return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/GetGroups`)
+        return axios.post(cors + url + `Groups/GetGroups`)
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
@@ -478,7 +481,7 @@ export const addNewGroupRequest = (groupName, usersIds) => {
         return axios({
             method: 'post',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/CreateGroup',
+            url: cors + url + 'Groups/CreateGroup',
             data: {
                 groupName: groupName,
                 userIds: usersIds
@@ -486,7 +489,7 @@ export const addNewGroupRequest = (groupName, usersIds) => {
         })
         .then((response) => {
             if (response.data.response === 'Success') {
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/GetGroups`)
+                return axios.post(cors + url + `Groups/GetGroups`)
                     .then((response) => {
                         const groups = response.data
                         dispatch(getAllGroups(groups));
@@ -520,7 +523,7 @@ export const DeleteGroupRequest = (groupId) => {
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'post',
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/DeleteGroup',
+            url: cors + url + 'Groups/DeleteGroup',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: groupId
         })
@@ -528,7 +531,7 @@ export const DeleteGroupRequest = (groupId) => {
             if(response.data.response === 'Success') {
                 const data = response.data.message
                 dispatch(successMessageAction(data))
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/GetGroups`)
+                return axios.post(cors + url + `Groups/GetGroups`)
                 .then((response) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
@@ -562,7 +565,7 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
         return axios({
             method: 'post',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: 'https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/EditGroup',
+            url: cors + url + 'Groups/EditGroup',
             data: {
                 groupId: groupId,
                 groupName: groupName,
@@ -572,7 +575,7 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
         .then((response) => {
             if (response.data.response === 'Success') {
                 dispatch(successMessageAction('Group Edited Successfuly'))
-                return axios.post(`https://cors-anywhere.herokuapp.com/https://tma-api.azurewebsites.net/Groups/GetGroups`)
+                return axios.post(cors + url + `Groups/GetGroups`)
                 .then((response) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
