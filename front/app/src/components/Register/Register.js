@@ -145,16 +145,19 @@ class Register extends Component {
     }
 
     addNewTournament = (e) => {
-        // const { tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum } = this.state
-        const tournamentName = this.state.TournamentName
-        const tournamentStartDate = this.state.TournamentStartDate
-        const tournamentEndDate = this.state.TournamentEndDate
-        const eventsMaxNum = this.state.EventsMaxNum
-        const EventTypeName = this.state.EventTypeName
-        const groups = this.state.groups
+        const { TournamentName, tournamentStartDate, tournamentEndDate, EventsMaxNum, EventTypeName, groups } = this.state
         e.preventDefault()
-        
-        this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)
+        if(TournamentName === '') {
+            this.props.errorMessageAction('you must enter a tournament name')
+        } else if (groups === '') {
+            this.props.errorMessageAction('you must choose a group of users')
+        } else if (EventTypeName === '') {
+            this.props.errorMessageAction('you must choose event type')
+        } else if (EventsMaxNum === '') {
+            this.props.errorMessageAction('you must enter a number of max events')
+        } else {
+            this.props.addNewTournamentRequest(TournamentName, tournamentStartDate, tournamentEndDate, EventsMaxNum, EventTypeName, groups)
+        }
     }
 
     addNewEvent = (e) => {
@@ -228,6 +231,7 @@ class Register extends Component {
     tournamentFage = (headline) => {
         const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }})
         const groupL = this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }})
+        console.log('eventTypes', this.props.allEventTypesList)
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
