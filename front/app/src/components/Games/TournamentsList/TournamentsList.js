@@ -154,7 +154,7 @@ export class TournamentsList extends Component {
                 <div className={classes.role}>{item.numberOfEvents}</div>
                 <div className={classes.role}>{eventN}</div>
                 <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/tournament_page/${item.tournamentName}/add_event`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
+                    <Link to={`/tournament_page/${item.tournamentName}`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
                     {/* <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link> */}
                     <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
                  </div>
