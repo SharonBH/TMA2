@@ -141,6 +141,7 @@ export class Groups extends Component {
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
+                <h1>Groups List</h1>
                 {this.tableHeader()}
                 <ul className={classes.groupsList}>{this.groupsList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}
