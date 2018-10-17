@@ -145,14 +145,15 @@ export class TournamentsList extends Component {
         
 
         return this.props.allTournsList !== undefined ? this.props.allTournsList.map((item, index) => {        
-            const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
-            const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
+            // const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
+            // const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
+            console.log('1111111', this.props.allTournsList )
           return <li key={index}>
                 <div className={classes.username}><Link to={`/tournament_page/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
                 <div className={classes.email}>{moment(item.startDate).format('LLLL')}</div>
                 <div className={classes.email}>{moment(item.endDate).format('LLLL')}</div>
                 <div className={classes.role}>{item.numberOfEvents}</div>
-                <div className={classes.role}>{eventN}</div>
+                <div className={classes.role}>{item.eventTypeName}</div>
                 <div id={index} className={classes.allUsButtons}>
                     <Link to={`/tournament_page/${item.tournamentName}`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
                     {/* <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link> */}

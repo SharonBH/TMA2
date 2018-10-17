@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import SelectComp from '../UI/SelectComp/SelectComp';
+import SelectIdComp from '../UI/SelectComp/SelectIdComp';
 import {ADD_TOURNAMENT, EDIT_GROUP, ADD_USER, REGISTER, ADD_NEW_GROUP, ADD_EVENT} from '../../configuration/config';
 class Register extends Component {
 
@@ -26,17 +27,20 @@ class Register extends Component {
             TournamentStartDate: '',
             TournamentEndDate: '',
             EventsMaxNum: '',
+            groups: '',
 
             EventName: '',
             Tournament: '',
             EventDate: '',
+            
 
             groupName: '',
             searchUsers: '',
             searchUsersResult: [],
             addSearchUsersResult: [],
             usersIds: [],
-            editGroupName: false
+            editGroupName: false,
+            
         }
     }
 
@@ -57,6 +61,7 @@ class Register extends Component {
     onDateOfEventChange = (e) => { this.setState({EventDate: e.target.value})}
 
     onGroupNameChange = (e) => { this.setState({groupName: e.target.value})}
+    onGroupsChange = (e) => { this.setState({groups: e.target.value})}
 
     onSearchUsersChange = (e) => { 
         this.setState({ searchUsersResult: [] })
@@ -146,9 +151,10 @@ class Register extends Component {
         const tournamentEndDate = this.state.TournamentEndDate
         const eventsMaxNum = this.state.EventsMaxNum
         const EventTypeName = this.state.EventTypeName
+        const groups = this.state.groups
         e.preventDefault()
         
-        this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
+        this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)
     }
 
     addNewEvent = (e) => {
@@ -221,12 +227,23 @@ class Register extends Component {
 
     tournamentFage = (headline) => {
         const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }})
+        const groupL = this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }})
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
                     <InputComp inputType="text" name="tournamentName" placeholder="Tournament Name" onChange={this.onTournamentNameChange}/>
                     {/* <InputComp inputType="text" name="typeEvent" placeholder="Type of Event" onChange={this.onTypeOfEventChange}/> */}
+                    <div className={classes.select}>
+                        <SelectIdComp 
+                            key={groupL}
+                            options={groupL}
+                            selectedOption={groupL.eventTypeId}
+                            placeholder={'Choose group'}
+                            name={'groups'}
+                            onChange={(e) => this.onGroupsChange(e)}   
+                        />
+                    </div>
                     <div className={classes.select}>
                         <SelectComp 
                             key={eventTypes}
@@ -408,6 +425,7 @@ class Register extends Component {
     }
     
     render() {
+        console.log('groups', this.props)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
@@ -423,6 +441,7 @@ const mapStateToProps = (state) => {
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
         allList: state.allListReducer.allList,
+        groupsList: state.allListReducer.groupsList,
     }
 }
 
@@ -430,7 +449,7 @@ const mapDispatchToProps = dispatch => {
     return {
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
-        addNewTournamentRequest: (tournamentName, EventTypeName, tournamentStartDate, tournamentEndDate, eventsMaxNum) => dispatch(addNewTournamentRequest(tournamentName, EventTypeName, tournamentStartDate, tournamentEndDate, eventsMaxNum)),
+        addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)),
         addNewEventRequest: (EventName, Tournament, EventDate) => dispatch(addNewEventRequest(EventName, Tournament, EventDate)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),

@@ -28,15 +28,19 @@ class UserSummary extends Component {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
             const tournamentData = this.props.tournament
-            console.log('this.props.tournById,', this.props.tournById)
+            
+            const gName =  this.props.groupsList !== undefined ? this.props.groupsList.find((tourn) => {return tourn.groupId === tournamentData.groupId}): null
+            console.log('this.props.tournById,', gName)
             const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
             const eventN = eventTName.eventTypeName
             const tournamentName = tournamentData.tournamentName
+            const groupName = gName.groupName
             const startDate = tournamentData.startDate
             const endDate = tournamentData.endDate
             const numberOfEvents = tournamentData.numberOfEvents
             return ([
                     {edit: false, detail: 'Tournament Name', param: tournamentName, editInput: tournamentName},
+                    {edit: false, detail: 'Group Name', param: groupName, editInput: groupName},
                     {edit: false, detail: 'Event Type', param: eventN, editInput: eventN},
                     {edit: false, detail: 'Start Date', param: startDate, editInput: startDate},
                     {edit: false, detail: 'End Date', param: endDate, editInput: endDate},
@@ -163,7 +167,7 @@ class UserSummary extends Component {
         }
         else if(headline === EDIT_TOURNAMENT){
             const tournamentId = this.props.tournament.tournamentId
-            this.props.editThisTournamentRequest( tournamentId, editRequestParam[1], editRequestParam[0], editRequestParam[2], editRequestParam[3], editRequestParam[4])
+            this.props.editThisTournamentRequest( tournamentId, editRequestParam[1], editRequestParam[0], editRequestParam[2], editRequestParam[3], editRequestParam[4], editRequestParam[5])
         } else if(headline === EDIT_EVENT){
             const eventId = this.props.event.eventId
             this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2])
@@ -202,6 +206,11 @@ class UserSummary extends Component {
     }
     editGameLine = (item, index) => {
         const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
+        const tournId = this.props.tournById.groupId
+        const groupsName = this.props.groupsList !== undefined ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : null
+           
+        console.log('groupName', groupsName)
+            
         const detail = item.detail
         return (
             <div key={index} className={classes.wrappLine}>
@@ -218,10 +227,10 @@ class UserSummary extends Component {
                                 content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
                             />
-                            : detail === 'Event Type'
+                            : detail === 'Event Type' || detail === 'Group Name'
                             ? <SelectComp 
                                 onChange={(e) => this.editDetailInput(index, e)} 
-                                options={eventTypes} 
+                                options={detail === 'Group Name' ? groupsName : eventTypes} 
                                 placeholder={detail}
                                 /> 
                             :
@@ -344,6 +353,7 @@ const mapStateToProps = (state) => {
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
         tournById: state.allListReducer.tournById,
+        groupsList: state.allListReducer.groupsList,
     }
 }
 
@@ -358,7 +368,7 @@ const mapDispatchToProps = dispatch => {
         editThisEventAction: payload => dispatch(editThisEventAction(payload)),
         editThisUserRequest: (headline, userName, name, email, userType) => dispatch(editThisUserRequest(headline, userName, name, email, userType)),
         editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate)),
-        editThisTournamentRequest: (tournamentId, eventType, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, eventType, tournamentName, startDate, endDate, numberOfEvents)),
+        editThisTournamentRequest: (tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents)),
         
 
     }

@@ -171,7 +171,7 @@ export const DeleteEventRequest = (eventId) => {
 };
 
 // add New-Tournament Request
-export const addNewTournamentRequest = (tournamentName, EventTypeName, startDate, endDate, numberOfEvents) => {
+export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -181,9 +181,10 @@ export const addNewTournamentRequest = (tournamentName, EventTypeName, startDate
             data: {
                 tournamentName: tournamentName,
                 eventTypeName: EventTypeName,
-                startDate: startDate,
-                endDate: endDate,
-                numberOfEvents: numberOfEvents
+                startDate: tournamentStartDate,
+                endDate: tournamentEndDate,
+                numberOfEvents: eventsMaxNum,
+                groupsId: groups
             }
         })
         .then((response) => {
@@ -260,7 +261,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate) => {
 }
 
 // edit User Request
-export const editThisTournamentRequest = ( tournamentId, eventType, tournamentName, startDate, endDate, numberOfEvents) => {
+export const editThisTournamentRequest = ( tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -271,6 +272,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, tournamentNa
                 tournamentId: tournamentId,
                 tournamentName: tournamentName,
                 EventTypeName : eventType,
+                groupName: groupName,
                 startDate: startDate,
                 endDate: endDate,
                 numberOfEvents: numberOfEvents
