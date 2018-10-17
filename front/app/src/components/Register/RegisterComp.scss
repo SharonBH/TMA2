@@ -116,15 +116,15 @@
                 .usersAddedWrapper {
                     position: relative;
                     border: none;
-                    justify-content: space-between;
                     margin: 10px 0;
                     max-height: 210px;
                     padding: 5px;
 
                     .user {
                         border: 1px solid #03a3d0;
-                        width: 140px;
+                        width: 135px;
                         cursor: default;
+                        margin-right: 9px;
                     }
                 }
             }

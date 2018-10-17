@@ -167,7 +167,13 @@ class UserSummary extends Component {
         }
         else if(headline === EDIT_TOURNAMENT){
             const tournamentId = this.props.tournament.tournamentId
-            this.props.editThisTournamentRequest( tournamentId, editRequestParam[1], editRequestParam[0], editRequestParam[2], editRequestParam[3], editRequestParam[4], editRequestParam[5])
+            if(editRequestParam[0] === '') {
+                this.props.errorMessageAction('you must enter a tournament name')
+            } else if (editRequestParam[5] === '') {
+                this.props.errorMessageAction('you must enter a number of max events')
+            } else {
+                this.props.editThisTournamentRequest( tournamentId, editRequestParam[1], editRequestParam[0], editRequestParam[2], editRequestParam[3], editRequestParam[4], editRequestParam[5])
+            }
         } else if(headline === EDIT_EVENT){
             const eventId = this.props.event.eventId
             this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2])
