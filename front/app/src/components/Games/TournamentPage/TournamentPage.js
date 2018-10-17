@@ -36,12 +36,15 @@ export class TournamentPage extends Component {
             currentPage:'',
             eventInEditMode: null,
             eventForDelete: null,
+            groupsListState: []
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
         // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
 
     }
-
+    // componentDidUpdate(){
+    //     this.props.takeAllEvents()
+    // }
     componentWillMount(){
         this.setState({currentPage: this.props.tournById})
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
@@ -52,11 +55,10 @@ export class TournamentPage extends Component {
         
     }
     componentDidMount(){
-        
+        this.setState({groupsListState: this.props.groupsList})
         this.props.successMessageAction(null)
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
-            this.props.takeAllEvents()
         } else {
             return null
         }
@@ -149,23 +151,73 @@ export class TournamentPage extends Component {
     editEventBtn = (item) => {
         this.props.sendEventDataAction(item)
         this.setState({eventInEditMode: item})
-        console.log('edit this.state.eventInEditMode',this.state.eventInEditMode)
-        // setTimeout(() => {
+        setTimeout(() => {
             this.props.editThisEventAction(true)
-            console.log('edit event',item)
-        // }, 200)
+        }, 200)
 
+    }
+    eventsTable = () => {
+        // const currentTournament = this.props.tournById !== null ? this.props.tournById : null
+        const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
+        return (
+            <div className={classes.eventsTable}>
+                <h3>All events of tournament</h3>
+                <div><h4 className={classes.eventName}>Event Name</h4><h4 className={classes.eventDate}>Event Date</h4></div>
+                <ul>
+                {currentTournament.events.map((item, index) => {
+                    return <li key={index}>
+                        <div className={classes.eventName}>{item.eventName}</div>
+                        <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
+                        <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
+                        <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`${item.eventId}Delete`}/></div>
+                    </li>
+                })}
+                </ul>
+            </div>
+        )
+    }
+    usersTable = () => {
+   // group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
+    // const currentTournament = this.props.tournById !== null ? this.props.tournById : null
+    const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
+
+    // let tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
+    const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
+    const gName = this.props.groupsList !== null ? tournGroup.groupName : null
+    // const gName = tournGroup !== undefined || tournGroup !== null ?  Object.values(tournGroup)[1] : null
+    console.log('tournGroup, ', gName)
+        return (
+            <div className={classes.eventsTable}>
+                <h3>All users of tournament</h3>
+                <div><h5 className={classes.groupName}>Group Name</h5> <span>{gName}</span></div>
+                 
+                <div>
+                    <h5 className={classes.eventDate}>Users</h5>
+                    <ul>
+                    {tournGroup !== null ? tournGroup.users.map((item, index) => {
+                            return(
+                                <li key={index}>
+                                    {item.username}
+                                </li>
+                            )
+                    }) : null
+                }
+                    </ul>
+                </div>
+                <ul>
+                </ul>
+            </div>
+        )
     }
     
     render (){
-        console.log('tournament page state',this.state)
-        console.log('tournament page props',this.props)
+        console.log('tournament page state',this.props)
+        // console.log('tournament page props',this.state.currentPage)
     
         // const tournamentHeadig = this.props.location.pathname.slice(1)
         const currentTournament = this.props.tournById !== null ? this.props.tournById : null
-        const eventItem = currentTournament.events.map((event) => {return event.eventId})
+        // const eventItem = currentTournament.events.map((event) => {return event.eventId})
 
-        console.log('eventItem',eventItem)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
@@ -183,33 +235,9 @@ export class TournamentPage extends Component {
                 </div>
                 <div className={classes.tournTime}><h3>Tournament timing:</h3> <h4>from </h4> {moment(currentTournament.startDate).format('LLLL')} <h4>to </h4> {moment(currentTournament.endDate).format('LLLL')}</div>
                 <div>Maximum of events: {currentTournament.numberOfEvents}</div>
-                <div>
-                    <div className={classes.eventsTable}>
-                        <h3>All events of tournament</h3>
-                        <div><h4 className={classes.eventName}>Event Name</h4><h4 className={classes.eventDate}>Event Date</h4></div>
-                        <ul>
-                        {currentTournament.events.map((item, index) => {
-                            return <li key={index}>
-                                <div className={classes.eventName}>{item.eventName}</div>
-                                <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
-                                <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
-                                <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content='Delete'/></div>
-                            </li>
-                        })}
-                        </ul>
-                    </div>
-                    <div className={classes.eventsTable}>
-                        <h3>All users of tournament</h3>
-                        <div><h4 className={classes.eventName}>User Name</h4><h4 className={classes.eventDate}>Event Date</h4></div>
-                        <ul>
-                        {currentTournament.events.map((item, index) => {
-                            return <li key={index}>
-                                <div className={classes.eventName}>{item.eventName}</div>
-                                <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
-                            </li>
-                        })}
-                        </ul>
-                    </div>
+                <div className={classes.TPageTables}>
+                    {this.eventsTable()}
+                    {this.usersTable()}
                 </div>
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
@@ -229,6 +257,7 @@ const mapStateToProps = (state) => {
     return {
         allTournsList: state.allListReducer.allTournsList,
         allEventsList: state.allListReducer.allEventsList,
+        groupsList: state.allListReducer.groupsList,
         tournById: state.allListReducer.tournById,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,

@@ -36,7 +36,7 @@ export class TournamentsList extends Component {
             someId:'',
             tournamentID:''
         }
-        this.editTournamentBtn = this.editTournamentBtn.bind(this)
+        // this.editTournamentBtn = this.editTournamentBtn.bind(this)
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
 
@@ -69,15 +69,15 @@ export class TournamentsList extends Component {
         this.props.deleteConfirmMessageAction(true)
     }
 
-    editTournamentBtn = (item) => {
-        this.setState({tournamentInEditMode: item})
+    // editTournamentBtn = (item) => {
+    //     this.setState({tournamentInEditMode: item})
 
-        setTimeout(() => {
-            console.log(item)
-            this.props.editThisItemAction(true)
-        }, 200)
+    //     setTimeout(() => {
+    //         console.log(item)
+    //         this.props.editThisItemAction(true)
+    //     }, 200)
 
-    }
+    // }
     addEventBtn = (item) => {
         setTimeout(() => {
             console.log('add event', item)
@@ -105,9 +105,9 @@ export class TournamentsList extends Component {
     addEventComp = () => {
         return <Register headline={ADD_EVENT} tourn={this.state.tournamentID} classStr='none' />
     }
-    editTournamentComp = () => {
-        return <UserSummary headline={EDIT_TOURNAMENT} event={null} tournament={this.state.tournamentInEditMode} user={null} group={null}/>
-    }
+    // editTournamentComp = () => {
+    //     return <UserSummary headline={EDIT_TOURNAMENT} event={null} tournament={this.state.tournamentInEditMode} user={null} group={null}/>
+    // }
 
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
@@ -130,7 +130,7 @@ export class TournamentsList extends Component {
     getTournById=(tournIdToPage)=>{
         this.setState({someId: tournIdToPage})
         this.props.goToTournPageRequest(tournIdToPage)
-        console.log('someparam', tournIdToPage)
+        
 
     }
     closeMessage = () => {
@@ -145,17 +145,18 @@ export class TournamentsList extends Component {
         
 
         return this.props.allTournsList !== undefined ? this.props.allTournsList.map((item, index) => {        
-            const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
-            const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
+            // const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
+            // const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
+            console.log('1111111', this.props.allTournsList )
           return <li key={index}>
-                <div className={classes.username}><Link to={`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
+                <div className={classes.username}><Link to={`/tournament_page/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
                 <div className={classes.email}>{moment(item.startDate).format('LLLL')}</div>
                 <div className={classes.email}>{moment(item.endDate).format('LLLL')}</div>
                 <div className={classes.role}>{item.numberOfEvents}</div>
-                <div className={classes.role}>{eventN}</div>
+                <div className={classes.role}>{item.eventTypeName}</div>
                 <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/${item.tournamentName}/add_event`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
-                    <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link>
+                    <Link to={`/tournament_page/${item.tournamentName}`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
+                    {/* <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link> */}
                     <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
                  </div>
             </li>
@@ -164,9 +165,9 @@ export class TournamentsList extends Component {
     }
     
     render (){
-console.log('tourn LIST', this.props)
         return (
             <div className={classes.usersWrapper}>
+                <div>
                 <h1>Tournaments List</h1>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
@@ -178,6 +179,7 @@ console.log('tourn LIST', this.props)
                     <div className={classes.role}>Event Type</div>
                     <div className={classes.addBtn}><BtnComp inputType="submit" content='Add Tournament' onClick={this.addTournamentBtn}/></div>
                 </div> 
+                </div>
                 <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}

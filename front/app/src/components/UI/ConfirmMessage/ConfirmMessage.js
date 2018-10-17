@@ -41,8 +41,10 @@ class ConfirmMessage extends Component {
 
     approve = (headline, user ) => {
         const { item } = this.props
+        console.log('eventForDel', item)
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
         const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
+        // console.log('eventForDel', eventForDel)
         switch(headline) {
             case DELETE_USER:
                 this.props.DeleteUserRequest(user.username)
@@ -51,7 +53,7 @@ class ConfirmMessage extends Component {
                 this.props.DeleteTournamentRequest(itemForDel.tournamentId)
                 break
             case DELETE_EVENT:
-                this.props.DeleteEventRequest(eventForDel.eventId)
+                this.props.DeleteEventRequest(item)
                 break
             case SING_OUT:
                 this.props.getUserAction(null)

@@ -13,7 +13,7 @@ import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/Users/UserSummary';
 import TournamentsList from '../../components/Games/TournamentsList';
 import EventsList from '../../components/Games/EventsList';
-import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest } from '../../actions/GamesApi';
+import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest } from '../../actions/GamesApi';
 import TournamentPage from '../../components/Games/TournamentPage';
 import { appCallTakeAllUsers } from '../../actions/Api';
 import Groups from '../../components/Games/Groups';
@@ -23,14 +23,12 @@ import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 export class MainPage extends Component {
 
     componentWillMount() {
-        // const user = this.props.currentUser
         this.props.appCallTakeAllTournaments()
         this.props.appCallTakeAllEvents()
         this.props.mainPageGetAllGroupsRequest()
         this.props.appCallTakeAllUsers()
-        // if(user !== null && user !== undefined && user.role === 'Admin') {
-        //     this.props.appCallTakeAllUsers()
-        // }
+        this.props.appCallgetAllGroupsRequest()
+
     }
 
     render() {
@@ -82,7 +80,12 @@ export class MainPage extends Component {
                     />
                     <Route
                     exact
-                        path='/:tournamentName'
+                        path='/tournament_page/:tournamentName'
+                        component={TournamentPage}
+                    />
+                    <Route
+                    exact
+                        path='/tournament_page'
                         component={TournamentPage}
                     />
                     <Route
@@ -91,9 +94,14 @@ export class MainPage extends Component {
                         component={TournamentPage}
                     />
                     <Route
+                        exact
+                        path='/edit_tournament/:tournamentName'
+                        component={TournamentsList}
+                    />
+                    {/* <Route
                         path='/all_events'
                         component={EventsList}
-                    />
+                    /> */}
                     <Route 
                         path='/edit_event/:eventName'
                         component={TournamentPage}
@@ -102,11 +110,7 @@ export class MainPage extends Component {
                         path='/scores'
                         // component={TournamentsList}
                     />
-                    <Route
-                        exact
-                        path='/edit_tournament/:tournamentName'
-                        component={TournamentsList}
-                    />
+                    
                     
                     <Route component={NotFound} />
                     
@@ -129,6 +133,7 @@ const mapDispatchToProps = dispatch => {
         appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
         appCallTakeAllUsers: payload => dispatch(appCallTakeAllUsers(payload)),
         mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
+        appCallgetAllGroupsRequest: payload => dispatch(appCallgetAllGroupsRequest(payload)),
     }
 }
 

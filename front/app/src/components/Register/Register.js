@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import SelectComp from '../UI/SelectComp/SelectComp';
+import SelectIdComp from '../UI/SelectComp/SelectIdComp';
 import {ADD_TOURNAMENT, EDIT_GROUP, ADD_USER, REGISTER, ADD_NEW_GROUP, ADD_EVENT} from '../../configuration/config';
 class Register extends Component {
 
@@ -22,21 +23,24 @@ class Register extends Component {
             userName: '',
 
             TournamentName:'',
+            EventTypeName:'',
             TournamentStartDate: '',
             TournamentEndDate: '',
             EventsMaxNum: '',
+            groups: '',
 
             EventName: '',
-            // EventTypeName:'',
             Tournament: '',
             EventDate: '',
+            
 
             groupName: '',
             searchUsers: '',
             searchUsersResult: [],
             addSearchUsersResult: [],
             usersIds: [],
-            editGroupName: false
+            editGroupName: false,
+            
         }
     }
 
@@ -47,16 +51,17 @@ class Register extends Component {
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
 
     onTournamentNameChange = (e) => { this.setState({TournamentName: e.target.value})}
+    onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
     onStartDateChange = (e) => { this.setState({TournamentStartDate: e.target.value})}
     onEndDateChange = (e) => { this.setState({TournamentEndDate: e.target.value})}
     onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
 
     onEventNameChange = (e) => { this.setState({EventName: e.target.value})}
-    // onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
     onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
     onDateOfEventChange = (e) => { this.setState({EventDate: e.target.value})}
 
     onGroupNameChange = (e) => { this.setState({groupName: e.target.value})}
+    onGroupsChange = (e) => { this.setState({groups: e.target.value})}
 
     onSearchUsersChange = (e) => { 
         this.setState({ searchUsersResult: [] })
@@ -140,10 +145,16 @@ class Register extends Component {
     }
 
     addNewTournament = (e) => {
-        const { tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum } = this.state
+        // const { tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum } = this.state
+        const tournamentName = this.state.TournamentName
+        const tournamentStartDate = this.state.TournamentStartDate
+        const tournamentEndDate = this.state.TournamentEndDate
+        const eventsMaxNum = this.state.EventsMaxNum
+        const EventTypeName = this.state.EventTypeName
+        const groups = this.state.groups
         e.preventDefault()
         
-        this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)
+        this.props.addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)
     }
 
     addNewEvent = (e) => {
@@ -215,11 +226,32 @@ class Register extends Component {
     }
 
     tournamentFage = (headline) => {
+        const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }})
+        const groupL = this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }})
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
                     <InputComp inputType="text" name="tournamentName" placeholder="Tournament Name" onChange={this.onTournamentNameChange}/>
+                    {/* <InputComp inputType="text" name="typeEvent" placeholder="Type of Event" onChange={this.onTypeOfEventChange}/> */}
+                    <div className={classes.select}>
+                        <SelectIdComp 
+                            key={groupL}
+                            options={groupL}
+                            placeholder={'Choose group'}
+                            name={'groups'}
+                            onChange={(e) => this.onGroupsChange(e)}   
+                        />
+                    </div>
+                    <div className={classes.select}>
+                        <SelectComp 
+                            key={eventTypes}
+                            options={eventTypes}
+                            placeholder={'Event Type'}
+                            name={'eventType'}
+                            onChange={(e) => this.onTypeOfEventChange(e)}   
+                        />
+                    </div>
                     <InputComp inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange}/>
                     <InputComp inputType="date" name="endDate" placeholder="End Date" onChange={this.onEndDateChange}/>
                     <InputComp inputType="number" name="maxNumOfEvents" placeholder="Maximum number Of Events" onChange={this.onMaxNumChange}/>
@@ -247,7 +279,8 @@ class Register extends Component {
                     <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
                     {/* <InputComp inputType="text" name="typeEvent" placeholder="Type of Event" onChange={this.onTypeOfEventChange}/> */}
                     {/* <span className={classes.TName}>{tourn.tournamentName}</span> */}
-                    <div className={classes.select}>
+                    <InputComp inputType="text" name="tournament" placeholder={tourn.tournamentName} content={tourn.tournamentName}/>
+                    {/* <div className={classes.select}>
                         <SelectComp 
                             key={tournaments}
                             options={tournaments}
@@ -255,8 +288,8 @@ class Register extends Component {
                             name={'tournament'}
                             onChange={(e) => this.onTournamentChange(e)}   
                         />
-                    </div>
-                    <InputComp inputType="date" name="deteOfEvent" placeholder="dateOfEvent" onChange={this.onDateOfEventChange}/>
+                    </div> */}
+                    <InputComp inputType="date" name="deteOfEvent" placeholder="Date Of Event" onChange={this.onDateOfEventChange}/>
                     {this.errorMessage()}
                     {this.successMessage()}
                     {<BtnComp 
@@ -391,6 +424,7 @@ class Register extends Component {
     }
     
     render() {
+        console.log('groups', this.props)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
@@ -406,6 +440,7 @@ const mapStateToProps = (state) => {
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
         allList: state.allListReducer.allList,
+        groupsList: state.allListReducer.groupsList,
     }
 }
 
@@ -413,7 +448,7 @@ const mapDispatchToProps = dispatch => {
     return {
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
-        addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum)),
+        addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)),
         addNewEventRequest: (EventName, Tournament, EventDate) => dispatch(addNewEventRequest(EventName, Tournament, EventDate)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
