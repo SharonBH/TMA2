@@ -14,6 +14,7 @@ export class InputComp extends Component {
         ]),
         placeholder: PropTypes.string,
         onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
     };
 
     render() {

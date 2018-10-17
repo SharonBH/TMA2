@@ -277,8 +277,6 @@ class Register extends Component {
                 <h1>{headline}</h1>
                 <form>
                     <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
-                    {/* <InputComp inputType="text" name="typeEvent" placeholder="Type of Event" onChange={this.onTypeOfEventChange}/> */}
-                    {/* <span className={classes.TName}>{tourn.tournamentName}</span> */}
                     <InputComp inputType="text" name="tournament" placeholder={tourn.tournamentName} content={tourn.tournamentName}/>
                     {/* <div className={classes.select}>
                         <SelectComp 
