@@ -104,7 +104,7 @@ export class Groups extends Component {
     groupsList = () => {
         return this.props.groupsList !== null ? this.props.groupsList.map((group, index) => { 
             const usersInGroup = []
-            group.users.forEach((user) => usersInGroup.push({value: user.username}))
+            group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
             return <li key={group.groupId}>
                 <div className={classes.groupName}>{group.groupName}</div>
                 <div className={classes.createdDate}>{moment(group.createdDate).format('LLLL')}</div>
