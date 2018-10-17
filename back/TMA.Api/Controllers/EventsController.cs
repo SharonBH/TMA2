@@ -23,14 +23,14 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.CreateEvent(eventModel.EventName, eventModel.EventDate, eventModel.TournamentName);
+                    _mainRepository.CreateEvent(eventModel.EventName, eventModel.EventDate, eventModel.TournamentName, eventModel.EventResults);
 
                     return Json(new { Response = "Success", Message = "Event created successfully." });
                 }
                 else if (ModelState.ErrorCount > 0)
                 {
                     var error = ModelState.Where(x => x.Value.ValidationState.ToString() == "Invalid").FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
-                    return Json(new { Response = "Error", Message = error });
+                    return Json(new { Response = "Error", Message = $"Model is invalid: {error}" });
                 }
 
                 return Json(new { Response = "Error", Message = "An error occoured creating a new event." });
@@ -49,14 +49,14 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.EditEvent(eventModel.EventId, eventModel.EventName, eventModel.EventDate, eventModel.TournamentName);
+                    _mainRepository.EditEvent(eventModel.EventId, eventModel.EventName, eventModel.EventDate, eventModel.TournamentName, eventModel.EventResults);
 
                     return Json(new { Response = "Success", Message = "Event edited successfully." });
                 }
                 else if (ModelState.ErrorCount > 0)
                 {
                     var error = ModelState.Where(x => x.Value.ValidationState.ToString() == "Invalid").FirstOrDefault().Value.Errors.FirstOrDefault().ErrorMessage;
-                    return Json(new { Response = "Error", Message = error });
+                    return Json(new { Response = "Error", Message = $"Model is invalid: {error}" });
                 }
 
                 return Json(new { Response = "Error", Message = "An error occoured editing event." });

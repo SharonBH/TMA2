@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TMA.DAL.Models.DB;
 
 namespace TMA.Api.Controllers
 {
@@ -12,5 +14,7 @@ namespace TMA.Api.Controllers
         public string EventName { get; set; }
         public string TournamentName { get; set; }
         public DateTime EventDate { get; set; }
+
+        public List<EventResults> EventResults { get; set; }
     }
 }

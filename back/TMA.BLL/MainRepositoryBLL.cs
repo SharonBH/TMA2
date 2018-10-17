@@ -11,18 +11,18 @@ namespace TMA.BLL
 
         #region Events
 
-        public void CreateEvent(string eventName, DateTime eventDate, string tournamentName)
+        public void CreateEvent(string eventName, DateTime eventDate, string tournamentName, List<EventResults> eventResults)
         {
             var tournament = _mainRepository.GetTournamentByName(tournamentName);
             var tournamentId = tournament?.TournamentId;
-            _mainRepository.CreateEvent(eventName, eventDate, tournamentId);
+            _mainRepository.CreateEvent(eventName, eventDate, tournamentId, eventResults);
         }
 
-        public void EditEvent(int eventId, string eventName, DateTime eventDate, string tournamentName)
+        public void EditEvent(int eventId, string eventName, DateTime eventDate, string tournamentName, List<EventResults> eventResults)
         {
             var tournament = _mainRepository.GetTournamentByName(tournamentName);
             var tournamentId = tournament?.TournamentId;
-            _mainRepository.EditEvent(eventId, eventName, eventDate, tournamentId);
+            _mainRepository.EditEvent(eventId, eventName, eventDate, tournamentId, eventResults);
         }
 
         public void DeleteEvent(int eventId)
