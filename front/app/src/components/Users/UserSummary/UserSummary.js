@@ -35,8 +35,8 @@ class UserSummary extends Component {
             const eventN = eventTName.eventTypeName
             const tournamentName = tournamentData.tournamentName
             const groupName = gName.groupName
-            const startDate = tournamentData.startDate
-            const endDate = tournamentData.endDate
+            const startDate = moment(tournamentData.startDate).format('LLLL') 
+            const endDate =  moment(tournamentData.endDate).format('LLLL') 
             const numberOfEvents = tournamentData.numberOfEvents
             return ([
                     {edit: false, detail: 'Tournament Name', param: tournamentName, editInput: tournamentName},
