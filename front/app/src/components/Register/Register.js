@@ -304,10 +304,10 @@ class Register extends Component {
                                 }
                                 {this.editBtnFunc()}
                             </div>
-                        :   <InputComp inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
+                        :   <InputComp autoFocus={true} inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
                     }
                     <div className={classes.searchUsersWrapper}>
-                        <InputComp inputType="text" onBlur={this.CleaningInputFromUsers} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add Users" onChange={this.onSearchUsersChange}/>
+                        <InputComp inputType="text" autoFocus={true} onBlur={this.CleaningInputFromUsers} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add Users" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
                             {this.state.addSearchUsersResult.length > 0 
                                 ?   this.state.addSearchUsersResult.map((user, index) => {

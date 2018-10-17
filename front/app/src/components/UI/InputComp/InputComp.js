@@ -27,6 +27,7 @@ export class InputComp extends Component {
                     placeholder={this.props.placeholder}
                     onFocus={this.props.onFocus}
                     onBlur={this.props.onBlur}
+                    autoFocus={this.props.autoFocus}
                 />
             </div>
         )
