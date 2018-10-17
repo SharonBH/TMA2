@@ -11,14 +11,14 @@ namespace TMA.DAL
     {
         #region Events
 
-        public void CreateEvent(string eventName, DateTime eventDate, int? tournamentId)
+        public void CreateEvent(string eventName, DateTime eventDate, int? tournamentId, List<EventResults> eventResults)
         {
             try
             {
 
                 using (var context = new TMAContext())
                 {
-                    var isEventExisting = context.Events.Any(e => e.EventName == eventName && e.IsDeleted == false);
+                    var isEventExisting = context.Events.Any(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
                     if(isEventExisting)
                         throw new Exception($"There is an existing '{eventName}' event.");
 
@@ -31,6 +31,13 @@ namespace TMA.DAL
 
                     context.Events.Add(newEvent);
                     context.SaveChanges();
+
+                    var createdEvent = context.Events.FirstOrDefault(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
+                    var eventId = createdEvent.EventId;
+                    eventResults.ForEach(x => x.EventId = eventId);                    
+
+                    createdEvent.EventResults = eventResults;
+                    context.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -39,13 +46,15 @@ namespace TMA.DAL
             }
         }
 
-        public void EditEvent(int eventId, string eventName, DateTime eventDate, int? tournamentId)
+        public void EditEvent(int eventId, string eventName, DateTime eventDate, int? tournamentId, List<EventResults> eventResults)
         {
             try
             {
                 using (var context = new TMAContext())
                 {
-                    var getEvent = context.Events.FirstOrDefault(e => e.EventId == eventId);
+                    var getEvent = context.Events
+                        .Include(x => x.EventResults)
+                        .FirstOrDefault(e => e.EventId == eventId);
 
                     if (getEvent == null)
                         throw new Exception($"Event for EventId [{eventId}] was not found.");
@@ -55,6 +64,16 @@ namespace TMA.DAL
 
                     if (getEvent.TournamentId != tournamentId)
                         getEvent.TournamentId = tournamentId;
+
+
+                    eventResults.ForEach(x => x.EventId = eventId);
+
+                    if (getEvent.EventResults != eventResults)
+                    {
+                        context.EventResults.RemoveRange(getEvent.EventResults);
+                        context.SaveChanges();
+                        getEvent.EventResults = eventResults;
+                    }
 
                     //getEvent.EventDate = eventDate; //TODO: check if we need to change the date.
                     context.Events.Update(getEvent);
