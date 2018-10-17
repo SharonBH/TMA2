@@ -13,6 +13,8 @@ export class InputComp extends Component {
             PropTypes.number,
         ]),
         placeholder: PropTypes.string,
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
     };
 
     render() {

@@ -13,3 +13,9 @@ body{
     box-sizing: border-box;
     // transition: all 0.5s ease-out;
 }
+
+
+input::before {
+  color: #757575;
+  content: attr(placeholder) ": ";
+}
