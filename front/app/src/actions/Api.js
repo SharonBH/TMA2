@@ -12,7 +12,8 @@ import {
 } from './index';
 import { EDIT, YOUR_PROFILE } from '../configuration/config'
 
-const cors ='https://cors-anywhere.herokuapp.com/'
+// const cors ='https://cors-anywhere.herokuapp.com/'
+const cors =''
 const url = 'https://tma-api.azurewebsites.net/'
 
 // register request
