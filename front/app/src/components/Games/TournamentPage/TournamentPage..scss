@@ -1,9 +1,10 @@
-
+@import '../../../styles/colors.scss';
 
 .tournPageWrapper{
     text-align: left;
     margin-top: 10px;
     padding: 0 10px;
+    
     .AddUser {
         display: flex;
         justify-content: center;
@@ -17,42 +18,121 @@
         height: 100%;
         z-index: 92;
     }
-    .editBTN{
-        display: inline-block;
+    .turnInfo{
+        padding: 15px 20px 0;
+        .headTPage{
+            display: flex;
+            justify-content: space-between;
+            .editBTN{
+                display: inline-block;
+            }
+            .deleteBTN{
+                display: inline-block;
+            }
+            h1{
+                margin: 0;
+                span {
+                    font-weight: 400;
+                }
+            }
+            .tournPButtons{
+                text-align: right;
+                margin-right: 20px;
+                &>*{
+                    display: inline-block;
+                    margin-bottom: 5px;
+                    margin-right: 5px;
+                }
+                
+            }
+            .backBtn{
+                display: inline-block;
+                position: relative;
+                white-space: nowrap;
+                margin-left: 10px;
+                i{
+                    font-size: 36px;
+                    position: relative;
+                    top: 10px;
+                    color: $blue;
+                    
+                }
+                span{
+                    display: none;
+                }
+                :hover{
+                    color:$dark-gray;
+                }
+                &:hover span{
+                    display: block;
+                    position: absolute;
+                    top: 51px;
+                    right: 0;
+                    background: #ffffff;
+                    box-shadow: 0px 0px 3px 0px #03a3d0;
+                    padding: 6px 6px;
+                    color: #000;
+                    font-weight: 400;
+                    font-size: 14px;
+                    width: auto;
+                    text-align: left;
+                    z-index: 1;
+                }
+            }
+            
+        }  
+        .tournTime{
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: start;
+            margin-bottom: 15px;
+            padding: 10px;
+            
+            .turnPageTiming{
+                padding-right: 25px;
+                border-right: 1px solid #eee;
+                margin-right: 25px;
+                h3{
+                    margin: 0;
+                }
+                span{
+                    display: block;
+                    h4{
+                        display: inline-block;
+                        margin: 10px 0 0px;
+                    }
+                    p{
+                        display: inline-block;
+                        float: right;
+                        margin: 10px 0 0px 10px;
+                    }
+                }
+            }
+        } 
     }
-    .deleteBTN{
-        display: inline-block;
-    }
-    div h1{
-        margin: 0;
-    }
-    .tournPButtons{
-        text-align: right;
-        margin-right: 20px;
-        &>*{
-            display: inline-block;
-            margin-bottom: 5px;
-            margin-left: 5px;
-        }
-        .backBtn{
-            display: block;
-        }
-    }
-    .headTPage{
-        display: flex;
-        justify-content: space-between;
 
-        
-        
-    }
-    .tournTime{
-        &>*{
-            display: inline-block;
-        }
-    }
+
+    
+    
+    
     .TPageTables{
         display: flex;
         justify-content: space-between;
+        .usersTBL{
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #eee;
+            &>*{
+                margin: 10px;
+                line-height: 20px;
+            }
+        }
+        .usersTBList{
+            ul{
+                margin-top:0;
+            }
+        }
     }
     .eventsTable{
         display: inline-block;
@@ -75,16 +155,33 @@
         }
         ul{
             list-style: none;
-            padding: 0;
+            padding: 15px 0 0 0;
             height: calc(100vh - 368px);
             overflow-y: auto;
+            margin-top: 0;
+        
+            &::-webkit-scrollbar{
+                width: 3px;
+                background: #c5c5c5;
+            }
+            &::-webkit-scrollbar-thumb{
+                background: $blue;
+            }
             li{
                 margin-bottom: 10px; 
+                display: flex;
+                justify-content: space-between;
             }
         }
         .eventDate, .eventName{
             display: inline-block;
             width: 41%;
+        }
+        .editBTN{
+            display: inline-block;
+        }
+        .deleteBTN{
+            display: inline-block;
         }
     }
     .success {

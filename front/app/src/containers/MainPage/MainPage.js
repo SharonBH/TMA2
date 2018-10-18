@@ -23,11 +23,14 @@ import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 export class MainPage extends Component {
 
     componentWillMount() {
-        this.props.appCallTakeAllTournaments()
-        this.props.appCallTakeAllEvents()
-        this.props.mainPageGetAllGroupsRequest()
-        this.props.appCallTakeAllUsers()
-        this.props.appCallgetAllGroupsRequest()
+        setTimeout(() => {
+            this.props.appCallTakeAllTournaments()
+            this.props.appCallTakeAllEvents()
+            this.props.mainPageGetAllGroupsRequest()
+            this.props.appCallTakeAllUsers()
+            this.props.appCallgetAllGroupsRequest()
+        }, 200)
+        
 
     }
 
