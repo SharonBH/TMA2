@@ -36,7 +36,8 @@ export class TournamentPage extends Component {
             currentPage:'',
             eventInEditMode: null,
             eventForDelete: null,
-            groupsListState: []
+            groupsListState: [],
+            thisTournamentGroup: null
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
         // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
@@ -249,15 +250,37 @@ export class TournamentPage extends Component {
         )
     }
     render (){
+<<<<<<< HEAD
         console.log('tournament page state',this.props.tournById.tournamentName)
+=======
+        console.log('tournament page state',this.props)
+        // console.log('tournament page props',this.state.currentPage)
+    
+        // const tournamentHeadig = this.props.location.pathname.slice(1)
+        const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
+        // const eventItem = currentTournament.events.map((event) => {return event.eventId})
+>>>>>>> master
 
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
+<<<<<<< HEAD
                 <div className={classes.turnInfo}>
                     {this.turnamentHeadLine()}
                     {this.turnPageInformation()}
+=======
+                <div className={classes.headTPage}>
+                    <h1>Tournament Name: {currentTournament}</h1>
+                    <div className={classes.tournPButtons}>
+                        <Link className={classes.backBtn} to='/all_tournaments'><BtnComp content='Back to Tournaments List' inputType='button'/></Link>
+                        <BtnComp content='Add Event' inputType='button' onClick={this.addEventBtn}/>
+                        {/* <Link to={`/${currentTournament.tournamentName}/edit_tournament`}> */}
+                        <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
+                        {/* </Link> */}
+                        
+                    </div>
+>>>>>>> master
                 </div>
                 <div className={classes.TPageTables}>
                     {this.eventsTable()}
@@ -314,4 +337,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TournamentPage);
-

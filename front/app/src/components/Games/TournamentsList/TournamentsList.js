@@ -139,15 +139,9 @@ export class TournamentsList extends Component {
     }
 
     tournamentList = () => {
-
-  
-        
-        
-
         return this.props.allTournsList !== undefined ? this.props.allTournsList.map((item, index) => {        
             // const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
             // const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
-            console.log('1111111', this.props.allTournsList )
           return <li key={index}>
                 <div className={classes.username}><Link to={`/tournament_page/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
                 <div className={classes.email}>{moment(item.startDate).format('LLLL')}</div>

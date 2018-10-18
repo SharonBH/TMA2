@@ -32,6 +32,7 @@ class Register extends Component {
             EventName: '',
             Tournament: '',
             EventDate: '',
+            addEventSelectedUsersList: [],
             
 
             groupName: '',
@@ -80,8 +81,8 @@ class Register extends Component {
 
     addSearchUsers = (user) => {
         const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId))
-        const arr = [...fill, user]
-        this.setState({addSearchUsersResult: arr})
+        const array = [...fill, user]
+        this.setState({addSearchUsersResult: array})
     }
 
     removeSelectedUser = (index) => {
@@ -122,6 +123,7 @@ class Register extends Component {
     componentWillUnmount(){
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
+        // this.setState({addEventSelectedUsersList: []})
     }
 
     addNewUser = (e, headline) => {
@@ -161,12 +163,19 @@ class Register extends Component {
     }
 
     addNewEvent = (e) => {
-        const {tourn} = this.props
-        const { EventName, EventDate, EventTypeName } = this.state
-        const Tournament = tourn.tournamentName
         e.preventDefault()
-
-        this.props.addNewEventRequest(EventName, Tournament, EventDate)
+        const {tourn} = this.props
+        const { EventName, EventDate, EventTypeName, addSearchUsersResult } = this.state
+        const Tournament = tourn.tournamentName
+        const usersWithResults = []
+        addSearchUsersResult.map(user => {usersWithResults.push({userId: user.userId, result: null})})
+        if(EventName === '') {
+            this.props.errorMessageAction('you must enter the name of this event')
+        } else if (usersWithResults.length < 2) {
+            this.props.errorMessageAction('you must choose min of two users for this event')
+        } else {
+            this.props.addNewEventRequest(EventName, Tournament, EventDate, usersWithResults)
+        }
     }
 
     errorMessage = () => {
@@ -275,23 +284,36 @@ class Register extends Component {
 
     eventFage = (headline) => {
         const {tourn} = this.props
+        const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === tourn.groupId}) : null
+        const arr = [...tournGroup.users]
         const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
-                    <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
                     <InputComp inputType="text" name="tournament" placeholder={tourn.tournamentName} content={tourn.tournamentName}/>
-                    {/* <div className={classes.select}>
-                        <SelectComp 
-                            key={tournaments}
-                            options={tournaments}
-                            placeholder={tourn.tournamentName}
-                            name={'tournament'}
-                            onChange={(e) => this.onTournamentChange(e)}   
-                        />
-                    </div> */}
+                    <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
                     <InputComp inputType="date" name="deteOfEvent" placeholder="Date Of Event" onChange={this.onDateOfEventChange}/>
+                    <div className={classes.usersAddedWrapper}>
+                        {<span className={classes.searchResult}>selected players for this event</span>}
+                        {this.state.addSearchUsersResult.length > 0 
+                            ?   this.state.addSearchUsersResult.map((user, index) => {
+                                    return <span className={classes.user} key={index}>
+                                        {user.username} 
+                                        <i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
+                                    </span>
+                                })
+                            :   null}
+                    </div>
+                    <div className={classes.usersAddedWrapper} >
+                        {<span className={classes.searchResult}>select players from the tournament group</span>}
+                        {arr.map((user, index) => (  
+                            <span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+                                {user.username}
+                                <i className="far fa-plus-square"></i>
+                            </span>      
+                        ))}
+                    </div>
                     {this.errorMessage()}
                     {this.successMessage()}
                     {<BtnComp 
@@ -451,7 +473,7 @@ const mapDispatchToProps = dispatch => {
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
         addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)),
-        addNewEventRequest: (EventName, Tournament, EventDate) => dispatch(addNewEventRequest(EventName, Tournament, EventDate)),
+        addNewEventRequest: (EventName, Tournament, EventDate, usersWithResults) => dispatch(addNewEventRequest(EventName, Tournament, EventDate, usersWithResults)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
