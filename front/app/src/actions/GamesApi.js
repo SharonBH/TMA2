@@ -15,7 +15,8 @@ import {
     addNewGroupAction,
 } from './index';
 
-const cors = 'https://cors-anywhere.herokuapp.com/'
+// const cors = 'https://cors-anywhere.herokuapp.com/'
+const cors = ''
 const url = 'https://tma-api.azurewebsites.net/'
 
 // get all tournaments
@@ -220,7 +221,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
     }
 };
 // add New-eVENT Request
-export const addNewEventRequest = (EventName, Tournament, EventDate) => {
+export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithResults) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -230,7 +231,8 @@ export const addNewEventRequest = (EventName, Tournament, EventDate) => {
             data: {
                 eventName: EventName,
                 tournamentName: Tournament,
-                eventDate: EventDate
+                eventDate: EventDate,
+                eventResults: usersWithResults
             }
         })
         .then((response) => {

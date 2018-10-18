@@ -36,7 +36,8 @@ export class TournamentPage extends Component {
             currentPage:'',
             eventInEditMode: null,
             eventForDelete: null,
-            groupsListState: []
+            groupsListState: [],
+            thisTournamentGroup: null
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
         // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
@@ -215,7 +216,7 @@ export class TournamentPage extends Component {
         // console.log('tournament page props',this.state.currentPage)
     
         // const tournamentHeadig = this.props.location.pathname.slice(1)
-        const currentTournament = this.props.tournById !== null ? this.props.tournById : null
+        const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
         // const eventItem = currentTournament.events.map((event) => {return event.eventId})
 
         return (
@@ -223,7 +224,7 @@ export class TournamentPage extends Component {
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
                 <div className={classes.headTPage}>
-                    <h1>Tournament Name: {currentTournament.tournamentName}</h1>
+                    <h1>Tournament Name: {currentTournament}</h1>
                     <div className={classes.tournPButtons}>
                         <Link className={classes.backBtn} to='/all_tournaments'><BtnComp content='Back to Tournaments List' inputType='button'/></Link>
                         <BtnComp content='Add Event' inputType='button' onClick={this.addEventBtn}/>
@@ -290,4 +291,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TournamentPage);
-
