@@ -162,12 +162,18 @@ export class TournamentPage extends Component {
         return (
             <div className={classes.eventsTable}>
                 <h3>All events of tournament</h3>
-                <div><h4 className={classes.eventName}>Event Name</h4><h4 className={classes.eventDate}>Event Date</h4></div>
+                <div className={classes.usersHead}>
+                    <h4 className={classes.eventName}>Event Name</h4>
+                    <h4 className={classes.eventDate}>Event Date</h4>
+                    <h4 className={classes.usersInGame}>Users in Game</h4>
+                    <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
+                </div>
                 <ul>
                 {currentTournament.events.map((item, index) => {
                     return <li key={index}>
                         <div className={classes.eventName}>{item.eventName}</div>
                         <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
+                        <div className={classes.usersInGame}>coming soon...</div>
                         <div className={classes.turnPageEventsBTN}>
                             <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
                             <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
@@ -189,7 +195,7 @@ export class TournamentPage extends Component {
     // const gName = tournGroup !== undefined || tournGroup !== null ?  Object.values(tournGroup)[1] : null
     
         return (
-            <div className={classes.eventsTable}>
+            <div className={classes.usersTable}>
                 <h3>All users of tournament</h3>
                 <div className={classes.usersTBL}><h5 className={classes.groupName}>Group Name: </h5> <span>{gName}</span></div>
                 <div className={classes.usersTBList}>

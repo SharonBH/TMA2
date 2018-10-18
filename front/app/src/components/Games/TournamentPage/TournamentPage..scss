@@ -135,8 +135,17 @@
         }
     }
     .eventsTable{
+        width: 65%;
+    }
+    .usersTable{
+        width: 35%;
+    }
+.turnPageEventsBTN{
+    width: 10%;
+    min-width: 10%;
+}
+    .eventsTable, .usersTable{
         display: inline-block;
-        width: 48%;
         border: 1px solid #ddd;
         margin-top: 20px;
         padding: 15px;
@@ -173,9 +182,27 @@
                 justify-content: space-between;
             }
         }
-        .eventDate, .eventName{
+        .usersHead{
+            display: flex;
+            justify-content: space-between;
+            .turnPageEventsBTN{
+                span{
+                    visibility: hidden;
+                }
+            }
+            .usersInGame{
+                width: 23%;
+            }
+        }
+        .usersInGame{
+            width: 23%;
+        }
+        .eventDate{
             display: inline-block;
             width: 41%;
+        } .eventName{
+            display: inline-block;
+            width: 24%;
         }
         .editBTN{
             display: inline-block;
