@@ -82,7 +82,7 @@ export class TournamentsList extends Component {
         setTimeout(() => {
             console.log('add event', item)
             this.setState({tournamentID: item})
-            this.props.addNewEventAction(true)
+            this.props.addNewEventAction(true) 
         }, 200)
     }
     editDetailInput = (index, e) => {

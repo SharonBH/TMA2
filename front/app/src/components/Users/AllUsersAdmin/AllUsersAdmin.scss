@@ -5,7 +5,7 @@
     padding: 0px 10px 0;
     
     &>h1{
-        margin-top: 10px;
+        
     }
     div.username, div.email, div.role{
         width: 20%;
@@ -20,7 +20,7 @@
     }
     div.role{
         border: 0;
-        width: 15%
+        width: 8%
     }
     .select{
         display: block !important;
@@ -42,7 +42,7 @@
             justify-content: start;
         }
         .addBtn{
-            width: 200px;
+            width: 203px;
         }
     }
 
@@ -52,6 +52,15 @@
         margin: 0;
         height: calc(100vh - 178px);
         overflow-y: auto;
+        position: relative;
+        width: 100%;
+        &::-webkit-scrollbar{
+            width: 3px;
+            background: #c5c5c5;
+        }
+        &::-webkit-scrollbar-thumb{
+            background: $blue;
+        }
         li{
             border-bottom: 1px solid #e5e5e5;
             padding: 9px 0;
