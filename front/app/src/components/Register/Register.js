@@ -9,6 +9,7 @@ import InputComp from '../UI/InputComp/InputComp';
 import BtnComp from '../UI/BtnComp/BtnComp';
 import SelectComp from '../UI/SelectComp/SelectComp';
 import SelectIdComp from '../UI/SelectComp/SelectIdComp';
+import moment from 'moment';
 import {ADD_TOURNAMENT, EDIT_GROUP, ADD_USER, REGISTER, ADD_NEW_GROUP, ADD_EVENT} from '../../configuration/config';
 class Register extends Component {
 
@@ -53,8 +54,8 @@ class Register extends Component {
 
     onTournamentNameChange = (e) => { this.setState({TournamentName: e.target.value})}
     onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
-    onStartDateChange = (e) => { this.setState({TournamentStartDate: e.target.value})}
-    onEndDateChange = (e) => { this.setState({TournamentEndDate: e.target.value})}
+    onStartDateChange = (e) => {this.setState({TournamentStartDate: new Date(e.target.value)})}
+    onEndDateChange = (e) => { this.setState({TournamentEndDate: new Date(e.target.value)})}
     onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
 
     onEventNameChange = (e) => { this.setState({EventName: e.target.value})}
@@ -147,20 +148,29 @@ class Register extends Component {
     }
 
     addNewTournament = (e) => {
-        const { TournamentName, tournamentStartDate, tournamentEndDate, EventsMaxNum, EventTypeName, groups } = this.state
+        const { TournamentName, TournamentStartDate, TournamentEndDate, EventsMaxNum, EventTypeName, groups } = this.state
         e.preventDefault()
+        const today = Date.parse(new Date())
+        const startday = Date.parse(TournamentStartDate)
+        const endday = Date.parse(TournamentEndDate)
         if(TournamentName === '') {
             this.props.errorMessageAction('you must enter a tournament name')
         } else if (groups === '') {
             this.props.errorMessageAction('you must choose a group of users')
         } else if (EventTypeName === '') {
             this.props.errorMessageAction('you must choose event type')
+        } else if (TournamentStartDate === '' || TournamentEndDate === '') {
+            this.props.errorMessageAction('you must enter the tournament start&end dates')
+        } else if (today >= startday) {
+            this.props.errorMessageAction('the start date must be later than today')
+        } else if (startday >= endday) {
+            this.props.errorMessageAction('the end date must be later than the start date')
         } else if (EventsMaxNum === '') {
             this.props.errorMessageAction('you must enter a number of max events')
         } else {
-            this.props.addNewTournamentRequest(TournamentName, tournamentStartDate, tournamentEndDate, EventsMaxNum, EventTypeName, groups)
+            this.props.addNewTournamentRequest(TournamentName, TournamentStartDate, TournamentEndDate, EventsMaxNum, EventTypeName, groups)
         }
-    }
+    } 
 
     addNewEvent = (e) => {
         e.preventDefault()
@@ -265,8 +275,8 @@ class Register extends Component {
                             onChange={(e) => this.onTypeOfEventChange(e)}   
                         />
                     </div>
-                    <InputComp  inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange}  />
-                    <InputComp inputType="date" name="endDate" placeholder="End Date" onChange={this.onEndDateChange}/>
+                    <InputComp inputType="datetime-local" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange} />
+                    <InputComp inputType="datetime-local" name="endDate" placeholder="End Date" onChange={this.onEndDateChange} />
                     <InputComp inputType="number" name="maxNumOfEvents" placeholder="Maximum number Of Events" onChange={this.onMaxNumChange}/>
                     {this.errorMessage()}
                     {this.successMessage()}
@@ -448,7 +458,7 @@ class Register extends Component {
     }
     
     render() {
-        console.log('groups', this.props)
+        console.log('groups', this.state)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
