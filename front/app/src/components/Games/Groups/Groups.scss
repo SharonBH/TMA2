@@ -54,6 +54,13 @@
         padding: 0;
         height: calc(100vh - 178px);
         overflow-y: auto;
+        &::-webkit-scrollbar{
+            width: 3px;
+            background: #c5c5c5;
+        }
+        &::-webkit-scrollbar-thumb{
+            background: $blue;
+        }
         .allUsButtons{
             width: 200px;
         }

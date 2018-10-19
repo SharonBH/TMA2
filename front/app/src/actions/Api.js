@@ -58,6 +58,10 @@ export const loginRequest = (userName, password) => {
             username: userName,
             password: password
         })
+        // return axios.post(`https://tma-api.azurewebsites.net/Account/Login`, {
+        //     username: userName,
+        //     password: password
+        // })
         .then((response) => {
             if(response.data.message === 'Success') {
                 return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
@@ -80,8 +84,9 @@ export const loginRequest = (userName, password) => {
             }
         })
         .catch((error) => {
+            console.log(error)
             dispatch(catchErrorAction([error][0]))
-            dispatch(errorMessageAction([error][0]))
+            dispatch(errorMessageAction(error[0]))
             dispatch(toggleLoaderAction(false))
         });
     }
@@ -117,7 +122,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction([error][0]))
+                dispatch(errorMessageAction(error[0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
@@ -183,7 +188,7 @@ export const editThisUserRequest = (headline, userName, name, email, userType ) 
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction([error][0]))
+                dispatch(errorMessageAction(error[0]))
                 dispatch(toggleLoaderAction(false))
             });
     }
