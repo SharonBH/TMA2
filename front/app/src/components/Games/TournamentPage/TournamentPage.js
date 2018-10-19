@@ -250,26 +250,17 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-<<<<<<< HEAD
-        console.log('tournament page state',this.props.tournById.tournamentName)
-=======
         console.log('tournament page state',this.props)
         // console.log('tournament page props',this.state.currentPage)
     
         // const tournamentHeadig = this.props.location.pathname.slice(1)
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
         // const eventItem = currentTournament.events.map((event) => {return event.eventId})
->>>>>>> master
 
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
-<<<<<<< HEAD
-                <div className={classes.turnInfo}>
-                    {this.turnamentHeadLine()}
-                    {this.turnPageInformation()}
-=======
                 <div className={classes.headTPage}>
                     <h1>Tournament Name: {currentTournament}</h1>
                     <div className={classes.tournPButtons}>
@@ -280,7 +271,6 @@ export class TournamentPage extends Component {
                         {/* </Link> */}
                         
                     </div>
->>>>>>> master
                 </div>
                 <div className={classes.TPageTables}>
                     {this.eventsTable()}

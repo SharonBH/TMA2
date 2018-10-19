@@ -54,20 +54,9 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-<<<<<<< HEAD
-        return axios({
-            method: 'post',
-            headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: 'https://tma-api.azurewebsites.net/Account/Login',
-            data: {
-                username: userName,
-                password: password
-            }
-=======
         return axios.post(cors + url + `Account/Login`, {
             username: userName,
             password: password
->>>>>>> master
         })
         // return axios.post(`https://tma-api.azurewebsites.net/Account/Login`, {
         //     username: userName,
@@ -75,11 +64,7 @@ export const loginRequest = (userName, password) => {
         // })
         .then((response) => {
             if(response.data.message === 'Success') {
-<<<<<<< HEAD
-                return axios.post(`https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
-=======
                 return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
->>>>>>> master
                     .then((response) => {
                         sessionStorage.setItem('session', JSON.stringify(response.data));
                         const session = JSON.parse(sessionStorage.getItem('session'));
@@ -111,19 +96,11 @@ export const loginRequest = (userName, password) => {
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-<<<<<<< HEAD
-        return axios.post(`https://tma-api.azurewebsites.net/Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
-            .then((response) => {
-                console.log('response', response)
-                if (response.data.response === 'Success') {
-                    return axios.post(`https://tma-api.azurewebsites.net/Account/GetUsers`)
-=======
         return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 console.log('response', response)
                 if (response.data.response === 'Success') {
                     return axios.post(cors + url + `Account/GetUsers`)
->>>>>>> master
                         .then((response) => {
                             const users = response.data
                             dispatch(getAllUsersAction(users));
@@ -155,11 +132,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
 export const takeAllUsers = () => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-<<<<<<< HEAD
-        return axios.post(`https://tma-api.azurewebsites.net/Account/GetUsers`)
-=======
         return axios.post(cors + url + `Account/GetUsers`)
->>>>>>> master
             .then((response) => {
                     const users = response.data
                     dispatch(getAllUsersAction(users));
@@ -178,19 +151,11 @@ export const takeAllUsers = () => {
 export const editThisUserRequest = (headline, userName, name, email, userType ) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-<<<<<<< HEAD
-        return axios.post(`https://tma-api.azurewebsites.net/Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
-            .then((response) => {
-                if (response.data.response === 'Success') {
-                    if(headline === EDIT){
-                        return axios.post(`https://tma-api.azurewebsites.net/Account/GetUsers`)
-=======
         return axios.post(cors + url + `Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
             .then((response) => {
                 if (response.data.response === 'Success') {
                     if(headline === EDIT){
                         return axios.post(cors + url + `Account/GetUsers`)
->>>>>>> master
                             .then((response) => {
                                     const users = response.data
                                     dispatch(getAllUsersAction(users));
@@ -203,11 +168,7 @@ export const editThisUserRequest = (headline, userName, name, email, userType ) 
                                 dispatch(toggleLoaderAction(false))
                             });
                     } else if( headline === YOUR_PROFILE ) {
-<<<<<<< HEAD
-                        return axios.post(`https://tma-api.azurewebsites.net/Account/GetUserAsync?username=${userName}`)
-=======
                         return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
->>>>>>> master
                         .then((response) => {
                             const user = response.data
                             dispatch(getUserAction(user));
@@ -237,11 +198,7 @@ export const editThisUserRequest = (headline, userName, name, email, userType ) 
 export const DeleteUserRequest = (userName) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-<<<<<<< HEAD
-        return axios.post(`https://tma-api.azurewebsites.net/Account/DeleteUser?username=${userName}`)
-=======
         return axios.post(cors + url + `Account/DeleteUser?username=${userName}`)
->>>>>>> master
             .then((response) => {
                 if(response.data.response === 'Success') {
                     const data = response.data.message
@@ -263,11 +220,7 @@ export const DeleteUserRequest = (userName) => {
 export const forgotPassRequest = (email) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-<<<<<<< HEAD
-        return axios.post(`https://tma-api.azurewebsites.net/Account/ForgotPassword?Email=${email}`)
-=======
         return axios.post(cors + url + `Account/ForgotPassword?Email=${email}`)
->>>>>>> master
             .then((response) => {
                 if (response.data.response === 'Success') {
                     const data = response.data.message
@@ -291,11 +244,7 @@ export const forgotPassRequest = (email) => {
 export const changePasswordRequest = (username, password, newPassword, confirmPassword) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-<<<<<<< HEAD
-        return axios.post(`https://tma-api.azurewebsites.net/Account/ChangePassword?Username=${username}&OldPassword=${password}&NewPassword=${newPassword}&ConfirmPassword=${confirmPassword}`)
-=======
         return axios.post(cors + url + `Account/ChangePassword?Username=${username}&OldPassword=${password}&NewPassword=${newPassword}&ConfirmPassword=${confirmPassword}`)
->>>>>>> master
             .then((response) => {
                 if (response.data.response === 'Success') {
                     const data = response.data.message
@@ -319,11 +268,7 @@ export const changePasswordRequest = (username, password, newPassword, confirmPa
 // get all users by app comp
 export const appCallTakeAllUsers = () => {
     return (dispatch) => {
-<<<<<<< HEAD
-        return axios.post(`https://tma-api.azurewebsites.net/Account/GetUsers`)
-=======
         return axios.post(cors + url + `Account/GetUsers`)
->>>>>>> master
             .then((response) => {
                     const users = response.data
                     dispatch(getAllUsersAction(users));
