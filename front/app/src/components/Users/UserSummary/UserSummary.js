@@ -146,6 +146,7 @@ class UserSummary extends Component {
     }
 
     submitUserAditeChanges = (headline) => {
+        const today = Date.parse(new Date())
         const editRequestParam = []
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput)
@@ -160,9 +161,15 @@ class UserSummary extends Component {
             }
         }
         else if(headline === EDIT_TOURNAMENT){
+            const startday = Date.parse(editRequestParam[3])
+            const endday = Date.parse(editRequestParam[4])
             const tournamentId = this.props.tournament.tournamentId
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter a tournament name')
+            } else if (today >= startday) {
+                this.props.errorMessageAction('the tournament start date must be later than today')
+            } else if (startday >= endday) {
+                this.props.errorMessageAction('the tournament end date must be later than the start date')
             } else if (editRequestParam[5] === '') {
                 this.props.errorMessageAction('you must enter a number of max events')
             } else {
@@ -170,7 +177,15 @@ class UserSummary extends Component {
             }
         } else if(headline === EDIT_EVENT){
             const eventId = this.props.event.eventId
-            this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2])
+            const eventdate = Date.parse(editRequestParam[2])
+            if(editRequestParam[0] === '') {
+                this.props.errorMessageAction('you must enter the event name')
+            } else if (today >= eventdate) {
+                this.props.errorMessageAction('you must enter a date later than today')
+            } else {
+                this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2])
+            }
+            
         }
     }
     
@@ -232,7 +247,7 @@ class UserSummary extends Component {
                                 /> 
                             :
                             <InputComp 
-                                inputType={detail === 'Tournament Name' ? 'text' : 'date'}
+                                inputType={detail === 'Tournament Name' ? 'text' : 'datetime-local'}
                                 name={detail} 
                                 placeholder={detail} 
                                 content={this.state.userDetailsArr[index].editInput}
@@ -261,7 +276,7 @@ class UserSummary extends Component {
                     ? <div className={classes.EditInput}>
                         { detail === 'Event Name' ||  detail === 'Event Date'
                             ? <InputComp 
-                                inputType={detail === 'Event Name' ? 'text' : 'date'} 
+                                inputType={detail === 'Event Name' ? 'text' : 'datetime-local'} 
                                 name={detail} 
                                 placeholder={detail} 
                                 content={this.state.userDetailsArr[index].editInput} 
