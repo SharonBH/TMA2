@@ -9,7 +9,6 @@ const addNewItemReducer = (state = InitialState, action) => {
 
         case 'ADD_A_NEW_ITEM':
             const boll = action.payload
-            console.log('123', boll)
             return {
                 ...state,
                 addItem: boll
