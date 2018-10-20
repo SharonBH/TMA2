@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import moment from 'moment'
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
-
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
 import {  changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
 import {  editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
@@ -28,9 +27,7 @@ class UserSummary extends Component {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
             const tournamentData = this.props.tournament
-            
             const gName =  this.props.groupsList !== undefined ? this.props.groupsList.find((tourn) => {return tourn.groupId === tournamentData.groupId}): null
-            console.log('this.props.tournById,', gName)
             const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
             const eventN = eventTName.eventTypeName
             const tournamentName = tournamentData.tournamentName
@@ -61,13 +58,10 @@ class UserSummary extends Component {
             ])
         } else if( headline === EDIT_EVENT ){
             const eventData = this.props.event
-
             const TournamName = this.props.allEventTypesList !== undefined ? this.props.allTournsList.find((tourn) => {return tourn.tournamentId === eventData.tournamentId}): null
             const tournN = TournamName !== undefined ?  Object.values(TournamName)[1] : null
             const eventName = eventData.eventName
             const eventDate = eventData.eventDate
-
-            console.log('event!!', eventDate )
             return ( [
                 {edit: false, detail: 'Event Name', param: eventName, editInput: eventName},
                 {edit: false, detail: 'Tournament Name', param: tournN, editInput: tournN},
@@ -214,9 +208,6 @@ class UserSummary extends Component {
         const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
         const tournId = this.props.tournById.groupId
         const groupsName = this.props.groupsList !== undefined ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : null
-           
-        console.log('groupName', groupsName)
-            
         const detail = item.detail
         return (
             <div key={index} className={classes.wrappLine}>

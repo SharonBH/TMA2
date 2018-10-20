@@ -62,9 +62,7 @@ export class TournamentPage extends Component {
             this.props.takeAllTournaments()
         } else {
             return null
-        }
-        
-        
+        }  
     }
     componentWillUnmount(){
         this.props.errorMessageAction(null)
@@ -103,8 +101,7 @@ export class TournamentPage extends Component {
     //         this.props.addNewTournamentAction(true)
     //     }, 200)
     // }
-
-    
+  
     addTournamentComp = () => {
         return <Register headline={ADD_TOURNAMENT} classStr='none' />
     }
@@ -174,7 +171,9 @@ export class TournamentPage extends Component {
                     return <li key={index}>
                         <div className={classes.eventName}>{item.eventName}</div>
                         <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
-                        <div className={classes.usersInGame}>coming soon...</div>
+                        <div className={classes.usersInGame}>
+                            coming soon...
+                        </div>
                         <div className={classes.turnPageEventsBTN}>
                             <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
                             <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
@@ -189,12 +188,10 @@ export class TournamentPage extends Component {
    // group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
     // const currentTournament = this.props.tournById !== null ? this.props.tournById : null
     const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
-
     // let tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
     const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
     const gName = this.props.groupsList !== null ? tournGroup.groupName : null
     // const gName = tournGroup !== undefined || tournGroup !== null ?  Object.values(tournGroup)[1] : null
-    
         return (
             <div className={classes.usersTable}>
                 <h3>All users of tournament</h3>
@@ -203,12 +200,11 @@ export class TournamentPage extends Component {
                     <h5 className={classes.eventDate}>Users:</h5>
                     <ul>
                     {tournGroup !== null ? tournGroup.users.map((item, index) => {
-                        console.log('tournGroup, ', this.props.groupsList)
-                            return(
-                                <li key={index}>
-                                    {item.username}
-                                </li>
-                            )
+                        return(
+                            <li key={index}>
+                                {item.username}
+                            </li>
+                        )
                     }) : null
                 }
                     </ul>
@@ -250,13 +246,9 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log('tournament page state',this.props)
-        // console.log('tournament page props',this.state.currentPage)
-    
         // const tournamentHeadig = this.props.location.pathname.slice(1)
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
         // const eventItem = currentTournament.events.map((event) => {return event.eventId})
-
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}

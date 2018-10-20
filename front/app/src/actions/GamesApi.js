@@ -21,7 +21,6 @@ const url = 'https://tma-api.azurewebsites.net/'
 
 // get all tournaments
 export const takeAllTournaments = () => {
-    console.log('2')
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(cors + url + `Tournaments/GetTournaments`)
