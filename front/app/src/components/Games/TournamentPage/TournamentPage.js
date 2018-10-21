@@ -140,7 +140,6 @@ export class TournamentPage extends Component {
     }
 
     DeleteEventBtn = (item) => {
-        // console.log('delete', item)
         this.setState({eventForDelete: item})
         this.setState({eventInEditMode: null})
         this.props.deleteConfirmMessageAction(true)
@@ -155,7 +154,6 @@ export class TournamentPage extends Component {
 
     }
     eventsTable = () => {
-        // const currentTournament = this.props.tournById !== null ? this.props.tournById : null
         const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
         return (
             <div className={classes.eventsTable}>
@@ -185,15 +183,13 @@ export class TournamentPage extends Component {
         )
     }
     usersTable = () => {
-   // group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
-    // const currentTournament = this.props.tournById !== null ? this.props.tournById : null
     const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
-    // let tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
     const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
     const gName = this.props.groupsList !== null ? tournGroup.groupName : null
-    // const gName = tournGroup !== undefined || tournGroup !== null ?  Object.values(tournGroup)[1] : null
+    
         return (
             <div className={classes.usersTable}>
+                {this.turnPageInformation()}
                 <h3>All users of tournament</h3>
                 <div className={classes.usersTBL}><h5 className={classes.groupName}>Group Name: </h5> <span>{gName}</span></div>
                 <div className={classes.usersTBList}>
@@ -209,13 +205,12 @@ export class TournamentPage extends Component {
                 }
                     </ul>
                 </div>
-                <ul>
-                </ul>
             </div>
         )
     }  
     turnamentHeadLine=()=>{
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
+       
         return(
         <div className={classes.headTPage}>
             <h1><span>Tournament Name: </span>{currentTournament}</h1>
@@ -225,7 +220,7 @@ export class TournamentPage extends Component {
                 <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
                 {/* </Link> */}
             
-                <Link className={classes.backBtn} to='/all_tournaments'><i class="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
+                <Link className={classes.backBtn} to='/all_tournaments'><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
             </div>
             
             
@@ -234,35 +229,31 @@ export class TournamentPage extends Component {
     }
     turnPageInformation = () => {
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
+        const { eventTypeId, numberOfEvents } =  this.props.tournById
+        const tournTypeName = this.props.groupsList !== null || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((item) => { return item.groupId === eventTypeId.eventTypeId}) : null
+        // const tournTypeN = tournTypeName !== null || tournTypeName !== undefined ? tournTypeName.map((item)=>{return item.eventTypeName}) : null
         return(
             <div className={classes.tournTime}>
                 <div className={classes.turnPageTiming}>
-                    <h3>Tournament timing:</h3> 
+                    <h3>Tournament info:</h3> 
                     <span><h4>from: </h4><p> {moment(currentTournament.startDate).format('LLLL')}</p></span>
                     <span><h4>to: </h4><p> {moment(currentTournament.endDate).format('LLLL')}</p></span>
                 </div>
-                <div>Maximum of events: {currentTournament.numberOfEvents}</div>
+                <div className={classes.turnPageTiming}><b>Maximum of events: </b>{numberOfEvents}</div>
+                <div className={classes.turnPageTiming}><b>Type of Tournament: </b>{}</div>
             </div>
         )
     }
     render (){
-        // const tournamentHeadig = this.props.location.pathname.slice(1)
-        const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
-        // const eventItem = currentTournament.events.map((event) => {return event.eventId})
+        console.log('tournament page state',this.props.allEventTypesList)
+
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
-                <div className={classes.headTPage}>
-                    <h1>Tournament Name: {currentTournament}</h1>
-                    <div className={classes.tournPButtons}>
-                        <Link className={classes.backBtn} to='/all_tournaments'><BtnComp content='Back to Tournaments List' inputType='button'/></Link>
-                        <BtnComp content='Add Event' inputType='button' onClick={this.addEventBtn}/>
-                        {/* <Link to={`/${currentTournament.tournamentName}/edit_tournament`}> */}
-                        <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
-                        {/* </Link> */}
-                        
-                    </div>
+                <div className={classes.turnInfo}>
+                    {this.turnamentHeadLine()}
+                    
                 </div>
                 <div className={classes.TPageTables}>
                     {this.eventsTable()}
@@ -286,6 +277,7 @@ const mapStateToProps = (state) => {
     return {
         allTournsList: state.allListReducer.allTournsList,
         allEventsList: state.allListReducer.allEventsList,
+        allEventTypesList: state.allListReducer.allEventTypesList,
         groupsList: state.allListReducer.groupsList,
         tournById: state.allListReducer.tournById,
         addItem: state.addNewItemReducer.addItem,

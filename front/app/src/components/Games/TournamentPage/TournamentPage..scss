@@ -19,7 +19,7 @@
         z-index: 92;
     }
     .turnInfo{
-        padding: 15px 20px 0;
+        padding: 0px 20px 0;
         .headTPage{
             display: flex;
             justify-content: space-between;
@@ -31,6 +31,8 @@
             }
             h1{
                 margin: 0;
+                font-size: 24px;
+                line-height: 47px;
                 span {
                     font-weight: 400;
                 }
@@ -81,35 +83,7 @@
             }
             
         }  
-        .tournTime{
-            margin-top: 30px;
-            border: 1px solid #ddd;
-            display: flex;
-            justify-content: start;
-            margin-bottom: 15px;
-            padding: 10px;
-            
-            .turnPageTiming{
-                padding-right: 25px;
-                border-right: 1px solid #eee;
-                margin-right: 25px;
-                h3{
-                    margin: 0;
-                }
-                span{
-                    display: block;
-                    h4{
-                        display: inline-block;
-                        margin: 10px 0 0px;
-                    }
-                    p{
-                        display: inline-block;
-                        float: right;
-                        margin: 10px 0 0px 10px;
-                    }
-                }
-            }
-        } 
+        
     }
 
 
@@ -121,29 +95,77 @@
         justify-content: space-between;
         .usersTBL{
             display: flex;
-            justify-content: center;
+            justify-content: start;
             border-bottom: 1px solid #eee;
             &>*{
-                margin: 10px;
+                margin: 10px 10px 10px 0;
                 line-height: 20px;
             }
         }
+        .tournTime{
+                border-bottom: 1px solid #ddd;
+                margin-bottom: 15px;
+            
+            .turnPageTiming{
+                margin-bottom: 15px;
+                h3{
+                    margin: 0;
+                    padding: 0 0 10px 0;
+                }
+                b{
+                    font-size: 14px;
+                }
+                span{
+                    display: block;
+                    h4{
+                        display: inline-block;
+                        margin: 10px 0 0px;
+                        font-size: 14px;
+                    }
+                    p{
+                        display: inline-block;
+                        margin: 10px 0 0px 10px;
+                    }
+                    
+                }
+            }
+        } 
         .usersTBList{
             ul{
                 margin-top:0;
+            }
+            h5{
+                margin: 10px 0 ;
             }
         }
     }
     .eventsTable{
         width: 65%;
+        ul{
+            li{
+                div{
+                    white-space: nowrap;
+                    overflow-y: auto;
+                    &::-webkit-scrollbar{
+                        height: 2px;
+                        background: #c5c5c5;
+                    }
+                    &::-webkit-scrollbar-thumb{
+                        background: $blue;
+                    }
+                }
+            }
+        }
     }
     .usersTable{
         width: 35%;
+        
     }
 .turnPageEventsBTN{
     width: 10%;
-    min-width: 10%;
+    min-width: 88px;
 }
+
     .eventsTable, .usersTable{
         display: inline-block;
         border: 1px solid #ddd;
@@ -153,8 +175,10 @@
        
         h3{
             margin-top: 0;
+            padding: 0 0 10px 0;
             text-align: center;
-            border-bottom: 1px solid #ddd; 
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
         }
         div {
             h4{
@@ -165,7 +189,7 @@
         ul{
             list-style: none;
             padding: 15px 0 0 0;
-            height: calc(100vh - 368px);
+            height: calc(100vh - 240px);
             overflow-y: auto;
             margin-top: 0;
         
@@ -200,6 +224,7 @@
         .eventDate{
             display: inline-block;
             width: 41%;
+            margin: 0 11px;
         } .eventName{
             display: inline-block;
             width: 24%;
@@ -209,6 +234,11 @@
         }
         .deleteBTN{
             display: inline-block;
+        }
+    }
+    .usersTable{
+        ul{
+            height: calc(100vh - 510px);
         }
     }
     .success {
