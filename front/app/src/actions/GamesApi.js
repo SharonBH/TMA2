@@ -325,7 +325,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupName, t
 
 
 // edit Event
-export const editThisEventRequest = (eventID, eventName, tournN, eventDate) => {
+export const editThisEventRequest = (eventID, eventName, tournN, eventDate, eventResults) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -337,7 +337,7 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate) => {
                 eventName: eventName,
                 tournamentName: tournN,
                 eventDate: eventDate,
-
+                eventResults: eventResults
             }
         })
         .then((response) => {

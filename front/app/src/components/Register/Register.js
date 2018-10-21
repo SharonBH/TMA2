@@ -186,9 +186,9 @@ class Register extends Component {
             this.props.errorMessageAction('you must choose event type')
         } else if (TournamentStartDate === '' || TournamentEndDate === '') {
             this.props.errorMessageAction('you must enter the tournament start & end dates')
-        } else if (today >= startday) {
+        } else if (today > startday) {
             this.props.errorMessageAction('the tournament start date must be later than today')
-        } else if (startday >= endday) {
+        } else if (startday > endday) {
             this.props.errorMessageAction('the tournament end date must be later than the start date')
         } else if (EventsMaxNum === '') {
             this.props.errorMessageAction('you must enter a number of max events')
@@ -277,7 +277,6 @@ class Register extends Component {
     tournamentFage = (headline) => {
         const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }})
         const groupL = this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }})
-        console.log('eventTypes', this.props.allEventTypesList)
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
@@ -326,7 +325,7 @@ class Register extends Component {
             return addSearchUsersResult.map((user, index) => {
                 return <span className={classes.user +' '+classes.userResult} key={index}>
                     {user.user.username}
-                    {today >= eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, user)}/> : null}
+                    {today > eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, user)}/> : null}
                     <i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
                 </span>
             })

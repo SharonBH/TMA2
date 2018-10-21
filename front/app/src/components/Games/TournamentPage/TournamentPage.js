@@ -155,9 +155,6 @@ export class TournamentPage extends Component {
 
     }
     eventsTable = () => {
-        const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
-    
-        
         return (
             <div className={classes.eventsTable}>
                 <h3>All events of tournament</h3>
@@ -176,8 +173,7 @@ export class TournamentPage extends Component {
                                 <span className={classes.showUsers}>Event Users</span>
                                 <ul className={classes.hiddenUsers}>
                                     {item.eventUsers.map((user, index) => {
-                                        const fill = item.eventResults.find( result => {return result.userId === user.userId} )
-                                        console.log('--------------------',fill)
+                                        const fill = item.eventResults.find(result => {return result.userId === user.userId})
                                         return <li key={index}>
                                             <span>{user.name}</span>
                                             <span>{fill.result === null ? 'none' : fill.result}</span>
@@ -251,8 +247,6 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log('tournament page props',this.props)
-        console.log('tournament page state',this.state)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}

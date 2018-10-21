@@ -160,7 +160,6 @@ export class TournamentsList extends Component {
     }
     
     render (){
-        console.log('tournament list state',this.props)
         return (
             <div className={classes.usersWrapper}>
                 <div>
