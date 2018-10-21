@@ -232,18 +232,28 @@
         }
         .usersInGame{
             width: 23%;
+            .showUsers{
+                &:hover{
+                   font-weight: 600 
+                }
+            }
             .hiddenUsers{
-                width: 210px;
+                width: 110px;
                 height: auto;
                 display: none;
                 position: relative;
             }
-            .showUsers{
-                &:hover .hiddenUsers{
+            &:hover {
+                .hiddenUsers{
                     display: block;
                     position: absolute;
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    box-shadow: 0px 0px 4px 0px #03a3d0;
                 }
             }
+            
+            
             
         }
         .eventDate{
