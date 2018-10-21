@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
-import { registerRequest, addNewUserRequest } from "../../actions/Api";
+import { registerRequest, addNewUserRequest, appCallTakeAllUsers } from "../../actions/Api";
 import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest, editGroupRequest } from "../../actions/GamesApi";
 import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction, editThisGroupAction } from '../../actions';
 import { connect } from 'react-redux';
@@ -68,6 +68,7 @@ class Register extends Component {
     onSearchUsersChange = (e) => { 
         this.setState({ searchUsersResult: [] })
         this.setState({searchUsers: e.target.value})
+        console.log('onSearchUsersChange')
         setTimeout(() => {
             this.props.allList.map((user) => {
                 const searchFor = this.state.searchUsers
@@ -77,6 +78,7 @@ class Register extends Component {
                     this.setState({searchUsersResult: removeDuplicateArr})
                 }
             })
+            console.log('onSearchUsersChange', this.state.searchUsersResult)
         }, 300)
     }
     addSearchUserResult = (user, e) => {
@@ -137,6 +139,9 @@ class Register extends Component {
             })
             this.setState({addSearchUsersResult: usersList})
             this.setState({groupName: group.groupName})
+        }
+        else if(headline === ADD_NEW_GROUP) {
+            this.props.appCallTakeAllUsers()
         }
     }
 
@@ -524,6 +529,7 @@ const mapDispatchToProps = dispatch => {
         addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
         editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
+        appCallTakeAllUsers: (payload) => dispatch(appCallTakeAllUsers(payload)),
         editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
     }
 }
