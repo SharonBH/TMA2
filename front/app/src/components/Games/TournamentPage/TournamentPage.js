@@ -17,7 +17,7 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents } from '../../../actions/GamesApi';
 import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, 
     successMessageAction, errorMessageAction, deleteConfirmMessageAction, sendEventDataAction }  from '../../../actions';
 export class TournamentPage extends Component {
@@ -48,6 +48,7 @@ export class TournamentPage extends Component {
     // }
     componentWillMount(){
         this.setState({currentPage: this.props.tournById})
+        this.props.appCallTakeAllEvents()
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
         } else {
@@ -230,8 +231,7 @@ export class TournamentPage extends Component {
     turnPageInformation = () => {
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
         const { eventTypeId, numberOfEvents } =  this.props.tournById
-        const tournTypeName = this.props.groupsList !== null || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((item) => { return item.groupId === eventTypeId.eventTypeId}) : null
-        // const tournTypeN = tournTypeName !== null || tournTypeName !== undefined ? tournTypeName.map((item)=>{return item.eventTypeName}) : null
+        const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventTypeId} ) : null
         return(
             <div className={classes.tournTime}>
                 <div className={classes.turnPageTiming}>
@@ -240,7 +240,7 @@ export class TournamentPage extends Component {
                     <span><h4>to: </h4><p> {moment(currentTournament.endDate).format('LLLL')}</p></span>
                 </div>
                 <div className={classes.turnPageTiming}><b>Maximum of events: </b>{numberOfEvents}</div>
-                <div className={classes.turnPageTiming}><b>Type of Tournament: </b>{}</div>
+                <div className={classes.turnPageTiming}><b>Type of Tournament: </b>{eventTName !== undefined ? eventTName.eventTypeName : null}</div>
             </div>
         )
     }
@@ -305,8 +305,8 @@ const mapDispatchToProps = dispatch => {
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
-
         sendEventDataAction: payload => dispatch(sendEventDataAction(payload)),
+        appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
     }
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest, appCallTakeAllUsers } from "../../actions/Api";
-import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest, editGroupRequest } from "../../actions/GamesApi";
+import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest, editGroupRequest, appCallTakeAllEvents } from "../../actions/GamesApi";
 import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction, editThisGroupAction } from '../../actions';
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
@@ -68,7 +68,6 @@ class Register extends Component {
     onSearchUsersChange = (e) => { 
         this.setState({ searchUsersResult: [] })
         this.setState({searchUsers: e.target.value})
-        console.log('onSearchUsersChange')
         setTimeout(() => {
             this.props.allList.map((user) => {
                 const searchFor = this.state.searchUsers
@@ -78,7 +77,6 @@ class Register extends Component {
                     this.setState({searchUsersResult: removeDuplicateArr})
                 }
             })
-            console.log('onSearchUsersChange', this.state.searchUsersResult)
         }, 300)
     }
     addSearchUserResult = (user, e) => {
@@ -142,6 +140,9 @@ class Register extends Component {
         }
         else if(headline === ADD_NEW_GROUP) {
             this.props.appCallTakeAllUsers()
+        }
+        else if(headline === ADD_TOURNAMENT) {
+            this.props.appCallTakeAllEvents()
         }
     }
 
@@ -530,6 +531,7 @@ const mapDispatchToProps = dispatch => {
         addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
         editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
         appCallTakeAllUsers: (payload) => dispatch(appCallTakeAllUsers(payload)),
+        appCallTakeAllEvents: (payload) => dispatch(appCallTakeAllEvents(payload)),
         editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
     }
 }

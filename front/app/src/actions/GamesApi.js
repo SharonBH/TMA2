@@ -385,29 +385,18 @@ export const appCallTakeAllTournaments = () => {
 // get all events by main page comp
 export const appCallTakeAllEvents = () => {
     return (dispatch) => {
-        return axios.post(cors + url + `Events/GetEvents`)
+        dispatch(toggleLoaderAction(true))
+        return axios.post(cors + url + `Events/GetEventTypes`)
             .then((response) => {
-                // if(response.data.response === 'Success') {
-                    // const data = response.data.message
-                    // dispatch(successMessageAction(data))
-                    const events = response.data
-                    dispatch(getAllEventsAction(events));
-                    return axios.post(cors + url + `Events/GetEventTypes`)
-                    .then((response) => {
-                        const eventTypes = response.data
-                        dispatch(getAllEventTypesAction(eventTypes));
-                    })
-                    .catch((error) => {
-                        dispatch(catchErrorAction([error][0]))
-                        // dispatch(errorMessageAction([error][0]))
-                    });
-                // }  
+                const eventTypes = response.data
+                dispatch(getAllEventTypesAction(eventTypes));
+                dispatch(toggleLoaderAction(false))
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
                 dispatch(errorMessageAction(error[0]))
-            });  
-
+                dispatch(toggleLoaderAction(false))
+            });
     }
 };
 // get all groups by main page comp

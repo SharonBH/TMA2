@@ -5,8 +5,8 @@ import moment from 'moment'
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
-import {  changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
-import {  editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
+import { changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
+import { editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
 import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisGroupAction, editThisEventAction }  from '../../../actions';
 import { EDIT_TOURNAMENT, YOUR_PROFILE, EDIT, EDIT_EVENT, EDIT_USER } from '../../../configuration/config'
@@ -23,6 +23,13 @@ class UserSummary extends Component {
         }
         this.editDetail = this.editDetailBtn.bind(this)
     }
+    
+    componentWillUnmount() {
+        this.props.errorMessageAction(null)
+        this.props.successMessageAction(null)
+        this.setState({changePassword: false})
+    }
+
     detailsToState = () => {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
@@ -68,12 +75,6 @@ class UserSummary extends Component {
                 {edit: false, detail: 'Event Date', param: eventDate,  editInput: eventDate},
             ])
         }
-    }
-    
-    componentWillUnmount() {
-        this.props.errorMessageAction(null)
-        this.props.successMessageAction(null)
-        this.setState({changePassword: false})
     }
 
     editDetailBtn = (index) => {
@@ -381,8 +382,6 @@ const mapDispatchToProps = dispatch => {
         editThisUserRequest: (headline, userName, name, email, userType) => dispatch(editThisUserRequest(headline, userName, name, email, userType)),
         editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate)),
         editThisTournamentRequest: (tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents)),
-        
-
     }
 }
 
