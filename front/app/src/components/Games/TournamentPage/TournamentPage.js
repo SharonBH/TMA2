@@ -245,8 +245,8 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log('tournament page state',this.props)
-
+        console.log('tournament page props',this.props)
+        console.log('tournament page state',this.state)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
