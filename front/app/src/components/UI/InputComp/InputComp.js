@@ -13,6 +13,8 @@ export class InputComp extends Component {
             PropTypes.number,
         ]),
         placeholder: PropTypes.string,
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
     };
 
     render() {
@@ -27,6 +29,7 @@ export class InputComp extends Component {
                     placeholder={this.props.placeholder}
                     onFocus={this.props.onFocus}
                     onBlur={this.props.onBlur}
+                    autoFocus={this.props.autoFocus}
                 />
             </div>
         )

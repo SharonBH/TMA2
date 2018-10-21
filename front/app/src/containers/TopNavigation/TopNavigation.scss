@@ -4,10 +4,12 @@
     top: 0;
     right: 0;
     width: 89%;
-    padding: 10px;
+    padding: 4px 10px;
     text-align: right;
     transition: all ease .3s;
     z-index: 9;
+    height: 40px;
+    
     & > div{
         display: inline-block;
         width: 50%;
@@ -18,7 +20,7 @@
         text-align: left;
         color: #fff;
         i{
-            font-size: 26px;
+            font-size: 20px;
             padding: 6px 4px;
             text-align: center;
             width: 37px;
@@ -32,7 +34,7 @@
             } 
         }
         .HelloTop{
-            font-size: 20px;
+            font-size: 18px;
             position: relative;
             top: -2px;
         }
@@ -40,7 +42,7 @@
     }
     a {
         color: #fff;
-        margin-left: 15px;
+        margin-left: 5px;
         position: relative;
         white-space: nowrap;
         display: inline-block;
@@ -58,7 +60,7 @@
             position: absolute;
             color: #000;
             right: 0;
-            top: 45px;
+            top: 35px;
             text-align: center;
             background: #fff;
             box-shadow: 0px 0px 3px 0px #03a3d0;
@@ -74,7 +76,7 @@
             right: 0;
         }
         i {
-            font-size: 24px;
+            font-size: 20px;
         }
         
     }
@@ -87,10 +89,11 @@
     position: fixed;
     top: 0;
     right: 0;
-    padding: 10px;
+    padding: 4px 10px;
     text-align: right;
     transition: all ease .3s;
     z-index: 9;
+    height: 40px;
     & > div{
         display: inline-block;
         width: 50%;
@@ -101,7 +104,7 @@
         text-align: left;
         color: #fff;
         i{
-            font-size: 26px;
+            font-size: 20px;
             padding: 6px 4px;
             text-align: center;
             width: 37px;
@@ -115,14 +118,14 @@
             } 
         }
         .HelloTop{
-            font-size: 20px;
+            font-size: 16px;
             position: relative;
             top: -2px;
         }
     }
     a {
         color: #fff;
-        margin-left: 15px;
+        margin-left: 5px;
         position: relative;
         white-space: nowrap;
         display: inline-block;
@@ -156,7 +159,7 @@
             right: 0;
         }
         i {
-            font-size: 24px;
+            font-size: 20px;
         }
     }
 }

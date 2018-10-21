@@ -13,8 +13,16 @@ import { EDIT_GROUP, ADD_NEW_GROUP, DELETE_GROUP } from '../../../configuration/
 import { getAllGroupsRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import moment from 'moment';
-
 export class Groups extends Component {
+
+    static propTypes = {
+        groupsList: PropTypes.array,
+        successMessage: PropTypes.string,
+        errorMessage: PropTypes.string,
+        addItem: PropTypes.bool,
+        editThisGroup: PropTypes.bool,
+        deleteUserConfirmMessage: PropTypes.bool
+    };
 
     static propTypes = {
         getAllGroupsRequest: PropTypes.func
@@ -104,7 +112,7 @@ export class Groups extends Component {
     groupsList = () => {
         return this.props.groupsList !== null ? this.props.groupsList.map((group, index) => { 
             const usersInGroup = []
-            group.users.forEach((user) => usersInGroup.push({value: user.username}))
+            group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
             return <li key={group.groupId}>
                 <div className={classes.groupName}>{group.groupName}</div>
                 <div className={classes.createdDate}>{moment(group.createdDate).format('LLLL')}</div>
@@ -128,10 +136,12 @@ export class Groups extends Component {
     }
 
     render() {
+        console.log('this.props',this.props)
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
+                <h1>Groups List</h1>
                 {this.tableHeader()}
                 <ul className={classes.groupsList}>{this.groupsList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}

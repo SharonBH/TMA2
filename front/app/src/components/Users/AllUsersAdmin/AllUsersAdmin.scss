@@ -2,9 +2,11 @@
 
 .usersWrapper {
     text-align: left;
-    padding: 45px 10px 0;
+    padding: 0px 10px 0;
     
-    
+    &>h1{
+        
+    }
     div.username, div.email, div.role{
         width: 20%;
         overflow-y: auto;
@@ -18,7 +20,7 @@
     }
     div.role{
         border: 0;
-        width: 15%
+        width: 8%
     }
     .select{
         display: block !important;
@@ -40,7 +42,7 @@
             justify-content: start;
         }
         .addBtn{
-            width: 200px;
+            width: 203px;
         }
     }
 
@@ -48,6 +50,17 @@
         list-style: none;
         padding: 0;
         margin: 0;
+        height: calc(100vh - 178px);
+        overflow-y: auto;
+        position: relative;
+        width: 100%;
+        &::-webkit-scrollbar{
+            width: 3px;
+            background: #c5c5c5;
+        }
+        &::-webkit-scrollbar-thumb{
+            background: $blue;
+        }
         li{
             border-bottom: 1px solid #e5e5e5;
             padding: 9px 0;
@@ -75,18 +88,25 @@
     }
     
     .success {
-        position: absolute;
+        position: fixed;
         width: 100%;
         text-align: center;
-        top: 300px;
+        top: 0;
         margin: 0;
+        height: 100vh;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
         span {
             padding: 20px 40px;
-            background: #e6ffe7;
-            border-bottom: 1px solid#999;
+            background: #9dfca1;
+            border-bottom: 1px solid #999;
             position: relative;
-
+            width: auto;
+            height: auto;
+            max-width: 477px;
             .closeBTN {
                 padding: 0 5px;
                 background: #fff;
@@ -104,17 +124,25 @@
         }
     }
     .errorPop {
-        position: absolute;
+        position: fixed;
         width: 100%;
         text-align: center;
-        top: 300px;
+        top: 0;
         margin: 0;
+        height: 100vh;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
         span {
             padding: 20px 40px;
             background: #f18383;
             border-bottom: 1px solid#999;
             position: relative;
+            width: auto;
+            height: auto;
+            max-width: 477px;
 
             .closeBTN {
                 padding: 0 5px;

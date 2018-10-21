@@ -1,3 +1,7 @@
+body{
+  overflow: hidden;
+}
+
 .App {
   text-align: center;
   min-height: 100vh;
@@ -8,4 +12,20 @@
 * {
     box-sizing: border-box;
     // transition: all 0.5s ease-out;
+}
+
+
+input::before {
+  color: #757575;
+  content: attr(placeholder) ": ";
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+a{
+  text-decoration: none;
+  color: #000;
+  font-weight: 400;
+}
+a:hover{
+  font-weight: 600;
 }
