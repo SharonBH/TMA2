@@ -78,7 +78,7 @@
                     position: absolute; 
                     z-index: 100;
                     max-height: 315px;
-                    overflow-y: scroll;
+                    overflow-y: auto;
                     border-left: 1px solid $blue;
                     border-bottom: 1px solid $blue;
     
@@ -314,7 +314,7 @@
     position: absolute; 
     z-index: 100;
     max-height: 315px;
-    overflow-y: scroll;
+    overflow-y: auto;
     border-left: 1px solid $blue;
     border-bottom: 1px solid $blue;
 

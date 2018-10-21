@@ -290,14 +290,17 @@ export const changePasswordRequest = (username, password, newPassword, confirmPa
 // get all users by app comp
 export const appCallTakeAllUsers = () => {
     return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
         return axios.post(cors + url + `Account/GetUsers`)
             .then((response) => {
                     const users = response.data
                     dispatch(getAllUsersAction(users));
+                    dispatch(toggleLoaderAction(false))
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
                 dispatch(errorMessageAction(error[0]))
+                dispatch(toggleLoaderAction(false))
             });  
     }
 };

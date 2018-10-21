@@ -28,7 +28,17 @@ export const takeAllTournaments = () => {
                     const tournaments = response.data
                     dispatch(getAllToursAction(tournaments));
                     // history.push({pathname: '/all_tournaments'})
-                    dispatch(toggleLoaderAction(false))
+                    return axios.post(cors + url + `Groups/GetGroups`)
+                        .then((response) => {
+                                const groups = response.data
+                                dispatch(getAllGroups(groups));
+                                dispatch(toggleLoaderAction(false))
+                        })
+                        .catch((error) => {
+                            dispatch(catchErrorAction([error][0]))
+                            dispatch(errorMessageAction(error[0]))
+                            dispatch(toggleLoaderAction(false))
+                        });  
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
@@ -403,18 +413,17 @@ export const appCallTakeAllEvents = () => {
 // get all groups by main page comp
 export const appCallgetAllGroupsRequest = () => {
     return (dispatch) => {
-        // dispatch(toggleLoaderAction(true))
+        dispatch(toggleLoaderAction(true))
         return axios.post(cors + url + `Groups/GetGroups`)
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
-                    // history.push({pathname: '/groups'})
-                    // dispatch(toggleLoaderAction(false))
+                    dispatch(toggleLoaderAction(false))
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
-                // dispatch(errorMessageAction([error][0]))
-                // dispatch(toggleLoaderAction(false))
+                dispatch(errorMessageAction(error[0]))
+                dispatch(toggleLoaderAction(false))
             });  
     }
 };
