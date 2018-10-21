@@ -68,6 +68,7 @@ class Register extends Component {
     onSearchUsersChange = (e) => { 
         this.setState({ searchUsersResult: [] })
         this.setState({searchUsers: e.target.value})
+        console.log('onSearchUsersChange')
         setTimeout(() => {
             this.props.allList.map((user) => {
                 const searchFor = this.state.searchUsers
@@ -77,6 +78,7 @@ class Register extends Component {
                     this.setState({searchUsersResult: removeDuplicateArr})
                 }
             })
+            console.log('onSearchUsersChange', this.state.searchUsersResult)
         }, 300)
     }
     addSearchUserResult = (user, e) => {
