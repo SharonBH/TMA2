@@ -62,12 +62,13 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios ({
+        return axios 
+        ({
             method: 'post',
-            url: cors + url + 'Account/Login',
+            url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                'Access-Control-Allow-Origin': 'https://tma-api.azurewebsites.net',
+                'Access-Control-Allow-Origin': 'https://tma-front.azurewebsites.net/',
                 'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
                 'Access-Control-Allow-Credentials': true
             },
