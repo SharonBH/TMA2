@@ -288,6 +288,7 @@ class UserSummary extends Component {
                                 name="tournament" 
                                 placeholder={tournaments.tournamentName} 
                                 content={this.state.userDetailsArr[index].editInput}
+                                onChange={() => {}}
                                 />
                             : null
                         } 

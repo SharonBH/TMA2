@@ -156,6 +156,8 @@ export class TournamentPage extends Component {
     }
     eventsTable = () => {
         const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
+    
+        
         return (
             <div className={classes.eventsTable}>
                 <h3>All events of tournament</h3>
@@ -166,19 +168,27 @@ export class TournamentPage extends Component {
                     <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
                 </div>
                 <ul>
-                {currentTournament.events.map((item, index) => {
-                    return <li key={index}>
-                        <div className={classes.eventName}>{item.eventName}</div>
-                        <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
-                        <div className={classes.usersInGame}>
-                            coming soon...
-                        </div>
-                        <div className={classes.turnPageEventsBTN}>
-                            <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
-                            <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
-                        </div>
-                    </li>
-                })}
+                {(this.props.tournByIdNoS !== undefined || this.props.tournByIdNoS !== '') ? this.props.tournByIdNoS.map((item, index) => {
+                    
+                        return <li key={index}>
+                            <div className={classes.eventName}>{item.eventName}</div>
+                            <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
+                            <div className={classes.usersInGame}>
+                                <span className={classes.showUsers}>Users</span>
+                                <ul className={classes.hiddenUsers}>{this.props.tournByIdNoS !== undefined || this.props.tournByIdNoS !== '' ? this.props.tournByIdNoS.map((item, index) => {
+                                    return item.eventUsers.map((name) => {
+                                        return  (
+                                            <li key={name}>{name.username}</li>)
+                                        })
+                                    
+                                }) : null}</ul>
+                            </div>
+                            <div className={classes.turnPageEventsBTN}>
+                                <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
+                                <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
+                            </div>
+                        </li>
+                 }) : null}
                 </ul>
             </div>
         )
@@ -187,7 +197,6 @@ export class TournamentPage extends Component {
     const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
     const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
     const gName = this.props.groupsList !== null ? tournGroup.groupName : null
-    
         return (
             <div className={classes.usersTable}>
                 {this.turnPageInformation()}
@@ -211,7 +220,6 @@ export class TournamentPage extends Component {
     }  
     turnamentHeadLine=()=>{
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
-       
         return(
         <div className={classes.headTPage}>
             <h1><span>Tournament Name: </span>{currentTournament}</h1>
@@ -220,11 +228,8 @@ export class TournamentPage extends Component {
                 {/* <Link to={`/${currentTournament.tournamentName}/edit_tournament`}> */}
                 <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
                 {/* </Link> */}
-            
                 <Link className={classes.backBtn} to='/all_tournaments'><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
             </div>
-            
-            
         </div>
         )
     }
@@ -245,8 +250,8 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log('tournament page state',this.props.allEventTypesList)
-
+        console.log('tournament page props',this.props)
+        console.log('tournament page state',this.state)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
@@ -280,6 +285,7 @@ const mapStateToProps = (state) => {
         allEventTypesList: state.allListReducer.allEventTypesList,
         groupsList: state.allListReducer.groupsList,
         tournById: state.allListReducer.tournById,
+        tournByIdNoS: state.allListReducer.tournByIdNoS,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,
         addTournament: state.addNewItemReducer.addTournament,
