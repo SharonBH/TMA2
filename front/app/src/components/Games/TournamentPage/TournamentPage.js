@@ -62,9 +62,7 @@ export class TournamentPage extends Component {
             this.props.takeAllTournaments()
         } else {
             return null
-        }
-        
-        
+        }  
     }
     componentWillUnmount(){
         this.props.errorMessageAction(null)
@@ -103,8 +101,7 @@ export class TournamentPage extends Component {
     //         this.props.addNewTournamentAction(true)
     //     }, 200)
     // }
-
-    
+  
     addTournamentComp = () => {
         return <Register headline={ADD_TOURNAMENT} classStr='none' />
     }
@@ -172,7 +169,9 @@ export class TournamentPage extends Component {
                     return <li key={index}>
                         <div className={classes.eventName}>{item.eventName}</div>
                         <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
-                        <div className={classes.usersInGame}>coming soon...</div>
+                        <div className={classes.usersInGame}>
+                            coming soon...
+                        </div>
                         <div className={classes.turnPageEventsBTN}>
                             <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
                             <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>

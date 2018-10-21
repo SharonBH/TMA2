@@ -362,4 +362,29 @@
         cursor: default;
         margin-right: 9px;
     }
+    .userResult {
+        width: 40%;
+
+        input {
+            height: 30px;
+            width: 50px;
+            display: flex;
+            text-align: center;
+            border: 1px solid #03a3d0;
+            margin: 5px;
+            -webkit-appearance: none;
+        }
+        
+        i {
+            border: none;
+        }
+
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0; 
+        }
+    }
 }
