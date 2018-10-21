@@ -169,19 +169,20 @@ export class TournamentPage extends Component {
                 </div>
                 <ul>
                 {(this.props.tournByIdNoS !== undefined || this.props.tournByIdNoS !== '') ? this.props.tournByIdNoS.map((item, index) => {
-                    
                         return <li key={index}>
                             <div className={classes.eventName}>{item.eventName}</div>
                             <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
                             <div className={classes.usersInGame}>
-                                <span className={classes.showUsers}>Users</span>
-                                <ul className={classes.hiddenUsers}>{this.props.tournByIdNoS !== undefined || this.props.tournByIdNoS !== '' ? this.props.tournByIdNoS.map((item, index) => {
-                                    return item.eventUsers.map((name) => {
-                                        return  (
-                                            <li key={name}>{name.username}</li>)
-                                        })
-                                    
-                                }) : null}</ul>
+                                <span className={classes.showUsers}>Event Users</span>
+                                <ul className={classes.hiddenUsers}>
+                                    {item.eventUsers.map((user, index) => {
+                                        const fill = item.eventResults.find( result => {return result.userId === user.userId} )
+                                        console.log('--------------------',fill)
+                                        return <li key={index}>
+                                            <span>{user.name}</span>
+                                            <span>{fill.result === null ? 'none' : fill.result}</span>
+                                        </li>})} 
+                                </ul>
                             </div>
                             <div className={classes.turnPageEventsBTN}>
                                 <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
