@@ -177,7 +177,6 @@ export class TournamentPage extends Component {
                                 <ul className={classes.hiddenUsers}>
                                     {item.eventUsers.map((user, index) => {
                                         const fill = item.eventResults.find( result => {return result.userId === user.userId} )
-                                        console.log('--------------------',fill)
                                         return <li key={index}>
                                             <span>{user.name}</span>
                                             <span>{fill.result === null ? 'none' : fill.result}</span>
