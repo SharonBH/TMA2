@@ -216,8 +216,6 @@
             }
             .usersInGame{
                 width: 23%;
-                
-                
             }
         }
         .usersInGame{
@@ -228,13 +226,18 @@
                 display: none;
                 position: relative;
             }
-            .showUsers{
-                &:hover .hiddenUsers{
+            &:hover {
+                .hiddenUsers{
                     display: block;
                     position: absolute;
                 }
             }
-            
+ 
+            .showUsers{
+                &:hover{
+ 
+                }
+            }
         }
         .eventDate{
             display: inline-block;
