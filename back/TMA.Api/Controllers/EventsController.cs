@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TMA.Api.Models;
 using TMA.BLL;
+using TMA.DAL.Models.DB;
 
 namespace TMA.Api.Controllers
 {
@@ -140,6 +142,54 @@ namespace TMA.Api.Controllers
             {
                 var eventTypes = _mainRepository.GetEventTypes();
                 return Json(eventTypes);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("GetEventsByTournamentId")]
+        public JsonResult GetEventsByTournamentId([FromBody]int tournamentId)
+        {
+            try
+            {
+                var getEvents = _mainRepository.GetEventsByTournamentId(tournamentId);
+                var events = new List<EventModel>();
+                foreach (var getEvent in getEvents)
+                {
+                    var eventModel = new EventModel
+                    {
+                        EventId = getEvent.EventId,
+                        EventName = getEvent.EventName,
+                        EventDate = getEvent.EventDate,
+                        TournamentName = getEvent.Tournament.TournamentName,
+                        EventResults = new List<EventResults>(),
+                        EventUsers = new List<UserModel>()
+                    };
+                    foreach (var eventResult in getEvent.EventResults)
+                    {
+                        var userModel = new UserModel
+                        {
+                            Username = eventResult.User.UserName,
+                            UserId = eventResult.UserId,
+                            Email = eventResult.User.Email,
+                            Name = eventResult.User.Name
+                        };
+                        eventModel.EventUsers.Add(userModel);
+
+                        var eventResultModel = new EventResults
+                        {
+                            EventId = eventResult.EventId,
+                            Result = eventResult.Result,
+                            UserId = eventResult.UserId
+                        };
+                        eventModel.EventResults.Add(eventResultModel);
+                    }
+                    events.Add(eventModel);
+                }
+                return Json(events);
             }
             catch (Exception ex)
             {

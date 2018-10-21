@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TMA.Api.Models.AccountViewModels;
+using TMA.Api.Models;
 using TMA.BLL;
 
 namespace TMA.Api.Controllers
@@ -156,18 +156,19 @@ namespace TMA.Api.Controllers
                     groupModel.Users = users;
                     tournamentModel.GroupModel = groupModel;
 
-                    var tournamentsEvents = new List<EventModel>();
-                    foreach (var tournamentEvent in tournament.Events)
-                    {
-                        var eventModel = new EventModel
-                        {
-                            EventName = tournamentEvent.EventName,
-                            EventDate = tournamentEvent.EventDate,
-                            EventId = tournamentEvent.EventId
-                        };
-                        tournamentsEvents.Add(eventModel);
-                    }
-                    tournamentModel.Events = tournamentsEvents;
+                    //var tournamentsEvents = new List<EventModel>();
+                    //foreach (var tournamentEvent in tournament.Events)
+                    //{
+                    //    var eventModel = new EventModel
+                    //    {
+                    //        EventName = tournamentEvent.EventName,
+                    //        EventDate = tournamentEvent.EventDate,
+                    //        EventId = tournamentEvent.EventId,
+                    //        EventResults = tournamentEvent.EventResults.ToList()
+                    //    };
+                    //    tournamentsEvents.Add(eventModel);
+                    //}
+                    //tournamentModel.Events = tournamentsEvents;
                     tournamentsModel.Add(tournamentModel);
                 }
 

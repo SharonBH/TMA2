@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TMA.Api.Models.AccountViewModels
+namespace TMA.Api.Models
 {
     [Serializable]
     public class UserModel

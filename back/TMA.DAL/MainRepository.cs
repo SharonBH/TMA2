@@ -142,9 +142,27 @@ namespace TMA.DAL
             }
         }
 
-        public object GetEventById(object eventId)
+        public List<Events> GetEventsByTournamentId(int tournamentId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var events = context.Events
+                        .Include(e => e.EventResults).ThenInclude(u => u.User)
+                        .Include(e => e.Tournament)
+                        .Where(e => e.TournamentId == tournamentId && e.IsDeleted == false)
+                        .ToList();
+                    if (events == null)
+                        throw new Exception($"No events for tournamentId {tournamentId} was not found.");
+
+                    return events;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetEventsByTournamentId'.", ex);
+            }
         }
 
         public List<Events> GetEvents()
@@ -154,7 +172,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var events = context.Events
-                        .Include(x => x.EventResults)
+                        .Include(x => x.EventResults).ThenInclude(x=>x.User)
                         .Where(e => e.IsDeleted == false)
                         .ToList();
                     return events;
@@ -245,8 +263,13 @@ namespace TMA.DAL
                     var tournament = context.Tournaments.FirstOrDefault(e => e.TournamentId == tournamentId);
                     if (tournament == null)
                         throw new Exception($"Tournament for TournamentId [{tournamentId}] was not found.");
+
+                    var events = context.Events.Where(x => x.TournamentId == tournamentId && x.IsDeleted == false);
+
+                    foreach (var getEvent in events)
+                        getEvent.IsDeleted = true;
+
                     tournament.IsDeleted = true;
-                    context.Tournaments.Update(tournament);
                     context.SaveChanges();
                 }
             }
@@ -267,6 +290,7 @@ namespace TMA.DAL
                         .FirstOrDefault(e => e.TournamentName == tournamentName && e.IsDeleted == false);
                     if (tournament == null)
                         throw new Exception($"Tournament for Tournament Name [{tournamentName}] was not found.");
+                    tournament.Events = tournament.Events.Where(e => e.IsDeleted == false).ToList();
                     return tournament;
                 }
             }
@@ -287,6 +311,7 @@ namespace TMA.DAL
                         .FirstOrDefault(e => e.TournamentId == tournamentId);
                     if (tournament == null)
                         throw new Exception($"Tournament for TournamentId [{tournamentId}] was not found.");
+                    tournament.Events = tournament.Events.Where(e => e.IsDeleted == false).ToList();
                     return tournament;
                 }
             }
@@ -303,7 +328,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var tournaments = context.Tournaments
-                        .Include(x => x.Events).ThenInclude(t => t.EventResults)
+                        .Include(x => x.Events).ThenInclude(t => t.EventResults).ThenInclude(y=>y.User)
                         .Include(x => x.EventType)
                         .Where(e => e.IsDeleted == false)
                         .ToList();
