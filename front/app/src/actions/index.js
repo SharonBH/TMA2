@@ -104,6 +104,12 @@ export const getTournByIdAction = (response) => {
         payload: response
     }
 }
+export const getTournByIdNoSAction = (response) => {
+    return {
+        type: 'GET_TOURN_BY_ID_NO_S',
+        payload: response
+    }
+}
 //get all Events
 export const getAllEventsAction = (response) => {
     return {
@@ -177,12 +183,6 @@ export const editThisGroupAction = (boll) => {
         payload: boll
     }
 }
-
-
-
-
-
-
 
 export const sendEventDataAction = (data) => {
     return {

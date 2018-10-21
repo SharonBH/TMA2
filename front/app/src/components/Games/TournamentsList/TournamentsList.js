@@ -17,7 +17,7 @@ import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
 
-import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 export class TournamentsList extends Component {
@@ -130,6 +130,7 @@ export class TournamentsList extends Component {
     getTournById=(tournIdToPage)=>{
         this.setState({someId: tournIdToPage})
         this.props.goToTournPageRequest(tournIdToPage)
+        this.props.tournEventsByIdRequest(tournIdToPage)
         
 
     }
@@ -214,6 +215,7 @@ const mapDispatchToProps = dispatch => {
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
         goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
+        tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
 
         
     }
