@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using TMA.Api.Models.AccountViewModels;
+using TMA.Api.Models;
 
 namespace TMA.Api.Controllers
 {

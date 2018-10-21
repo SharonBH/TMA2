@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TMA.Api.Models;
 using TMA.DAL.Models.DB;
 
 namespace TMA.Api.Controllers
@@ -16,5 +17,8 @@ namespace TMA.Api.Controllers
         public DateTime EventDate { get; set; }
 
         public List<EventResults> EventResults { get; set; }
+
+        public List<UserModel> EventUsers { get; set; }
+
     }
 }

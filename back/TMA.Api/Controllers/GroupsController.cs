@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TMA.Api.Models.AccountViewModels;
+using TMA.Api.Models;
 using TMA.BLL;
 
 namespace TMA.Api.Controllers
