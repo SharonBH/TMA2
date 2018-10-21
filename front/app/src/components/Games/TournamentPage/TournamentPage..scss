@@ -46,6 +46,7 @@
                     margin-right: 5px;
                 }
                 
+                
             }
             .backBtn{
                 display: inline-block;
@@ -164,6 +165,15 @@
 .turnPageEventsBTN{
     width: 10%;
     min-width: 88px;
+    overflow: visible !important;
+    a{
+        div{
+            overflow: visible !important;
+        }
+    }
+    div{
+        overflow: visible !important;
+    }
 }
 
     .eventsTable, .usersTable{
@@ -220,8 +230,13 @@
         }
         .usersInGame{
             width: 23%;
+            .showUsers{
+                &:hover{
+                   font-weight: 600 
+                }
+            }
             .hiddenUsers{
-                width: 210px;
+                width: 110px;
                 height: auto;
                 display: none;
                 position: relative;
@@ -230,14 +245,14 @@
                 .hiddenUsers{
                     display: block;
                     position: absolute;
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    box-shadow: 0px 0px 4px 0px #03a3d0;
                 }
             }
- 
-            .showUsers{
-                &:hover{
- 
-                }
-            }
+            
+            
+            
         }
         .eventDate{
             display: inline-block;
