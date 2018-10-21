@@ -74,7 +74,7 @@ export const loginRequest = (userName, password) => {
             data: {
                 username: userName,
                 password: password
-                }
+            }
         })
         // .post(cors + url + `Account/Login`, {
         //     username: userName,
