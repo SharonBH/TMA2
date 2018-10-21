@@ -245,7 +245,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log('tournament page state',this.props.allEventTypesList)
+        console.log('tournament page state',this.props)
 
         return (
             <div className={classes.tournPageWrapper}>
