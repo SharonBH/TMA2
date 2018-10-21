@@ -13,6 +13,7 @@ import {
     getAllGroups,
     getTournByIdAction,
     addNewGroupAction,
+    getTournByIdNoSAction
 } from './index';
 
 // const cors = 'https://cors-anywhere.herokuapp.com/'
@@ -416,7 +417,22 @@ export const appCallgetAllGroupsRequest = () => {
             });  
     }
 };
-
+export const tournEventsByIdRequest = (tournamentId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'post',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            url: cors + url + 'Events/GetEventsByTournamentId',
+            data: tournamentId
+        })
+        .then((response) => {
+            const tournamentId = response.data
+            dispatch(getTournByIdNoSAction(tournamentId))
+            dispatch(toggleLoaderAction(false))
+        })
+    }
+}
 // get Tournament By Id
 export const goToTournPageRequest = (tournamentId) => {
     return (dispatch) => {
@@ -430,14 +446,15 @@ export const goToTournPageRequest = (tournamentId) => {
         .then((response) => {
             localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
             const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
-            // const tournId = response.data
+            const tournId = response.data;
             dispatch(getTournByIdAction(tournamentById));
-            dispatch(toggleLoaderAction(false))
+            dispatch(toggleLoaderAction(false));
         })
         .catch((error) => {
             dispatch(catchErrorAction([error][0]))
-            dispatch(errorMessageAction([error][0]))
-        });  
+            dispatch(errorMessageAction(error[0]))
+        
+        });
     }
 };
 

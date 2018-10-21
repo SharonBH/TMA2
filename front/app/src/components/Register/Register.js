@@ -348,7 +348,7 @@ class Register extends Component {
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
-                    <InputComp inputType="text" name="tournament" placeholder={tourn.tournamentName} content={tourn.tournamentName}/>
+                    <InputComp inputType="text" name="tournament" placeholder={tourn.tournamentName} content={tourn.tournamentName} onChange={() => {}}/>
                     <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
                     <InputComp inputType="datetime-local" name="deteOfEvent" placeholder="Date Of Event" onChange={this.onDateOfEventChange}/>
                     <div className={classes.usersAddedWrapper}>

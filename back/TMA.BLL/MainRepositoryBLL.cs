@@ -144,6 +144,12 @@ namespace TMA.BLL
             return groups;
         }
 
+        public List<Events> GetEventsByTournamentId(int tournamentId)
+        {
+            var getEvents = _mainRepository.GetEventsByTournamentId(tournamentId);
+            return getEvents;
+        }
+
         #endregion
     }
 }
