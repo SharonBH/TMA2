@@ -50,14 +50,35 @@ export const registerRequest = (email, password, confirmPassword, name, userType
     }
 };
 
+
+// return axios({
+//     method: 'post',
+//     headers: {'Content-Type': 'application/json; charset=UTF-8'},
+//     url: cors + url + 'Tournaments/GetTournamentById',
+//     data: tournamentId
+// })
+
 // login request
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(cors + url + `Account/Login`, {
-            username: userName,
-            password: password
+        return axios ({
+            method: 'post',
+            url: cors + url + 'Account/Login',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            },
+            data: {
+                username: userName,
+                password: password
+                }
         })
+        // .post(cors + url + `Account/Login`, {
+        //     username: userName,
+        //     password: password
+        // })
         // return axios.post(`https://tma-api.azurewebsites.net/Account/Login`, {
         //     username: userName,
         //     password: password
