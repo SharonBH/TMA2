@@ -71,8 +71,10 @@ export const loginRequest = (userName, password) => {
                 'Content-Type': 'application/json; charset=UTF-8',
                 "cache-control": "no-cache",
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-                "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token"
+                "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
+                "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+                'Access-Control-Allow-Credentials': 'true',
+                'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
             },
             data: {
                 username: userName,
