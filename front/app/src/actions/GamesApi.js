@@ -92,7 +92,7 @@ export const DeleteTournamentRequest = (tournamentId) => {
         console.log('tournamentId', tournamentId)
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             url: cors + url + 'Tournaments/DeleteTournament',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: tournamentId
@@ -133,7 +133,7 @@ export const DeleteEventRequest = (eventId) => {
         console.log('eventId', eventId)
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             url: cors + url + 'Events/DeleteEvent',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: eventId
@@ -189,7 +189,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             url: cors + url + 'Tournaments/CreateTournament',
             data: {
@@ -235,7 +235,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             url: cors + url + 'Events/CreateEvent',
             data: {
@@ -281,7 +281,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupName, t
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             url: cors + url + 'Tournaments/EditTournament',
             data: {
@@ -330,7 +330,7 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate, even
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             url: cors + url + 'Events/EditEvent',
             data: {
@@ -422,7 +422,7 @@ export const tournEventsByIdRequest = (tournamentId) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             url: cors + url + 'Events/GetEventsByTournamentId',
             data: tournamentId
@@ -439,7 +439,7 @@ export const goToTournPageRequest = (tournamentId) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             url: cors + url + 'Tournaments/GetTournamentById',
             data: tournamentId
@@ -496,7 +496,7 @@ export const addNewGroupRequest = (groupName, usersIds) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             url: cors + url + 'Groups/CreateGroup',
             data: {
@@ -539,7 +539,7 @@ export const DeleteGroupRequest = (groupId) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             url: cors + url + 'Groups/DeleteGroup',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: groupId
@@ -580,7 +580,7 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
-            method: 'post',
+            method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             url: cors + url + 'Groups/EditGroup',
             data: {
