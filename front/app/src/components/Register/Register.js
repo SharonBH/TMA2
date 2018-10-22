@@ -173,9 +173,9 @@ class Register extends Component {
         } else if (userName === '') {
             this.props.errorMessageAction('you must enter a user name')
         } else {
-            headline === REGISTER 
-            ? this.props.registerRequest(email, password, confirmPassword, name, userType, userName) 
-            : this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
+            headline === ADD_USER 
+            ? this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
+            :  this.props.registerRequest(email, password, confirmPassword, name, userType, userName) 
         }
     }
 
