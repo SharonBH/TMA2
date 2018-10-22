@@ -17,7 +17,7 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents, tournEventsByIdRequest } from '../../../actions/GamesApi';
 import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, 
     successMessageAction, errorMessageAction, deleteConfirmMessageAction, sendEventDataAction }  from '../../../actions';
 export class TournamentPage extends Component {
@@ -47,10 +47,13 @@ export class TournamentPage extends Component {
     //     this.props.takeAllEvents()
     // }
     componentWillMount(){
+        const TourId = this.props.tournById.tournamentId
+        this.props.tournEventsByIdRequest(TourId)
         this.setState({currentPage: this.props.tournById})
         this.props.appCallTakeAllEvents()
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
+            
         } else {
             return null
         }
@@ -155,6 +158,8 @@ export class TournamentPage extends Component {
 
     }
     eventsTable = () => {
+        const currentTournament = this.props.tournById !== null ? this.props.tournById : null
+        console.log('currentTournament', currentTournament)
         return (
             <div className={classes.eventsTable}>
                 <h3>All events of tournament</h3>
@@ -170,7 +175,7 @@ export class TournamentPage extends Component {
                             <div className={classes.eventName}>{item.eventName}</div>
                             <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
                             <div className={classes.usersInGame}>
-                                <span className={classes.showUsers}>Event Users</span>
+                                <span className={classes.showUsers}>Hover to show</span>
                                 <ul className={classes.hiddenUsers}>
                                     {item.eventUsers.map((user, index) => {
                                         const fill = item.eventResults.find(result => {return result.userId === user.userId})
@@ -181,7 +186,7 @@ export class TournamentPage extends Component {
                                 </ul>
                             </div>
                             <div className={classes.turnPageEventsBTN}>
-                                <Link className={classes.editBTN} to={`/edit_event/${item.eventName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></Link>
+                                <a className={classes.editBTN}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></a>
                                 <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
                             </div>
                         </li>
@@ -231,6 +236,7 @@ export class TournamentPage extends Component {
         )
     }
     turnPageInformation = () => {
+
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
         const { eventTypeId, numberOfEvents } =  this.props.tournById
         const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventTypeId} ) : null
@@ -247,6 +253,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
+        console.log('this.props', this.props)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
@@ -308,6 +315,7 @@ const mapDispatchToProps = dispatch => {
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
         sendEventDataAction: payload => dispatch(sendEventDataAction(payload)),
         appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
+        tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
     }
 }
 

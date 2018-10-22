@@ -154,7 +154,7 @@ export const DeleteEventRequest = (eventId) => {
                         
                         const eventTypes = response.data
                         console.log('response2', eventTypes)
-                        
+                        window.location.reload()
                         dispatch(getAllEventTypesAction(eventTypes));
                         // history.push({pathname: '/all_events'})
                         dispatch(toggleLoaderAction(false))
@@ -198,7 +198,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
                 startDate: tournamentStartDate,
                 endDate: tournamentEndDate,
                 numberOfEvents: eventsMaxNum,
-                groupsId: groups
+                groupId: groups
             }
         })
         .then((response) => {
@@ -207,7 +207,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
                     .then((response) => {
                         const tournaments = response.data
                         dispatch(getAllToursAction(tournaments));
-                        history.push({pathname: '/tournament_page'})
+                        // history.push({pathname: '/tournament_page'})
                         dispatch(addNewTournamentAction(false))
                         dispatch(successMessageAction('Tournament Added Successfuly'))
                         dispatch(toggleLoaderAction(false))
@@ -252,6 +252,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
                         const events = response.data
                         dispatch(getAllEventsAction(events));
                         // history.push({pathname: '/tournament_page'})
+                        window.location.reload()
                         dispatch(addNewEventAction(false))
                         dispatch(successMessageAction('Event Added Successfuly'))
                         dispatch(toggleLoaderAction(false))

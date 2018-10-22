@@ -230,6 +230,8 @@
         }
         .usersInGame{
             width: 23%;
+            position: relative;
+            overflow: visible;
             .showUsers{
                 &:hover{
                    font-weight: 600 
@@ -247,8 +249,11 @@
                     position: absolute;
                     border: 1px solid #ddd;
                     padding: 10px;
-                    background-color: $white;
+                    background-color: #fff;
                     box-shadow: 0px 0px 4px 0px #03a3d0;
+                    right: 0;
+                    z-index: 6;
+                    top: 0;
                 }
             }
             
@@ -272,7 +277,7 @@
     }
     .usersTable{
         ul{
-            height: calc(100vh - 510px);
+            height: calc(100vh - 480px);
         }
     }
     .success {
@@ -286,6 +291,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        z-index: 6;
         
         span {
             padding: 20px 40px;

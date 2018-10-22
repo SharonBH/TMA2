@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest, appCallTakeAllUsers } from "../../actions/Api";
-import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest, editGroupRequest, appCallTakeAllEvents } from "../../actions/GamesApi";
+import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest, editGroupRequest, appCallTakeAllEvents, tournEventsByIdRequest } from "../../actions/GamesApi";
 import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction, editThisGroupAction } from '../../actions';
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
@@ -79,6 +79,13 @@ class Register extends Component {
             })
         }, 300)
     }
+
+    getTournById=(tournIdToPage)=>{
+        console.log('tournIdToPage', tournIdToPage)
+        this.props.tournEventsByIdRequest(tournIdToPage)
+    }
+
+
     addSearchUserResult = (user, e) => {
         const fill = this.state.addSearchUsersResult.filter(item => item.user.userId !== user.user.userId)
         const array = [...fill, {user: user.user, score: e.target.value}]
@@ -301,8 +308,8 @@ class Register extends Component {
                             onChange={(e) => this.onTypeOfEventChange(e)}   
                         />
                     </div>
-                    <InputComp inputType="datetime-local" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange} />
-                    <InputComp inputType="datetime-local" name="endDate" placeholder="End Date" onChange={this.onEndDateChange} />
+                    <InputComp inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange} />
+                    <InputComp inputType="date" name="endDate" placeholder="End Date" onChange={this.onEndDateChange} />
                     <InputComp inputType="number" name="maxNumOfEvents" placeholder="Maximum number Of Events" onChange={this.onMaxNumChange}/>
                     {this.errorMessage()}
                     {this.successMessage()}
@@ -311,7 +318,7 @@ class Register extends Component {
                         name="createTour" 
                         content={headline} 
                         onClick={this.addNewTournament}
-                    />}
+                    /> }
                     {headline === ADD_TOURNAMENT ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
             </div>
@@ -365,12 +372,22 @@ class Register extends Component {
                     </div>
                     {this.errorMessage()}
                     {this.successMessage()}
-                    {<BtnComp
+                    {headline === ADD_EVENT
+                    ? 
+                    <Link to={`/tournament_page/${this.props.tourn.tournamentName}`} onClick={()=>this.getTournById(this.props.tourn.tournamentId)}>
+                    <BtnComp
                         inputType="submit" 
                         name="createEvent" 
                         content={headline} 
                         onClick={this.addNewEvent}
-                    />}
+                    /></Link>
+                    : <BtnComp
+                        inputType="submit" 
+                        name="createEvent" 
+                        content={headline} 
+                        onClick={this.addNewEvent}
+                    /> }
+                    
                     {headline === ADD_EVENT ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 </form>
             </div>
@@ -497,6 +514,7 @@ class Register extends Component {
     }
     
     render() {
+        console.log('registerpage', this.props)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
@@ -531,6 +549,7 @@ const mapDispatchToProps = dispatch => {
         editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
         appCallTakeAllUsers: (payload) => dispatch(appCallTakeAllUsers(payload)),
         appCallTakeAllEvents: (payload) => dispatch(appCallTakeAllEvents(payload)),
+        tournEventsByIdRequest: (payload) => dispatch(tournEventsByIdRequest(payload)),
         editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
     }
 }

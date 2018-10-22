@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import classes from './UserSummary.scss';
 import { connect } from 'react-redux';
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
 import { changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
-import { editThisTournamentRequest, editThisEventRequest } from '../../../actions/GamesApi';
+import { editThisTournamentRequest, editThisEventRequest, tournEventsByIdRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
 import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisGroupAction, editThisEventAction }  from '../../../actions';
 import { EDIT_TOURNAMENT, YOUR_PROFILE, EDIT, EDIT_EVENT, EDIT_USER } from '../../../configuration/config'
@@ -19,6 +20,7 @@ class UserSummary extends Component {
             currentUser: '',
             changePassword: false,
             // password: password,
+            inputs: [],
             userDetailsArr: this.detailsToState()
         }
         this.editDetail = this.editDetailBtn.bind(this)
@@ -29,7 +31,12 @@ class UserSummary extends Component {
         this.props.successMessageAction(null)
         this.setState({changePassword: false})
     }
-
+    getTournById=(tournIdToPage)=>{
+        console.log('tournIdToPage', tournIdToPage)
+        // this.setState({someId: tournIdToPage})
+        // this.props.goToTournPageRequest(tournIdToPage)
+        this.props.tournEventsByIdRequest(tournIdToPage)
+    }
     detailsToState = () => {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
@@ -70,6 +77,8 @@ class UserSummary extends Component {
             const eventName = eventData.eventName
             const eventDate = eventData.eventDate
             const eventResults = eventData.eventResults
+            // const res = eventResults.map(item => item.result)
+
             console.log('eventData', eventData)
             return ( [
                 {edit: false, detail: 'Event Name', param: eventName, editInput: eventName},
@@ -92,12 +101,20 @@ class UserSummary extends Component {
         details[index].editInput = e.target.value
         this.setState({ userDetailsArr: details })
     }
-  
-    changePassword = () => {
-        setTimeout(() => {
-            this.setState({changePassword: true})
-        }, 200)
+
+    editEventDetailInput = (index, user, e) => {
+
+        const details = [...this.state.inputs]
+        const results = {userId: user.userId, result: e.target.value}
+        const filtered = details.filter(user => user.userId !== results.userId)
+        const some = [
+            ...filtered,
+            results
+        ]
+        this.setState({inputs: some})
+        // this.setState({ userDetailsArr: this.state.inputs })
     }
+    
 
     editBtnFunc = (item, index) => {
         if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisItem && item.detail !== 'User Name' ) || this.props.editThisEvent || (this.props.editThisEvent && item.detail !== 'Tournament Name' ) ) {
@@ -134,7 +151,11 @@ class UserSummary extends Component {
             return null
         }
     }
-
+    changePassword = () => {
+        setTimeout(() => {
+            this.setState({changePassword: true})
+        }, 200)
+    }
     changePassBtn = (username) => {
         this.props.successMessageAction(null)
         this.props.errorMessageAction(null)
@@ -187,8 +208,9 @@ class UserSummary extends Component {
             } else if (today > eventdate) {
                 this.props.errorMessageAction('you must enter a date later than today')
             } else {
-                this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2], editRequestParam[3])
+                this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2], this.state.inputs)
             }
+
         }
     }
     
@@ -271,7 +293,7 @@ class UserSummary extends Component {
         const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
         const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
         return (
-            <div key={index} className={classes.wrappLine}>
+            <div key={index} className={detail === 'Event Users Results' ? classes.eventResWrapLine  : classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
                     this.state.userDetailsArr[index].edit
@@ -295,7 +317,7 @@ class UserSummary extends Component {
                             ?  item.param.eventUsers.map((user) => {
                                 return <div key={user.userId} className={classes.eventResult}>
                                     <span className={classes.name}>{user.name}</span>
-                                    <InputComp inputType="number" name="result" placeholder={'score'} onChange={() => {}}/>
+                                    <InputComp inputType="number" name="result" placeholder={'score'} onChange={(e) => this.editEventDetailInput(index, user, e)}/>
                                 </div>
                             }) 
                             : null
@@ -347,12 +369,13 @@ class UserSummary extends Component {
                 {this.errorMessage()}
                 {this.successMessage()}
                 <span className={classes.SubmitAll}>
-                    <BtnComp 
-                        className={classes.editBtn} 
-                        inputType="submit" 
-                        content='Save All Changes'
-                        onClick={() => this.submitUserAditeChanges(headline)}
-                    />
+                {headline === EDIT_EVENT 
+                ? 
+                <Link to={`/tournament_page/${this.props.tournById.tournamentName}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
+                    <BtnComp className={classes.editBtn}  inputType="submit"   content='Save All Changes'  onClick={() => this.submitUserAditeChanges(headline)} />
+                </Link>
+                :<BtnComp className={classes.editBtn}  inputType="submit"   content='Save All Changes'  onClick={() => this.submitUserAditeChanges(headline)} />
+                    }
                 </span>
                 {(headline !== 'Register' && headline !== 'Your Profile') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
                 {(this.props.editThisItem || this.props.editThisGroup || this.props.editThisEvent) ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}   
@@ -362,6 +385,7 @@ class UserSummary extends Component {
     }
 
     render() {
+        console.log("3333333",this.props)
         const { headline, user, tournament, group, event } = this.props
         return (
             <div className={classes.ProfileWrapper}>
@@ -397,6 +421,7 @@ const mapDispatchToProps = dispatch => {
         editThisItemAction: (payload) => dispatch(editThisItemAction(payload)),
         editThisGroupAction: payload => dispatch(editThisGroupAction(payload)),
         editThisEventAction: payload => dispatch(editThisEventAction(payload)),
+        tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         editThisUserRequest: (headline, userName, name, email, userType) => dispatch(editThisUserRequest(headline, userName, name, email, userType)),
         editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate, eventResults) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate, eventResults)),
         editThisTournamentRequest: (tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents)),

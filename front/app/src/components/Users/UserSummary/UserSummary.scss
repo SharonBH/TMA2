@@ -123,7 +123,106 @@
 
 
         }
+        .eventResWrapLine{
+            width: 100%;
+            height: auto;
+            font-size: 14px;
+            padding: 2px 0;
+            margin: 10px 0 5px;
+            color: #000;
+            display: inline-block;
+            .editLineInput{
+                .eventResult{
+                    width: 25%;
+                    height: 64px;
+                    padding: 0 7px;
+                    border: 1px solid #008cb3;
+                    border-radius: 0px; 
+                    margin: 0; 
+                    font-weight: bold;
+                    background-color: #e6e6e6;
+                    display: inline-table !important;
+                    border-right: 0;
+                    
+                    &:nth-child(4n+4), &:last-child {
+                        border-right: 1px solid #008cb3;
+                    }  
+                }
+            }
+            &:first-of-type span{ background: $white; }
+            &:last-of-type span{ background: $white; }
+            &:last-of-type .editLineInput { background: #e5e5e5; }
+            
+            &::placeholder{
+                color: $dark-gray
+            }
+            
+            & > * {
+                float: left;
+            }
+            
+            & > .HeadLine {
+                width: 130px;
+                text-align: left;
+                height: 100%;
+                line-height: 30px;
+            }
+            div.EditInput {
+                height: 100%;
+                width: 70%;
+                display: table;
+                .eventResult{
+                    width: 25%;
+                    height: 64px;
+                    padding: 0 7px;
+                    border: 1px solid #008cb3;
+                    border-radius: 0px;
+                    margin: 0;
+                    font-weight: bold;
+                    background-color: #e6e6e6;
+                    display: inline-table !important;
+                    border-right: 0;
 
+                    &:nth-child(4n+4), &:last-child {
+                        border-right: 1px solid #008cb3;
+                    }                
+                }
+                &*{
+                    border: 0;
+                }
+                    & > input{
+                        border: 0;
+                    }
+                    & > div {
+                        width: 100%;
+                        display: inline-block;
+                        height: 100%;
+                    }
+                    
+            }
+            & > span {
+                margin-right: 0px;
+                text-align: left;
+                width: 70%;
+                line-height: 30px;
+                background: #e5e5e5;
+                /* padding: 0 8px; */
+                display: table;
+            }
+            
+            &>input, &>select {
+                width: 200px;
+                border: 1px solid black;
+                position: relative;
+                top: -20px;
+            }
+            .BTN{
+                float: right;
+                margin: 0px 0;
+                
+            }
+
+        }
         .SubmitAll {
             width: 100%;
             display: inline-block;
@@ -154,12 +253,14 @@
     .error{
         background: #f18383;
         position: absolute;
-        bottom: 0;
-        width: 58%;
+        bottom: -1px;
+        width: 82%;
         left: 20px;
         padding: 5px;
         text-align: center;
         color: #fff;
+        font-size: 14px;
+        height: 31px;
     }
 }
 
@@ -204,8 +305,9 @@
         }
 
         span.name {
-            width: 60%;
+            width: 100%;
             text-align: start;
+            height: 28px;
         }
 
         div input {
