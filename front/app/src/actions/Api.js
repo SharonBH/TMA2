@@ -62,10 +62,9 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios
-        ({
-            "crossDomain": true,
-            method: 'POST',
+        return axios({
+            method: 'post',
+            crossDomain: true,
             url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -81,10 +80,10 @@ export const loginRequest = (userName, password) => {
                 password: password
             }
         })
-        .post(cors + url + `Account/Login`, {
-            username: userName,
-            password: password
-        })
+        // .post(cors + url + `Account/Login`, {
+        //     username: userName,
+        //     password: password
+        // })
         // return axios.post(`https://tma-api.azurewebsites.net/Account/Login`, {
         //     username: userName,
         //     password: password
