@@ -514,7 +514,6 @@ class Register extends Component {
     }
     
     render() {
-        console.log('registerpage', this.props)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}

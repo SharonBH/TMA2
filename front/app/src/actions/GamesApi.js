@@ -406,6 +406,7 @@ export const appCallgetAllGroupsRequest = () => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(cors + url + `Groups/GetGroups`)
+        
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
