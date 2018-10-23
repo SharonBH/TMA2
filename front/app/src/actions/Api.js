@@ -73,7 +73,7 @@ export const loginRequest = (userName, password) => {
             headers: {
                 // 'Content-Type': 'text/plain; charset=UTF-8',
                 "cache-control": "no-cache",
-                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Origin": "https://tma-front.azurewebsites.net",
                 "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
                 "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
                 'Access-Control-Allow-Credentials': 'true',
