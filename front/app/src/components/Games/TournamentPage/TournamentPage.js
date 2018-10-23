@@ -20,6 +20,8 @@ import ConfirmMessage from '../../UI/ConfirmMessage';
 import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents, tournEventsByIdRequest } from '../../../actions/GamesApi';
 import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, 
     successMessageAction, errorMessageAction, deleteConfirmMessageAction, sendEventDataAction }  from '../../../actions';
+
+    const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
 export class TournamentPage extends Component {
 
     static propTypes = {
@@ -47,7 +49,7 @@ export class TournamentPage extends Component {
     //     this.props.takeAllEvents()
     // }
     componentWillMount(){
-        const tourn = this.props.tournById !== null ? this.props.tournById : null
+        const tourn = this.props.tournById !== null ? storage : this.props.tournById 
         const TourId = tourn.tournamentId 
         
         this.props.tournEventsByIdRequest(TourId)
@@ -255,7 +257,6 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log('this.props', this.props)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}

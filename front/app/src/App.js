@@ -9,6 +9,12 @@ import { withCookies } from 'react-cookie';
 import ConfirmMessage from './components/UI/ConfirmMessage';
 import TopNavigation  from './containers/TopNavigation/TopNavigation';
 import { SING_OUT } from './configuration/config'
+// const cors = require('cors');
+// const express = require('express');
+// let app = express();
+// app.use(cors());
+// app.options('*', cors());
+
 class App extends Component {
   spinner = () => {
     if (this.props.toggleSpinner) {
