@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,6 +16,8 @@ using TMA.Api.Services;
 namespace TMA.Api.Controllers
 {
     [Route("[controller]/[action]")]
+    //[EnableCors("AllowSpecificOrigin")]
+
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -54,6 +57,7 @@ namespace TMA.Api.Controllers
         {
             try
             {
+                //test for andrey
                 var result = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, true, false);
                 if (result.Succeeded)
                     return Json(new { Response = "Success", Message = "Success" });
