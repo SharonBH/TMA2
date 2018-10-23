@@ -54,6 +54,7 @@ namespace TMA.Api.Controllers
         {
             try
             {
+                //test for andrey
                 var result = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, true, false);
                 if (result.Succeeded)
                     return Json(new { Response = "Success", Message = "Success" });
