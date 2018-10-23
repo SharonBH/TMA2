@@ -76,7 +76,7 @@ namespace TMA.Api
 
             app.UseAuthentication();
 
-            app.UseCors(builder => builder.WithOrigins("https://tma-front.azurewebsites.net/"));
+            app.UseCors(builder => builder.WithOrigins("https://tma-front.azurewebsites.net/").AllowAnyOrigin());
 
             app.UseSwagger();
 
