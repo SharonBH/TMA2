@@ -32,7 +32,6 @@ class UserSummary extends Component {
         this.setState({changePassword: false})
     }
     getTournById=(tournIdToPage)=>{
-        console.log('tournIdToPage', tournIdToPage)
         // this.setState({someId: tournIdToPage})
         // this.props.goToTournPageRequest(tournIdToPage)
         this.props.tournEventsByIdRequest(tournIdToPage)

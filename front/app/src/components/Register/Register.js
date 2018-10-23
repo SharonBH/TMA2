@@ -175,7 +175,7 @@ class Register extends Component {
         } else {
             headline === ADD_USER 
             ? this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
-            :  this.props.registerRequest(email, password, confirmPassword, name, userType, userName) 
+            : this.props.registerRequest(email, password, confirmPassword, name, userType, userName) 
         }
     }
 

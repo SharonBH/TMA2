@@ -1,5 +1,5 @@
 const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
-const storageData = storage === null ? null : storage
+const storageData = storage === null ? this.state.tournById : storage
 
 const InitialState = {
     allList: [],

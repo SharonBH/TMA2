@@ -64,6 +64,10 @@ export const loginRequest = (userName, password) => {
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'post',
+            data: {
+                username: userName,
+                password: password
+            },
             crossDomain: true,
             url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
             headers: {
@@ -72,19 +76,16 @@ export const loginRequest = (userName, password) => {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
                 "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
-                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Allow-Credentials': true,
                 'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
             },
-            data: {
-                username: userName,
-                password: password
-            }
+            
         })
         // .post(cors + url + `Account/Login`, {
         //     username: userName,
         //     password: password
         // })
-        // return axios.post(`https://tma-api.azurewebsites.net/Account/Login`, {
+        // return axios.post(`https://tma-api.azurewebsites.net/Account/Login?Username=${userName}&Pasword=${password}`)
         //     username: userName,
         //     password: password
         // })
