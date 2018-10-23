@@ -72,6 +72,8 @@ export const loginRequest = (userName, password) => {
             url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
             headers: {
                 // 'Content-Type': 'text/plain; charset=UTF-8',
+                'Accept': 'application/json',
+                 'Content-Type': 'application/json',
                 "cache-control": "no-cache",
                 "Access-Control-Allow-Origin": "https://tma-front.azurewebsites.net",
                 "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
