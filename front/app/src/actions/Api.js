@@ -76,7 +76,11 @@ export const loginRequest = (userName, password) => {
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
                 "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+<<<<<<< HEAD
                 'Access-Control-Allow-Credentials': true,
+=======
+                'Access-Control-Allow-Credentials': 'true',
+>>>>>>> master
                 'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
             },
             

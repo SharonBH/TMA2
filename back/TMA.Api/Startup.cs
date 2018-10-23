@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TMA.Api.Data;
@@ -39,9 +40,10 @@ namespace TMA.Api
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc()
-                .AddJsonOptions(options => {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            }); ;
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                }); ;
 
             services.AddSingleton<IConfiguration>(Configuration);
 
@@ -52,6 +54,8 @@ namespace TMA.Api
 
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,6 +76,8 @@ namespace TMA.Api
 
             app.UseAuthentication();
 
+            app.UseCors(builder => builder.WithOrigins("https://tma-front.azurewebsites.net/"));
+
             app.UseSwagger();
 
             // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.), 
@@ -88,7 +94,7 @@ namespace TMA.Api
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            
+
         }
     }
 }
