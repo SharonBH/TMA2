@@ -42,20 +42,20 @@ class Login extends Component {
 
     loginSbmit = (e) => {
         e.preventDefault()
-        if(this.state.userName === '') {
-            this.props.errorMessageAction('you must enter a name')
-        } else if (this.state.userPassword.length < 6) {
-            this.props.errorMessageAction('password must have at least 6 characters')
-        } else {
-            const { cookies } = this.props;
+        // if(this.state.userName === '') {
+        //     this.props.errorMessageAction('you must enter a name')
+        // } else if (this.state.userPassword.length < 6) {
+        //     this.props.errorMessageAction('password must have at least 6 characters')
+        // } else {
+        //     const { cookies } = this.props;
             const { userName, userPassword, rememberMe } = this.state
             this.props.loginRequest(userName, userPassword)
-            if(rememberMe) {
-                cookies.set('userName', userName, { path: '/' });
-                cookies.set('userPassword', userPassword, { path: '/' });
-                cookies.set('rememberMe', rememberMe, { path: '/' });
-            }
-        }
+            // if(rememberMe) {
+            //     cookies.set('userName', userName, { path: '/' });
+            //     cookies.set('userPassword', userPassword, { path: '/' });
+            //     cookies.set('rememberMe', rememberMe, { path: '/' });
+            // }
+        // }
     }
 
     errorMessage = () => {
