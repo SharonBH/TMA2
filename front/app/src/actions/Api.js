@@ -72,12 +72,12 @@ export const loginRequest = (userName, password) => {
             url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
-                "cache-control": "no-cache",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
-                "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
-                'Access-Control-Allow-Credentials': true,
-                'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
+                // "cache-control": "no-cache",
+                // "Access-Control-Allow-Origin": "*",
+                // "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
+                // "Access-Control-Allow-Headers": "Origin, Content-Type, X-Auth-Token",
+                // 'Access-Control-Allow-Credentials': true,
+                // 'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
             },
             
         })

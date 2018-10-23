@@ -447,6 +447,7 @@ export const goToTournPageRequest = (tournamentId) => {
         .then((response) => {
             localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
             const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
+            console.log('tournamentById', tournamentById)
             const tournId = response.data;
             dispatch(getTournByIdAction(tournamentById));
             dispatch(toggleLoaderAction(false));

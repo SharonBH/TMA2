@@ -47,7 +47,9 @@ export class TournamentPage extends Component {
     //     this.props.takeAllEvents()
     // }
     componentWillMount(){
-        const TourId = this.props.tournById.tournamentId
+        const tourn = this.props.tournById !== null ? this.props.tournById : null
+        const TourId = tourn.tournamentId 
+        
         this.props.tournEventsByIdRequest(TourId)
         this.setState({currentPage: this.props.tournById})
         this.props.appCallTakeAllEvents()
