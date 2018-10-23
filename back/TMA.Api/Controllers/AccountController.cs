@@ -16,7 +16,7 @@ using TMA.Api.Services;
 namespace TMA.Api.Controllers
 {
     [Route("[controller]/[action]")]
-    [EnableCors("AllowAnyOrigin")]
+    //[EnableCors("AllowSpecificOrigin")]
 
     public class AccountController : Controller
     {
