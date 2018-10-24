@@ -226,6 +226,7 @@ export class TournamentPage extends Component {
     }  
     turnamentHeadLine=()=>{
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
+        console.log('currentTournament', currentTournament)
         return(
         <div className={classes.headTPage}>
             <h1><span>Tournament Name: </span>{currentTournament}</h1>
@@ -257,6 +258,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
+        console.log("TOURN PAGE ",this.props)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}

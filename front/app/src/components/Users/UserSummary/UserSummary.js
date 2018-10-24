@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
+import SelectIdComp from '../../UI/SelectComp/SelectIdComp.js';
 import { changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
 import { editThisTournamentRequest, editThisEventRequest, tournEventsByIdRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
@@ -85,7 +86,7 @@ class UserSummary extends Component {
 
     editDetailBtn = (index) => {
         const details = Object.assign([], this.state.userDetailsArr)
-        if(details[index].edit) { details[index].edit = false} 
+        if(details[index].edit) { details[index].edit = false}
         else { details[index].edit = true }
         this.setState({userDetailsArr: details})
     }
@@ -95,11 +96,8 @@ class UserSummary extends Component {
         details[index].editInput = e.target.value
         this.setState({ userDetailsArr: details })
     }
-componentDidUpdate(){
-    
-}
+
     editEventDetailInput = (index, user, e) => {
-        
         const details = [...this.state.inputs]
         const results = {userId: user.userId, result: e.target.value}
         const filtered = details.filter(user => user.userId !== results.userId)
@@ -109,7 +107,6 @@ componentDidUpdate(){
         ]
         this.setState({inputs: some}) 
     }
-    
 
     editBtnFunc = (item, index) => {
         if(item.detail === 'Name' || item.detail === 'eMail' || (this.props.editThisItem && item.detail !== 'User Name' ) || this.props.editThisEvent || (this.props.editThisEvent && item.detail !== 'Tournament Name' ) ) {
@@ -169,8 +166,8 @@ componentDidUpdate(){
         const today = Date.parse(new Date())
         const editRequestParam = []
         this.state.userDetailsArr.map((item) => {
-          return  editRequestParam.push(item.editInput)
-        })            
+          return  editRequestParam.push(item.editInput) 
+        })           
         if(headline === EDIT || headline === YOUR_PROFILE) {
             if(!editRequestParam[2].includes('@')) {
                 this.props.errorMessageAction('you must enter a valid email address')
@@ -183,6 +180,13 @@ componentDidUpdate(){
         else if(headline === EDIT_TOURNAMENT){
             const startday = Date.parse(editRequestParam[3])
             const endday = Date.parse(editRequestParam[4])
+
+            const startDayToSend = moment(editRequestParam[3]).format('YYYY-MM-DD')
+            const endDayToSend = moment(editRequestParam[4]).format('YYYY-MM-DD')
+            
+            const findId = typeof editRequestParam[1] === 'string' ? this.props.groupsList.find(gName => { return gName.groupName === editRequestParam[1] }) : this.state.userDetailsArr[1].editInput
+            const sendData = findId !== undefined ? findId.groupId :  this.state.userDetailsArr[1].editInput
+
             const tournamentId = this.props.tournament.tournamentId
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter a tournament name')
@@ -192,16 +196,16 @@ componentDidUpdate(){
                 this.props.errorMessageAction('the tournament end date must be later than the start date')
             } else if (editRequestParam[5] === '') {
                 this.props.errorMessageAction('you must enter a number of max events')
-            } else {
-                this.props.editThisTournamentRequest( tournamentId, editRequestParam[1], editRequestParam[0], editRequestParam[2], editRequestParam[3], editRequestParam[4], editRequestParam[5])
+            }else {
+                this.props.editThisTournamentRequest( tournamentId, editRequestParam[2], sendData, editRequestParam[0], startDayToSend, endDayToSend, editRequestParam[5])
             }
         } else if(headline === EDIT_EVENT){
-            const {event} = this.props
+            const eventId = this.props.event.eventId
+            const { event } = this.props
             const fill = event.eventResults.map(result => {return result })
             const idies = fill.filter(list => this.state.inputs.findIndex(id => id.userId === list.userId) === -1)
             const notState = idies.map(item => {return {userId: item.userId, result: item.result } })
             const concated = notState.concat(this.state.inputs)
-            const eventId = this.props.event.eventId
             const eventdate = Date.parse(editRequestParam[2])
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter the event name')
@@ -250,6 +254,7 @@ componentDidUpdate(){
         const tournId = this.props.tournById.groupId
         const groupsName = this.props.groupsList !== undefined ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : null
         const detail = item.detail
+        
         return (
             <div key={index} className={classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
@@ -258,27 +263,36 @@ componentDidUpdate(){
                     ? <div className={classes.EditInput}>
                         {
                             detail === 'Max Events'
-                            ? <InputComp 
+                            ? <InputComp
                                 inputType={'number'}
-                                name={detail} 
-                                placeholder={detail} 
+                                name={detail}
+                                placeholder={detail}
                                 content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
                             />
-                            : detail === 'Event Type' || detail === 'Group Name'
-                            ? <SelectComp 
-                                onChange={(e) => this.editDetailInput(index, e)} 
-                                options={detail === 'Group Name' ? groupsName : eventTypes} 
+                            : detail === 'Group Name'
+                            ? <SelectIdComp 
+                                onChange={(e) => this.editDetailInput(index, e)}
+                                options={groupsName}
+                                content={this.state.userDetailsArr[index].editInput}
+                                selected={item.param}
                                 placeholder={detail}
-                                /> 
-                            :
-                            <InputComp 
-                                inputType={detail === 'Tournament Name' ? 'text' : 'datetime-local'}
-                                name={detail} 
-                                placeholder={detail} 
+                            />
+                            : detail === 'Event Type'
+                            ? <SelectComp
+                                onChange={(e) => this.editDetailInput(index, e)}
+                                options={eventTypes}
+                                content={this.state.userDetailsArr[index].editInput}
+                                selected={item.param}
+                                placeholder={detail}
+                            />
+                            : <InputComp
+                                inputType={detail === 'Tournament Name' ? 'text' : 'date'}
+                                name={detail}
+                                placeholder={detail}
                                 content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
-                            /> 
+                            />
                             
                         } 
                       </div> 
@@ -393,6 +407,7 @@ componentDidUpdate(){
     }
 
     render() {
+        console.log("EDIT PROPS",this.props)
         const { headline, user, tournament, group, event } = this.props
         return (
             <div className={classes.ProfileWrapper}>
@@ -431,7 +446,7 @@ const mapDispatchToProps = dispatch => {
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         editThisUserRequest: (headline, userName, name, email, userType) => dispatch(editThisUserRequest(headline, userName, name, email, userType)),
         editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate, eventResults) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate, eventResults)),
-        editThisTournamentRequest: (tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents)),
+        editThisTournamentRequest: (tournamentId, eventType, groupId, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, eventType, groupId, tournamentName, startDate, endDate, numberOfEvents)),
     }
 }
 
