@@ -19,7 +19,6 @@ class UserSummary extends Component {
         this.state = {
             currentUser: '',
             changePassword: false,
-            // password: password,
             inputs: [],
             userDetailsArr: this.detailsToState()
         }
@@ -32,8 +31,6 @@ class UserSummary extends Component {
         this.setState({changePassword: false})
     }
     getTournById=(tournIdToPage)=>{
-        // this.setState({someId: tournIdToPage})
-        // this.props.goToTournPageRequest(tournIdToPage)
         this.props.tournEventsByIdRequest(tournIdToPage)
     }
     detailsToState = () => {
@@ -76,9 +73,7 @@ class UserSummary extends Component {
             const eventName = eventData.eventName
             const eventDate = eventData.eventDate
             const eventResults = eventData.eventResults
-            // const res = eventResults.map(item => item.result)
 
-            console.log('eventData', eventData)
             return ( [
                 {edit: false, detail: 'Event Name', param: eventName, editInput: eventName},
                 {edit: false, detail: 'Tournament Name', param: tournN, editInput: tournN},
@@ -100,9 +95,11 @@ class UserSummary extends Component {
         details[index].editInput = e.target.value
         this.setState({ userDetailsArr: details })
     }
-
+componentDidUpdate(){
+    
+}
     editEventDetailInput = (index, user, e) => {
-
+        
         const details = [...this.state.inputs]
         const results = {userId: user.userId, result: e.target.value}
         const filtered = details.filter(user => user.userId !== results.userId)
@@ -110,8 +107,7 @@ class UserSummary extends Component {
             ...filtered,
             results
         ]
-        this.setState({inputs: some})
-        // this.setState({ userDetailsArr: this.state.inputs })
+        this.setState({inputs: some}) 
     }
     
 
@@ -200,15 +196,21 @@ class UserSummary extends Component {
                 this.props.editThisTournamentRequest( tournamentId, editRequestParam[1], editRequestParam[0], editRequestParam[2], editRequestParam[3], editRequestParam[4], editRequestParam[5])
             }
         } else if(headline === EDIT_EVENT){
+            const {event} = this.props
+            const fill = event.eventResults.map(result => {return result })
+            const idies = fill.filter(list => this.state.inputs.findIndex(id => id.userId === list.userId) === -1)
+            const notState = idies.map(item => {return {userId: item.userId, result: item.result } })
+            const concated = notState.concat(this.state.inputs)
             const eventId = this.props.event.eventId
             const eventdate = Date.parse(editRequestParam[2])
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter the event name')
             } else if (today > eventdate) {
                 this.props.errorMessageAction('you must enter a date later than today')
-            } else {
-                this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2], this.state.inputs)
-            }
+            }  
+            else {
+                this.props.editThisEventRequest(eventId, editRequestParam[0],editRequestParam[1],editRequestParam[2], concated)
+            } 
 
         }
     }
@@ -314,9 +316,16 @@ class UserSummary extends Component {
                                 />
                             : detail === 'Event Users Results' 
                             ?  item.param.eventUsers.map((user) => {
+                                const fill = item.param.eventResults.find(result => {return result.userId === user.userId})
                                 return <div key={user.userId} className={classes.eventResult}>
                                     <span className={classes.name}>{user.name}</span>
-                                    <InputComp inputType="number" name="result" placeholder={'score'} onChange={(e) => this.editEventDetailInput(index, user, e)}/>
+                                    <InputComp 
+                                        inputType="number" 
+                                        name="result" 
+                                        value={this.state.inputs === '' ? fill.result : this.state.inputs.result}
+                                        placeholder={fill.result === null ? 'none' : fill.result.toString()} 
+                                        onChange={(e) => this.editEventDetailInput(index, user, e)}
+                                    />
                                 </div>
                             }) 
                             : null
@@ -330,7 +339,7 @@ class UserSummary extends Component {
                             const fill = item.param.eventResults.find(result => {return result.userId === user.userId})
                             return <div key={user.userId} className={classes.eventResult}>
                                 <span className={classes.name}>{user.name}</span>
-                                <span>score: <b>{fill.result === null ? 'none' : fill.result}</b></span>
+                                <span>score: <b> {fill.result === null ? 'none' : fill.result}</b></span>
                             </div>
                         })  
                         : item.param}
@@ -384,7 +393,6 @@ class UserSummary extends Component {
     }
 
     render() {
-        console.log("3333333",this.props)
         const { headline, user, tournament, group, event } = this.props
         return (
             <div className={classes.ProfileWrapper}>

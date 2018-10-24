@@ -432,10 +432,10 @@ class Register extends Component {
                     <div className={classes.searchUsersWrapper}>
                         <InputComp inputType="text" autoFocus={true} onBlur={this.CleaningInputFromUsers} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add Users" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
-                            {this.state.addSearchUsersResult.length > 0 
+                            {this.state.addSearchUsersResult.length > 0 || this.state.addSearchUsersResult !== undefined
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
                                         return <span className={classes.user} key={index}>
-                                            {user.user.username} 
+                                            {user.username} 
                                             <i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
                                         </span>
                                     })
