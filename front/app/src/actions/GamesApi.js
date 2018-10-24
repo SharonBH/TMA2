@@ -342,6 +342,7 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate, even
             }
         })
         .then((response) => {
+            dispatch(toggleLoaderAction(true))
             if (response.data.response === 'Success') {
                 dispatch(successMessageAction('Event Edited Successfuly'))
                 return axios.post(cors + url + `Events/GetEvents`)
