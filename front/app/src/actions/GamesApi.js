@@ -246,6 +246,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
             }
         })
         .then((response) => {
+            dispatch(toggleLoaderAction(true))
             if (response.data.response === 'Success') {
                 return axios.post(cors + url + `Events/GetEvents`)
                     .then((response) => {
@@ -277,7 +278,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
 }
 
 // edit User Request
-export const editThisTournamentRequest = ( tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents) => {
+export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tournamentName, startDate, endDate, numberOfEvents) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -288,7 +289,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupName, t
                 tournamentId: tournamentId,
                 tournamentName: tournamentName,
                 EventTypeName : eventType,
-                groupName: groupName,
+                groupId: groupId,
                 startDate: startDate,
                 endDate: endDate,
                 numberOfEvents: numberOfEvents
