@@ -54,7 +54,6 @@ const allListReducer = (state = InitialState, action) => {
             }
         case 'GET_TOURN_BY_ID_NO_S':
             const Data = action.payload
-            console.log('reducer ', Data )
             return {
                 ...state,
                 tournByIdNoS: Data
