@@ -220,6 +220,7 @@ class UserSummary extends Component {
     }
     
     detailLine = (item, index, headline) => {
+        
         const detail = item.detail
         return (
             <div key={index} className={classes.wrappLine}>

@@ -48,11 +48,15 @@ export class TournamentPage extends Component {
     // componentDidUpdate(){
     //     this.props.takeAllEvents()
     // }
+
     componentWillMount(){
-        const tourn = this.props.tournById !== null ? storage : this.props.tournById 
+        const tourn = this.props.tournById !== null ? this.props.tournById : null
         const TourId = tourn.tournamentId 
-        
-        this.props.tournEventsByIdRequest(TourId)
+
+        const locationName = this.props.location.pathname
+        const urlsplit = locationName.split("/");
+        const action = urlsplit[urlsplit.length-1];
+        tourn.tournamentName === action ? (this.props.tournEventsByIdRequest(TourId)) : null
         this.setState({currentPage: this.props.tournById})
         this.props.appCallTakeAllEvents()
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
@@ -64,6 +68,7 @@ export class TournamentPage extends Component {
         
     }
     componentDidMount(){
+
         this.setState({groupsListState: this.props.groupsList})
         this.props.successMessageAction(null)
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
@@ -163,7 +168,7 @@ export class TournamentPage extends Component {
     }
     eventsTable = () => {
         const currentTournament = this.props.tournById !== null ? this.props.tournById : null
-        console.log('currentTournament', currentTournament)
+        
         return (
             <div className={classes.eventsTable}>
                 <h3>All events of tournament</h3>
@@ -174,7 +179,7 @@ export class TournamentPage extends Component {
                     <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
                 </div>
                 <ul>
-                {(this.props.tournByIdNoS !== undefined || this.props.tournByIdNoS !== '') ? this.props.tournByIdNoS.map((item, index) => {
+                {(this.props.tournByIdNoS !== undefined ) ? this.props.tournByIdNoS.map((item, index) => {
                         return <li key={index}>
                             <div className={classes.eventName}>{item.eventName}</div>
                             <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
@@ -200,7 +205,7 @@ export class TournamentPage extends Component {
         )
     }
     usersTable = () => {
-    const currentTournament = this.state.currentPage !== null ? this.state.currentPage : null
+    const currentTournament = this.props.tournById !== null ? this.props.tournById : null
     const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
     const gName = this.props.groupsList !== null ? tournGroup.groupName : null
         return (
@@ -226,7 +231,6 @@ export class TournamentPage extends Component {
     }  
     turnamentHeadLine=()=>{
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
-        console.log('currentTournament', currentTournament)
         return(
         <div className={classes.headTPage}>
             <h1><span>Tournament Name: </span>{currentTournament}</h1>
@@ -249,8 +253,8 @@ export class TournamentPage extends Component {
             <div className={classes.tournTime}>
                 <div className={classes.turnPageTiming}>
                     <h3>Tournament info:</h3> 
-                    <span><h4>from: </h4><p> {moment(currentTournament.startDate).format('LLLL')}</p></span>
-                    <span><h4>to: </h4><p> {moment(currentTournament.endDate).format('LLLL')}</p></span>
+                    <span><h4>from: </h4><p> {moment(currentTournament.startDate).format('LL')}</p></span>
+                    <span><h4>to: </h4><p> {moment(currentTournament.endDate).format('LL')}</p></span>
                 </div>
                 <div className={classes.turnPageTiming}><b>Maximum of events: </b>{numberOfEvents}</div>
                 <div className={classes.turnPageTiming}><b>Type of Tournament: </b>{eventTName !== undefined ? eventTName.eventTypeName : null}</div>
@@ -258,7 +262,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log("TOURN PAGE ",this.props)
+        // console.log("TOURN PAGE ",this.props)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}

@@ -497,6 +497,7 @@ export const mainPageGetAllGroupsRequest = () => {
 };
 // add New Group Request
 export const addNewGroupRequest = (groupName, usersIds) => {
+    
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -515,8 +516,9 @@ export const addNewGroupRequest = (groupName, usersIds) => {
                         const groups = response.data
                         dispatch(getAllGroups(groups));
                         history.push({pathname: '/groups'})
+                        // window.location.reload()
                         dispatch(addNewGroupAction(false))
-                        dispatch(successMessageAction('Groups Added Successfuly'))
+                        dispatch(successMessageAction('Group Added Successfuly'))
                         dispatch(toggleLoaderAction(false))
                     })
                     .catch((error) => {
