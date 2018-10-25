@@ -145,8 +145,8 @@ export class TournamentsList extends Component {
             // const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
           return <li key={index}>
                 <div className={classes.username}><Link to={`/tournament_page/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
-                <div className={classes.email}>{moment(item.startDate).format('LLLL')}</div>
-                <div className={classes.email}>{moment(item.endDate).format('LLLL')}</div>
+                <div className={classes.email}>{moment(item.startDate).format('LL')}</div>
+                <div className={classes.email}>{moment(item.endDate).format('LL')}</div>
                 <div className={classes.role}>{item.numberOfEvents}</div>
                 <div className={classes.role}>{item.eventTypeName}</div>
                 <div id={index} className={classes.allUsButtons}>
