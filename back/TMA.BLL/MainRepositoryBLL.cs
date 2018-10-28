@@ -150,6 +150,25 @@ namespace TMA.BLL
             return getEvents;
         }
 
+        public List<Groups> GetUserGroups(string userId)
+        {
+            var userGroups = _mainRepository.GetUserGroups(userId);
+            return userGroups;
+        }
+
+
+        public List<Tournaments> GetUserTournaments(string userId)
+        {
+            var userTournaments = _mainRepository.GetUserTournaments(userId);
+            return userTournaments;
+        }
+
+
         #endregion
+        public List<AspNetRoles> GetUserRoles()
+        {
+            var userRoles = _mainRepository.GetUserRoles();
+            return userRoles;
+        }
     }
 }

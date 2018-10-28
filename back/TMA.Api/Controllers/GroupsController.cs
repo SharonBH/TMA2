@@ -128,7 +128,8 @@ namespace TMA.Api.Controllers
                     var groupModel = new GroupModel
                     {
                         GroupName = group.GroupName,
-                        GroupId = group.GroupId
+                        GroupId = group.GroupId,
+                        CreatedDate = group.CreatedDate
                     };
                     var users = new List<UserModel>();
                     foreach (var usersGroups in group.UsersGroups)
@@ -146,6 +147,22 @@ namespace TMA.Api.Controllers
                     groupsModel.Add(groupModel);
                 }
                 return Json(groupsModel);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpGet]
+        [HttpPost]
+        [Route("GetUserGroups")]
+        public JsonResult GetUserGroups([FromBody]string userId)
+        {
+            try
+            {
+                var userGroups = _mainRepository.GetUserGroups(userId);
+                return Json(userGroups);
             }
             catch (Exception ex)
             {

@@ -15,12 +15,24 @@ namespace TMA.DAL
         {
             try
             {
-
                 using (var context = new TMAContext())
                 {
                     var isEventExisting = context.Events.Any(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
                     if(isEventExisting)
                         throw new Exception($"There is an existing '{eventName}' event.");
+
+                    var tournament = context.Tournaments.FirstOrDefault(t => t.TournamentId == tournamentId && t.IsDeleted == false);
+                    if (tournament == null )
+                        throw new Exception($"There is an existing tournament for '{tournamentId}'.");
+
+                    var maxEventsNumber = tournament.NumberOfEvents;
+                    if (maxEventsNumber != null)
+                    {
+                        var existingEvents = context.Events.Count(e => e.TournamentId == tournamentId && e.IsDeleted == false);
+                        if(existingEvents >= maxEventsNumber)
+                            throw new Exception($"You've reached the maximum number of events for this tournament.");
+                    }
+
 
                     var newEvent = new Events
                     {
@@ -343,7 +355,31 @@ namespace TMA.DAL
             }
         }
 
-        #endregion
+        public List<Tournaments> GetUserTournaments(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userGroupIds = context.UsersGroups
+                        .Where(x => x.UserId == userId)
+                        .Select(x => x.GroupId).ToList();
+
+                    var userTournaments = context.Tournaments
+                        .Where(x => userGroupIds.Contains(x.GroupId))
+                        .ToList();
+
+                    return userTournaments;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetUserTournaments'.", ex);
+            }
+        }
+
+
+        #endregion  
 
         #region EventTypes
 
@@ -569,7 +605,44 @@ namespace TMA.DAL
             }
         }
 
+        public List<Groups> GetUserGroups(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userGroups = context.UsersGroups
+                        .Include(x => x.Group)
+                        .Where(x => x.UserId == userId)
+                        .Select(x => x.Group).ToList();
+
+                    return userGroups;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetUserGroups'.", ex);
+            }
+        }
+
 
         #endregion
+
+        public List<AspNetRoles> GetUserRoles()
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userRoles = context.AspNetRoles.ToList();
+
+                    return userRoles;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetUserRoles'.", ex);
+            }
+        }
     }
 }
