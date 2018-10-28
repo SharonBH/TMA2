@@ -87,7 +87,9 @@ namespace TMA.DAL
                         getEvent.EventResults = eventResults;
                     }
 
-                    //getEvent.EventDate = eventDate; //TODO: check if we need to change the date.
+                    if (getEvent.EventDate != eventDate)
+                        getEvent.EventDate = eventDate;
+
                     context.Events.Update(getEvent);
                     context.SaveChanges();
                 }
