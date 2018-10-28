@@ -7,19 +7,26 @@ export class SelectIdComp extends Component {
     static propTypes = {  
         name: PropTypes.string,
         options: PropTypes.array.isRequired,
-        selectedOption: PropTypes.string,
+        content: PropTypes.string,
         onChange: PropTypes.func,
-        placeholder: PropTypes.string
+        placeholder: PropTypes.string,
+        defaultValue: PropTypes.string,
+        selected: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
     };
+
 
     render(){
         return (
             <div className={classes.SelectComp}>
                 <select
                     name={this.props.name}
-                    value={this.props.selectedOption}
+                    value={this.props.content}
                     onChange={this.props.onChange}
-                    className={classes.SelectCompInput}>
+                    className={classes.SelectCompInput}
+                >
                 <option value="">{this.props.placeholder}</option>
 
                 {this.props.options.map((data,key) => {

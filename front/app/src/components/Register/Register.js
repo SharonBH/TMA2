@@ -98,6 +98,7 @@ class Register extends Component {
     }
     addSearchUsers = (user) => {
         const { EventDate } = this.state
+        console.log('item.user', user)
         const fill = this.state.addSearchUsersResult.filter(item => String(item.user.userId) !== String(user.userId))
         const array = [...fill, {user: user, score: null}]
         array.sort((a, b) => {
@@ -105,11 +106,11 @@ class Register extends Component {
             if(a.user.username > b.user.username) return 1;
             return 0;
         })
-        if(EventDate === '') {
-            this.props.errorMessageAction('you must first enter a date for this event')
-        } else {
+        // if(EventDate === '') {
+        //     this.props.errorMessageAction('you must first enter a date for this event')
+        // } else {
             this.setState({addSearchUsersResult: array})
-        }
+        // }
     }
 
     removeSelectedUser = (index) => {
@@ -406,10 +407,9 @@ class Register extends Component {
             <div className={classes.Register}>
                 <h1>{headline} {headline === EDIT_GROUP ? group.groupName : null}</h1>
                 <form>
-                    {this.errorMessage()}
-                    {this.successMessage()}
+                    
                     {
-                        headline === 'Edit Group'
+                        headline === EDIT_GROUP
                         ?   <div className={classes.wrappLine}>
                                 <label className={classes.HeadLine} name={'Group Name'}>{'Group Name'}:</label>
                                 {
@@ -432,10 +432,14 @@ class Register extends Component {
                     <div className={classes.searchUsersWrapper}>
                         <InputComp inputType="text" autoFocus={true} onBlur={this.CleaningInputFromUsers} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add Users" onChange={this.onSearchUsersChange}/>
                         <div className={classes.usersAddedWrapper}>
-                            {this.state.addSearchUsersResult.length > 0 
+                            {this.state.addSearchUsersResult.length > 0 || this.state.addSearchUsersResult !== undefined
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
                                         return <span className={classes.user} key={index}>
-                                            {user.user.username} 
+                                         {headline === EDIT_GROUP
+                                            ? user.username
+                                            : user.user.username
+                                            } 
+                                            
                                             <i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
                                         </span>
                                     })
@@ -451,6 +455,8 @@ class Register extends Component {
                             ))}
                         </div>
                     </div>
+                    {this.errorMessage()}
+                    {this.successMessage()}
                     <BtnComp 
                         inputType="submit" 
                         name="createGroup" 
@@ -465,6 +471,7 @@ class Register extends Component {
 
     editGroupRequest = (e, group) => {
         e.preventDefault()
+        const { headline } = this.props
         if(this.state.groupName === '') {
             this.props.errorMessageAction('group must have a name')
         } else if (this.state.addSearchUsersResult.length === 0) {
@@ -474,7 +481,14 @@ class Register extends Component {
             const groupId = group.groupId
             const groupName = this.state.groupName
             this.state.addSearchUsersResult.map(user => {
-            userIds.push(user.user.userId)
+
+                if(headline === EDIT_GROUP){
+                   return userIds.push(user.userId)
+                }else{
+                   return userIds.push(user.user.userId)
+                }
+                
+                // userIds.push(user.user.userId)
             })
             this.props.editGroupRequest(groupId, groupName, userIds)
         }
@@ -514,7 +528,6 @@ class Register extends Component {
     }
     
     render() {
-        console.log('registerpage', this.props)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}

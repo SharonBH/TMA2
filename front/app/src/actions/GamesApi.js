@@ -246,6 +246,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
             }
         })
         .then((response) => {
+            dispatch(toggleLoaderAction(true))
             if (response.data.response === 'Success') {
                 return axios.post(cors + url + `Events/GetEvents`)
                     .then((response) => {
@@ -277,7 +278,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
 }
 
 // edit User Request
-export const editThisTournamentRequest = ( tournamentId, eventType, groupName, tournamentName, startDate, endDate, numberOfEvents) => {
+export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tournamentName, startDate, endDate, numberOfEvents) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -288,7 +289,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupName, t
                 tournamentId: tournamentId,
                 tournamentName: tournamentName,
                 EventTypeName : eventType,
-                groupName: groupName,
+                groupId: groupId,
                 startDate: startDate,
                 endDate: endDate,
                 numberOfEvents: numberOfEvents
@@ -342,6 +343,7 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate, even
             }
         })
         .then((response) => {
+            dispatch(toggleLoaderAction(true))
             if (response.data.response === 'Success') {
                 dispatch(successMessageAction('Event Edited Successfuly'))
                 return axios.post(cors + url + `Events/GetEvents`)
@@ -406,6 +408,7 @@ export const appCallgetAllGroupsRequest = () => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios.post(cors + url + `Groups/GetGroups`)
+        
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
@@ -494,6 +497,7 @@ export const mainPageGetAllGroupsRequest = () => {
 };
 // add New Group Request
 export const addNewGroupRequest = (groupName, usersIds) => {
+    
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -512,8 +516,9 @@ export const addNewGroupRequest = (groupName, usersIds) => {
                         const groups = response.data
                         dispatch(getAllGroups(groups));
                         history.push({pathname: '/groups'})
+                        // window.location.reload()
                         dispatch(addNewGroupAction(false))
-                        dispatch(successMessageAction('Groups Added Successfuly'))
+                        dispatch(successMessageAction('Group Added Successfuly'))
                         dispatch(toggleLoaderAction(false))
                     })
                     .catch((error) => {

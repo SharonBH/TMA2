@@ -67,7 +67,18 @@
                     }
                 }
             }
-
+            .success{
+                background: #bdf9bd;
+                position: absolute;
+                bottom: 25px;
+                width: 80%;
+                left: 20px;
+                padding: 5px;
+                text-align: center;
+                color: #000;
+                font-size: 14px;
+                height: 31px;
+            }
             .searchUsersWrapper{
                 position: relative;
 
@@ -393,4 +404,5 @@
             margin: 0; 
         }
     }
+    
 }
