@@ -235,7 +235,6 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
     
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        console.log('++++++++++++', EventDate)
         return axios({
             method: 'POST',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -451,26 +450,36 @@ export const goToTournPageRequest = (tournamentId) => {
             data: tournamentId
         })
         .then((response) => {
-                localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
-                const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
-                const groupId = response.data.groupId
-                dispatch(getTournByIdAction(tournamentById));
-                return axios({
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json; charset=UTF-8'},
-                    url: cors + url + 'Groups/GetGroupById',
-                    data: groupId
-                })
+            localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
+            const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
+            const groupId = response.data.groupId
+            dispatch(getTournByIdAction(tournamentById));
+
+            return axios({
+                method: 'POST',
+                headers: {'Content-Type': 'application/json; charset=UTF-8'},
+                url: cors + url + 'Groups/GetGroupById',
+                data: groupId
+            })
+            .then((response) => {
+                const groupById = response.data;
+                dispatch(getGroupById(groupById));
+                dispatch(toggleLoaderAction(false));
+                return axios.post(cors + url + `Groups/GetGroups`)
                 .then((response) => {
-                    console.log('response', response)
-                    const groupById = response.data;
-                    dispatch(getGroupById(groupById));
-                    dispatch(toggleLoaderAction(false));
-                }).catch((error) => {
+                        const groups = response.data
+                        dispatch(getAllGroups(groups));
+                })
+                .catch((error) => {
                     dispatch(catchErrorAction([error][0]))
                     dispatch(errorMessageAction(error[0]))
                 
-                });
+                })
+            }).catch((error) => {
+                dispatch(catchErrorAction([error][0]))
+                dispatch(errorMessageAction(error[0]))
+            
+            });
 
         })
         .catch((error) => {

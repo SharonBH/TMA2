@@ -30,15 +30,20 @@ class UserSummary extends Component {
             changePassword: false,
             inputs: [],
             userDetailsArr: this.detailsToState(),
-            selectedDate: this.props.event.eventDate,
+            selectedDate: moment().format('YYYY-MM-DD, HH:MM'),
+            selectedStartDate: '',
+            selectedEndDate: '',
         }
         this.editDetail = this.editDetailBtn.bind(this)
     }
-    handleDateChange = (date) => {
-        this.setState({ selectedDate: date });
-      }
-
-
+    handleDateChange = (date) => { this.setState({ selectedDate: date }); }
+    handleDateTournStartChange = (date) => { this.setState({ selectedStartDate: date }); }
+    handleDateTournEndChange = (date) => { this.setState({ selectedEndDate: date }); }
+    componentWillMount = () => {
+        const tournamentData = this.props.tournament
+        this.state.selectedStartDate === '' ?  this.setState({ selectedStartDate: moment(tournamentData.startDate).format('LLLL')  }) : null
+        this.state.selectedEndDate === '' ?  this.setState({ selectedEndDate: moment(tournamentData.endDate).format('LLLL')  }) : null
+    }
 
     componentWillUnmount() {
         this.props.errorMessageAction(null)
@@ -52,11 +57,15 @@ class UserSummary extends Component {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
             const tournamentData = this.props.tournament
-            const gName =  this.props.groupsList !== undefined ? this.props.groupsList.find((tourn) => {return tourn.groupId === tournamentData.groupId}): null
+
+            // const gName =  this.props.groupsList !== undefined ? this.props.groupsList.find((tourn) => {return tourn.groupId === tournamentData.groupId}): null
+            const grName = this.props.groupById
+
             const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
             const eventN = eventTName.eventTypeName
             const tournamentName = tournamentData.tournamentName
-            const groupName = gName.groupName
+            // const groupName = gName.groupName
+            const groupName = grName.groupName
             const startDate = moment(tournamentData.startDate).format('LLLL') 
             const endDate =  moment(tournamentData.endDate).format('LLLL') 
             const numberOfEvents = tournamentData.numberOfEvents
@@ -195,8 +204,8 @@ class UserSummary extends Component {
             const startday = Date.parse(editRequestParam[3])
             const endday = Date.parse(editRequestParam[4])
 
-            const startDayToSend = moment(editRequestParam[3]).format('YYYY-MM-DD hh:mm:ss ')
-            const endDayToSend = moment(editRequestParam[4]).format('YYYY-MM-DD hh:mm:ss')
+            const startDayToSend = moment(this.state.selectedStartDate).format('YYYY-MM-DD hh:mm:ss ')
+            const endDayToSend = moment(this.state.selectedEndDate).format('YYYY-MM-DD hh:mm:ss')
             
             const findId = typeof editRequestParam[1] === 'string' ? this.props.groupsList.find(gName => { return gName.groupName === editRequestParam[1] }) : this.state.userDetailsArr[1].editInput
             const sendData = findId !== undefined ? findId.groupId :  this.state.userDetailsArr[1].editInput
@@ -204,9 +213,9 @@ class UserSummary extends Component {
             const tournamentId = this.props.tournament.tournamentId
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter a tournament name')
-            } else if (today > startday) {
+            } else if (today > endDayToSend) {
                 this.props.errorMessageAction('the tournament start date must be later than today')
-            } else if (startday > endday) {
+            } else if (startDayToSend > endDayToSend) {
                 this.props.errorMessageAction('the tournament end date must be later than the start date')
             } else if (editRequestParam[5] === '') {
                 this.props.errorMessageAction('you must enter a number of max events')
@@ -276,7 +285,7 @@ class UserSummary extends Component {
         // const tournId = this.props.tournById.groupId
         const groupsName = this.props.groupsList !== undefined ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : null
         const detail = item.detail
-        
+        const { selectedEndDate, selectedStartDate } = this.state;
         return (
             <div key={index} className={classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
@@ -308,13 +317,25 @@ class UserSummary extends Component {
                                 selected={item.param}
                                 placeholder={detail}
                             />
-                            : <InputComp
-                                inputType={detail === 'Tournament Name' ? 'text' : 'date'}
+                            : detail === 'Tournament Name' 
+                            ? <InputComp
+                                inputType={'text'}
                                 name={detail}
                                 placeholder={detail}
                                 content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
                             />
+                            : <div className={classes.EditCustomInput}>
+                            <MuiPickersUtilsProvider utils={MomentUtils}>
+                            
+                                <DateTimePicker
+                                    value={detail === 'Start Date' ? selectedStartDate : selectedEndDate}
+                                    onChange={detail === 'Start Date' ? this.handleDateTournStartChange : this.handleDateTournEndChange}
+                                    showTodayButton
+                                    label={detail === 'Start Date' ? 'Start Date:' : 'End Date:'}
+                                />
+                            </MuiPickersUtilsProvider>
+                            </div>
                             
                         } 
                       </div> 
@@ -470,6 +491,7 @@ const mapStateToProps = (state) => {
         allEventTypesList: state.allListReducer.allEventTypesList,
         tournById: state.allListReducer.tournById,
         groupsList: state.allListReducer.groupsList,
+        groupById: state.allListReducer.groupById,
     }
 }
 

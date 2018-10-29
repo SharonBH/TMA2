@@ -248,14 +248,15 @@ export class TournamentPage extends Component {
     turnPageInformation = () => {
 
         const currentTournament = this.props.tournById !== null ? this.props.tournById.tournamentName : null
-        const { eventTypeId, numberOfEvents } =  this.props.tournById
+        const { eventTypeId, numberOfEvents, startDate, endDate  } =  this.props.tournById
+        
         const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventTypeId} ) : null
         return(
             <div className={classes.tournTime}>
                 <div className={classes.turnPageTiming}>
                     <h3>Tournament info:</h3> 
-                    <span><h4>from: </h4><p> {moment(currentTournament.startDate).format('LL')}</p></span>
-                    <span><h4>to: </h4><p> {moment(currentTournament.endDate).format('LL')}</p></span>
+                    <span><h4>from: </h4><p> {moment(startDate).format('LL')}</p></span>
+                    <span><h4>to: </h4><p> {moment(endDate).format('LL')}</p></span>
                 </div>
                 <div className={classes.turnPageTiming}><b>Maximum of events: </b>{numberOfEvents}</div>
                 <div className={classes.turnPageTiming}><b>Type of Tournament: </b>{eventTName !== undefined ? eventTName.eventTypeName : null}</div>
@@ -263,7 +264,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log("TOURN PAGE ",this.props.tournEventsByIdNoS)
+        console.log("TOURN PAGE ",this.props)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}

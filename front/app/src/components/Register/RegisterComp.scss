@@ -49,7 +49,13 @@
             display: block;
             .timePicker{
                 width: 100%;
+                label {
+                    top: 37%;
+                    font-size: 18px;
+                }
                 &>div{
+                    padding-left: 70px;
+                    margin: 0;
                     &>input {
                     border: 0;
                     padding-bottom: 0;

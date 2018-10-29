@@ -17,7 +17,7 @@ import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 // import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
-import { DateTimePicker } from 'material-ui-pickers';
+import { DateTimePicker, DatePicker } from 'material-ui-pickers';
 
 class Register extends Component {
 
@@ -56,7 +56,11 @@ class Register extends Component {
             
         }
     }
+    componentWillMount = () => {
+        this.state.TournamentStartDate === '' ?  this.setState({ TournamentStartDate: moment().format('LLLL')  }) : null
 
+        this.state.TournamentEndDate === '' ?  this.setState({ TournamentEndDate: moment().format('LLLL')  }) : null
+    }
     onEmailChange = (e) => {this.setState({ email: e.target.value })}
     onPasswordChange = (e) => {this.setState({password: e.target.value})}
     onConfirmPasswordChange = (e) => {this.setState({confirmPassword: e.target.value})}
@@ -65,8 +69,12 @@ class Register extends Component {
 
     onTournamentNameChange = (e) => { this.setState({TournamentName: e.target.value})}
     onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
-    onStartDateChange = (e) => {this.setState({TournamentStartDate: Date.now(e.target.value)})}
-    onEndDateChange = (e) => { this.setState({TournamentEndDate: new Date(e.target.value)})}
+    // onStartDateChange = (e) => {this.setState({TournamentStartDate: Date.now(e.target.value)})}
+    // onEndDateChange = (e) => { this.setState({TournamentEndDate: new Date(e.target.value)})}
+
+    onStartDateChange = (date) => {this.setState({TournamentStartDate: new Date(date )});}
+    onEndDateChange = (eDate) => { this.setState({TournamentEndDate: new Date(eDate ) });}
+
     onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
 
     onEventNameChange = (e) => { this.setState({EventName: e.target.value})}
@@ -296,6 +304,7 @@ class Register extends Component {
     tournamentFage = (headline) => {
         const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }})
         const groupL = this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }})
+
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
@@ -320,8 +329,32 @@ class Register extends Component {
                             onChange={(e) => this.onTypeOfEventChange(e)}   
                         />
                     </div>
-                    <InputComp inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange} />
-                    <InputComp inputType="date" name="endDate" placeholder="End Date" onChange={this.onEndDateChange} />
+
+
+                    {/* <InputComp inputType="date" name="startDate" placeholder="Start Date" onChange={this.onStartDateChange} />
+                    <InputComp inputType="date" name="endDate" placeholder="End Date" onChange={this.onEndDateChange} /> */}
+                    <MuiPickersUtilsProvider utils={MomentUtils}>
+                        <DatePicker
+                            className={classes.timePicker}
+                            value={this.state.TournamentStartDate}
+                            onChange={(date)=> this.onStartDateChange(date)}
+                            showTodayButton
+                            name="startDate" 
+                            placeholder={'Start Date'}
+                            format="MMM Do YYYY"
+                            label='Start Date:'
+                        /> 
+                        <DatePicker
+                            className={classes.timePicker}
+                            value={this.state.TournamentEndDate}
+                            onChange={(eDate)=> this.onEndDateChange(eDate)}
+                            showTodayButton
+                            name="endDate" 
+                            placeholder={'End Date' }
+                            format="MMM Do YYYY"
+                            label='End Date:'
+                        />
+                    </MuiPickersUtilsProvider>
                     <InputComp inputType="number" name="maxNumOfEvents" placeholder="Maximum number Of Events" onChange={this.onMaxNumChange}/>
                     {this.errorMessage()}
                     {this.successMessage()}
@@ -354,21 +387,11 @@ class Register extends Component {
     }
     
     eventFage = (headline) => {
-        // const { EventDate } = this.state;
-        console.log('date______', this.state.selectedDate)
-        // const selectedDate = JSON.stringify(this.state.selectedDate)
+        
         const selectedDate = moment(this.state.selectedDate).format('YYYY-MM-DD,HH:MM');
-
-        console.log('date____1__', selectedDate)
-        // const eventStateDate1 = JSON.parse(selectedDate)
-        // console.log('date_____2_', eventStateDate1)
         const {tourn, groupById} = this.props
-        // const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === tourn.groupId}) : null
         const arr = [...groupById.users]
-        arr.sort((a, b) => {
-            return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
-        })
-        // const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
+        arr.sort((a, b) => { return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;})
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
@@ -559,6 +582,8 @@ class Register extends Component {
     }
     
     render() {
+        console.log('date____1__',this.state.TournamentStartDate)
+        console.log('date___2___',this.state.TournamentEndDate)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
