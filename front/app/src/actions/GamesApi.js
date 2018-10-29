@@ -13,7 +13,8 @@ import {
     getAllGroups,
     getTournByIdAction,
     addNewGroupAction,
-    getTournByIdNoSAction
+    getTournByIdNoSAction,
+    getGroupById
 } from './index';
 
 // const cors = 'https://cors-anywhere.herokuapp.com/'
@@ -55,7 +56,6 @@ export const takeAllEvents = () => {
         dispatch(toggleLoaderAction(true))
         return axios.post(cors + url + `Events/GetEvents`)
             .then((response) => {
-                console.log('response', response)
                 // if(response.data.response === 'Success') {
                     // const data = response.data.message
                     // dispatch(successMessageAction(data))
@@ -232,6 +232,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
 };
 // add New-eVENT Request
 export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithResults) => {
+    
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -329,6 +330,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tou
 // edit Event
 export const editThisEventRequest = (eventID, eventName, tournN, eventDate, eventResults) => {
     return (dispatch) => {
+        console.log('API', eventID, eventName, tournN, eventDate, eventResults)
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'POST',
@@ -450,10 +452,35 @@ export const goToTournPageRequest = (tournamentId) => {
         .then((response) => {
             localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
             const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
-            console.log('tournamentById', tournamentById)
-            const tournId = response.data;
+            const groupId = response.data.groupId
             dispatch(getTournByIdAction(tournamentById));
-            dispatch(toggleLoaderAction(false));
+
+            return axios({
+                method: 'POST',
+                headers: {'Content-Type': 'application/json; charset=UTF-8'},
+                url: cors + url + 'Groups/GetGroupById',
+                data: groupId
+            })
+            .then((response) => {
+                const groupById = response.data;
+                dispatch(getGroupById(groupById));
+                dispatch(toggleLoaderAction(false));
+                return axios.post(cors + url + `Groups/GetGroups`)
+                .then((response) => {
+                        const groups = response.data
+                        dispatch(getAllGroups(groups));
+                })
+                .catch((error) => {
+                    dispatch(catchErrorAction([error][0]))
+                    dispatch(errorMessageAction(error[0]))
+                
+                })
+            }).catch((error) => {
+                dispatch(catchErrorAction([error][0]))
+                dispatch(errorMessageAction(error[0]))
+            
+            });
+
         })
         .catch((error) => {
             dispatch(catchErrorAction([error][0]))

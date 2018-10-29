@@ -62,7 +62,9 @@
             display: block;
             // display: flex;
             // justify-content: space-between;
-            
+            .EditCustomInput{
+                
+            }
             &:first-of-type span{ background: $white; }
             &:last-of-type span{ background: $white; }
             &:last-of-type .editLineInput { background: #e5e5e5; }
@@ -99,6 +101,7 @@
                     }
                     
             }
+            
             & > span {
                 margin-right: 0px;
                 text-align: left;
@@ -120,6 +123,7 @@
                 margin: 0px 0;
                 
             }
+            
 
 
         }

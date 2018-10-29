@@ -12,7 +12,7 @@ import NotFound from '../../components/NotFound';
 import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/Users/UserSummary';
 import TournamentsList from '../../components/Games/TournamentsList';
-import EventsList from '../../components/Games/EventsList';
+// import EventsList from '../../components/Games/EventsList';
 import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest } from '../../actions/GamesApi';
 import TournamentPage from '../../components/Games/TournamentPage';
 import { appCallTakeAllUsers } from '../../actions/Api';

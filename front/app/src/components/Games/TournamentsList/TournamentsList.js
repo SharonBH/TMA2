@@ -80,7 +80,6 @@ export class TournamentsList extends Component {
     // }
     addEventBtn = (item) => {
         setTimeout(() => {
-            console.log('add event', item)
             this.setState({tournamentID: item})
             this.props.addNewEventAction(true) 
         }, 200)
@@ -128,6 +127,7 @@ export class TournamentsList extends Component {
           : null 
     }
     getTournById=(tournIdToPage)=>{
+        console.log('QQQQ', tournIdToPage)
         this.setState({someId: tournIdToPage})
         this.props.goToTournPageRequest(tournIdToPage)
         this.props.tournEventsByIdRequest(tournIdToPage)
