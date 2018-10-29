@@ -11,17 +11,17 @@ import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, ADD_TOURNAMENT, DELETE_EVENT } 
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
-import SelectComp from '../../UI/SelectComp/SelectComp'
+// import SelectComp from '../../UI/SelectComp/SelectComp'
 
 import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents, tournEventsByIdRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents, tournEventsByIdRequest, goToTournPageRequest } from '../../../actions/GamesApi';
 import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, 
     successMessageAction, errorMessageAction, deleteConfirmMessageAction, sendEventDataAction }  from '../../../actions';
 
-    const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
+    // const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
 export class TournamentPage extends Component {
 
     static propTypes = {
@@ -52,7 +52,6 @@ export class TournamentPage extends Component {
     componentWillMount(){
         const tourn = this.props.tournById !== null ? this.props.tournById : null
         const TourId = tourn.tournamentId 
-
         const locationName = this.props.location.pathname
         const urlsplit = locationName.split("/");
         const action = urlsplit[urlsplit.length-1];
@@ -61,10 +60,10 @@ export class TournamentPage extends Component {
         this.props.appCallTakeAllEvents()
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
-            
         } else {
             return null
         }
+        this.props.goToTournPageRequest(TourId)
         
     }
     componentDidMount(){
@@ -167,7 +166,7 @@ export class TournamentPage extends Component {
 
     }
     eventsTable = () => {
-        const currentTournament = this.props.tournById !== null ? this.props.tournById : null
+        // const currentTournament = this.props.tournById !== null ? this.props.tournById : null
         
         return (
             <div className={classes.eventsTable}>
@@ -179,7 +178,7 @@ export class TournamentPage extends Component {
                     <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
                 </div>
                 <ul>
-                {(this.props.tournByIdNoS !== undefined ) ? this.props.tournByIdNoS.map((item, index) => {
+                {(this.props.tournEventsByIdNoS !== undefined ) ? this.props.tournEventsByIdNoS.map((item, index) => {
                         return <li key={index}>
                             <div className={classes.eventName}>{item.eventName}</div>
                             <div className={classes.eventDate}>{moment(item.eventDate).format('LLLL')}</div>
@@ -206,8 +205,11 @@ export class TournamentPage extends Component {
     }
     usersTable = () => {
     const currentTournament = this.props.tournById !== null ? this.props.tournById : null
-    const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
-    const gName = this.props.groupsList !== null ? tournGroup.groupName : null
+    // const tournGroup = this.props.groupsList !== null ? this.props.groupsList.find((item) => { return item.groupId === currentTournament.groupId}) : null
+    const tournGroupById = this.props.groupById
+    
+    const gName = tournGroupById !== null ? tournGroupById.groupName : null
+    const groupName = tournGroupById !== null ? tournGroupById.users : null
         return (
             <div className={classes.usersTable}>
                 {this.turnPageInformation()}
@@ -216,14 +218,13 @@ export class TournamentPage extends Component {
                 <div className={classes.usersTBList}>
                     <h5 className={classes.eventDate}>Users:</h5>
                     <ul>
-                    {tournGroup !== null ? tournGroup.users.map((item, index) => {
+                    {groupName !== undefined ? groupName.map((item, index) => {
                         return(
                             <li key={index}>
                                 {item.username}
                             </li>
-                        )
-                    }) : null
-                }
+                        )}) : null
+                    }
                     </ul>
                 </div>
             </div>
@@ -262,7 +263,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        // console.log("TOURN PAGE ",this.props)
+        console.log("TOURN PAGE ",this.props.tournEventsByIdNoS)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
@@ -296,7 +297,8 @@ const mapStateToProps = (state) => {
         allEventTypesList: state.allListReducer.allEventTypesList,
         groupsList: state.allListReducer.groupsList,
         tournById: state.allListReducer.tournById,
-        tournByIdNoS: state.allListReducer.tournByIdNoS,
+        groupById: state.allListReducer.groupById,
+        tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,
         addTournament: state.addNewItemReducer.addTournament,
@@ -325,6 +327,7 @@ const mapDispatchToProps = dispatch => {
         sendEventDataAction: payload => dispatch(sendEventDataAction(payload)),
         appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
+        goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
     }
 }
 

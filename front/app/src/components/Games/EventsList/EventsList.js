@@ -9,7 +9,7 @@ import { ADD_EVENT, EDIT_EVENT, DELETE_EVENT } from '../../../configuration/conf
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
-import SelectComp from '../../UI/SelectComp/SelectComp'
+// import SelectComp from '../../UI/SelectComp/SelectComp'
 
 import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
