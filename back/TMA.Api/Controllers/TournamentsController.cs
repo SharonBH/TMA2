@@ -179,5 +179,21 @@ namespace TMA.Api.Controllers
                 return Json(new { Response = "Error", Message = ex.InnerException.Message });
             }
         }
+
+        [HttpGet]
+        [HttpPost]
+        [Route("GetUserTournaments")]
+        public JsonResult GetUserTournaments([FromBody]string userId)
+        {
+            try
+            {
+                var userTournaments = _mainRepository.GetUserTournaments(userId);
+                return Json(userTournaments);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
     }
 }

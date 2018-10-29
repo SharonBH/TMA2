@@ -18,5 +18,7 @@ namespace TMA.Api.Controllers
 
         public List<UserModel> Users { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
     }
 }

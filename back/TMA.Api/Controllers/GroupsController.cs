@@ -105,8 +105,27 @@ namespace TMA.Api.Controllers
         {
             try
             {
-                var getGroup = _mainRepository.GetGroupById(groupId);
-                return Json(getGroup);
+                var group = _mainRepository.GetGroupById(groupId);
+                var groupModel = new GroupModel
+                {
+                    GroupName = group.GroupName,
+                    GroupId = group.GroupId,
+                    CreatedDate = group.CreatedDate
+                };
+                var users = new List<UserModel>();
+                foreach (var usersGroups in group.UsersGroups)
+                {
+                    var user = new UserModel
+                    {
+                        UserId = usersGroups.User.Id,
+                        Email = usersGroups.User.Email,
+                        Username = usersGroups.User.UserName,
+                        Name = usersGroups.User.Name
+                    };
+                    users.Add(user);
+                }
+                groupModel.Users = users;
+                return Json(groupModel);
             }
             catch (Exception ex)
             {
@@ -128,7 +147,8 @@ namespace TMA.Api.Controllers
                     var groupModel = new GroupModel
                     {
                         GroupName = group.GroupName,
-                        GroupId = group.GroupId
+                        GroupId = group.GroupId,
+                        CreatedDate = group.CreatedDate
                     };
                     var users = new List<UserModel>();
                     foreach (var usersGroups in group.UsersGroups)
@@ -146,6 +166,22 @@ namespace TMA.Api.Controllers
                     groupsModel.Add(groupModel);
                 }
                 return Json(groupsModel);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpGet]
+        [HttpPost]
+        [Route("GetUserGroups")]
+        public JsonResult GetUserGroups([FromBody]string userId)
+        {
+            try
+            {
+                var userGroups = _mainRepository.GetUserGroups(userId);
+                return Json(userGroups);
             }
             catch (Exception ex)
             {

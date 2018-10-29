@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TMA.Api.Models;
 using TMA.Api.Models.AccountViewModels;
 using TMA.Api.Models.ManageViewModels;
 using TMA.Api.Services;
+using TMA.BLL;
 
 namespace TMA.Api.Controllers
 {
@@ -24,6 +26,8 @@ namespace TMA.Api.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly MainRepositoryBLL _mainRepository = new MainRepositoryBLL();
+
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -57,7 +61,6 @@ namespace TMA.Api.Controllers
         {
             try
             {
-                //test for andrey
                 var result = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, true, false);
                 if (result.Succeeded)
                     return Json(new { Response = "Success", Message = "Success" });
@@ -669,6 +672,32 @@ namespace TMA.Api.Controllers
                 }
 
                 return Json(new { Response = "Error", Message = "An error occoured changing password." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [HttpGet]
+        [AllowAnonymous]
+        public JsonResult GetUserRoles()
+        {
+            try
+            {
+                var roles = _mainRepository.GetUserRoles();
+                var rolesModel = new List<RoleModel>();
+                foreach (var role in roles)
+                {
+                    var roleModel = new RoleModel
+                    {
+                        RoleId = role.Id,
+                        RoleName = role.Name
+                    };
+                    rolesModel.Add(roleModel);
+                }
+                return Json(rolesModel);
             }
             catch (Exception ex)
             {
