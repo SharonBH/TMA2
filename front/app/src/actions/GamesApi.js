@@ -443,8 +443,8 @@ export const goToTournPageRequest = (tournamentId) => {
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'POST',
+            url: cors + url + 'Tournaments/GetTournamentById',///////
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            url: cors + url + 'Tournaments/GetTournamentById',
             data: tournamentId
         })
         .then((response) => {
@@ -452,23 +452,21 @@ export const goToTournPageRequest = (tournamentId) => {
             const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
             const groupId = response.data.groupId
             dispatch(getTournByIdAction(tournamentById));
-
             return axios({
                 method: 'POST',
-                headers: {'Content-Type': 'application/json; charset=UTF-8'},
                 url: cors + url + 'Groups/GetGroupById',
+                headers: {'Content-Type': 'application/json; charset=UTF-8'},
                 data: groupId
             })
             .then((response) => {
+                const groupById = response.data;
+                dispatch(getGroupById(groupById));
                 return axios.post(cors + url + `Events/GetEventTypes`)
                     .then((response) => {
                         const eventTypes = response.data
                         dispatch(getAllEventTypesAction(eventTypes));
                         // history.push({pathname: '/all_events'})
                         dispatch(toggleLoaderAction(false))
-                        const groupById = response.data;
-                        dispatch(getGroupById(groupById));
-                        dispatch(toggleLoaderAction(false));
                         return axios.post(cors + url + `Groups/GetGroups`)
                         .then((response) => {
                                 const groups = response.data

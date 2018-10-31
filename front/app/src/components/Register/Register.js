@@ -409,6 +409,7 @@ class Register extends Component {
                             name="deteOfEvent" 
                             placeholder={moment().format('LLLL') }
                             ampm={false}
+                            label={'Event Time:'}
                         />
                         </MuiPickersUtilsProvider>
                     <div className={classes.usersAddedWrapper}>
