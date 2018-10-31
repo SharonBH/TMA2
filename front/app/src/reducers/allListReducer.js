@@ -9,7 +9,8 @@ const InitialState = {
     groupsList: null,
     tournById: storageData,
     eventDataArr: '',
-    tournByIdNoS: []
+    tournEventsByIdNoS: [],
+    groupById: ''
 }
 
 const allListReducer = (state = InitialState, action) => {
@@ -45,6 +46,12 @@ const allListReducer = (state = InitialState, action) => {
                 ...state,
                 groupsList: groups
             }
+            case 'GET_GROUP_BY_ID':
+            const groupId = action.payload
+            return {
+                ...state,
+                groupById: groupId
+            }
         case 'GET_TOURN_BY_ID':
             const tournId = action.payload
             
@@ -56,7 +63,7 @@ const allListReducer = (state = InitialState, action) => {
             const Data = action.payload
             return {
                 ...state,
-                tournByIdNoS: Data
+                tournEventsByIdNoS: Data
             }
         case 'SEND_EVENT_DATA':
             const eventData = action.payload

@@ -147,7 +147,6 @@ export const addNewItemAction = (boll) => {
 }
 // add New User Action
 export const addNewGroupAction = (boll) => {
-    console.log('12', boll)
     return {
         type: 'ADD_A_NEW_GROUP',
         payload: boll
@@ -172,6 +171,12 @@ export const getAllGroups = (arr) => {
     return {
         type: 'GET_ALL_GROUPS',
         payload: arr
+    }
+}
+export const getGroupById = (group) => {
+    return {
+        type: 'GET_GROUP_BY_ID',
+        payload: group
     }
 }
 

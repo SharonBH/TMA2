@@ -28,6 +28,7 @@
         height: auto;
         display: inline-table;
         position: relative;
+        
         h1 {
             width: 100%;
         }
@@ -46,6 +47,21 @@
             width: 100%;
             margin: 0 0 25px 0;
             display: block;
+            .timePicker{
+                width: 100%;
+                label {
+                    top: 37%;
+                    font-size: 18px;
+                }
+                &>div{
+                    padding-left: 70px;
+                    margin: 0;
+                    &>input {
+                    border: 0;
+                    padding-bottom: 0;
+                    padding-top: 0;
+                }}
+            }
             a { 
                 width: 100%;
             }
