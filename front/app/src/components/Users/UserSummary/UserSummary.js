@@ -39,6 +39,7 @@ class UserSummary extends Component {
     handleDateChange = (date) => { this.setState({ selectedDate: date }); }
     handleDateTournStartChange = (date) => { this.setState({ selectedStartDate: date }); }
     handleDateTournEndChange = (date) => { this.setState({ selectedEndDate: date }); }
+    handleChange = (moment) => { this.setState({ moment }); }
     componentWillMount = () => {
         const tournamentData = this.props.tournById
         console.log('tournamentData', this.props)
@@ -346,11 +347,7 @@ class UserSummary extends Component {
             </div>
         )
     }
-    handleChange = (moment) => {
-        this.setState({
-          moment
-        });
-      }
+    
     eventEditLine = (item, index) => {
         const { selectedDate } = this.state;
         const detail = item.detail

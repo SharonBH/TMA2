@@ -136,7 +136,8 @@ export class Groups extends Component {
     }
 
     render() {
-        console.log('this.props',this.props)
+        console.log('this.propsGG',this.props)
+        console.log('this.propsG',this.state)
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
