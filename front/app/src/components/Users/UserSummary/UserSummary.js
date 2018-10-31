@@ -18,7 +18,7 @@ import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 // import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
-import { DateTimePicker } from 'material-ui-pickers';
+import { DateTimePicker, DatePicker } from 'material-ui-pickers';
 // @param {Boolean} [options.awareOfUnicodeTokens=false]
 
 class UserSummary extends Component {
@@ -40,7 +40,8 @@ class UserSummary extends Component {
     handleDateTournStartChange = (date) => { this.setState({ selectedStartDate: date }); }
     handleDateTournEndChange = (date) => { this.setState({ selectedEndDate: date }); }
     componentWillMount = () => {
-        const tournamentData = this.props.tournament
+        const tournamentData = this.props.tournById
+        console.log('tournamentData', this.props)
         this.state.selectedStartDate === '' ?  this.setState({ selectedStartDate: moment(tournamentData.startDate).format('LLLL')  }) : null
         this.state.selectedEndDate === '' ?  this.setState({ selectedEndDate: moment(tournamentData.endDate).format('LLLL')  }) : null
     }
@@ -66,8 +67,8 @@ class UserSummary extends Component {
             const tournamentName = tournamentData.tournamentName
             // const groupName = gName.groupName
             const groupName = grName.groupName
-            const startDate = moment(tournamentData.startDate).format('LLLL') 
-            const endDate =  moment(tournamentData.endDate).format('LLLL') 
+            const startDate = moment(tournamentData.startDate).format('MMMM Do YYYY') 
+            const endDate =  moment(tournamentData.endDate).format('MMMM Do YYYY') 
             const numberOfEvents = tournamentData.numberOfEvents
             return ([
                     {edit: false, detail: 'Tournament Name', param: tournamentName, editInput: tournamentName},
@@ -328,11 +329,11 @@ class UserSummary extends Component {
                             : <div className={classes.EditCustomInput}>
                             <MuiPickersUtilsProvider utils={MomentUtils}>
                             
-                                <DateTimePicker
+                                <DatePicker
                                     value={detail === 'Start Date' ? selectedStartDate : selectedEndDate}
                                     onChange={detail === 'Start Date' ? this.handleDateTournStartChange : this.handleDateTournEndChange}
                                     showTodayButton
-                                    label={detail === 'Start Date' ? 'Start Date:' : 'End Date:'}
+                                    // label={detail === 'Start Date' ? 'Start Date:' : 'End Date:'}
                                 />
                             </MuiPickersUtilsProvider>
                             </div>
