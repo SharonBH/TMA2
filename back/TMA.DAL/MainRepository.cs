@@ -368,7 +368,9 @@ namespace TMA.DAL
                         .Select(x => x.GroupId).ToList();
 
                     var userTournaments = context.Tournaments
-                        .Where(x => userGroupIds.Contains(x.GroupId))
+                        .Include(x => x.Events).ThenInclude(t => t.EventResults).ThenInclude(y => y.User)
+                        .Include(x => x.EventType)
+                        .Where(x => userGroupIds.Contains(x.GroupId) && x.IsDeleted == false)
                         .ToList();
 
                     return userTournaments;
@@ -616,7 +618,9 @@ namespace TMA.DAL
                     var userGroups = context.UsersGroups
                         .Include(x => x.Group)
                         .Where(x => x.UserId == userId)
-                        .Select(x => x.Group).ToList();
+                        .Select(x => x.Group).Include(x => x.UsersGroups).ThenInclude(x => x.User).ToList();
+
+                    userGroups = userGroups.Where(x => x.IsDeleted == false).ToList();
 
                     return userGroups;
                 }

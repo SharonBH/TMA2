@@ -187,8 +187,49 @@ namespace TMA.Api.Controllers
         {
             try
             {
-                var userTournaments = _mainRepository.GetUserTournaments(userId);
-                return Json(userTournaments);
+                var tournamentsModel = new List<TournamentModel>();
+                var tournaments = _mainRepository.GetUserTournaments(userId);
+                foreach (var tournament in tournaments)
+                {
+                    var tournamentModel = new TournamentModel
+                    {
+                        TournamentId = tournament.TournamentId,
+                        TournamentName = tournament.TournamentName,
+                        EventTypeName = tournament.EventType.EventTypeName,
+                        StartDate = tournament.StartDate,
+                        EndDate = tournament.EndDate,
+                        NumberOfEvents = (int?)tournament.NumberOfEvents,
+                        GroupId = tournament.GroupId
+                    };
+
+                    var group = _mainRepository.GetGroupById(tournament.GroupId);
+                    var groupModel = new GroupModel
+                    {
+                        GroupName = group.GroupName,
+                        GroupId = group.GroupId
+                    };
+
+                    var users = new List<UserModel>();
+                    foreach (var usersGroups in group.UsersGroups)
+                    {
+                        var user = new UserModel
+                        {
+                            UserId = usersGroups.User.Id,
+                            Email = usersGroups.User.Email,
+                            Username = usersGroups.User.UserName,
+                            Name = usersGroups.User.Name
+                        };
+                        users.Add(user);
+                    }
+                    groupModel.Users = users;
+                    tournamentModel.GroupModel = groupModel;
+
+                    tournamentsModel.Add(tournamentModel);
+                }
+
+                return Json(tournamentsModel);
+                //var userTournaments = _mainRepository.GetUserTournaments(userId);
+                //return Json(userTournaments);
             }
             catch (Exception ex)
             {

@@ -180,8 +180,32 @@ namespace TMA.Api.Controllers
         {
             try
             {
-                var userGroups = _mainRepository.GetUserGroups(userId);
-                return Json(userGroups);
+                var groupsModel = new List<GroupModel>();
+                var groups = _mainRepository.GetUserGroups(userId);
+                foreach (var group in groups)
+                {
+                    var groupModel = new GroupModel
+                    {
+                        GroupName = group.GroupName,
+                        GroupId = group.GroupId,
+                        CreatedDate = group.CreatedDate
+                    };
+                    var users = new List<UserModel>();
+                    foreach (var usersGroups in group.UsersGroups)
+                    {
+                        var user = new UserModel
+                        {
+                            UserId = usersGroups.User.Id,
+                            Email = usersGroups.User.Email,
+                            Username = usersGroups.User.UserName,
+                            Name = usersGroups.User.Name
+                        };
+                        users.Add(user);
+                    }
+                    groupModel.Users = users;
+                    groupsModel.Add(groupModel);
+                }
+                return Json(groupsModel);
             }
             catch (Exception ex)
             {
