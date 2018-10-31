@@ -65,8 +65,6 @@ export const takeAllEvents = () => {
                     .then((response) => {
                         
                         const eventTypes = response.data
-                        console.log('response2', eventTypes)
-                        
                         dispatch(getAllEventTypesAction(eventTypes));
                         // history.push({pathname: '/all_events'})
                         dispatch(toggleLoaderAction(false))
@@ -462,19 +460,30 @@ export const goToTournPageRequest = (tournamentId) => {
                 data: groupId
             })
             .then((response) => {
-                const groupById = response.data;
-                dispatch(getGroupById(groupById));
-                dispatch(toggleLoaderAction(false));
-                return axios.post(cors + url + `Groups/GetGroups`)
-                .then((response) => {
-                        const groups = response.data
-                        dispatch(getAllGroups(groups));
-                })
-                .catch((error) => {
-                    dispatch(catchErrorAction([error][0]))
-                    dispatch(errorMessageAction(error[0]))
-                
-                })
+                return axios.post(cors + url + `Events/GetEventTypes`)
+                    .then((response) => {
+                        const eventTypes = response.data
+                        dispatch(getAllEventTypesAction(eventTypes));
+                        // history.push({pathname: '/all_events'})
+                        dispatch(toggleLoaderAction(false))
+                        const groupById = response.data;
+                        dispatch(getGroupById(groupById));
+                        dispatch(toggleLoaderAction(false));
+                        return axios.post(cors + url + `Groups/GetGroups`)
+                        .then((response) => {
+                                const groups = response.data
+                                dispatch(getAllGroups(groups));
+                        })
+                        .catch((error) => {
+                            dispatch(catchErrorAction([error][0]))
+                            dispatch(errorMessageAction(error[0]))    
+                        })
+                    
+                    })
+                    .catch((error) => {
+                        dispatch(catchErrorAction([error][0]))
+                        dispatch(errorMessageAction(error[0]))    
+                    })
             }).catch((error) => {
                 dispatch(catchErrorAction([error][0]))
                 dispatch(errorMessageAction(error[0]))
