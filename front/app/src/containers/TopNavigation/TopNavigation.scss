@@ -180,7 +180,8 @@
             text-align: left;
             color: #fff;
             i{
-                font-size: 26px;
+                display: none;
+                font-size: 20px;
                 padding: 6px 4px;
                 text-align: center;
                 width: 37px;
@@ -194,9 +195,10 @@
                 } 
             }
             .HelloTop{
-                font-size: 20px;
+                font-size: 18px;
                 position: relative;
                 top: -2px;
+                margin-left: 10px;
             }
         }
         a {
@@ -235,7 +237,7 @@
                 right: 0;
             }
             i {
-                font-size: 24px;
+                font-size: 20px;
             }
         }
 }

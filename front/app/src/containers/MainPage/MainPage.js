@@ -15,7 +15,7 @@ import TournamentsList from '../../components/Games/TournamentsList';
 // import EventsList from '../../components/Games/EventsList';
 import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest } from '../../actions/GamesApi';
 import TournamentPage from '../../components/Games/TournamentPage';
-import { appCallTakeAllUsers } from '../../actions/Api';
+import { appCallTakeAllUsers, getAllRolesRequest } from '../../actions/Api';
 import Groups from '../../components/Games/Groups';
 import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 
@@ -29,12 +29,14 @@ export class MainPage extends Component {
             // this.props.mainPageGetAllGroupsRequest()
             // this.props.appCallTakeAllUsers()
             // this.props.appCallgetAllGroupsRequest()
+            
         }, 200)
         
 
     }
 
     render() {
+        
         return (
             <div className={classes.MainPage}>
             
@@ -70,11 +72,15 @@ export class MainPage extends Component {
                         component={() => <ChangePassword header='reset password' />}
                     />
                     <Route
-                        path='/groups'
+                        path='/all_groups'
                         component={Groups}
                     />
-                    <Route
+                    {(this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin') ? <Route
                         path='/all_tournaments'
+                        component={TournamentsList}
+                    />: null}
+                    <Route
+                        path='/my_tournaments'
                         component={TournamentsList}
                     />
                     <Route
@@ -137,6 +143,7 @@ const mapDispatchToProps = dispatch => {
         appCallTakeAllUsers: payload => dispatch(appCallTakeAllUsers(payload)),
         mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
         appCallgetAllGroupsRequest: payload => dispatch(appCallgetAllGroupsRequest(payload)),
+        getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
     }
 }
 

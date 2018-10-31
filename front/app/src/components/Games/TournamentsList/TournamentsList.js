@@ -16,7 +16,7 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-
+import { takeMyTournamentsRequest } from '../../../actions/Api';
 import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
@@ -41,19 +41,26 @@ export class TournamentsList extends Component {
     }
 
     componentWillMount(){
-        if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
-            this.props.takeAllTournaments()
-        } else {
-            return null
-        }
+        // if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
+        //     this.props.takeAllTournaments()
+        // } else {
+        //     return null
+        // }
     }
     componentDidMount(){
+        const {currentUser} = this.props
         this.props.successMessageAction(null)
-        if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
-            this.props.takeAllTournaments()
+        if((this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) || (this.props.tournsDataById.length === 0 || this.props.tournsDataById === undefined)) {
+            if(this.props.location.pathname === 'all_tournaments'){
+                this.props.takeAllTournaments()
+            }else {
+                this.props.takeMyTournamentsRequest(currentUser.userId)
+            }
+            // this.props.takeAllTournaments()
         } else {
             return null
         }
+    
         
     }
     componentWillUnmount(){
@@ -139,7 +146,8 @@ export class TournamentsList extends Component {
     }
 
     tournamentList = () => {
-        return this.props.allTournsList !== undefined ? this.props.allTournsList.map((item, index) => {        
+        const TournsList = this.props.location.pathname === 'all_tournaments' ? this.props.tournsDataById : this.props.allTournsList
+        return TournsList !== undefined ? TournsList.map((item, index) => {        
             // const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
             // const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
           return <li key={index}>
@@ -159,6 +167,7 @@ export class TournamentsList extends Component {
     }
     
     render (){
+        console.log('TOURN LIST PROPS ', this.props)
         return (
             <div className={classes.usersWrapper}>
                 <div>
@@ -187,7 +196,9 @@ export class TournamentsList extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        currentUser: state.userReducer.currentUser,
         allTournsList: state.allListReducer.allTournsList,
+        tournsDataById: state.allListReducer.tournsDataById,
         allEventTypesList: state.allListReducer.allEventTypesList,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,
@@ -204,6 +215,7 @@ const mapDispatchToProps = dispatch => {
 
     return{
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
+        takeMyTournamentsRequest: payload => dispatch(takeMyTournamentsRequest(payload)),
         DeleteTournamentRequest: (item) => dispatch(DeleteTournamentRequest(item)),
         // addNewItemAction: payload => dispatch(addNewItemAction(payload)),
         addNewEventAction: payload => dispatch(addNewEventAction(payload)),

@@ -9,6 +9,8 @@ import {
     // changePassAction,
     successMessageAction,
     errorMessageAction,
+    getAllRoles,
+    takeMyTournaments
 } from './index';
 import { EDIT, YOUR_PROFILE } from '../configuration/config'
 
@@ -16,13 +18,107 @@ import { EDIT, YOUR_PROFILE } from '../configuration/config'
 const cors =''
 const url = 'https://tma-api.azurewebsites.net/'
 
+// get user roles 
+export const getAllRolesRequest = () => {
+    return (dispatch) => {
+        return axios.post(cors + url + `Account/GetUserRoles`)
+            .then((response) => {
+                    const roles = response.data
+                    dispatch(getAllRoles(roles));
+                    dispatch(toggleLoaderAction(false))
+            })
+            .catch((error) => {
+                dispatch(catchErrorAction([error][0]))
+                // dispatch(errorMessageAction([error][0]))
+                dispatch(toggleLoaderAction(false))
+            });  
+    }
+};
+
 // register request
 export const registerRequest = (email, password, confirmPassword, name, userType, userName) => {
     return (dispatch) => {
-        dispatch(toggleLoaderAction(true))
-        return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
+        return axios.post(cors + url + `Account/GetUserRoles`)
             .then((response) => {
-                if (response.data.response === 'Success') {
+                    // const roles = response.data
+                    
+                    localStorage.setItem('localStoreRoles', JSON.stringify(response.data));
+                    const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
+                    dispatch(getAllRoles(roles));
+                    dispatch(toggleLoaderAction(true))
+                    return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
+                        .then((response) => {
+                            if (response.data.response === 'Success') {
+                                return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
+                                    .then((response) => {
+                                        sessionStorage.setItem('session', JSON.stringify(response.data));
+                                        const session = JSON.parse(sessionStorage.getItem('session'));
+                                        dispatch(getUserAction(session))
+                                        dispatch(toggleLoaderAction(false))
+                                        history.push({pathname: '/home', state:[response.data]})
+                                    })
+                                    .catch((error) => {
+                                        dispatch(catchErrorAction([error][0]))
+                                        dispatch(errorMessageAction([error][0]))
+                                        dispatch(toggleLoaderAction(false))
+                                    });
+                            } else {
+                                const error = response.data.message
+                                dispatch(errorMessageAction(error))
+                                dispatch(toggleLoaderAction(false))
+                            }
+                        })
+                        .catch((error) => {
+                            dispatch(catchErrorAction([error][0]))
+                            dispatch(errorMessageAction([error][0]))
+                            dispatch(toggleLoaderAction(false))
+                        });
+            })
+    }
+};
+
+
+// return axios({
+//     method: 'post',
+//     headers: {'Content-Type': 'application/json; charset=UTF-8'},
+//     url: cors + url + 'Tournaments/GetTournamentById',
+//     data: tournamentId
+// })
+
+// login request
+export const loginRequest = (userName, password) => {
+    return (dispatch) => {
+        return axios.post(cors + url + `Account/GetUserRoles`)
+            .then((response) => {
+                // const roles = response.data
+                localStorage.setItem('localStoreRoles', JSON.stringify(response.data));
+                const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
+                dispatch(getAllRoles(roles));
+            dispatch(toggleLoaderAction(true))
+            return axios({
+                method: 'post',
+                data: {
+                    username: userName,
+                    password: password
+                },
+                crossDomain: true,
+                url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': 'application/json, text/plain, */*',
+                    // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    "cache-control": "no-cache",
+                    "Access-Control-Allow-Origin": "https://tma-api.azurewebsites.net/Account/Login",
+                    "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
+                    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+                    'Access-Control-Allow-Credentials': 'true',
+                    'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
+                },
+                
+            })
+            .then((response) => {
+                if(response.data.message === 'Success') {
                     return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             sessionStorage.setItem('session', JSON.stringify(response.data));
@@ -43,82 +139,12 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                 }
             })
             .catch((error) => {
+                console.log(error)
                 dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction([error][0]))
+                dispatch(errorMessageAction(error[0]))
                 dispatch(toggleLoaderAction(false))
             });
-    }
-};
-
-
-// return axios({
-//     method: 'post',
-//     headers: {'Content-Type': 'application/json; charset=UTF-8'},
-//     url: cors + url + 'Tournaments/GetTournamentById',
-//     data: tournamentId
-// })
-
-// login request
-export const loginRequest = (userName, password) => {
-    return (dispatch) => {
-        dispatch(toggleLoaderAction(true))
-        return axios({
-            method: 'post',
-            data: {
-                username: userName,
-                password: password
-            },
-            crossDomain: true,
-            url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json, text/plain, */*',
-                // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                "cache-control": "no-cache",
-                "Access-Control-Allow-Origin": "https://tma-api.azurewebsites.net/Account/Login",
-                "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
-                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
-                'Access-Control-Allow-Credentials': 'true',
-                'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
-            },
-            
         })
-        // .post(cors + url + `Account/Login`, {
-        //     username: userName,
-        //     password: password
-        // })
-        // return axios.post(`https://tma-api.azurewebsites.net/Account/Login?Username=${userName}&Pasword=${password}`)
-        //     username: userName,
-        //     password: password
-        // })
-        .then((response) => {
-            if(response.data.message === 'Success') {
-                return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
-                    .then((response) => {
-                        sessionStorage.setItem('session', JSON.stringify(response.data));
-                        const session = JSON.parse(sessionStorage.getItem('session'));
-                        dispatch(getUserAction(session))
-                        dispatch(toggleLoaderAction(false))
-                        history.push({pathname: '/home', state:[response.data]})
-                    })
-                    .catch((error) => {
-                        dispatch(catchErrorAction([error][0]))
-                        dispatch(errorMessageAction([error][0]))
-                        dispatch(toggleLoaderAction(false))
-                    });
-            } else {
-                const error = response.data.message
-                dispatch(errorMessageAction(error))
-                dispatch(toggleLoaderAction(false))
-            }
-        })
-        .catch((error) => {
-            console.log(error)
-            dispatch(catchErrorAction([error][0]))
-            dispatch(errorMessageAction(error[0]))
-            dispatch(toggleLoaderAction(false))
-        });
     }
 };
 
@@ -310,5 +336,36 @@ export const appCallTakeAllUsers = () => {
                 dispatch(errorMessageAction(error[0]))
                 dispatch(toggleLoaderAction(false))
             });  
+    }
+};
+
+
+
+
+// take all groups by user id
+export const takeMyTournamentsRequest = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            url: cors + url + 'Tournaments/GetUserTournaments',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            data: userId
+        })
+        .then((response) => {
+            // if(response.data.response === 'Success') {
+                const data = response.data.message
+                const tournsData = response.data
+                console.log('&&&&&&&&&&&', response)
+                dispatch(takeMyTournaments(tournsData))
+                dispatch(successMessageAction(data))
+                dispatch(toggleLoaderAction(false))
+            // }
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
     }
 };

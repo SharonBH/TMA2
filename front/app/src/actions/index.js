@@ -81,7 +81,13 @@ export const deleteConfirmMessageAction = (bool) => {
 
 
 
-
+// get user roles 
+export const getAllRoles = (response) => {
+    return {
+        type: 'GET_ALL_ROLES',
+        payload: response
+    }
+}
 
 //get all users
 export const getAllUsersAction = (response) => {
@@ -177,6 +183,14 @@ export const getGroupById = (group) => {
     return {
         type: 'GET_GROUP_BY_ID',
         payload: group
+    }
+}
+//take groups by id
+export const takeMyTournaments = (groups) => {
+    console.log('******************', groups)
+    return {
+        type: 'GET_TOURNAMENTS_BY_USER_ID',
+        payload: groups
     }
 }
 
