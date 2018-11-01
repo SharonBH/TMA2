@@ -305,7 +305,7 @@ class Register extends Component {
 
     tournamentFage = (headline) => {
         const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }})
-        const groupL = this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }})
+        const groupL = this.props.groupsList !== null ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : <div className={classes.error}>Wait for all data</div>
 
         return (
             <div className={classes.Register}>
@@ -605,21 +605,21 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
         addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)),
         addNewEventRequest: (EventName, Tournament, EventDate, usersWithResults) => dispatch(addNewEventRequest(EventName, Tournament, EventDate, usersWithResults)),
-        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
-        successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
         addNewGroupRequest: (groupName, usersIds) => dispatch(addNewGroupRequest(groupName, usersIds)),        
         addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
         editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
+        editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
         appCallTakeAllUsers: (payload) => dispatch(appCallTakeAllUsers(payload)),
         appCallTakeAllEvents: (payload) => dispatch(appCallTakeAllEvents(payload)),
         tournEventsByIdRequest: (payload) => dispatch(tournEventsByIdRequest(payload)),
-        editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
     }
 }
 

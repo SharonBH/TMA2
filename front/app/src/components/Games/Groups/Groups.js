@@ -10,7 +10,7 @@ import SelectComp from '../../UI/SelectComp/SelectComp'
 import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import { EDIT_GROUP, ADD_NEW_GROUP, DELETE_GROUP } from '../../../configuration/config'
-import { getAllGroupsRequest } from '../../../actions/GamesApi';
+import { getAllGroupsRequest, takeMyGroupsRequest } from '../../../actions/GamesApi';
 // import { takeAllUsers } from '../../../actions/Api';
 import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import moment from 'moment';
@@ -38,8 +38,11 @@ export class Groups extends Component {
     }
 
     componentWillMount(){
+        const userID = this.props.currentUser.userId
+        this.props.takeMyGroupsRequest(userID)
         if(this.props.groupsList === null) {
             this.props.getAllGroupsRequest()
+            
         } else {
             return null
         }
@@ -109,9 +112,9 @@ export class Groups extends Component {
             <div className={classes.addBtn}><BtnComp inputType="submit" content='Add New Group' onClick={this.addNewGroupBtn}/></div>
         </div>
     )
-
     groupsList = () => {
-        return this.props.groupsList !== null ? this.props.groupsList.map((group, index) => { 
+        const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+        return groups !== null ? groups.map((group, index) => { 
             const usersInGroup = []
             group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
             return <li key={group.groupId}>
@@ -156,7 +159,9 @@ export class Groups extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        currentUser: state.userReducer.currentUser,
         groupsList: state.allListReducer.groupsList,
+        groupsDataById: state.allListReducer.groupsDataById,
         allList: state.allListReducer.allList,
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
@@ -170,6 +175,7 @@ const mapDispatchToProps = dispatch => {
 
     return{
         getAllGroupsRequest: (payload) => dispatch(getAllGroupsRequest(payload)),
+        takeMyGroupsRequest: (payload) => dispatch(takeMyGroupsRequest(payload)),
         addNewItemAction: payload => dispatch(addNewItemAction(payload)),
         editThisGroupAction: payload => dispatch(editThisGroupAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),

@@ -185,10 +185,17 @@ export const getGroupById = (group) => {
         payload: group
     }
 }
-//take groups by id
-export const takeMyTournaments = (groups) => {
+//take tournaments by id
+export const takeMyTournaments = (tourns) => {
     return {
         type: 'GET_TOURNAMENTS_BY_USER_ID',
+        payload: tourns
+    }
+}
+//take groups by id
+export const takeMyGroups = (groups) => {
+    return {
+        type: 'GET_GROUPS_BY_USER_ID',
         payload: groups
     }
 }

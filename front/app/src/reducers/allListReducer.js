@@ -15,7 +15,8 @@ const InitialState = {
     tournEventsByIdNoS: [],
     groupById: '',
     allRoles: rolesData,
-    tournsDataById: []
+    tournsDataById: [],
+    groupsDataById: []
 }
 
 const allListReducer = (state = InitialState, action) => {
@@ -64,10 +65,15 @@ const allListReducer = (state = InitialState, action) => {
             }
         case 'GET_TOURNAMENTS_BY_USER_ID':
             const tournsData = action.payload
-            console.log('reducer tournsData', tournsData)
             return {
                 ...state,
                 tournsDataById: tournsData
+            }
+            case 'GET_GROUPS_BY_USER_ID':
+            const groupsData = action.payload
+            return {
+                ...state,
+                groupsDataById: groupsData
             }
         case 'GET_TOURN_BY_ID':
             const tournId = action.payload

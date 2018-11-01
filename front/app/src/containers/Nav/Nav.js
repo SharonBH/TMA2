@@ -9,19 +9,24 @@ export class Nav extends Component {
     navLinks = () => {
         return (
             <div className={classes.innerNav}>
-                <Link to='/all_tournaments' className={classes.navLink}>
-                    <i className="fas fa-trophy"></i><span>All Tournaments</span>
-                </Link>
+                {this.props.currentUser.role === 'Admin' 
+                    ?  <Link to='/all_tournaments' className={classes.navLink}>
+                            <i className="fas fa-trophy"></i><span>All Tournaments</span>
+                        </Link>
+                    : null }
+                
                 <Link to='/my_tournaments' className={classes.navLink}>
                     <i className="fas fa-dice"></i><span>My Tournaments</span>
                 </Link>
                 {/* <Link to='/all_events' className={classes.navLink}>
                     <i className="fas fa-gamepad"></i><span>Events</span>
                 </Link>*/}
-
-                <Link to='/all_groups' className={classes.navLink}>
-                    <i className="fas fa-users"></i><span>All Groups</span>
-                </Link>
+                {this.props.currentUser.role === 'Admin' 
+                    ?   <Link to='/all_groups' className={classes.navLink}>
+                            <i className="fas fa-users"></i><span>All Groups</span>
+                        </Link>
+                    : null }
+                
                 <Link to='/my_groups' className={classes.navLink}>
                     <i className="fab fa-freebsd"></i><span>My Groups</span>
                 </Link>
