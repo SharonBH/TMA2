@@ -75,11 +75,13 @@ export class MainPage extends Component {
                         path='/all_groups'
                         component={Groups}
                     />
-                    {(this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin') ? <Route
+                    <Route
+                    exact
                         path='/all_tournaments'
                         component={TournamentsList}
-                    />: null}
+                    />
                     <Route
+                    exact
                         path='/my_tournaments'
                         component={TournamentsList}
                     />
@@ -88,33 +90,46 @@ export class MainPage extends Component {
                         component={TournamentsList}
                     />
                     <Route
+                        exact
+                        path='/edit_tournament/:tournamentName'
+                        component={TournamentsList}
+                    />
+
+
+                    <Route
                     exact
-                        path='/tournament_page/:tournamentName'
+                        path='/all_tournaments/:tournamentName'
                         component={TournamentPage}
                     />
                     <Route
                     exact
-                        path='/tournament_page'
+                        path='/my_tournaments/:tournamentName'
                         component={TournamentPage}
                     />
+
+
+                    <Route 
+                        path='/edit_event/:eventName'
+                        component={TournamentPage}
+                    />
+                    
                     <Route
                     exact
                         path='/:tournamentName/edit_tournament'
                         component={TournamentPage}
                     />
-                    <Route
-                        exact
-                        path='/edit_tournament/:tournamentName'
-                        component={TournamentsList}
-                    />
+                    {/* <Route
+                    exact
+                        path='/tournament_page'
+                        component={TournamentPage}
+                    /> */}
+                    
+                    
                     {/* <Route
                         path='/all_events'
                         component={EventsList}
                     /> */}
-                    <Route 
-                        path='/edit_event/:eventName'
-                        component={TournamentPage}
-                    />
+                    
                     <Route
                         path='/scores'
                         // component={TournamentsList}

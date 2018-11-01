@@ -43,7 +43,7 @@ export class TournamentPage extends Component {
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
         // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
-
+        
     }
     // componentDidUpdate(){
     //     this.props.takeAllEvents()
@@ -55,6 +55,7 @@ export class TournamentPage extends Component {
         const locationName = this.props.location.pathname
         const urlsplit = locationName.split("/");
         const action = urlsplit[urlsplit.length-1];
+        console.log('111', action)
         tourn.tournamentName === action ? (this.props.tournEventsByIdRequest(TourId)) : null
         this.setState({currentPage: this.props.tournById})
         this.props.appCallTakeAllEvents()
@@ -240,7 +241,10 @@ export class TournamentPage extends Component {
                 {/* <Link to={`/${currentTournament.tournamentName}/edit_tournament`}> */}
                 <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
                 {/* </Link> */}
-                <Link className={classes.backBtn} to='/all_tournaments'><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
+                {this.props.match.path === '/all_tournaments/:tournamentName' 
+                    ? <Link className={classes.backBtn} to='/all_tournaments'><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
+                    : <Link className={classes.backBtn} to='/my_tournaments'><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
+                }
             </div>
         </div>
         )

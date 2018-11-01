@@ -16,8 +16,8 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-import { takeMyTournamentsRequest } from '../../../actions/Api';
-import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest } from '../../../actions/GamesApi';
+
+import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 export class TournamentsList extends Component {
@@ -41,22 +41,18 @@ export class TournamentsList extends Component {
     }
 
     componentWillMount(){
-        // if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
-        //     this.props.takeAllTournaments()
-        // } else {
-        //     return null
-        // }
+        if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
+            this.props.takeAllTournaments()
+        } else {
+            return null
+        }
     }
     componentDidMount(){
-        const {currentUser} = this.props
         this.props.successMessageAction(null)
-        if((this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) || (this.props.tournsDataById.length === 0 || this.props.tournsDataById === undefined)) {
-            if(this.props.location.pathname === 'all_tournaments'){
-                this.props.takeAllTournaments()
-            }else {
-                this.props.takeMyTournamentsRequest(currentUser.userId)
-            }
-            // this.props.takeAllTournaments()
+        const userID = this.props.currentUser.userId
+        if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
+            this.props.takeAllTournaments()
+            this.props.takeMyTournamentsRequest(userID)
         } else {
             return null
         }
@@ -144,14 +140,35 @@ export class TournamentsList extends Component {
         this.props.successMessageAction(null)
         this.props.errorMessageAction(null)
     }
+    
+    pathChanger = (item) => {
+        //const { match } = this.props;
+        const path = this.props.match.url
+        console.log('-----------------')
+        console.log( 'match.url--        ',this.props.match.url)
+        console.log( 'location.pathname--',this.props.location.pathname)
+        console.log('-----------------')
+        switch (path) {
+            case "/my_tournaments":
+            return  <Link to={path +`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link> 
+            // break;
+            case "/all_tournaments":
+            return <Link to={path +`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link> 
+            // break;
+           default:
+         }
+    }
 
     tournamentList = () => {
-        const TournsList = this.props.location.pathname === 'all_tournaments' ? this.props.tournsDataById : this.props.allTournsList
-        return TournsList !== undefined ? TournsList.map((item, index) => {        
+        const path = this.props.match.url
+        const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
+        return tournaments !== undefined ? tournaments.map((item, index) => {        
             // const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
             // const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
-          return <li key={index}>
-                <div className={classes.username}><Link to={`/tournament_page/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
+            return <li key={index}>
+                <div className={classes.username}>
+                { this.pathChanger(item) }
+                </div>
                 <div className={classes.email}>{moment(item.startDate).format('LL')}</div>
                 <div className={classes.email}>{moment(item.endDate).format('LL')}</div>
                 <div className={classes.role}>{item.numberOfEvents}</div>
@@ -196,10 +213,9 @@ export class TournamentsList extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentUser: state.userReducer.currentUser,
         allTournsList: state.allListReducer.allTournsList,
-        tournsDataById: state.allListReducer.tournsDataById,
         allEventTypesList: state.allListReducer.allEventTypesList,
+        tournsDataById: state.allListReducer.tournsDataById,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,
         addTournament: state.addNewItemReducer.addTournament,
@@ -207,6 +223,7 @@ const mapStateToProps = (state) => {
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
+        currentUser: state.userReducer.currentUser
 
     }
 }

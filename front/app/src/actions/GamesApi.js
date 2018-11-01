@@ -14,7 +14,8 @@ import {
     getTournByIdAction,
     addNewGroupAction,
     getTournByIdNoSAction,
-    getGroupById
+    getGroupById,
+    takeMyTournaments
 } from './index';
 
 // const cors = 'https://cors-anywhere.herokuapp.com/'
@@ -439,11 +440,12 @@ export const tournEventsByIdRequest = (tournamentId) => {
 }
 // get Tournament By Id
 export const goToTournPageRequest = (tournamentId) => {
+    console.log('TournsList', tournamentId)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'POST',
-            url: cors + url + 'Tournaments/GetTournamentById',///////
+            url: cors + url + 'Tournaments/GetTournamentById',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: tournamentId
         })
@@ -657,3 +659,27 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
         });
     }
 }
+// take all groups by user id
+export const takeMyTournamentsRequest = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            url: cors + url + 'Tournaments/GetUserTournaments',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            data: "'" + userId + "'"
+        })
+        .then((response) => {
+                const data = response.data.message
+                const tournsData = response.data
+                dispatch(takeMyTournaments(tournsData))
+                // dispatch(successMessageAction(data))
+                dispatch(toggleLoaderAction(false))
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+};

@@ -187,7 +187,6 @@ export const getGroupById = (group) => {
 }
 //take groups by id
 export const takeMyTournaments = (groups) => {
-    console.log('******************', groups)
     return {
         type: 'GET_TOURNAMENTS_BY_USER_ID',
         payload: groups

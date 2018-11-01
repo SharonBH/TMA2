@@ -9,8 +9,7 @@ import {
     // changePassAction,
     successMessageAction,
     errorMessageAction,
-    getAllRoles,
-    takeMyTournaments
+    getAllRoles
 } from './index';
 import { EDIT, YOUR_PROFILE } from '../configuration/config'
 
@@ -342,30 +341,3 @@ export const appCallTakeAllUsers = () => {
 
 
 
-// take all groups by user id
-export const takeMyTournamentsRequest = (userId) => {
-    return (dispatch) => {
-        dispatch(toggleLoaderAction(true))
-        return axios({
-            method: 'POST',
-            url: cors + url + 'Tournaments/GetUserTournaments',
-            headers: {'Content-Type': 'application/json; charset=UTF-8'},
-            data: userId
-        })
-        .then((response) => {
-            // if(response.data.response === 'Success') {
-                const data = response.data.message
-                const tournsData = response.data
-                console.log('&&&&&&&&&&&', response)
-                dispatch(takeMyTournaments(tournsData))
-                dispatch(successMessageAction(data))
-                dispatch(toggleLoaderAction(false))
-            // }
-        })
-        .catch((error) => {
-            dispatch(catchErrorAction([error][0]))
-            dispatch(errorMessageAction([error][0]))
-            dispatch(toggleLoaderAction(false))
-        });
-    }
-};
