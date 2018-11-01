@@ -73,7 +73,7 @@ class ConfirmMessage extends Component {
         const { headline, user, item } = this.props
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
         console.log('=========',this.props.allTournsList)
-        const eventForDel = this.props.tournById.events.find(id => { return id.eventId === item})
+        const eventForDel = this.props.tournById !== null ? this.props.tournById.events.find(id => { return id.eventId === item}) : null
         let name = ''
         
         // headline === 'delete user' ? user.username : itemForDel.tournamentName

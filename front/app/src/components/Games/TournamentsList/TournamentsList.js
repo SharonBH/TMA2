@@ -144,10 +144,6 @@ export class TournamentsList extends Component {
     pathChanger = (item) => {
         //const { match } = this.props;
         const path = this.props.match.url
-        console.log('-----------------')
-        console.log( 'match.url--        ',this.props.match.url)
-        console.log( 'location.pathname--',this.props.location.pathname)
-        console.log('-----------------')
         switch (path) {
             case "/my_tournaments":
             return  <Link to={path +`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link> 

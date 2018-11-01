@@ -50,12 +50,15 @@ export class TournamentPage extends Component {
     // }
 
     componentWillMount(){
-        const tourn = this.props.tournById !== null ? this.props.tournById : null
-        const TourId = tourn.tournamentId 
+
+        
         const locationName = this.props.location.pathname
         const urlsplit = locationName.split("/");
         const action = urlsplit[urlsplit.length-1];
         console.log('111', action)
+        const tourn = this.props.tournById !== null ? this.props.tournById : action
+        const TourId = tourn.tournamentId 
+
         tourn.tournamentName === action ? (this.props.tournEventsByIdRequest(TourId)) : null
         this.setState({currentPage: this.props.tournById})
         this.props.appCallTakeAllEvents()

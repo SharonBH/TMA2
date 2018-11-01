@@ -71,20 +71,31 @@ export class MainPage extends Component {
                         path='/change_password/:userName'
                         component={() => <ChangePassword header='reset password' />}
                     />
-                    <Route
+                    {(this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin') 
+                    ? <Route
                     exact
                         path='/all_groups'
+                        component={Groups}
+                    />
+                    : null}
+                    
+                    <Route
+                    exact
+                        path='/my_groups'
                         component={Groups}
                     />
                     <Route
                         path='/all_groups/:groupName'
                         component={Groups}
                     />
-                    <Route
+                    {(this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin') 
+                    ? <Route
                     exact
                         path='/all_tournaments'
                         component={TournamentsList}
                     />
+                    : null}
+                    
                     <Route
                     exact
                         path='/my_tournaments'
