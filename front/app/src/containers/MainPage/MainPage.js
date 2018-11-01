@@ -15,7 +15,7 @@ import TournamentsList from '../../components/Games/TournamentsList';
 // import EventsList from '../../components/Games/EventsList';
 import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest } from '../../actions/GamesApi';
 import TournamentPage from '../../components/Games/TournamentPage';
-import { appCallTakeAllUsers } from '../../actions/Api';
+import { appCallTakeAllUsers, getAllRolesRequest } from '../../actions/Api';
 import Groups from '../../components/Games/Groups';
 import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 
@@ -29,12 +29,14 @@ export class MainPage extends Component {
             // this.props.mainPageGetAllGroupsRequest()
             // this.props.appCallTakeAllUsers()
             // this.props.appCallgetAllGroupsRequest()
+            
         }, 200)
         
 
     }
 
     render() {
+        
         return (
             <div className={classes.MainPage}>
             
@@ -70,11 +72,22 @@ export class MainPage extends Component {
                         component={() => <ChangePassword header='reset password' />}
                     />
                     <Route
-                        path='/groups'
+                    exact
+                        path='/all_groups'
                         component={Groups}
                     />
                     <Route
+                        path='/all_groups/:groupName'
+                        component={Groups}
+                    />
+                    <Route
+                    exact
                         path='/all_tournaments'
+                        component={TournamentsList}
+                    />
+                    <Route
+                    exact
+                        path='/my_tournaments'
                         component={TournamentsList}
                     />
                     <Route
@@ -82,33 +95,46 @@ export class MainPage extends Component {
                         component={TournamentsList}
                     />
                     <Route
+                        exact
+                        path='/edit_tournament/:tournamentName'
+                        component={TournamentsList}
+                    />
+
+
+                    <Route
                     exact
-                        path='/tournament_page/:tournamentName'
+                        path='/all_tournaments/:tournamentName'
                         component={TournamentPage}
                     />
                     <Route
                     exact
-                        path='/tournament_page'
+                        path='/my_tournaments/:tournamentName'
                         component={TournamentPage}
                     />
+
+
+                    <Route 
+                        path='/edit_event/:eventName'
+                        component={TournamentPage}
+                    />
+                    
                     <Route
                     exact
                         path='/:tournamentName/edit_tournament'
                         component={TournamentPage}
                     />
-                    <Route
-                        exact
-                        path='/edit_tournament/:tournamentName'
-                        component={TournamentsList}
-                    />
+                    {/* <Route
+                    exact
+                        path='/tournament_page'
+                        component={TournamentPage}
+                    /> */}
+                    
+                    
                     {/* <Route
                         path='/all_events'
                         component={EventsList}
                     /> */}
-                    <Route 
-                        path='/edit_event/:eventName'
-                        component={TournamentPage}
-                    />
+                    
                     <Route
                         path='/scores'
                         // component={TournamentsList}
@@ -137,6 +163,7 @@ const mapDispatchToProps = dispatch => {
         appCallTakeAllUsers: payload => dispatch(appCallTakeAllUsers(payload)),
         mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
         appCallgetAllGroupsRequest: payload => dispatch(appCallgetAllGroupsRequest(payload)),
+        getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
     }
 }
 

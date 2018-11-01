@@ -14,8 +14,11 @@ import {
     getTournByIdAction,
     addNewGroupAction,
     getTournByIdNoSAction,
-    getGroupById
+    getGroupById,
+    takeMyTournaments,
+    getAllUsersAction
 } from './index';
+
 
 // const cors = 'https://cors-anywhere.herokuapp.com/'
 const cors = ''
@@ -439,11 +442,12 @@ export const tournEventsByIdRequest = (tournamentId) => {
 }
 // get Tournament By Id
 export const goToTournPageRequest = (tournamentId) => {
+    console.log('TournsList', tournamentId)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'POST',
-            url: cors + url + 'Tournaments/GetTournamentById',///////
+            url: cors + url + 'Tournaments/GetTournamentById',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: tournamentId
         })
@@ -505,8 +509,13 @@ export const getAllGroupsRequest = () => {
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
-                    history.push({pathname: '/groups'})
-                    dispatch(toggleLoaderAction(false))
+                    history.push({pathname: '/all_groups'})
+                    return axios.post(cors + url + `Account/GetUsers`)
+                    .then((response) => {
+                        const users = response.data
+                        dispatch(getAllUsersAction(users));
+                        dispatch(toggleLoaderAction(false))
+                    })
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
@@ -549,7 +558,7 @@ export const addNewGroupRequest = (groupName, usersIds) => {
                     .then((response) => {
                         const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        history.push({pathname: '/all_groups'})
                         // window.location.reload()
                         dispatch(addNewGroupAction(false))
                         dispatch(successMessageAction('Group Added Successfuly'))
@@ -592,7 +601,7 @@ export const DeleteGroupRequest = (groupId) => {
                 .then((response) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        history.push({pathname: '/all_groups'})
                         dispatch(successMessageAction('Groups removed Successfuly'))
                         dispatch(toggleLoaderAction(false))
                 })
@@ -636,7 +645,7 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
                 .then((response) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        history.push({pathname: '/all_groups'})
                         dispatch(successMessageAction('Groups Was Edited Successfully'))
                         dispatch(toggleLoaderAction(false))
                 })
@@ -657,3 +666,27 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
         });
     }
 }
+// take all groups by user id
+export const takeMyTournamentsRequest = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            url: cors + url + 'Tournaments/GetUserTournaments',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            data: "'" + userId + "'"
+        })
+        .then((response) => {
+                const data = response.data.message
+                const tournsData = response.data
+                dispatch(takeMyTournaments(tournsData))
+                // dispatch(successMessageAction(data))
+                dispatch(toggleLoaderAction(false))
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+};

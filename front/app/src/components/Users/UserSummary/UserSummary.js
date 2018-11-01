@@ -7,7 +7,7 @@ import BtnComp from '../../UI/BtnComp/BtnComp';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
 import SelectIdComp from '../../UI/SelectComp/SelectIdComp.js';
-import { changePasswordRequest, editThisUserRequest } from '../../../actions/Api';
+import { changePasswordRequest, editThisUserRequest, getAllRolesRequest } from '../../../actions/Api';
 import { editThisTournamentRequest, editThisEventRequest, tournEventsByIdRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
 import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisGroupAction, editThisEventAction }  from '../../../actions';
@@ -36,14 +36,13 @@ class UserSummary extends Component {
         }
         this.editDetail = this.editDetailBtn.bind(this)
     }
-    handleDateChange = (date) => { this.setState({ selectedDate: date }); }
-    handleDateTournStartChange = (date) => { this.setState({ selectedStartDate: date }); }
-    handleDateTournEndChange = (date) => { this.setState({ selectedEndDate: date }); }
     componentWillMount = () => {
+        this.props.getAllRolesRequest()
         const tournamentData = this.props.tournById
-        console.log('tournamentData', this.props)
-        this.state.selectedStartDate === '' ?  this.setState({ selectedStartDate: moment(tournamentData.startDate).format('LLLL')  }) : null
-        this.state.selectedEndDate === '' ?  this.setState({ selectedEndDate: moment(tournamentData.endDate).format('LLLL')  }) : null
+        this.props.headline === EDIT_TOURNAMENT ? 
+            (this.state.selectedStartDate === '' ?  this.setState({ selectedStartDate: moment(tournamentData.startDate).format('LLLL')  }) : null)
+            (this.state.selectedEndDate === '' ?  this.setState({ selectedEndDate: moment(tournamentData.endDate).format('LLLL')  }) : null)
+        : null
     }
 
     componentWillUnmount() {
@@ -51,6 +50,11 @@ class UserSummary extends Component {
         this.props.successMessageAction(null)
         this.setState({changePassword: false})
     }
+    handleDateChange = (date) => { this.setState({ selectedDate: date }); }
+    handleDateTournStartChange = (date) => { this.setState({ selectedStartDate: date }); }
+    handleDateTournEndChange = (date) => { this.setState({ selectedEndDate: date }); }
+    handleChange = (moment) => { this.setState({ moment }); }
+    
     getTournById=(tournIdToPage)=>{
         this.props.tournEventsByIdRequest(tournIdToPage)
     }
@@ -253,17 +257,20 @@ class UserSummary extends Component {
     detailLine = (item, index, headline) => {
         
         const detail = item.detail
-        return (
-            <div key={index} className={classes.wrappLine}>
+        const { allRoles, currentUser } = this.props
+        const roles = allRoles !== null ? allRoles.map((role, index) => { return {key: role.roleId, value: role.roleName }}) : null
+
+        return ( 
+            <div key={index} className={headline === YOUR_PROFILE && currentUser.role === 'User' && detail === 'User Type' ? classes.wrappLineNone : classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
                     this.state.userDetailsArr[index].edit
                     ? <div className={classes.EditInput}>
                         {
-                            detail === 'User Type'
+                           detail === 'User Type'  
                             ? <SelectComp 
                                 onChange={(e) => this.editDetailInput(index, e)}
-                                options={['User', 'Admin']}
+                                options={roles}
                                 placeholder='Select User Type'
                             />
                             : <InputComp 
@@ -346,11 +353,7 @@ class UserSummary extends Component {
             </div>
         )
     }
-    handleChange = (moment) => {
-        this.setState({
-          moment
-        });
-      }
+    
     eventEditLine = (item, index) => {
         const { selectedDate } = this.state;
         const detail = item.detail
@@ -493,6 +496,7 @@ const mapStateToProps = (state) => {
         tournById: state.allListReducer.tournById,
         groupsList: state.allListReducer.groupsList,
         groupById: state.allListReducer.groupById,
+        allRoles: state.allListReducer.allRoles,
     }
 }
 
@@ -505,6 +509,7 @@ const mapDispatchToProps = dispatch => {
         editThisItemAction: (payload) => dispatch(editThisItemAction(payload)),
         editThisGroupAction: payload => dispatch(editThisGroupAction(payload)),
         editThisEventAction: payload => dispatch(editThisEventAction(payload)),
+        getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         editThisUserRequest: (headline, userName, name, email, userType) => dispatch(editThisUserRequest(headline, userName, name, email, userType)),
         editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate, eventResults) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate, eventResults)),

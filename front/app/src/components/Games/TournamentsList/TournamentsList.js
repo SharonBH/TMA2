@@ -17,7 +17,7 @@ import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
 
-import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest } from '../../../actions/GamesApi';
 import { addNewItemAction, addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 export class TournamentsList extends Component {
@@ -49,11 +49,14 @@ export class TournamentsList extends Component {
     }
     componentDidMount(){
         this.props.successMessageAction(null)
+        const userID = this.props.currentUser.userId
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
+            this.props.takeMyTournamentsRequest(userID)
         } else {
             return null
         }
+    
         
     }
     componentWillUnmount(){
@@ -127,7 +130,6 @@ export class TournamentsList extends Component {
           : null 
     }
     getTournById=(tournIdToPage)=>{
-        console.log('QQQQ', tournIdToPage)
         this.setState({someId: tournIdToPage})
         this.props.goToTournPageRequest(tournIdToPage)
         this.props.tournEventsByIdRequest(tournIdToPage)
@@ -138,19 +140,41 @@ export class TournamentsList extends Component {
         this.props.successMessageAction(null)
         this.props.errorMessageAction(null)
     }
+    
+    pathChanger = (item) => {
+        //const { match } = this.props;
+        const path = this.props.match.url
+        console.log('-----------------')
+        console.log( 'match.url--        ',this.props.match.url)
+        console.log( 'location.pathname--',this.props.location.pathname)
+        console.log('-----------------')
+        switch (path) {
+            case "/my_tournaments":
+            return  <Link to={path +`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link> 
+            // break;
+            case "/all_tournaments":
+            return <Link to={path +`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link> 
+            // break;
+           default:
+         }
+    }
 
     tournamentList = () => {
-        return this.props.allTournsList !== undefined ? this.props.allTournsList.map((item, index) => {        
+        const path = this.props.match.url
+        const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
+        return tournaments !== undefined ? tournaments.map((item, index) => {        
             // const eventTName = this.props.allEventTypesList !== undefined ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === item.eventTypeId} ): null
             // const eventN = eventTName !== undefined ?  Object.values(eventTName)[1] : null
-          return <li key={index}>
-                <div className={classes.username}><Link to={`/tournament_page/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link></div>
+            return <li key={index}>
+                <div className={classes.username}>
+                { this.pathChanger(item) }
+                </div>
                 <div className={classes.email}>{moment(item.startDate).format('LL')}</div>
                 <div className={classes.email}>{moment(item.endDate).format('LL')}</div>
                 <div className={classes.role}>{item.numberOfEvents}</div>
                 <div className={classes.role}>{item.eventTypeName}</div>
                 <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/tournament_page/${item.tournamentName}`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link>
+                    {/* <Link to={`/tournament_page/${item.tournamentName}`}><EditBtn inputType="submit" content='Add Event' onClick={() => this.addEventBtn(item)}/></Link> */}
                     {/* <Link to={`/edit_tournament/${item.tournamentName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editTournamentBtn(item)}/></Link> */}
                     <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
                  </div>
@@ -160,6 +184,7 @@ export class TournamentsList extends Component {
     }
     
     render (){
+        console.log('TOURN LIST PROPS ', this.props)
         return (
             <div className={classes.usersWrapper}>
                 <div>
@@ -190,6 +215,7 @@ const mapStateToProps = (state) => {
     return {
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
+        tournsDataById: state.allListReducer.tournsDataById,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,
         addTournament: state.addNewItemReducer.addTournament,
@@ -197,6 +223,7 @@ const mapStateToProps = (state) => {
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
+        currentUser: state.userReducer.currentUser
 
     }
 }
@@ -205,6 +232,7 @@ const mapDispatchToProps = dispatch => {
 
     return{
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
+        takeMyTournamentsRequest: payload => dispatch(takeMyTournamentsRequest(payload)),
         DeleteTournamentRequest: (item) => dispatch(DeleteTournamentRequest(item)),
         // addNewItemAction: payload => dispatch(addNewItemAction(payload)),
         addNewEventAction: payload => dispatch(addNewEventAction(payload)),

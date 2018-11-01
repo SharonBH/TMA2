@@ -11,6 +11,7 @@ import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import { EDIT_GROUP, ADD_NEW_GROUP, DELETE_GROUP } from '../../../configuration/config'
 import { getAllGroupsRequest } from '../../../actions/GamesApi';
+// import { takeAllUsers } from '../../../actions/Api';
 import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import moment from 'moment';
 export class Groups extends Component {
@@ -127,7 +128,7 @@ export class Groups extends Component {
                     </div>
                 </div>
                 <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
+                    <Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>
                  </div>
             </li>
@@ -136,7 +137,8 @@ export class Groups extends Component {
     }
 
     render() {
-        console.log('this.props',this.props)
+        console.log('this.propsGG',this.props)
+        console.log('this.propsG',this.state)
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
@@ -155,6 +157,7 @@ export class Groups extends Component {
 const mapStateToProps = (state) => {
     return {
         groupsList: state.allListReducer.groupsList,
+        allList: state.allListReducer.allList,
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         addItem: state.addNewItemReducer.addItem,

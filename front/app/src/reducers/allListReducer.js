@@ -1,6 +1,9 @@
 const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
 const storageData = storage === null ? null : storage
 
+const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
+const rolesData = storage === null ? null : roles
+
 const InitialState = {
     allList: [],
     allTournsList: [],
@@ -10,12 +13,19 @@ const InitialState = {
     tournById: storageData,
     eventDataArr: '',
     tournEventsByIdNoS: [],
-    groupById: ''
+    groupById: '',
+    allRoles: rolesData,
+    tournsDataById: []
 }
 
 const allListReducer = (state = InitialState, action) => {
     switch (action.type) {
-
+        case 'GET_ALL_ROLES':
+        const roles = action.payload
+        return {
+            ...state,
+            allRoles: roles
+        }
         case 'GET_ALL_USERS':
             const users = action.payload
             return {
@@ -46,11 +56,18 @@ const allListReducer = (state = InitialState, action) => {
                 ...state,
                 groupsList: groups
             }
-            case 'GET_GROUP_BY_ID':
+        case 'GET_GROUP_BY_ID':
             const groupId = action.payload
             return {
                 ...state,
                 groupById: groupId
+            }
+        case 'GET_TOURNAMENTS_BY_USER_ID':
+            const tournsData = action.payload
+            console.log('reducer tournsData', tournsData)
+            return {
+                ...state,
+                tournsDataById: tournsData
             }
         case 'GET_TOURN_BY_ID':
             const tournId = action.payload

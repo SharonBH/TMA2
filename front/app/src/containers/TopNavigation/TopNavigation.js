@@ -45,11 +45,11 @@ class TopNavigation extends Component {
                         <i className="fas fa-home"></i><span>Home</span>
                     </Link> 
                     <Link to='/profile' className={classes.navLink}>
-                        <i className="fas fa-users-cog"></i><span>Profile</span>
+                        <i className="fas fa-user-cog"></i><span>Profile</span>
                     </Link>
                     {this.props.currentUser.role === 'Admin' 
                     ?  <Link to='/all_users' className={classes.navLink}>
-                        <i className="fas fa-users"></i><span>Users Managment</span>
+                        <i className="fas fa-user-friends"></i><span>Users Managment</span>
                        </Link>
                     : null }
                     <a href='#' onClick={this.logout} className={classes.navLink}>
@@ -61,6 +61,7 @@ class TopNavigation extends Component {
     }
 }
 const mapStateToProps = (state) => {
+    
     return {
         currentUser: state.userReducer.currentUser,
         // navAction: state.closeNavReducer.navAction
