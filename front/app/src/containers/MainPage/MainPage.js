@@ -72,7 +72,12 @@ export class MainPage extends Component {
                         component={() => <ChangePassword header='reset password' />}
                     />
                     <Route
+                    exact
                         path='/all_groups'
+                        component={Groups}
+                    />
+                    <Route
+                        path='/all_groups/:groupName'
                         component={Groups}
                     />
                     <Route

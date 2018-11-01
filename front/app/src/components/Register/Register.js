@@ -115,7 +115,7 @@ class Register extends Component {
         setTimeout(() => {
             this.props.allList.map((user) => {
                 const searchFor = this.state.searchUsers
-                if(searchFor.length > 0 && (user.username).includes(searchFor)) {
+                if(searchFor.length > 0 && ((user.username).toLowerCase()).includes(searchFor)) {
                     let arr = [...this.state.searchUsersResult, user]
                     const removeDuplicateArr = [...new Set(arr)]
                     this.setState({searchUsersResult: removeDuplicateArr})
@@ -141,8 +141,8 @@ class Register extends Component {
         // const { EventDate } = this.state
         // const {groupById} = this.props
 
-        const fill = this.state.addSearchUsersResult.filter(item => String(item.id) !== String(user.userId))
-        const array = [...fill, {id: user.userId, score: null, username: user.username}]
+        const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId))
+        const array = [...fill, {userId: user.userId, score: null, username: user.username}]
 
         array.sort((a, b) => {
             return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
@@ -166,7 +166,7 @@ class Register extends Component {
             const { groupName, addSearchUsersResult} = this.state
         let arr = []
         addSearchUsersResult.map((user) => {
-            arr.push(user.user.userId)
+            arr.push(user.userId)
         })
         this.props.addNewGroupRequest(groupName, arr)
         this.setState({groupName: '', usersIds: [], searchUsers: '', searchUsersResult: [], addSearchUsersResult: []})
@@ -224,7 +224,7 @@ class Register extends Component {
 
         const Tournament = tourn.tournamentName
         const usersWithResults = []
-        addSearchUsersResult.map(user => {usersWithResults.push({userId: user.id, result: user.score})})
+        addSearchUsersResult.map(user => {usersWithResults.push({userId: user.userId, result: user.score})})
         if(EventName === '') {
             this.props.errorMessageAction('you must enter the name of this event')
         } else if (selectedDate === '') {
@@ -534,11 +534,11 @@ class Register extends Component {
             const groupId = group.groupId
             const groupName = this.state.groupName
             this.state.addSearchUsersResult.map(user => {
-
+                
                 if(headline === EDIT_GROUP){
                    return userIds.push(user.userId)
                 }else{
-                   return userIds.push(user.user.userId)
+                   return userIds.push(user.userId)
                 }
                 
                 // userIds.push(user.user.userId)
@@ -581,7 +581,7 @@ class Register extends Component {
     }
     
     render() {
-        console.log('this.state.groupName',  this.state.addSearchUsersResult)
+        console.log('this.state.groupName',  this.props)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}

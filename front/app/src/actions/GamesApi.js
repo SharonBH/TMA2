@@ -15,8 +15,10 @@ import {
     addNewGroupAction,
     getTournByIdNoSAction,
     getGroupById,
-    takeMyTournaments
+    takeMyTournaments,
+    getAllUsersAction
 } from './index';
+
 
 // const cors = 'https://cors-anywhere.herokuapp.com/'
 const cors = ''
@@ -507,8 +509,13 @@ export const getAllGroupsRequest = () => {
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
-                    history.push({pathname: '/groups'})
-                    dispatch(toggleLoaderAction(false))
+                    history.push({pathname: '/all_groups'})
+                    return axios.post(cors + url + `Account/GetUsers`)
+                    .then((response) => {
+                        const users = response.data
+                        dispatch(getAllUsersAction(users));
+                        dispatch(toggleLoaderAction(false))
+                    })
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
@@ -551,7 +558,7 @@ export const addNewGroupRequest = (groupName, usersIds) => {
                     .then((response) => {
                         const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        history.push({pathname: '/all_groups'})
                         // window.location.reload()
                         dispatch(addNewGroupAction(false))
                         dispatch(successMessageAction('Group Added Successfuly'))
@@ -594,7 +601,7 @@ export const DeleteGroupRequest = (groupId) => {
                 .then((response) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        history.push({pathname: '/all_groups'})
                         dispatch(successMessageAction('Groups removed Successfuly'))
                         dispatch(toggleLoaderAction(false))
                 })
@@ -638,7 +645,7 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
                 .then((response) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        history.push({pathname: '/all_groups'})
                         dispatch(successMessageAction('Groups Was Edited Successfully'))
                         dispatch(toggleLoaderAction(false))
                 })
