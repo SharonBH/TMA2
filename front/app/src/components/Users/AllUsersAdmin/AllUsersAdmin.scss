@@ -194,38 +194,38 @@ div.EditBtn {
 }
 
 @media only screen and  (max-width: 870px) {
-    .usersWrapper {
-        .usersHead {
-            .addBtn{
-                .BtnComp{
-                    visibility: hidden;
-                    width: 45px;
-                    height: 45px;
-                    &::before {
-                        content: "\f522";
-                        visibility: visible;
-                        font-family: "Font Awesome 5 Free";
-                        font-weight: 600;
-                        font-size: 27px;
-                        position: absolute;
-                        color: #03a3d0;
-                    
-                    }
-                    &::after {
-                        content: "\f067";
-                        visibility: visible;
-                        font-family: "Font Awesome 5 Free";
-                        font-weight: 600;
-                        font-size: 14px;
-                        color: #017c9e;
-                        position: absolute;
-                        top: -5px;
-                        right: 14px;
-                    }
-                }
+
+.usersHead {
+    .addBtn{
+        .BtnComp{
+            visibility: hidden;
+            width: 45px;
+            height: 45px;   
+            &::before {
+                content: "\f522";
+                visibility: visible;
+                font-family: "Font Awesome 5 Free";
+                font-weight: 600;
+                font-size: 27px;
+                position: absolute;
+                color: #03a3d0;
+            
+            }
+            &::after {
+                content: "\f067";
+                visibility: visible;
+                font-family: "Font Awesome 5 Free";
+                font-weight: 600;
+                font-size: 14px;
+                color: #017c9e;
+                position: absolute;
+                top: -5px;
+                right: 14px;
             }
         }
     }
+}
+
     .AllUsersAdmin{
         .addBtn{ 
             

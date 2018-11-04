@@ -243,6 +243,7 @@ class UserSummary extends Component {
             const eventStateDate = JSON.stringify(this.state.selectedDate)
             const eventStateDate1 = JSON.parse(eventStateDate)
 
+            const dateToSend = moment(this.state.selectedDate).format('YYYY-MM-DD hh:mm:ss')
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter the event name')
             }
@@ -251,7 +252,7 @@ class UserSummary extends Component {
                 this.props.errorMessageAction('you must enter a date later than today')
             }  
             else {
-                this.props.editThisEventRequest(eventId, editRequestParam[0], editRequestParam[1], eventStateDate1, concated)
+                this.props.editThisEventRequest(eventId, editRequestParam[0], editRequestParam[1], dateToSend, concated)
             } 
 
         }
