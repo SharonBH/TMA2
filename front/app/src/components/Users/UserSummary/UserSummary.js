@@ -441,6 +441,8 @@ class UserSummary extends Component {
         } else if ( headline === EDIT_EVENT ){
             name = event !== null ? event.eventName : null
         }
+         const path = this.props.editThisEventMatch.path === '/all_tournaments/:tournamentName' ? '/all_tournaments' : '/my_tournaments'
+                
         return (
             <div className={classes.Profile} >
                 {<h1>{headline} {name}</h1>}
@@ -460,7 +462,7 @@ class UserSummary extends Component {
                 <span className={classes.SubmitAll}>
                 {headline === EDIT_EVENT 
                 ? 
-                <Link to={`/tournament_page/${this.props.tournById.tournamentName}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
+                <Link to={`${path}/${this.props.tournById.tournamentName}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
                     <BtnComp className={classes.editBtn}  inputType="submit"   content='Save All Changes'  onClick={() => this.submitUserAditeChanges(headline)} />
                 </Link>
                 :<BtnComp className={classes.editBtn}  inputType="submit"   content='Save All Changes'  onClick={() => this.submitUserAditeChanges(headline)} />
@@ -500,6 +502,7 @@ const mapStateToProps = (state) => {
         groupsList: state.allListReducer.groupsList,
         groupById: state.allListReducer.groupById,
         allRoles: state.allListReducer.allRoles,
+        editThisEventMatch: state.editItemReducer.editThisEventMatch,
     }
 }
 

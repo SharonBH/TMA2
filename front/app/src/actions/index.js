@@ -208,9 +208,17 @@ export const editThisGroupAction = (boll) => {
     }
 }
 
-export const sendEventDataAction = (data) => {
+export const sendEventDataAction = (data, match) => {
+
     return {
         type: 'SEND_EVENT_DATA',
         payload: data
+    }
+}
+export const sendEvetnMatchAction = (match) => {
+
+    return {
+        type: 'SEND_EVENT_MATCH',
+        payload: match
     }
 }
