@@ -91,7 +91,6 @@ export const takeAllEvents = () => {
 // delete tournament
 export const DeleteTournamentRequest = (tournamentId) => {
     return (dispatch) => {
-        console.log('tournamentId', tournamentId)
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'POST',
