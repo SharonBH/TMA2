@@ -16,7 +16,6 @@ import {ADD_TOURNAMENT, EDIT_GROUP, ADD_USER, REGISTER, ADD_NEW_GROUP, ADD_EVENT
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
-// import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
 import { DateTimePicker, DatePicker } from 'material-ui-pickers';
 
 class Register extends Component {
@@ -44,7 +43,6 @@ class Register extends Component {
             selectedDate: moment().format('YYYY-MM-DD, HH:MM'),
             addEventSelectedUsersList: [],
             
-
             groupName: '',
             searchUsers: '',
             searchUsersResult: [],
@@ -61,7 +59,7 @@ class Register extends Component {
         if(headline === EDIT_GROUP) {
             let usersList = []
             group.users.map(user => {
-                usersList.push(user)
+                return usersList.push(user)
             })
             this.setState({addSearchUsersResult: usersList})
             this.setState({groupName: group.groupName})
@@ -72,16 +70,13 @@ class Register extends Component {
         else if(headline === ADD_TOURNAMENT) {
             this.props.appCallTakeAllEvents()
         }
-        this.state.TournamentStartDate === '' ?  this.setState({ TournamentStartDate: moment().format('LLLL')  }) : null
-
-        this.state.TournamentEndDate === '' ?  this.setState({ TournamentEndDate: moment().format('LLLL')  }) : null
+        if(this.state.TournamentStartDate === ''){this.setState({ TournamentStartDate: moment().format('LLLL')  })}
+        if(this.state.TournamentEndDate === ''){this.setState({ TournamentEndDate: moment().format('LLLL') })}
     }
 
     componentWillUnmount(){
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
-        // this.setState({addEventSelectedUsersList: []})
-
     }
 
     onEmailChange = (e) => {this.setState({ email: e.target.value })}
@@ -92,9 +87,6 @@ class Register extends Component {
 
     onTournamentNameChange = (e) => { this.setState({TournamentName: e.target.value})}
     onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
-    // onStartDateChange = (e) => {this.setState({TournamentStartDate: Date.now(e.target.value)})}
-    // onEndDateChange = (e) => { this.setState({TournamentEndDate: new Date(e.target.value)})}
-
     onStartDateChange = (date) => {this.setState({TournamentStartDate: new Date(date )});}
     onEndDateChange = (eDate) => { this.setState({TournamentEndDate: new Date(eDate ) });}
 
@@ -102,8 +94,11 @@ class Register extends Component {
 
     onEventNameChange = (e) => { this.setState({EventName: e.target.value})}
     onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
-    // onDateOfEventChange = (e) => { this.setState({EventDate: new Date(e.target.value)})}
-    handleDateChange = (date) => { this.setState({ selectedDate: new Date(date )}); }
+    handleDateChange = (date) => { 
+        const dateMF = moment(date).format('MM DD YYYY, hh:mm:ss ')
+        this.setState({ selectedDate: dateMF });      
+    }
+
     
     onGroupNameChange = (e) => { this.setState({groupName: e.target.value})}
     onGroupsChange = (e) => { this.setState({groups: e.target.value})}
@@ -118,7 +113,7 @@ class Register extends Component {
                 if(searchFor.length > 0 && ((user.username).toLowerCase()).includes(searchFor)) {
                     let arr = [...this.state.searchUsersResult, user]
                     const removeDuplicateArr = [...new Set(arr)]
-                    this.setState({searchUsersResult: removeDuplicateArr})
+                    return this.setState({searchUsersResult: removeDuplicateArr})
                 }
             })
         }, 300)
@@ -166,7 +161,7 @@ class Register extends Component {
             const { groupName, addSearchUsersResult} = this.state
         let arr = []
         addSearchUsersResult.map((user) => {
-            arr.push(user.userId)
+            return arr.push(user.userId)
         })
         this.props.addNewGroupRequest(groupName, arr)
         this.setState({groupName: '', usersIds: [], searchUsers: '', searchUsersResult: [], addSearchUsersResult: []})
@@ -224,7 +219,7 @@ class Register extends Component {
 
         const Tournament = tourn.tournamentName
         const usersWithResults = []
-        addSearchUsersResult.map(user => {usersWithResults.push({userId: user.userId, result: user.score})})
+        addSearchUsersResult.map(user => {return usersWithResults.push({userId: user.userId, result: user.score})})
         if(EventName === '') {
             this.props.errorMessageAction('you must enter the name of this event')
         } else if (selectedDate === '') {
@@ -232,7 +227,7 @@ class Register extends Component {
         } else if (usersWithResults.length < 2) {
             this.props.errorMessageAction('you must choose min of two users for this event')
         } else {
-            this.props.addNewEventRequest(EventName, Tournament,  moment(this.state.selectedDate).format('YYYY-MM-DD, HH:MM'), usersWithResults)
+            this.props.addNewEventRequest(EventName, Tournament,  moment(this.state.selectedDate).format('MM DD YYYY, hh:mm:ss '), usersWithResults)
         }
     }
 
@@ -389,8 +384,8 @@ class Register extends Component {
     }
     
     eventFage = (headline) => {
-        
-        const selectedDate = moment(this.state.selectedDate).format('YYYY-MM-DD,HH:MM');
+
+        console.log( 'sadasdasd', this.state.selectedDate)
         const {tourn, groupById} = this.props
         const arr = [...groupById.users]
         arr.sort((a, b) => { return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;})
@@ -405,12 +400,13 @@ class Register extends Component {
                         
                         <DateTimePicker
                             className={classes.timePicker}
-                            value={selectedDate}
+                            value={this.state.selectedDate}
                             onChange={(date)=> this.handleDateChange(date)}
                             showTodayButton
                             name="deteOfEvent" 
-                            placeholder={moment().format('LLLL') }
+                            placeholder={moment().format('MM DD YYYY, hh:mm:ss ') }
                             ampm={false}
+                            format="MM DD YYYY, hh:mm:ss "
                             label={'Event Time:'}
                         />
                         </MuiPickersUtilsProvider>
