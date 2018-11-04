@@ -260,3 +260,20 @@
         width: 93.5%;
     }
 }
+
+@media only screen and (max-width: 870px) {
+    .TopNav {
+        width: 90%;
+        text-align: center;
+        & > span {
+            width: 50%;
+        }
+        & > div {
+            width: 48%;
+        }
+        a{
+            padding: 7px 2px;
+        }
+    }
+    
+}

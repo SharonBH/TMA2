@@ -107,7 +107,9 @@ export const DeleteTournamentRequest = (tournamentId) => {
                 .then((response) => {
                     const tournaments = response.data
                     dispatch(getAllToursAction(tournaments))
-                    history.push({pathname: '/all_tournaments'})
+                    // history.push({pathname: '/all_tournaments'})
+                    
+                    window.location.reload()
                     dispatch(toggleLoaderAction(false))
                 })
                 .catch((error) => {
@@ -153,9 +155,7 @@ export const DeleteEventRequest = (eventId) => {
                     dispatch(toggleLoaderAction(false))
                     return axios.post(cors + url + `Events/GetEventTypes`)
                     .then((response) => {
-                        
                         const eventTypes = response.data
-                        console.log('response2', eventTypes)
                         window.location.reload()
                         dispatch(getAllEventTypesAction(eventTypes));
                         // history.push({pathname: '/all_events'})
@@ -251,13 +251,12 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
         })
         .then((response) => {
             dispatch(toggleLoaderAction(true))
-            if (response.data.response === 'Success') {
+            // if (response.data.response === 'Success') {
                 return axios.post(cors + url + `Events/GetEvents`)
                     .then((response) => {
                         const events = response.data
                         dispatch(getAllEventsAction(events));
                         // history.push({pathname: '/tournament_page'})
-                        
                         dispatch(addNewEventAction(false))
                         dispatch(successMessageAction('Event Added Successfuly'))
                         setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
@@ -268,11 +267,11 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
                         dispatch(errorMessageAction([error][0]))
                         dispatch(toggleLoaderAction(false))
                     });
-            } else {
-                const error = response.data.message
-                dispatch(errorMessageAction(error))
-                dispatch(toggleLoaderAction(false))
-            }
+            // } else {
+            //     const error = response.data.message
+            //     dispatch(errorMessageAction(error))
+            //     dispatch(toggleLoaderAction(false))
+            // }
         })
         .catch((error) => {
             dispatch(catchErrorAction([error][0]))
@@ -455,10 +454,11 @@ export const goToTournPageRequest = (tournamentId) => {
             data: tournamentId
         })
         .then((response) => {
+            console.log(response.data)
             localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
             const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
-            const groupId = response.data.groupId
             dispatch(getTournByIdAction(tournamentById));
+            const groupId = response.data.groupId
             return axios({
                 method: 'POST',
                 url: cors + url + 'Groups/GetGroupById',
