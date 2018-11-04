@@ -50,9 +50,10 @@ export class TournamentsList extends Component {
     componentDidMount(){
         this.props.successMessageAction(null)
         const userID = this.props.currentUser.userId
+        this.props.takeMyTournamentsRequest(userID)
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
-            this.props.takeMyTournamentsRequest(userID)
+            
         } else {
             return null
         }
@@ -131,8 +132,9 @@ export class TournamentsList extends Component {
     }
     getTournById=(tournIdToPage)=>{
         this.setState({someId: tournIdToPage})
-        this.props.goToTournPageRequest(tournIdToPage)
         this.props.tournEventsByIdRequest(tournIdToPage)
+        this.props.goToTournPageRequest(tournIdToPage)
+        
         
 
     }

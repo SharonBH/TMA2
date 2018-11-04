@@ -271,7 +271,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log("TOURN PAGE ",this.props)
+        console.log("TOURN PAGE ",this.state.tournamentInEditMode)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}

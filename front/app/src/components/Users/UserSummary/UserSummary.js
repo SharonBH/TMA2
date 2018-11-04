@@ -39,10 +39,13 @@ class UserSummary extends Component {
     componentWillMount = () => {
         this.props.getAllRolesRequest()
         const tournamentData = this.props.tournById
-        this.props.headline === EDIT_TOURNAMENT ? 
-            (this.state.selectedStartDate === '' ?  this.setState({ selectedStartDate: moment(tournamentData.startDate).format('LLLL')  }) : null)
-            (this.state.selectedEndDate === '' ?  this.setState({ selectedEndDate: moment(tournamentData.endDate).format('LLLL')  }) : null)
-        : null
+        if(this.props.headline === EDIT_TOURNAMENT){
+            if(this.state.selectedStartDate === ''){
+                this.setState({ selectedStartDate: moment(tournamentData.startDate).format('LLLL')  })
+            } else if(this.state.selectedEndDate === '') {
+                this.setState({ selectedEndDate: moment(tournamentData.endDate).format('LLLL')  })
+            }
+        }
     }
 
     componentWillUnmount() {
