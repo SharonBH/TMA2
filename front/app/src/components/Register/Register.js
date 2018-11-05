@@ -171,16 +171,12 @@ class Register extends Component {
     }
     addNewUser = (e, headline) => {
         const { email, password, confirmPassword, name, userType, userName } = this.state
-        // const groupId = ''
-       
-            const groupIdUrl = history.location.search
-            const urlsplit = groupIdUrl.split("=");
-            const groupId = urlsplit[urlsplit.length-1];
-            console.log('action____', groupId)
+        const groupIdUrl = history.location.search
+        const urlsplit = groupIdUrl.split("=");
+        const groupId = urlsplit[urlsplit.length-1];
         if(history.location.search === `groupId=${groupId}`){
           return groupId
         }
-        console.log('action____2', groupId)
         e.preventDefault()
         if(!email.includes('@')) {
             this.props.errorMessageAction('you must enter a valid email address')
