@@ -229,3 +229,17 @@ export const getLeaderboardsSAction = (leaderData) => {
         payload: leaderData
     }
 }
+
+export const takeGroupIdPop = (groupId) => {
+    return {
+        type: 'TAKE_GROUP_ID',
+        payload: groupId
+    }
+}
+export const takeGroupIdPopAction = (boll) => {
+    console.log('action', boll)
+    return {
+        type: 'TAKE_GROUP_ID_ACTION',
+        payload: boll
+    }
+}
