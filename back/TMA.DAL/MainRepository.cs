@@ -631,6 +631,33 @@ namespace TMA.DAL
             }
         }
 
+        public bool AddUserToGroup(string userId, int groupId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var isGroupExisting = context.Groups.Any(e => e.GroupId == groupId && e.IsDeleted == false);
+                    if (!isGroupExisting)
+                        throw new Exception($"There is no existing group for '{groupId}'.");
+
+                    var newUsersGroup = new UsersGroups
+                    {
+                        UserId = userId,
+                        GroupId = groupId
+                    };
+
+                    context.UsersGroups.Add(newUsersGroup);
+                    context.SaveChanges();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'AddUserToGroup'.", ex);
+            }
+        }
+
 
         #endregion
 
