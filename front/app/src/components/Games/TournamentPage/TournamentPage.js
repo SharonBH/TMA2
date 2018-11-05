@@ -59,7 +59,7 @@ export class TournamentPage extends Component {
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
             this.props.takeAllTournaments()
         }
-        if(this.props.tournById === null){
+        if(this.props.tournById === null || this.props.groupById === ''){
             this.props.goToTournPageRequest(TourId)
         }
         

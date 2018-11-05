@@ -78,7 +78,6 @@ const allListReducer = (state = InitialState, action) => {
                 groupsDataById: groupsData
             }
         case 'GET_TOURN_BY_ID':
-            console.log('storageData', state.tournById)
             const tournId = action.payload
             return {
                 ...state,

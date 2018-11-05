@@ -454,6 +454,7 @@ export const goToTournPageRequest = (tournamentId) => {
         })
         .then((response) => {
             console.log(response.data)
+            
             localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
             const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
             dispatch(getTournByIdAction(tournamentById));
