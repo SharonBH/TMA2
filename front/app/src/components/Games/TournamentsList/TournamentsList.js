@@ -14,7 +14,7 @@ import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
 
-import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest, takeMyGroupsRequest } from '../../../actions/GamesApi';
 import { addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 export class TournamentsList extends Component {
@@ -95,8 +95,10 @@ export class TournamentsList extends Component {
     }
 
     addTournamentBtn = () => {
+        const userID = this.props.currentUser.userId
         setTimeout(() => {
             this.props.addNewTournamentAction(true)
+            this.props.takeMyGroupsRequest(userID)
         }, 200)
     }
 
@@ -228,6 +230,7 @@ const mapDispatchToProps = dispatch => {
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
         goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
+        takeMyGroupsRequest: payload => dispatch(takeMyGroupsRequest(payload)),
 
         
     }
