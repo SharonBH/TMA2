@@ -191,6 +191,10 @@ export class TournamentPage extends Component {
         )
     }
     leaderBoardTable = () => {
+        const leaderUsers = this.props.leaderBoardData
+        const sortedBoard = leaderUsers !== null ? leaderUsers.sort((a, b) => {
+            return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
+        }) : null
         return(
             <div>
                 <h3>Leader Board of tournament</h3>
@@ -200,7 +204,7 @@ export class TournamentPage extends Component {
                     <h4 className={classes.leaderBoardTD}>Events</h4>
                 </div>
                 <ul>
-                    {this.props.leaderBoardData !== null ? this.props.leaderBoardData.map((item, index) => {
+                    {sortedBoard !== null ? sortedBoard.map((item, index) => {
                         return ( <li key={index}>
                                 <div className={classes.leaderBoardTD}>{item.user.username}</div>
                                 <div className={classes.leaderBoardTD}>{item.totalScores}</div>
