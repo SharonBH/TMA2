@@ -1,5 +1,5 @@
 const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
-const storageData = storage === null ? storage : null
+const storageData = storage === null ? null : storage
 
 const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
 const rolesData = storage === null ? null : roles

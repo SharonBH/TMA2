@@ -105,6 +105,7 @@ export const getAllToursAction = (response) => {
 }
 //get Tournament by ID
 export const getTournByIdAction = (response) => {
+    console.log('11111', response)
     return {
         type: 'GET_TOURN_BY_ID',
         payload: response
