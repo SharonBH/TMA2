@@ -222,3 +222,10 @@ export const sendEvetnMatchAction = (match) => {
         payload: match
     }
 }
+export const getLeaderboardsSAction = (leaderData) => {
+
+    return {
+        type: 'GET_LEADERBOARD_DATA',
+        payload: leaderData
+    }
+}
