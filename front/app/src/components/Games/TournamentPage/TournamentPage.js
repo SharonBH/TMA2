@@ -240,6 +240,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
+        console.log('TOURN PAGE', this.props)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}

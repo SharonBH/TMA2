@@ -127,8 +127,8 @@ class Register extends Component {
 
 
     addSearchUserResult = (user, e) => {
-        const fill = this.state.addSearchUsersResult.filter(item => item.user.userId !== user.user.userId)
-        const array = [...fill, {user: user.user, score: e.target.value}]
+        const fill = this.state.addSearchUsersResult.filter(item => item.userId !== user.userId)
+        const array = [...fill, {userId: user.userId, score: e.target.value, username: user.username}]
         array.sort((a, b) => {
             return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
         })
@@ -177,6 +177,7 @@ class Register extends Component {
         if(history.location.search === `groupId=${groupId}`){
           return groupId
         }
+        console.log('groupId to send', groupId)
         e.preventDefault()
         if(!email.includes('@')) {
             this.props.errorMessageAction('you must enter a valid email address')
@@ -222,9 +223,10 @@ class Register extends Component {
 
     addNewEvent = (e) => {
         e.preventDefault()
-        const {tourn} = this.props
+        const {tourn, allEventTypesList} = this.props
         const { EventName, selectedDate, addSearchUsersResult } = this.state
 
+        
         const Tournament = tourn.tournamentName
         const usersWithResults = []
         addSearchUsersResult.map(user => {return usersWithResults.push({userId: user.userId, result: user.score})})
@@ -234,7 +236,9 @@ class Register extends Component {
             this.props.errorMessageAction('you must enter the event date')
         } else if (usersWithResults.length < 2) {
             this.props.errorMessageAction('you must choose min of two users for this event')
-        } else {
+        } else if (allEventTypesList.eventTypeName === 'FIFA' && usersWithResults.length > 2) {
+            this.props.errorMessageAction('in FIFA type may be only two users for event')
+        }else {
             this.props.addNewEventRequest(EventName, Tournament,  moment(this.state.selectedDate).format('MM DD YYYY, hh:mm:ss '), usersWithResults)
         }
     }
@@ -308,7 +312,9 @@ class Register extends Component {
 
     tournamentFage = (headline) => {
         const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }})
-        const groupL = this.props.groupsList !== null ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : <div className={classes.error}>Wait for all data</div>
+        const groupsArr = this.props.groupsDataById !== '' && this.props.currentUser.role === 'User' ? this.props.groupsDataById : this.props.groupsList
+        const groupL = groupsArr !== null ? groupsArr.map((group) => { return {key: group.groupId, value: group.groupName }}) : null 
+        // const groupL = this.props.groupsList !== null ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : null
 
         return (
             <div className={classes.Register}>
@@ -375,9 +381,9 @@ class Register extends Component {
         )
     }
     eventUsersPlaying = () => {
-        const { EventDate, addSearchUsersResult } = this.state
+        const { selectedDate, addSearchUsersResult } = this.state
         const today = Date.parse(new Date())
-        const eventday = Date.parse(EventDate)
+        const eventday = Date.parse(selectedDate)
         if(addSearchUsersResult.length > 0) {
             return addSearchUsersResult.map((user, index) => {
                 return <span className={classes.user +' '+classes.userResult} key={index}>
@@ -393,7 +399,7 @@ class Register extends Component {
     
     eventFage = (headline) => {
 
-        console.log( 'sadasdasd', this.state.selectedDate)
+        console.log( 'sadasdasd', this.state)
         const {tourn, groupById} = this.props
         const arr = [...groupById.users]
         arr.sort((a, b) => { return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;})
@@ -605,6 +611,8 @@ const mapStateToProps = (state) => {
         groupsList: state.allListReducer.groupsList,
         groupById: state.allListReducer.groupById,
         tournByIdNoS: state.allListReducer.tournByIdNoS,
+        groupsDataById: state.allListReducer.groupsDataById,
+        currentUser: state.userReducer.currentUser
     }
 }
 
