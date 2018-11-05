@@ -15,20 +15,15 @@ import { getAllGroupsRequest, takeMyGroupsRequest } from '../../../actions/Games
 import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import moment from 'moment';
 export class Groups extends Component {
-
     static propTypes = {
         groupsList: PropTypes.array,
         successMessage: PropTypes.string,
         errorMessage: PropTypes.string,
         addItem: PropTypes.bool,
         editThisGroup: PropTypes.bool,
-        deleteUserConfirmMessage: PropTypes.bool
-    };
-
-    static propTypes = {
+        deleteUserConfirmMessage: PropTypes.bool,
         getAllGroupsRequest: PropTypes.func
     };
-
     constructor(props) {
         super(props)
         this.state = {
@@ -140,8 +135,6 @@ export class Groups extends Component {
     }
 
     render() {
-        console.log('this.propsGG',this.props)
-        console.log('this.propsG',this.state)
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}

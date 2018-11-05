@@ -253,7 +253,7 @@
                     box-shadow: 0px 0px 4px 0px #03a3d0;
                     right: 0;
                     z-index: 6;
-                    top: 0;
+                    top: 20;
                 }
             }
             
@@ -352,6 +352,63 @@
                 background: #000;
                 color: #fff;
             }
+        }
+    }
+}
+@media only screen and (max-width: 870px) {
+    .tournPageWrapper{
+        .turnInfo{
+            padding: 0 1%;
+            position: relative;
+            .headTPage{
+                display: block;
+                h1{
+                    padding-top: 35px;
+                    font-size: 16px;
+                    text-align: center;
+                }
+                .tournPButtons{
+                    margin: 0;
+                    width: 100%;
+                    position: absolute;
+                    top: -10px;
+                    right: 0;
+                }
+            }
+        }
+        .TPageTables{
+            display: block;
+            .eventsTable, .usersTable{
+                width: 100%;
+                ul{
+                    height: auto;
+                    overflow: visible;
+                    li{
+                        display: block;
+                        position: relative;
+                        padding-bottom: 5px;
+                        border-bottom: 1px solid #ddd;
+                        &>div{
+                            margin: 0;
+                            width: 100%;
+                        }
+                        .turnPageEventsBTN{
+                            position: absolute;
+                            bottom: 3px;
+                            right: 0;
+                            width: auto;
+                        }
+                    }
+                }
+            }
+            // .usersTable{
+            //     display: flex;
+            //     justify-content: inherit;
+            //     .tournTime, &> div{
+            //         width: 48%;
+            //         border: 0;
+            //     }
+            // }
         }
     }
 }

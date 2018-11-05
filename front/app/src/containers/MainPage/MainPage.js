@@ -31,12 +31,9 @@ export class MainPage extends Component {
             // this.props.appCallgetAllGroupsRequest()
             
         }, 200)
-        
-
     }
 
     render() {
-        
         return (
             <div className={classes.MainPage}>
             

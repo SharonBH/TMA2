@@ -1,5 +1,5 @@
 import axios from 'axios';
-import history from '../configuration/history';
+// import history from '../configuration/history';
 import {
     catchErrorAction,
     toggleLoaderAction,
@@ -454,6 +454,7 @@ export const goToTournPageRequest = (tournamentId) => {
         })
         .then((response) => {
             console.log(response.data)
+            
             localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
             const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
             dispatch(getTournByIdAction(tournamentById));
@@ -471,12 +472,12 @@ export const goToTournPageRequest = (tournamentId) => {
                     .then((response) => {
                         const eventTypes = response.data
                         dispatch(getAllEventTypesAction(eventTypes));
-                        // history.push({pathname: '/all_events'})
-                        dispatch(toggleLoaderAction(false))
+                        // history.push({pathname: '/all_events'})                        
                         return axios.post(cors + url + `Groups/GetGroups`)
                         .then((response) => {
                                 const groups = response.data
                                 dispatch(getAllGroups(groups));
+                                dispatch(toggleLoaderAction(false))
                         })
                         .catch((error) => {
                             dispatch(catchErrorAction([error][0]))
@@ -685,7 +686,7 @@ export const takeMyTournamentsRequest = (userId) => {
             data: "'" + userId + "'"
         })
         .then((response) => {
-                const data = response.data.message
+                // const data = response.data.message
                 const tournsData = response.data
                 dispatch(takeMyTournaments(tournsData))
                 // dispatch(successMessageAction(data))
@@ -710,7 +711,7 @@ export const takeMyGroupsRequest = (userId) => {
             data: "'" + userId + "'"
         })
         .then((response) => {
-                const data = response.data.message
+                // const data = response.data.message
                 const groupsData = response.data
                 dispatch(takeMyGroups(groupsData))
                 // dispatch(successMessageAction(data))

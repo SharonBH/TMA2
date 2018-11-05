@@ -63,6 +63,7 @@
         }
         .allUsButtons{
             width: 200px;
+            overflow: visible;
         }
         li{
             border-bottom: 1px solid #e5e5e5;
@@ -84,6 +85,7 @@
                 justify-content: start;
                 height: 27px;
                 white-space: nowrap;
+                overflow-y: auto;
             }
 
             .select {
@@ -195,4 +197,33 @@ div.EditBtn {
     padding: 5px;
     text-align: center;
     color: #fff;
+}
+
+
+
+@media only screen and (max-width: 870px) {
+    .groupsTable{
+        position: relative;
+        font-size: 14px;
+        h1{
+            font-size: 18px;
+        }
+        .Head{
+            padding-right: 22%;
+            .addBtn{
+                div{
+                    width: auto;
+                }
+                position: absolute;
+                right: 0;
+                top: -2px;
+                justify-content: flex-end;
+            }
+        }
+        .groupsList{
+            .allUsButtons{
+                width: 13%;
+            }
+        }
+    }
 }

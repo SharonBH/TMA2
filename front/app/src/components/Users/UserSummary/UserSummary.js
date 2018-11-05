@@ -65,42 +65,44 @@ class UserSummary extends Component {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
             const tournamentData = this.props.tournament
-
-            // const gName =  this.props.groupsList !== undefined ? this.props.groupsList.find((tourn) => {return tourn.groupId === tournamentData.groupId}): null
             const grName = this.props.groupById
 
-            const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === tournamentData.eventTypeId} ) : null
+            const eventTName = (this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null)
+                ? this.props.allEventTypesList.find((event) => {
+                    return event.eventTypeId === tournamentData.eventTypeId
+                }) 
+                : null
             const eventN = eventTName.eventTypeName
             const tournamentName = tournamentData.tournamentName
-            // const groupName = gName.groupName
             const groupName = grName.groupName
             const startDate = moment(tournamentData.startDate).format('MMMM Do YYYY') 
             const endDate =  moment(tournamentData.endDate).format('MMMM Do YYYY') 
             const numberOfEvents = tournamentData.numberOfEvents
             return ([
-                    {edit: false, detail: 'Tournament Name', param: tournamentName, editInput: tournamentName},
-                    {edit: false, detail: 'Group Name', param: groupName, editInput: groupName},
-                    {edit: false, detail: 'Event Type', param: eventN, editInput: eventN},
-                    {edit: false, detail: 'Start Date', param: startDate, editInput: startDate},
-                    {edit: false, detail: 'End Date', param: endDate, editInput: endDate},
-                    {edit: false, detail: 'Max Events', param: numberOfEvents,  editInput: numberOfEvents},
+                {edit: false, detail: 'Tournament Name', param: tournamentName, editInput: tournamentName},
+                {edit: false, detail: 'Group Name', param: groupName, editInput: groupName},
+                {edit: false, detail: 'Event Type', param: eventN, editInput: eventN},
+                {edit: false, detail: 'Start Date', param: startDate, editInput: startDate},
+                {edit: false, detail: 'End Date', param: endDate, editInput: endDate},
+                {edit: false, detail: 'Max Events', param: numberOfEvents,  editInput: numberOfEvents},
             ])
         } else if( headline === EDIT || headline === YOUR_PROFILE ){
             const userData = this.props.user
             const name = userData.name
             const username = userData.username
             const email = userData.email
-            // const password = userData.password
             const role = userData.role
             return ( [
-                    {edit: false, detail: 'User Name', param: username, editInput: username},
-                    {edit: false, detail: 'Name', param: name, editInput: name},
-                    {edit: false, detail: 'eMail', param: email, editInput: email},
-                    {edit: false, detail: 'User Type', param: role,  editInput: role},
+                {edit: false, detail: 'User Name', param: username, editInput: username},
+                {edit: false, detail: 'Name', param: name, editInput: name},
+                {edit: false, detail: 'eMail', param: email, editInput: email},
+                {edit: false, detail: 'User Type', param: role,  editInput: role},
             ])
         } else if( headline === EDIT_EVENT ){
             const eventData = this.props.event
-            const TournamName = this.props.allTournsList.find((tourn) => {return tourn.tournamentName === eventData.tournamentName})
+            const TournamName = this.props.allTournsList.find((tourn) => {
+                return tourn.tournamentName === eventData.tournamentName}
+            )
             const tournN = TournamName !== undefined ?  Object.values(TournamName)[1] : null
             const eventName = eventData.eventName
             const eventDate = eventData.eventDate
@@ -209,10 +211,7 @@ class UserSummary extends Component {
             }
         }
         else if(headline === EDIT_TOURNAMENT){
-            const startday = Date.parse(editRequestParam[3])
-            const endday = Date.parse(editRequestParam[4])
-
-            const startDayToSend = moment(this.state.selectedStartDate).format('YYYY-MM-DD hh:mm:ss ')
+            const startDayToSend = moment(this.state.selectedStartDate).format('YYYY-MM-DD hh:mm:ss')
             const endDayToSend = moment(this.state.selectedEndDate).format('YYYY-MM-DD hh:mm:ss')
             
             const findId = typeof editRequestParam[1] === 'string' ? this.props.groupsList.find(gName => { return gName.groupName === editRequestParam[1] }) : this.state.userDetailsArr[1].editInput
@@ -238,17 +237,12 @@ class UserSummary extends Component {
             const idies = fill.filter(list => this.state.inputs.findIndex(id => id.userId === list.userId) === -1)
             const notState = idies.map(item => {return {userId: item.userId, result: item.result } })
             const concated = notState.concat(this.state.inputs)
-            // const eventdate = Date.parse(editRequestParam[2])
-
-            const eventStateDate = JSON.stringify(this.state.selectedDate)
-            const eventStateDate1 = JSON.parse(eventStateDate)
 
             const dateToSend = moment(this.state.selectedDate).format('YYYY-MM-DD hh:mm:ss')
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter the event name')
             }
-             else if (today > eventStateDate) {
-
+             else if (today > dateToSend) {
                 this.props.errorMessageAction('you must enter a date later than today')
             }  
             else {
@@ -372,12 +366,11 @@ class UserSummary extends Component {
                     ? detail === 'Event Date' 
                     ? <div className={classes.EditCustomInput}>
                         <MuiPickersUtilsProvider utils={MomentUtils}>
-                        
-                        <DateTimePicker
-                            value={selectedDate}
-                            onChange={this.handleDateChange}
-                            showTodayButton
-                        />
+                            <DateTimePicker
+                                value={selectedDate}
+                                onChange={this.handleDateChange}
+                                showTodayButton
+                            />
                         </MuiPickersUtilsProvider>
                     </div>
                     : <div className={classes.EditInput}>
@@ -442,7 +435,7 @@ class UserSummary extends Component {
         } else if ( headline === EDIT_EVENT ){
             name = event !== null ? event.eventName : null
         }
-         const path = this.props.editThisEventMatch.path === '/all_tournaments/:tournamentName' ? '/all_tournaments' : '/my_tournaments'
+        const path = this.props.editThisEventMatch.path === '/all_tournaments/:tournamentName' ? '/all_tournaments' : '/my_tournaments'
                 
         return (
             <div className={classes.Profile} >
