@@ -191,6 +191,7 @@ export class TournamentPage extends Component {
         return (
             <div className={classes.usersTable}>
                 {this.turnPageInformation()}
+                <div>
                 <h3>All users of tournament</h3>
                 <div className={classes.usersTBL}><h5 className={classes.groupName}>Group Name: </h5> <span>{gName}</span></div>
                 <div className={classes.usersTBList}>
@@ -204,6 +205,7 @@ export class TournamentPage extends Component {
                         )}) : null
                     }
                     </ul>
+                </div>
                 </div>
             </div>
         )

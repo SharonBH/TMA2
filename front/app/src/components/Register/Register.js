@@ -10,12 +10,14 @@ import BtnComp from '../UI/BtnComp/BtnComp';
 import SelectComp from '../UI/SelectComp/SelectComp';
 import SelectIdComp from '../UI/SelectComp/SelectIdComp';
 import moment from 'moment';
+import  history  from '../../configuration/history'
 import {ADD_TOURNAMENT, EDIT_GROUP, ADD_USER, REGISTER, ADD_NEW_GROUP, ADD_EVENT} from '../../configuration/config';
 
 
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+
 import { DateTimePicker, DatePicker } from 'material-ui-pickers';
 
 class Register extends Component {
@@ -169,6 +171,16 @@ class Register extends Component {
     }
     addNewUser = (e, headline) => {
         const { email, password, confirmPassword, name, userType, userName } = this.state
+        // const groupId = ''
+       
+            const groupIdUrl = history.location.search
+            const urlsplit = groupIdUrl.split("=");
+            const groupId = urlsplit[urlsplit.length-1];
+            console.log('action____', groupId)
+        if(history.location.search === `groupId=${groupId}`){
+          return groupId
+        }
+        console.log('action____2', groupId)
         e.preventDefault()
         if(!email.includes('@')) {
             this.props.errorMessageAction('you must enter a valid email address')
@@ -183,7 +195,7 @@ class Register extends Component {
         } else {
             headline === ADD_USER 
             ? this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
-            : this.props.registerRequest(email, password, confirmPassword, name, userType, userName) 
+            : this.props.registerRequest(email, password, confirmPassword, name, userType, userName, groupId) 
         }
     }
 
@@ -577,7 +589,8 @@ class Register extends Component {
     }
     
     render() {
-        console.log('this.state.groupName',  this.props)
+        console.log('this.state.groupName',  this.props, '_________', history.location.search)
+        
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
@@ -603,7 +616,7 @@ const mapDispatchToProps = dispatch => {
     return {
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
-        registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
+        registerRequest: (email, password, confirmPassword, name, userType, userName, groupId) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName, groupId)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
         addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)),
         addNewEventRequest: (EventName, Tournament, EventDate, usersWithResults) => dispatch(addNewEventRequest(EventName, Tournament, EventDate, usersWithResults)),

@@ -35,7 +35,7 @@ export const getAllRolesRequest = () => {
 };
 
 // register request
-export const registerRequest = (email, password, confirmPassword, name, userType, userName) => {
+export const registerRequest = (email, password, confirmPassword, name, userType, userName, groupId) => {
     return (dispatch) => {
         return axios.post(cors + url + `Account/GetUserRoles`)
             .then((response) => {
@@ -45,7 +45,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                     const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
                     dispatch(getAllRoles(roles));
                     dispatch(toggleLoaderAction(true))
-                    return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
+                    return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}&groupId=${groupId}`)
                         .then((response) => {
                             if (response.data.response === 'Success') {
                                 return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)

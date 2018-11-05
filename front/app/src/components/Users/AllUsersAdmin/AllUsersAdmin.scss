@@ -194,41 +194,31 @@ div.EditBtn {
 }
 
 @media only screen and  (max-width: 870px) {
-
-.usersHead {
-    .addBtn{
-        .BtnComp{
-            visibility: hidden;
-            width: 45px;
-            height: 45px;   
-            &::before {
-                content: "\f522";
-                visibility: visible;
-                font-family: "Font Awesome 5 Free";
-                font-weight: 600;
-                font-size: 27px;
-                position: absolute;
-                color: #03a3d0;
-            
-            }
-            &::after {
-                content: "\f067";
-                visibility: visible;
-                font-family: "Font Awesome 5 Free";
-                font-weight: 600;
-                font-size: 14px;
-                color: #017c9e;
-                position: absolute;
-                top: -5px;
-                right: 14px;
+.usersWrapper{
+    font-size: 14px;
+    h1{
+        font-size: 18px;
+    }
+    .usersHead{
+        padding-right: 10%;
+        &>div{
+            font-size: 14px;
+        }
+        .addBtn{
+            position: absolute;
+            right: 0;
+            top: 6px;
+            justify-content: flex-end;
+        }
+    }
+    .uesrsList{
+        li{
+            .allUsButtons{
+                width: 12% !important;
             }
         }
     }
+    
 }
 
-    .AllUsersAdmin{
-        .addBtn{ 
-            
-        }
-    }
 }
