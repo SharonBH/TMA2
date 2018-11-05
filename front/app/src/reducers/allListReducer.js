@@ -1,5 +1,7 @@
 const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
+
 const storageData = storage === null ? null : storage
+
 
 const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
 const rolesData = storage === null ? null : roles
@@ -76,6 +78,7 @@ const allListReducer = (state = InitialState, action) => {
                 groupsDataById: groupsData
             }
         case 'GET_TOURN_BY_ID':
+            console.log('storageData', state.tournById)
             const tournId = action.payload
             return {
                 ...state,
