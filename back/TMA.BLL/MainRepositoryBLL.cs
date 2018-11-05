@@ -89,6 +89,12 @@ namespace TMA.BLL
 
         }
 
+        public List<LeaderboardModel> GetLeaderboards(int tournamentId)
+        {
+            var leaderboards = _mainRepository.GetLeaderboards(tournamentId);
+            return leaderboards;
+        }
+
         #endregion
 
         #region EventTypes
