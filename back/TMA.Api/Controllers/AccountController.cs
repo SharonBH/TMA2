@@ -314,6 +314,16 @@ namespace TMA.Api.Controllers
                         {
                             await _signInManager.SignInAsync(user, isPersistent: false);
                             _logger.LogInformation("User created a new account with password.");
+                            if (model.GroupId != null)
+                            {
+                                bool succeeded = _mainRepository.AddUserToGroup(currentUser.Id, model.GroupId);
+                                if (succeeded)
+                                    return Json(new { Response = "Success", Message = "User created successfully." });
+
+                                else
+                                    return Json(new { Response = "Error", Message = "Error when adding the user to group." });
+                            }
+
                             return Json(new { Response = "Success", Message = "User created successfully." });
                         }
                         else

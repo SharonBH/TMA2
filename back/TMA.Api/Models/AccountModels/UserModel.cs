@@ -31,5 +31,7 @@ namespace TMA.Api.Models
 
         [Required]
         public string Username { get; set; }
+
+        public int? GroupId { get; set; }
     }
 }

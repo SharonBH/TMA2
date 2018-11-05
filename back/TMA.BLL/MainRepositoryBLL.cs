@@ -163,6 +163,12 @@ namespace TMA.BLL
             return userTournaments;
         }
 
+        public bool AddUserToGroup(string userId, int? groupId)
+        {
+            var result = _mainRepository.AddUserToGroup(userId, (int)groupId);
+            return result;
+        }
+
 
         #endregion
         public List<AspNetRoles> GetUserRoles()
