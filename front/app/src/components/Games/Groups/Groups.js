@@ -9,10 +9,11 @@ import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp'
 import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
+import LinkPopup from './LinkPopup'
 import { EDIT_GROUP, ADD_NEW_GROUP, DELETE_GROUP } from '../../../configuration/config'
 import { getAllGroupsRequest, takeMyGroupsRequest } from '../../../actions/GamesApi';
 // import { takeAllUsers } from '../../../actions/Api';
-import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
+import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction, takeGroupIdPop, takeGroupIdPopAction }  from '../../../actions';
 import moment from 'moment';
 export class Groups extends Component {
     static propTypes = {
@@ -128,11 +129,18 @@ export class Groups extends Component {
                 <div id={index} className={classes.allUsButtons}>
                     <Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>
+                    <BtnComp onClick={() => this.togglePopup(group.groupId)} inputType={'button'} content='Link to copy'/>
                  </div>
             </li>
         })
         : null
     }
+
+    togglePopup(groupId) {
+        // this.setState({ showPopup: !this.state.showPopup });
+        this.props.takeGroupIdPopAction(true)
+        this.props.takeGroupIdPop(groupId)
+      }
 
     render() {
         return (
@@ -145,6 +153,7 @@ export class Groups extends Component {
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}
                 {this.props.editThisGroup ? <div className={classes.AddUser}>{this.editGroupComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_GROUP} item={this.state.groupForDelete}/> : null}
+                {this.props.groupIdAction ? <LinkPopup className={classes.AddUser}></LinkPopup> : null}
             </div>
         )
     }
@@ -159,7 +168,9 @@ const mapStateToProps = (state) => {
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         addItem: state.addNewItemReducer.addItem,
+        groupIdAction: state.addNewItemReducer.groupIdAction,
         editThisGroup: state.editItemReducer.editThisGroup,
+        groupId: state.allListReducer.groupId,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
     }
 }
@@ -169,6 +180,8 @@ const mapDispatchToProps = dispatch => {
     return{
         getAllGroupsRequest: (payload) => dispatch(getAllGroupsRequest(payload)),
         takeMyGroupsRequest: (payload) => dispatch(takeMyGroupsRequest(payload)),
+        takeGroupIdPop: (payload) => dispatch(takeGroupIdPop(payload)),
+        takeGroupIdPopAction: (payload) => dispatch(takeGroupIdPopAction(payload)),
         addNewItemAction: payload => dispatch(addNewItemAction(payload)),
         editThisGroupAction: payload => dispatch(editThisGroupAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
