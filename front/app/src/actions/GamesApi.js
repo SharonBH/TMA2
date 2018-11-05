@@ -14,8 +14,12 @@ import {
     getTournByIdAction,
     addNewGroupAction,
     getTournByIdNoSAction,
-    getGroupById
+    getGroupById,
+    takeMyTournaments,
+    getAllUsersAction,
+    takeMyGroups
 } from './index';
+
 
 // const cors = 'https://cors-anywhere.herokuapp.com/'
 const cors = ''
@@ -87,7 +91,6 @@ export const takeAllEvents = () => {
 // delete tournament
 export const DeleteTournamentRequest = (tournamentId) => {
     return (dispatch) => {
-        console.log('tournamentId', tournamentId)
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'POST',
@@ -103,7 +106,9 @@ export const DeleteTournamentRequest = (tournamentId) => {
                 .then((response) => {
                     const tournaments = response.data
                     dispatch(getAllToursAction(tournaments))
-                    history.push({pathname: '/all_tournaments'})
+                    // history.push({pathname: '/all_tournaments'})
+                    
+                    window.location.reload()
                     dispatch(toggleLoaderAction(false))
                 })
                 .catch((error) => {
@@ -149,9 +154,7 @@ export const DeleteEventRequest = (eventId) => {
                     dispatch(toggleLoaderAction(false))
                     return axios.post(cors + url + `Events/GetEventTypes`)
                     .then((response) => {
-                        
                         const eventTypes = response.data
-                        console.log('response2', eventTypes)
                         window.location.reload()
                         dispatch(getAllEventTypesAction(eventTypes));
                         // history.push({pathname: '/all_events'})
@@ -206,6 +209,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
                         const tournaments = response.data
                         dispatch(getAllToursAction(tournaments));
                         // history.push({pathname: '/tournament_page'})
+                        setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
                         dispatch(addNewTournamentAction(false))
                         dispatch(successMessageAction('Tournament Added Successfuly'))
                         dispatch(toggleLoaderAction(false))
@@ -246,15 +250,15 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
         })
         .then((response) => {
             dispatch(toggleLoaderAction(true))
-            if (response.data.response === 'Success') {
+            // if (response.data.response === 'Success') {
                 return axios.post(cors + url + `Events/GetEvents`)
                     .then((response) => {
                         const events = response.data
                         dispatch(getAllEventsAction(events));
                         // history.push({pathname: '/tournament_page'})
-                        window.location.reload()
                         dispatch(addNewEventAction(false))
                         dispatch(successMessageAction('Event Added Successfuly'))
+                        setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
                         dispatch(toggleLoaderAction(false))
                     })
                     .catch((error) => {
@@ -262,11 +266,11 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
                         dispatch(errorMessageAction([error][0]))
                         dispatch(toggleLoaderAction(false))
                     });
-            } else {
-                const error = response.data.message
-                dispatch(errorMessageAction(error))
-                dispatch(toggleLoaderAction(false))
-            }
+            // } else {
+            //     const error = response.data.message
+            //     dispatch(errorMessageAction(error))
+            //     dispatch(toggleLoaderAction(false))
+            // }
         })
         .catch((error) => {
             dispatch(catchErrorAction([error][0]))
@@ -439,19 +443,21 @@ export const tournEventsByIdRequest = (tournamentId) => {
 }
 // get Tournament By Id
 export const goToTournPageRequest = (tournamentId) => {
+    console.log('TournsList', tournamentId)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
             method: 'POST',
-            url: cors + url + 'Tournaments/GetTournamentById',///////
+            url: cors + url + 'Tournaments/GetTournamentById',
             headers: {'Content-Type': 'application/json; charset=UTF-8'},
             data: tournamentId
         })
         .then((response) => {
+            console.log(response.data)
             localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
             const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
-            const groupId = response.data.groupId
             dispatch(getTournByIdAction(tournamentById));
+            const groupId = response.data.groupId
             return axios({
                 method: 'POST',
                 url: cors + url + 'Groups/GetGroupById',
@@ -505,8 +511,13 @@ export const getAllGroupsRequest = () => {
             .then((response) => {
                     const groups = response.data
                     dispatch(getAllGroups(groups));
-                    history.push({pathname: '/groups'})
-                    dispatch(toggleLoaderAction(false))
+                    // history.push({pathname: '/all_groups'})
+                    return axios.post(cors + url + `Account/GetUsers`)
+                    .then((response) => {
+                        const users = response.data
+                        dispatch(getAllUsersAction(users));
+                        dispatch(toggleLoaderAction(false))
+                    })
             })
             .catch((error) => {
                 dispatch(catchErrorAction([error][0]))
@@ -549,10 +560,13 @@ export const addNewGroupRequest = (groupName, usersIds) => {
                     .then((response) => {
                         const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        // history.push({pathname: '/all_groups'})
                         // window.location.reload()
+                        
                         dispatch(addNewGroupAction(false))
                         dispatch(successMessageAction('Group Added Successfuly'))
+                        console.log(response)
+                        setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
                         dispatch(toggleLoaderAction(false))
                     })
                     .catch((error) => {
@@ -592,8 +606,10 @@ export const DeleteGroupRequest = (groupId) => {
                 .then((response) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        // history.push({pathname: '/all_groups'})
+                        // window.location.reload()
                         dispatch(successMessageAction('Groups removed Successfuly'))
+                        setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
                         dispatch(toggleLoaderAction(false))
                 })
                 .catch((error) => {
@@ -631,13 +647,14 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
         })
         .then((response) => {
             if (response.data.response === 'Success') {
-                dispatch(successMessageAction('Group Edited Successfuly'))
                 return axios.post(cors + url + `Groups/GetGroups`)
                 .then((response) => {
                     const groups = response.data
                         dispatch(getAllGroups(groups));
-                        history.push({pathname: '/groups'})
+                        // history.push({pathname: '/all_groups'})
+                        // window.location.reload()
                         dispatch(successMessageAction('Groups Was Edited Successfully'))
+                        setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
                         dispatch(toggleLoaderAction(false))
                 })
                 .catch((error) => {
@@ -657,3 +674,52 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
         });
     }
 }
+// take all groups by user id
+export const takeMyTournamentsRequest = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            url: cors + url + 'Tournaments/GetUserTournaments',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            data: "'" + userId + "'"
+        })
+        .then((response) => {
+                const data = response.data.message
+                const tournsData = response.data
+                dispatch(takeMyTournaments(tournsData))
+                // dispatch(successMessageAction(data))
+                dispatch(toggleLoaderAction(false))
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+};
+
+// take all groups by user id
+export const takeMyGroupsRequest = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            url: cors + url + 'Groups/GetUserGroups',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            data: "'" + userId + "'"
+        })
+        .then((response) => {
+                const data = response.data.message
+                const groupsData = response.data
+                dispatch(takeMyGroups(groupsData))
+                // dispatch(successMessageAction(data))
+                dispatch(toggleLoaderAction(false))
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+};

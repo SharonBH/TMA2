@@ -19,7 +19,7 @@ import ConfirmMessage from '../../UI/ConfirmMessage';
 
 import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents, tournEventsByIdRequest, goToTournPageRequest } from '../../../actions/GamesApi';
 import { editThisEventAction, addNewEventAction, addNewTournamentAction,  editThisItemAction, 
-    successMessageAction, errorMessageAction, deleteConfirmMessageAction, sendEventDataAction }  from '../../../actions';
+    successMessageAction, errorMessageAction, deleteConfirmMessageAction, sendEventDataAction, sendEvetnMatchAction }  from '../../../actions';
 
     // const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
 export class TournamentPage extends Component {
@@ -43,18 +43,22 @@ export class TournamentPage extends Component {
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
         // this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
-
+        
     }
     // componentDidUpdate(){
     //     this.props.takeAllEvents()
     // }
 
     componentWillMount(){
-        const tourn = this.props.tournById !== null ? this.props.tournById : null
-        const TourId = tourn.tournamentId 
+
+        
         const locationName = this.props.location.pathname
         const urlsplit = locationName.split("/");
         const action = urlsplit[urlsplit.length-1];
+        // console.log('111', action)
+        const tourn = this.props.tournById !== null ? this.props.tournById : action
+        const TourId = tourn.tournamentId 
+
         tourn.tournamentName === action ? (this.props.tournEventsByIdRequest(TourId)) : null
         this.setState({currentPage: this.props.tournById})
         this.props.appCallTakeAllEvents()
@@ -157,8 +161,9 @@ export class TournamentPage extends Component {
         this.props.deleteConfirmMessageAction(true)
         
     }
-    editEventBtn = (item) => {
+    editEventBtn = (item, match) => {
         this.props.sendEventDataAction(item)
+        this.props.sendEvetnMatchAction(match)
         this.setState({eventInEditMode: item})
         setTimeout(() => {
             this.props.editThisEventAction(true)
@@ -194,7 +199,7 @@ export class TournamentPage extends Component {
                                 </ul>
                             </div>
                             <div className={classes.turnPageEventsBTN}>
-                                <a className={classes.editBTN}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item)}/></a>
+                                <a className={classes.editBTN}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item, this.props.match)}/></a>
                                 <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
                             </div>
                         </li>
@@ -240,7 +245,10 @@ export class TournamentPage extends Component {
                 {/* <Link to={`/${currentTournament.tournamentName}/edit_tournament`}> */}
                 <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
                 {/* </Link> */}
-                <Link className={classes.backBtn} to='/all_tournaments'><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
+                {this.props.match.path === '/all_tournaments/:tournamentName' 
+                    ? <Link className={classes.backBtn} to='/all_tournaments'><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
+                    : <Link className={classes.backBtn} to='/my_tournaments'><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
+                }
             </div>
         </div>
         )
@@ -264,7 +272,7 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log("TOURN PAGE ",this.props)
+        console.log("TOURN PAGE ",this.state)
         return (
             <div className={classes.tournPageWrapper}>
                 {this.successDeleteMessage()}
@@ -325,7 +333,8 @@ const mapDispatchToProps = dispatch => {
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
-        sendEventDataAction: payload => dispatch(sendEventDataAction(payload)),
+        sendEventDataAction: (payload) => dispatch(sendEventDataAction(payload)),
+        sendEvetnMatchAction: (payload) => dispatch(sendEvetnMatchAction(payload)),
         appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),

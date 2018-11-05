@@ -56,11 +56,34 @@ class Register extends Component {
             
         }
     }
-    componentWillMount = () => {
+    componentWillMount() {
+        const { headline, group } = this.props
+        if(headline === EDIT_GROUP) {
+            let usersList = []
+            group.users.map(user => {
+                usersList.push(user)
+            })
+            this.setState({addSearchUsersResult: usersList})
+            this.setState({groupName: group.groupName})
+        }
+        else if(headline === ADD_NEW_GROUP) {
+            this.props.appCallTakeAllUsers()
+        }
+        else if(headline === ADD_TOURNAMENT) {
+            this.props.appCallTakeAllEvents()
+        }
         this.state.TournamentStartDate === '' ?  this.setState({ TournamentStartDate: moment().format('LLLL')  }) : null
 
         this.state.TournamentEndDate === '' ?  this.setState({ TournamentEndDate: moment().format('LLLL')  }) : null
     }
+
+    componentWillUnmount(){
+        this.props.errorMessageAction(null)
+        this.props.successMessageAction(null)
+        // this.setState({addEventSelectedUsersList: []})
+
+    }
+
     onEmailChange = (e) => {this.setState({ email: e.target.value })}
     onPasswordChange = (e) => {this.setState({password: e.target.value})}
     onConfirmPasswordChange = (e) => {this.setState({confirmPassword: e.target.value})}
@@ -88,10 +111,11 @@ class Register extends Component {
     onSearchUsersChange = (e) => { 
         this.setState({ searchUsersResult: [] })
         this.setState({searchUsers: e.target.value})
+
         setTimeout(() => {
             this.props.allList.map((user) => {
                 const searchFor = this.state.searchUsers
-                if(searchFor.length > 0 && (user.username).includes(searchFor)) {
+                if(searchFor.length > 0 && ((user.username).toLowerCase()).includes(searchFor)) {
                     let arr = [...this.state.searchUsersResult, user]
                     const removeDuplicateArr = [...new Set(arr)]
                     this.setState({searchUsersResult: removeDuplicateArr})
@@ -117,8 +141,8 @@ class Register extends Component {
         // const { EventDate } = this.state
         // const {groupById} = this.props
 
-        const fill = this.state.addSearchUsersResult.filter(item => String(item.id) !== String(user.userId))
-        const array = [...fill, {id: user.userId, score: null, username: user.username}]
+        const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId))
+        const array = [...fill, {userId: user.userId, score: null, username: user.username}]
 
         array.sort((a, b) => {
             return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
@@ -142,7 +166,7 @@ class Register extends Component {
             const { groupName, addSearchUsersResult} = this.state
         let arr = []
         addSearchUsersResult.map((user) => {
-            arr.push(user.user.userId)
+            arr.push(user.userId)
         })
         this.props.addNewGroupRequest(groupName, arr)
         this.setState({groupName: '', usersIds: [], searchUsers: '', searchUsersResult: [], addSearchUsersResult: []})
@@ -200,7 +224,7 @@ class Register extends Component {
 
         const Tournament = tourn.tournamentName
         const usersWithResults = []
-        addSearchUsersResult.map(user => {usersWithResults.push({userId: user.id, result: user.score})})
+        addSearchUsersResult.map(user => {usersWithResults.push({userId: user.userId, result: user.score})})
         if(EventName === '') {
             this.props.errorMessageAction('you must enter the name of this event')
         } else if (selectedDate === '') {
@@ -218,29 +242,7 @@ class Register extends Component {
         this.setState({addSearchUsersResult: removeAddUser})
     }
 
-    componentWillMount() {
-        const { headline, group } = this.props
-        if(headline === EDIT_GROUP) {
-            let usersList = []
-            group.users.map(user => {
-                usersList.push(user)
-            })
-            this.setState({addSearchUsersResult: usersList})
-            this.setState({groupName: group.groupName})
-        }
-        else if(headline === ADD_NEW_GROUP) {
-            this.props.appCallTakeAllUsers()
-        }
-        else if(headline === ADD_TOURNAMENT) {
-            this.props.appCallTakeAllEvents()
-        }
-    }
 
-    componentWillUnmount(){
-        this.props.errorMessageAction(null)
-        this.props.successMessageAction(null)
-        // this.setState({addEventSelectedUsersList: []})
-    }
 
     errorMessage = () => {
         const error = this.props.errorMessage
@@ -303,7 +305,7 @@ class Register extends Component {
 
     tournamentFage = (headline) => {
         const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }})
-        const groupL = this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }})
+        const groupL = this.props.groupsList !== null ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : <div className={classes.error}>Wait for all data</div>
 
         return (
             <div className={classes.Register}>
@@ -396,7 +398,7 @@ class Register extends Component {
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
-                    <InputComp inputType="text" name="tournament" placeholder={tourn.tournamentName} content={tourn.tournamentName} onChange={() => {}}/>
+                    <InputComp inputType="text" name="tournament" placeholder={'Tournament Name'} content={tourn.tournamentName} onChange={() => {}}/>
                     <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
                     {/* <InputComp inputType="datetime-local" name="deteOfEvent" placeholder="Date Of Event" onChange={this.onDateOfEventChange}/> */}
                     <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -478,7 +480,7 @@ class Register extends Component {
                                                 onChange={(e) => this.onGroupNameChange(e)}
                                             />
                                         </div> 
-                                    : <span className={classes.editLineInput}>{this.state.groupName}</span>
+                                    : <span className={classes.editLineInput}>{this.props.group.groupName}</span>
                                 }
                                 {this.editBtnFunc()}
                             </div>
@@ -489,12 +491,8 @@ class Register extends Component {
                         <div className={classes.usersAddedWrapper}>
                             {this.state.addSearchUsersResult.length > 0 || this.state.addSearchUsersResult !== undefined
                                 ?   this.state.addSearchUsersResult.map((user, index) => {
-                                        return <span className={classes.user} key={index}>
-                                         {headline === EDIT_GROUP
-                                            ? user.username
-                                            : user.user.username
-                                            } 
-                                            
+                                        return <span className={classes.user} key={index}>{user.username}
+                                         {/* {headline === EDIT_GROUP ? user.username : user.username}  */}
                                             <i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
                                         </span>
                                     })
@@ -536,11 +534,11 @@ class Register extends Component {
             const groupId = group.groupId
             const groupName = this.state.groupName
             this.state.addSearchUsersResult.map(user => {
-
+                
                 if(headline === EDIT_GROUP){
                    return userIds.push(user.userId)
                 }else{
-                   return userIds.push(user.user.userId)
+                   return userIds.push(user.userId)
                 }
                 
                 // userIds.push(user.user.userId)
@@ -583,8 +581,7 @@ class Register extends Component {
     }
     
     render() {
-        console.log('date____1__',this.state.TournamentStartDate)
-        console.log('date___2___',this.state.TournamentEndDate)
+        console.log('this.state.groupName',  this.props)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
@@ -608,21 +605,21 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
+        successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         registerRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName)),
         addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
         addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)),
         addNewEventRequest: (EventName, Tournament, EventDate, usersWithResults) => dispatch(addNewEventRequest(EventName, Tournament, EventDate, usersWithResults)),
-        errorMessageAction: payload => dispatch(errorMessageAction(payload)),
-        successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
         addNewGroupRequest: (groupName, usersIds) => dispatch(addNewGroupRequest(groupName, usersIds)),        
         addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
         editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
+        editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
         appCallTakeAllUsers: (payload) => dispatch(appCallTakeAllUsers(payload)),
         appCallTakeAllEvents: (payload) => dispatch(appCallTakeAllEvents(payload)),
         tournEventsByIdRequest: (payload) => dispatch(tournEventsByIdRequest(payload)),
-        editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
     }
 }
 

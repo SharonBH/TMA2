@@ -1,7 +1,8 @@
 const InitialState = {
     editThisItem: false,
     editThisGroup: false,
-    editThisEvent: false
+    editThisEvent: false,
+    editThisEventMatch: ''
 }
 
 const editItemReducer = (state = InitialState, action) => {
@@ -24,6 +25,12 @@ const editItemReducer = (state = InitialState, action) => {
             return {
                 ...state,
                 editThisEvent: event
+            }
+        case 'SEND_EVENT_MATCH':
+            const eventMatch = action.payload
+            return {
+                ...state,
+                editThisEventMatch: eventMatch
             }
         default:
     }

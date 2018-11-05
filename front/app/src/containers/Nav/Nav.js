@@ -9,15 +9,26 @@ export class Nav extends Component {
     navLinks = () => {
         return (
             <div className={classes.innerNav}>
-                <Link to='/all_tournaments' className={classes.navLink}>
-                    <i className="fas fa-trophy"></i><span>Tournaments</span>
+                {this.props.currentUser.role === 'Admin' 
+                    ?  <Link to='/all_tournaments' className={classes.navLink}>
+                            <i className="fas fa-trophy"></i><span>All Tournaments</span>
+                        </Link>
+                    : null }
+                
+                <Link to='/my_tournaments' className={classes.navLink}>
+                    <i className="fas fa-dice"></i><span>My Tournaments</span>
                 </Link>
                 {/* <Link to='/all_events' className={classes.navLink}>
                     <i className="fas fa-gamepad"></i><span>Events</span>
                 </Link>*/}
-
-                <Link to='/groups' className={classes.navLink}>
-                    <i className="fas fa-users"></i><span>Groups</span>
+                {this.props.currentUser.role === 'Admin' 
+                    ?   <Link to='/all_groups' className={classes.navLink}>
+                            <i className="fas fa-users"></i><span>All Groups</span>
+                        </Link>
+                    : null }
+                
+                <Link to='/my_groups' className={classes.navLink}>
+                    <i className="fab fa-freebsd"></i><span>My Groups</span>
                 </Link>
                 <Link to='/scores' className={classes.navLink}>
                     <i className="fas fa-star-half-alt"></i><span>Scores - soon...</span>
@@ -27,6 +38,7 @@ export class Nav extends Component {
     }
 
     render(){
+        console.log('NAV PROPS ', this.props)
         return   <div className={this.props.navAction.navState ? classes.navclosed : classes.nav}>
                     <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
                         {this.navLinks()} 
@@ -37,7 +49,8 @@ export class Nav extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        navAction: state.sharedReducer.navAction
+        navAction: state.sharedReducer.navAction,
+        currentUser: state.userReducer.currentUser
     }
 }
 

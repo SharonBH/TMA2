@@ -21,6 +21,7 @@
         padding: 7px 10px;
         white-space: nowrap;
         text-decoration: none;
+        font-size: 14px;
         i {
             margin-right: 10px;
         }
@@ -120,7 +121,7 @@
             z-index: 999;
             font-weight: 400;
             font-size: 14px;
-            width: 110px;
+            min-width: 100px;
             text-align: left;
         }
     }
@@ -198,7 +199,7 @@
                 z-index: 999;
                 font-weight: 400;
                 font-size: 14px;
-                width: 110px;
+                min-width: 100px;
                 text-align: left;
             }
         }
@@ -236,3 +237,13 @@
     }
 }
 
+@media only screen and (max-width: 1170px) {
+    .nav {
+        position: absolute;
+        width: 12%;
+    }
+    span.logo_image {
+        width: 90%;
+        max-width: 45px;
+    }
+}

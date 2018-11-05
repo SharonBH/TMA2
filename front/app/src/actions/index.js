@@ -81,7 +81,13 @@ export const deleteConfirmMessageAction = (bool) => {
 
 
 
-
+// get user roles 
+export const getAllRoles = (response) => {
+    return {
+        type: 'GET_ALL_ROLES',
+        payload: response
+    }
+}
 
 //get all users
 export const getAllUsersAction = (response) => {
@@ -179,6 +185,20 @@ export const getGroupById = (group) => {
         payload: group
     }
 }
+//take tournaments by id
+export const takeMyTournaments = (tourns) => {
+    return {
+        type: 'GET_TOURNAMENTS_BY_USER_ID',
+        payload: tourns
+    }
+}
+//take groups by id
+export const takeMyGroups = (groups) => {
+    return {
+        type: 'GET_GROUPS_BY_USER_ID',
+        payload: groups
+    }
+}
 
 // edit This group Action
 export const editThisGroupAction = (boll) => {
@@ -188,9 +208,17 @@ export const editThisGroupAction = (boll) => {
     }
 }
 
-export const sendEventDataAction = (data) => {
+export const sendEventDataAction = (data, match) => {
+
     return {
         type: 'SEND_EVENT_DATA',
         payload: data
+    }
+}
+export const sendEvetnMatchAction = (match) => {
+
+    return {
+        type: 'SEND_EVENT_MATCH',
+        payload: match
     }
 }
