@@ -263,17 +263,30 @@
 
 @media only screen and (max-width: 870px) {
     .TopNav {
-        width: 90%;
+        width: 100%;
         text-align: center;
+        box-sizing: border-box;
+        padding-left: 15%;
+        display: flex;
+        justify-content: space-between;
+        right: 7px;
+        max-width: 100%;
+        padding-right: 7px;
         & > span {
-            width: 50%;
+            width: auto;
+            line-height: 35px;
+            span {
+                margin-left: 0;
+            }
         }
         & > div {
             width: 48%;
+            a{
+                padding: 7px 2px;
+                margin-left: 6px;
+            }
         }
-        a{
-            padding: 7px 2px;
-        }
+        
     }
     
 }

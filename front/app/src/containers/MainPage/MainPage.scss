@@ -6,3 +6,9 @@
     // max-height: 94vh;
     margin-top: 40px;
 }
+@media only screen and (max-width: 870px) {
+    .MainPage{
+        padding-left: 12%;
+        max-width: 97.6%;
+    }
+}
