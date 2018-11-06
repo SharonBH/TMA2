@@ -156,6 +156,12 @@ namespace TMA.BLL
             return getEvents;
         }
 
+        public List<Events> GetEventsByUserId(string userId)
+        {
+            var eventsByUserId = _mainRepository.GetEventsByUserId(userId);
+            return eventsByUserId;
+        }
+
         public List<Groups> GetUserGroups(string userId)
         {
             var userGroups = _mainRepository.GetUserGroups(userId);
