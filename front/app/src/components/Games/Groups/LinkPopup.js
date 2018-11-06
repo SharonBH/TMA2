@@ -15,7 +15,6 @@ class LinkPopup extends React.Component {
           <div className={classes.popup_inner}>
             <span>{`https://tma-front.azurewebsites.net?groupId=${this.props.groupId}`}</span>
             <span onClick={()=>this.closeMessage()} className={classes.closeBTN }>x</span>
-            {/* <button onClick={this.props.closePopup}>close me</button> */}
           </div>
         </div>
       );

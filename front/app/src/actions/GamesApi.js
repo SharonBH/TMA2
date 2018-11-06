@@ -18,7 +18,8 @@ import {
     takeMyTournaments,
     getAllUsersAction,
     takeMyGroups,
-    getLeaderboardsSAction
+    getLeaderboardsSAction,
+    takeMyEvents
 } from './index';
 
 
@@ -732,6 +733,31 @@ export const takeMyGroupsRequest = (userId) => {
                 // const data = response.data.message
                 const groupsData = response.data
                 dispatch(takeMyGroups(groupsData))
+                // dispatch(successMessageAction(data))
+                dispatch(toggleLoaderAction(false))
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+};
+
+// take all events by user id
+export const takeMyEventsRequest = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            url: cors + url + 'Events/GetEventsByUserId',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            data: "'" + userId + "'"
+        })
+        .then((response) => {
+                // const data = response.data.message
+                const eventsData = response.data
+                dispatch(takeMyEvents(eventsData))
                 // dispatch(successMessageAction(data))
                 dispatch(toggleLoaderAction(false))
         })

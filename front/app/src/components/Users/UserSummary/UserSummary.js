@@ -17,9 +17,7 @@ import { EDIT_TOURNAMENT, YOUR_PROFILE, EDIT, EDIT_EVENT, EDIT_USER } from '../.
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
-// import DateFnsUtils from 'material-ui-pickers/utils/date-fns-utils';
 import { DateTimePicker, DatePicker } from 'material-ui-pickers';
-// @param {Boolean} [options.awareOfUnicodeTokens=false]
 
 class UserSummary extends Component {
 

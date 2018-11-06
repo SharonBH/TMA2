@@ -41,10 +41,8 @@ class ConfirmMessage extends Component {
 
     approve = (headline, user ) => {
         const { item } = this.props
-        console.log('eventForDel', item)
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
         const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
-        // console.log('eventForDel', eventForDel)
         switch(headline) {
             case DELETE_USER:
                 this.props.DeleteUserRequest(user.username)
@@ -72,7 +70,6 @@ class ConfirmMessage extends Component {
     popUpContent = () => {
         const { headline, user, item } = this.props
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
-        console.log('=========',this.props.allTournsList)
         const eventForDel = this.props.tournById !== null ? this.props.tournById.events.find(id => { return id.eventId === item}) : null
         let name = ''
         

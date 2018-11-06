@@ -17,20 +17,15 @@ export class EditBtn extends Component {
     render(){
         return (
             <div className={`${classes.editBtn} `}>
-                {/* <input
-                    className={classes.editBtn}
-                    type={this.props.inputType}
-                    value={this.props.content}
-                    onSubmit={this.props.onSubmit} 
-                    onClick={this.props.onClick} 
-                    /> */}
-                   <i
-                    className='far fa-edit'
-                    type={this.props.inputType}
-                    value={this.props.content}
-                    onSubmit={this.props.onSubmit} 
-                    onClick={this.props.onClick} 
-                    ><span>Edit</span></i>
+                <i
+                className='far fa-edit'
+                type={this.props.inputType}
+                value={this.props.content}
+                onSubmit={this.props.onSubmit} 
+                onClick={this.props.onClick} 
+                >
+                    <span>Edit</span>
+                </i>
             </div>
         )
     }
