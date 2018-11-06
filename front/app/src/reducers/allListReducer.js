@@ -18,7 +18,9 @@ const InitialState = {
     groupById: '',
     allRoles: rolesData,
     tournsDataById: [],
-    groupsDataById: []
+    groupsDataById: [],
+    leaderBoardData: [],
+    groupId: ''
 }
 
 const allListReducer = (state = InitialState, action) => {
@@ -94,6 +96,18 @@ const allListReducer = (state = InitialState, action) => {
             return {
                 ...state,
                 eventDataArr: eventData
+            }
+        case 'GET_LEADERBOARD_DATA':
+            const leaderData = action.payload
+            return {
+                ...state,
+                leaderBoardData: leaderData
+            }
+        case 'TAKE_GROUP_ID':
+            const grId = action.payload
+            return {
+                ...state,
+                groupId: grId
             }
         default:
     }

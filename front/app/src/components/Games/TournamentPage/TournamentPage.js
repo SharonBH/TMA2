@@ -154,35 +154,65 @@ export class TournamentPage extends Component {
     eventsTable = () => {
         return (
             <div className={classes.eventsTable}>
-                <h3>All events of tournament</h3>
+                <div>
+                    <h3>All events of tournament</h3>
+                    <div className={classes.usersHead}>
+                        <h4 className={classes.eventName}>Event Name</h4>
+                        <h4 className={classes.eventDate}>Event Date</h4>
+                        <h4 className={classes.usersInGame}>Users in Game</h4>
+                        <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
+                    </div>
+                    <ul>
+                    {(this.props.tournEventsByIdNoS !== undefined ) ? this.props.tournEventsByIdNoS.map((item, index) => {
+                            return <li key={index}>
+                                <div className={classes.eventName}>{item.eventName}</div>
+                                <div className={classes.eventDate}>{moment(item.eventDate).format('Do MMM YYYY, hh:mm')}</div>
+                                <div className={classes.usersInGame}>
+                                    <span className={classes.showUsers}>Hover to show</span>
+                                    <ul className={classes.hiddenUsers}>
+                                        {item.eventUsers.map((user, index) => {
+                                            const fill = item.eventResults.find(result => {return result.userId === user.userId})
+                                            return <li key={index}>
+                                                <span>{user.name}</span>
+                                                <span>{fill.result === null ? 'none' : fill.result}</span>
+                                            </li>})} 
+                                    </ul>
+                                </div>
+                                <div className={classes.turnPageEventsBTN}>
+                                    <a className={classes.editBTN}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item, this.props.match)}/></a>
+                                    <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
+                                </div>
+                            </li>
+                    }) : null}
+                    </ul>
+                </div>
+                {this.leaderBoardTable()}
+            </div>
+        )
+    }
+    leaderBoardTable = () => {
+        const leaderUsers = this.props.leaderBoardData
+        const sortedBoard = leaderUsers !== null ? leaderUsers.sort((a, b) => {
+            return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
+        }) : null
+        return(
+            <div>
+                <h3>Leader Board of tournament</h3>
                 <div className={classes.usersHead}>
-                    <h4 className={classes.eventName}>Event Name</h4>
-                    <h4 className={classes.eventDate}>Event Date</h4>
-                    <h4 className={classes.usersInGame}>Users in Game</h4>
-                    <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
+                    <h4 className={classes.leaderBoardTD}>User Name</h4>
+                    <h4 className={classes.leaderBoardTD}>Points</h4>
+                    <h4 className={classes.leaderBoardTD}>Events</h4>
                 </div>
                 <ul>
-                {(this.props.tournEventsByIdNoS !== undefined ) ? this.props.tournEventsByIdNoS.map((item, index) => {
-                        return <li key={index}>
-                            <div className={classes.eventName}>{item.eventName}</div>
-                            <div className={classes.eventDate}>{moment(item.eventDate).format('Do MMM YYYY, hh:mm')}</div>
-                            <div className={classes.usersInGame}>
-                                <span className={classes.showUsers}>Hover to show</span>
-                                <ul className={classes.hiddenUsers}>
-                                    {item.eventUsers.map((user, index) => {
-                                        const fill = item.eventResults.find(result => {return result.userId === user.userId})
-                                        return <li key={index}>
-                                            <span>{user.name}</span>
-                                            <span>{fill.result === null ? 'none' : fill.result}</span>
-                                        </li>})} 
-                                </ul>
-                            </div>
-                            <div className={classes.turnPageEventsBTN}>
-                                <a className={classes.editBTN}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item, this.props.match)}/></a>
-                                <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
-                            </div>
-                        </li>
-                 }) : null}
+                    {sortedBoard !== null ? sortedBoard.map((item, index) => {
+                        return ( <li key={index}>
+                                <div className={classes.leaderBoardTD}>{item.user.username}</div>
+                                <div className={classes.leaderBoardTD}>{item.totalScores}</div>
+                                <div className={classes.leaderBoardTD}>{item.numberOfEvents}</div>
+                            </li>)
+                    }) : null
+                    
+                }
                 </ul>
             </div>
         )
@@ -220,6 +250,7 @@ export class TournamentPage extends Component {
         <div className={classes.headTPage}>
             <h1><span>Tournament Name: </span>{currentTournament}</h1>
             <div className={classes.tournPButtons}>
+                {/* <BtnComp inputType="button" content='Leader Board' onClick={() => this.editTournamentBtn(currentTournament)}/> */}
                 <BtnComp content='Add Event' inputType='button' onClick={this.addEventBtn}/>
                 <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
                 <Link className={classes.backBtn} to={`${path}`}><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
@@ -272,6 +303,7 @@ const mapStateToProps = (state) => {
         allEventTypesList: state.allListReducer.allEventTypesList,
         groupsList: state.allListReducer.groupsList,
         tournById: state.allListReducer.tournById,
+        leaderBoardData: state.allListReducer.leaderBoardData,
         groupById: state.allListReducer.groupById,
         tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
         addItem: state.addNewItemReducer.addItem,
@@ -282,6 +314,7 @@ const mapStateToProps = (state) => {
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
+
 
     }
 }

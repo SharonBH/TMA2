@@ -3,6 +3,7 @@ const InitialState = {
     addTournament: false,
     addEvent: false,
     addGroup: false,
+    groupIdAction: false
 }
 
 const addNewItemReducer = (state = InitialState, action) => {
@@ -31,6 +32,12 @@ const addNewItemReducer = (state = InitialState, action) => {
             return {
                 ...state,
                 addGroup: group
+            }
+        case 'TAKE_GROUP_ID_ACTION':
+            const groupId = action.payload
+            return {
+                ...state,
+                groupIdAction: groupId
             }
 
         default:

@@ -222,3 +222,24 @@ export const sendEvetnMatchAction = (match) => {
         payload: match
     }
 }
+export const getLeaderboardsSAction = (leaderData) => {
+
+    return {
+        type: 'GET_LEADERBOARD_DATA',
+        payload: leaderData
+    }
+}
+
+export const takeGroupIdPop = (groupId) => {
+    return {
+        type: 'TAKE_GROUP_ID',
+        payload: groupId
+    }
+}
+export const takeGroupIdPopAction = (boll) => {
+    console.log('action', boll)
+    return {
+        type: 'TAKE_GROUP_ID_ACTION',
+        payload: boll
+    }
+}

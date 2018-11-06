@@ -199,7 +199,7 @@
         ul{
             list-style: none;
             padding: 15px 0 0 0;
-            height: calc(100vh - 240px);
+            // height: calc(100vh - 240px);
             overflow-y: auto;
             margin-top: 0;
         
@@ -268,6 +268,9 @@
             display: inline-block;
             width: 24%;
         }
+        .leaderBoardTD{
+            width: 23%;
+        }
         .editBTN{
             display: inline-block;
         }
@@ -278,6 +281,11 @@
     .usersTable{
         ul{
             height: calc(100vh - 480px);
+        }
+    }
+    .eventsTable{
+        ul{
+            height: calc(60vh - 240px);
         }
     }
     .success {
