@@ -142,7 +142,7 @@
     }
     .eventsTable{
         width: 65%;
-        ul{
+        ul, ol{
             li{
                 div{
                     white-space: nowrap;
@@ -216,6 +216,29 @@
                 justify-content: space-between;
             }
         }
+        ol{
+            overflow-y: auto;
+            padding-left: 25px;
+            &::-webkit-scrollbar{
+                width: 3px;
+                background: #c5c5c5;
+            }
+            &::-webkit-scrollbar-thumb{
+                background: $blue;
+            }
+            li{
+                margin-bottom: 10px; 
+                display: list-item;
+                justify-content: space-between;
+                &>div{
+                    display: inline-block;
+                    position: relative;
+                    top: 4px;
+                    width: 33% !important;
+                }
+            }
+        }
+        
         .usersHead{
             display: flex;
             justify-content: space-between;
@@ -269,7 +292,7 @@
             width: 24%;
         }
         .leaderBoardTD{
-            width: 23%;
+            width: 34%;
         }
         .editBTN{
             display: inline-block;
@@ -388,7 +411,8 @@
             display: block;
             .eventsTable, .usersTable{
                 width: 100%;
-                ul{
+               
+                ul, ol{
                     height: auto;
                     overflow: visible;
                     li{

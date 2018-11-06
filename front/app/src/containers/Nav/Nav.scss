@@ -165,6 +165,7 @@
         z-index: 91;
         position: relative;
         overflow: visible;
+            height: calc(100% + 200px);
     
         .navLink > span {
             display: none;
@@ -241,6 +242,7 @@
     .nav {
         position: absolute;
         width: 12%;
+        height: calc(100% + 200px);
     }
     span.logo_image {
         width: 90%;

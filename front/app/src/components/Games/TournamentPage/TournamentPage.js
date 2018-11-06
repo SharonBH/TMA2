@@ -203,7 +203,7 @@ export class TournamentPage extends Component {
                     <h4 className={classes.leaderBoardTD}>Points</h4>
                     <h4 className={classes.leaderBoardTD}>Events</h4>
                 </div>
-                <ul>
+                <ol>
                     {sortedBoard !== null ? sortedBoard.map((item, index) => {
                         return ( <li key={index}>
                                 <div className={classes.leaderBoardTD}>{item.user.username}</div>
@@ -213,7 +213,7 @@ export class TournamentPage extends Component {
                     }) : null
                     
                 }
-                </ul>
+                </ol>
             </div>
         )
     }

@@ -192,14 +192,20 @@ export const takeMyTournaments = (tourns) => {
         payload: tourns
     }
 }
-//take groups by id
+//take groups by user id
 export const takeMyGroups = (groups) => {
     return {
         type: 'GET_GROUPS_BY_USER_ID',
         payload: groups
     }
 }
-
+//take events by user id
+export const takeMyEvents = (events) => {
+    return {
+        type: 'TAKE_EVENTS_BY_ID_ACTION',
+        payload: events
+    }
+}
 // edit This group Action
 export const editThisGroupAction = (boll) => {
     return {
@@ -237,7 +243,6 @@ export const takeGroupIdPop = (groupId) => {
     }
 }
 export const takeGroupIdPopAction = (boll) => {
-    console.log('action', boll)
     return {
         type: 'TAKE_GROUP_ID_ACTION',
         payload: boll
