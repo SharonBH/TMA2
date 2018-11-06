@@ -41,7 +41,7 @@ class TopNavigation extends Component {
                 </span>
                 
                 <div className={classes.topNavLinks}>
-                    <Link to='/home' className={classes.navLink}>
+                    <Link to='/homeEvents' className={classes.navLink}>
                         <i className="fas fa-home"></i><span>Home</span>
                     </Link> 
                     <Link to='/profile' className={classes.navLink}>

@@ -17,14 +17,6 @@ export class DeleteBtn extends Component {
     render(){
         return (
             <div className={`${classes.deleteBtn} `}>
-                {/* <input
-                    className={`${classes.deleteBtn} `}
-                    type={this.props.inputType}
-                    value={this.props.content}
-                    onSubmit={this.props.onSubmit} 
-                    onClick={this.props.onClick}
-                    id={this.props.id} 
-                /> */}
                 <i
                     className={'fas fa-trash-alt'}
                     type={this.props.inputType}
