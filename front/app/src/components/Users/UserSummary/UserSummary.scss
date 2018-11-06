@@ -32,6 +32,9 @@
         h1 {
             width: 100%;
             text-align: left;
+            span{
+                font-weight: 400;
+            }
         }
         .closePopBtn{
             display: inline-block;
@@ -126,6 +129,9 @@
             
 
 
+        }
+        .wrappLineHide{
+            display: none;
         }
         .wrappLineNone{
             display: none;

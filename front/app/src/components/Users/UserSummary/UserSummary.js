@@ -42,7 +42,8 @@ class UserSummary extends Component {
         if(this.props.headline === EDIT_TOURNAMENT){
             if(this.state.selectedStartDate === ''){
                 this.setState({ selectedStartDate: moment(tournamentData.startDate).format('LLLL')  })
-            } else if(this.state.selectedEndDate === '') {
+            } 
+            if(this.state.selectedEndDate === '') {
                 this.setState({ selectedEndDate: moment(tournamentData.endDate).format('LLLL')  })
             }
         }
@@ -211,8 +212,11 @@ class UserSummary extends Component {
             }
         }
         else if(headline === EDIT_TOURNAMENT){
-            const startDayToSend = moment(this.state.selectedStartDate).format('YYYY-MM-DD hh:mm:ss')
-            const endDayToSend = moment(this.state.selectedEndDate).format('YYYY-MM-DD hh:mm:ss')
+            const startDayToSend = moment(this.state.selectedStartDate).format('YYYY-MM-DD')
+            const endDayToSend = moment(this.state.selectedEndDate).format('YYYY-MM-DD')
+
+            const startDateToCheck = Date.parse(this.state.selectedStartDate)
+            const endDateToCheck = Date.parse(this.state.selectedEndDate)
             
             const findId = typeof editRequestParam[1] === 'string' ? this.props.groupsList.find(gName => { return gName.groupName === editRequestParam[1] }) : this.state.userDetailsArr[1].editInput
             const sendData = findId !== undefined ? findId.groupId :  this.state.userDetailsArr[1].editInput
@@ -220,12 +224,10 @@ class UserSummary extends Component {
             const tournamentId = this.props.tournament.tournamentId
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter a tournament name')
-            } else if (today > endDayToSend) {
-                this.props.errorMessageAction('the tournament start date must be later than today')
-            } else if (startDayToSend > endDayToSend) {
+            } else if (today >= endDateToCheck) {
+                this.props.errorMessageAction('the tournament start date must start from today')
+            } else if (startDateToCheck >= endDateToCheck) {
                 this.props.errorMessageAction('the tournament end date must be later than the start date')
-            } else if (editRequestParam[5] === '') {
-                this.props.errorMessageAction('you must enter a number of max events')
             }else {
                 this.props.editThisTournamentRequest( tournamentId, editRequestParam[2], sendData, editRequestParam[0], startDayToSend, endDayToSend, editRequestParam[5])
             }
@@ -359,7 +361,7 @@ class UserSummary extends Component {
         // const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
         
         return (
-            <div key={index} className={detail === 'Event Users Results' ? classes.eventResWrapLine  : classes.wrappLine}>
+            <div key={index} className={detail === 'Event Users Results' ? classes.eventResWrapLine  : detail === 'Tournament Name' ? [classes.wrappLine , classes.wrappLineHide].join(' ') : classes.wrappLine }>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
                     this.state.userDetailsArr[index].edit
@@ -436,10 +438,12 @@ class UserSummary extends Component {
             name = event !== null ? event.eventName : null
         }
         const path = this.props.editThisEventMatch.path === '/all_tournaments/:tournamentName' ? '/all_tournaments' : '/my_tournaments'
-                
+        const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
         return (
             <div className={classes.Profile} >
-                {<h1>{headline} {name}</h1>}
+                {<h1>{headline} {name}
+                    {headline === EDIT_EVENT ? <span> by {this.props.tournById.tournamentName}</span> : null}
+                </h1>}
                 {this.state.userDetailsArr.map((item, index) => { 
                     if(headline === EDIT_TOURNAMENT){
                         return this.editGameLine(item, index, headLine)
