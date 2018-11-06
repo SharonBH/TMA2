@@ -17,10 +17,6 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var isEventExisting = context.Events.Any(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
-                    if(isEventExisting)
-                        throw new Exception($"There is an existing '{eventName}' event.");
-
                     var tournament = context.Tournaments.FirstOrDefault(t => t.TournamentId == tournamentId && t.IsDeleted == false);
                     if (tournament == null )
                         throw new Exception($"There is an existing tournament for '{tournamentId}'.");
