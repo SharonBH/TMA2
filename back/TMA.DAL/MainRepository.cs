@@ -29,7 +29,7 @@ namespace TMA.DAL
                         var existingEvents = context.Events.Count(e => e.TournamentId == tournamentId && e.IsDeleted == false);
                         if(existingEvents >= maxEventsNumber)
                             throw new Exception($"You've reached the maximum number of events for this tournament.");
-                    }
+                    }   
 
 
                     var newEvent = new Events
@@ -42,13 +42,13 @@ namespace TMA.DAL
                     context.Events.Add(newEvent);
                     context.SaveChanges();
 
-                    var createdEvent = context.Events.FirstOrDefault(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
-                    var eventId = createdEvent.EventId;
+                    //var createdEvent = context.Events.FirstOrDefault(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
+                    var eventId = newEvent.EventId;
                     eventResults.ForEach(x => x.EventId = eventId);
 
                     CalculateScoreOnEventsResults(eventResults, tournament.EventType);
 
-                    createdEvent.EventResults = eventResults;
+                    newEvent.EventResults = eventResults;
                     context.SaveChanges();
                 }
             }
