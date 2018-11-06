@@ -236,5 +236,40 @@ namespace TMA.Api.Controllers
                 return Json(new { Response = "Error", Message = ex.InnerException.Message });
             }
         }
+
+        [HttpPost]
+        [Route("GetLeaderboards")]
+        public JsonResult GetLeaderboards([FromBody]int tournamentId)
+        {
+            try
+            {
+                var leaderboardsModel = new List<LeaderboardViewModel>();
+                var leaderboards = _mainRepository.GetLeaderboards(tournamentId);
+                foreach (var leaderboard in leaderboards)
+                {
+                    var user = new UserModel
+                    {
+                        UserId = leaderboard.User.Id,
+                        Email = leaderboard.User.Email,
+                        Username = leaderboard.User.UserName,
+                        Name = leaderboard.User.Name
+                    };
+                    var leaderboardModel = new LeaderboardViewModel
+                    {
+                        User = user,
+                        NumberOfEvents = leaderboard.NumberOfEvents,
+                        TotalScores = leaderboard.TotalScores
+                    };
+
+                    leaderboardsModel.Add(leaderboardModel);
+                }
+
+                return Json(leaderboardsModel);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
     }
 }

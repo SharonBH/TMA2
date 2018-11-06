@@ -89,6 +89,12 @@ namespace TMA.BLL
 
         }
 
+        public List<LeaderboardModel> GetLeaderboards(int tournamentId)
+        {
+            var leaderboards = _mainRepository.GetLeaderboards(tournamentId);
+            return leaderboards;
+        }
+
         #endregion
 
         #region EventTypes
@@ -148,6 +154,12 @@ namespace TMA.BLL
         {
             var getEvents = _mainRepository.GetEventsByTournamentId(tournamentId);
             return getEvents;
+        }
+
+        public List<Events> GetEventsByUserId(string userId)
+        {
+            var eventsByUserId = _mainRepository.GetEventsByUserId(userId);
+            return eventsByUserId;
         }
 
         public List<Groups> GetUserGroups(string userId)

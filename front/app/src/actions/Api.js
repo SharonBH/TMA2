@@ -77,13 +77,6 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 };
 
 
-// return axios({
-//     method: 'post',
-//     headers: {'Content-Type': 'application/json; charset=UTF-8'},
-//     url: cors + url + 'Tournaments/GetTournamentById',
-//     data: tournamentId
-// })
-
 // login request
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
@@ -106,7 +99,6 @@ export const loginRequest = (userName, password) => {
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
                     'Accept': 'application/json, text/plain, */*',
-                    // 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                     "cache-control": "no-cache",
                     "Access-Control-Allow-Origin": "https://tma-api.azurewebsites.net/Account/Login",
                     "Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
@@ -117,25 +109,25 @@ export const loginRequest = (userName, password) => {
                 
             })
             .then((response) => {
-                if(response.data.message === 'Success') {
+                // if(response.data.message === 'Success') {
                     return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
                         .then((response) => {
                             sessionStorage.setItem('session', JSON.stringify(response.data));
                             const session = JSON.parse(sessionStorage.getItem('session'));
                             dispatch(getUserAction(session))
                             dispatch(toggleLoaderAction(false))
-                            history.push({pathname: '/home', state:[response.data]})
+                            history.push({pathname: '/homeEvents', state:response.data})
                         })
                         .catch((error) => {
                             dispatch(catchErrorAction([error][0]))
                             dispatch(errorMessageAction([error][0]))
                             dispatch(toggleLoaderAction(false))
                         });
-                } else {
-                    const error = response.data.message
-                    dispatch(errorMessageAction(error))
-                    dispatch(toggleLoaderAction(false))
-                }
+                // } else {
+                //     const error = response.data.message
+                //     dispatch(errorMessageAction(error))
+                //     dispatch(toggleLoaderAction(false))
+                // }
             })
             .catch((error) => {
                 console.log(error)

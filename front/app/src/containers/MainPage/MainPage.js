@@ -12,6 +12,7 @@ import NotFound from '../../components/NotFound';
 import ChangePassword from '../../components/ChangePassword';
 import UserSummary from '../../components/Users/UserSummary';
 import TournamentsList from '../../components/Games/TournamentsList';
+import HomeEvents from '../../components/HomeEvents/HomeEvents'
 // import EventsList from '../../components/Games/EventsList';
 import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest } from '../../actions/GamesApi';
 import TournamentPage from '../../components/Games/TournamentPage';
@@ -34,6 +35,7 @@ export class MainPage extends Component {
     }
 
     render() {
+        console.log('main props', this.props)
         return (
             <div className={classes.MainPage}>
             
@@ -50,6 +52,10 @@ export class MainPage extends Component {
                     <Route
                         path='/home'
                         component={HomePage}
+                    />
+                    <Route
+                        path='/homeEvents'
+                        component={HomeEvents}
                     />
                     <Route
                         path='/profile'
@@ -130,19 +136,7 @@ export class MainPage extends Component {
                     exact
                         path='/:tournamentName/edit_tournament'
                         component={TournamentPage}
-                    />
-                    {/* <Route
-                    exact
-                        path='/tournament_page'
-                        component={TournamentPage}
-                    /> */}
-                    
-                    
-                    {/* <Route
-                        path='/all_events'
-                        component={EventsList}
-                    /> */}
-                    
+                    />                    
                     <Route
                         path='/scores'
                         // component={TournamentsList}

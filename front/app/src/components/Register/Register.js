@@ -177,7 +177,6 @@ class Register extends Component {
         if(history.location.search === `groupId=${groupId}`){
           return groupId
         }
-        console.log('groupId to send', groupId)
         e.preventDefault()
         if(!email.includes('@')) {
             this.props.errorMessageAction('you must enter a valid email address')
@@ -236,8 +235,8 @@ class Register extends Component {
             this.props.errorMessageAction('you must enter the event date')
         } else if (usersWithResults.length < 2) {
             this.props.errorMessageAction('you must choose min of two users for this event')
-        } else if (allEventTypesList.eventTypeName === 'FIFA' && usersWithResults.length > 2) {
-            this.props.errorMessageAction('in FIFA type may be only two users for event')
+        } else if (allEventTypesList.eventTypeName === 'FIFA' && usersWithResults.length > 2 && usersWithResults.length < 2) {
+            this.props.errorMessageAction('in FIFA type must be two users for event')
         }else {
             this.props.addNewEventRequest(EventName, Tournament,  moment(this.state.selectedDate).format('MM DD YYYY, hh:mm:ss '), usersWithResults)
         }

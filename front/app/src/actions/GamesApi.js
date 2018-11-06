@@ -17,7 +17,9 @@ import {
     getGroupById,
     takeMyTournaments,
     getAllUsersAction,
-    takeMyGroups
+    takeMyGroups,
+    getLeaderboardsSAction,
+    takeMyEvents
 } from './index';
 
 
@@ -441,9 +443,24 @@ export const tournEventsByIdRequest = (tournamentId) => {
         })
     }
 }
+export const getLeaderboards = (tournamentId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            url: cors + url + 'Tournaments/GetLeaderboards',
+            data: tournamentId.tournamentId
+        })
+        .then((response) => {
+            const data = response.data
+            dispatch(getLeaderboardsSAction(data))
+            dispatch(toggleLoaderAction(false))
+        })
+    }
+}
 // get Tournament By Id
 export const goToTournPageRequest = (tournamentId) => {
-    console.log('TournsList', tournamentId)
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
         return axios({
@@ -453,46 +470,49 @@ export const goToTournPageRequest = (tournamentId) => {
             data: tournamentId
         })
         .then((response) => {
-            console.log(response.data)
-            localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
-            const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
-            dispatch(getTournByIdAction(tournamentById));
-            const groupId = response.data.groupId
-            return axios({
-                method: 'POST',
-                url: cors + url + 'Groups/GetGroupById',
-                headers: {'Content-Type': 'application/json; charset=UTF-8'},
-                data: groupId
-            })
-            .then((response) => {
-                const groupById = response.data;
-                dispatch(getGroupById(groupById));
-                return axios.post(cors + url + `Events/GetEventTypes`)
-                    .then((response) => {
-                        const eventTypes = response.data
-                        dispatch(getAllEventTypesAction(eventTypes));
-                        // history.push({pathname: '/all_events'})                        
-                        return axios.post(cors + url + `Groups/GetGroups`)
+                localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
+                const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
+                dispatch(getTournByIdAction(tournamentById));
+                dispatch(getLeaderboards(tournamentById));
+                const groupId = response.data.groupId
+                return axios({
+                    method: 'POST',
+                    url: cors + url + 'Groups/GetGroupById',
+                    headers: {'Content-Type': 'application/json; charset=UTF-8'},
+                    data: groupId
+                })
+                .then((response) => {
+                    const groupById = response.data;
+                    dispatch(getGroupById(groupById));
+                    return axios
+                        .post(cors + url + `Events/GetEventTypes`)
                         .then((response) => {
+                            const eventTypes = response.data
+                            dispatch(getAllEventTypesAction(eventTypes));
+                            // history.push({pathname: '/all_events'})                        
+                            return axios
+                            .post(cors + url + `Groups/GetGroups`)
+                            .then((response) => {
                                 const groups = response.data
                                 dispatch(getAllGroups(groups));
                                 dispatch(toggleLoaderAction(false))
+                            })
+                            .catch((error) => {
+                                dispatch(catchErrorAction([error][0]))
+                                dispatch(errorMessageAction(error[0]))    
+                            })
                         })
                         .catch((error) => {
                             dispatch(catchErrorAction([error][0]))
                             dispatch(errorMessageAction(error[0]))    
                         })
-                    
-                    })
-                    .catch((error) => {
-                        dispatch(catchErrorAction([error][0]))
-                        dispatch(errorMessageAction(error[0]))    
-                    })
-            }).catch((error) => {
-                dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction(error[0]))
-            
-            });
+                        
+                })
+                .catch((error) => {
+                    dispatch(catchErrorAction([error][0]))
+                    dispatch(errorMessageAction(error[0]))
+                });
+                
 
         })
         .catch((error) => {
@@ -713,6 +733,31 @@ export const takeMyGroupsRequest = (userId) => {
                 // const data = response.data.message
                 const groupsData = response.data
                 dispatch(takeMyGroups(groupsData))
+                // dispatch(successMessageAction(data))
+                dispatch(toggleLoaderAction(false))
+        })
+        .catch((error) => {
+            dispatch(catchErrorAction([error][0]))
+            dispatch(errorMessageAction([error][0]))
+            dispatch(toggleLoaderAction(false))
+        });
+    }
+};
+
+// take all events by user id
+export const takeMyEventsRequest = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            url: cors + url + 'Events/GetEventsByUserId',
+            headers: {'Content-Type': 'application/json; charset=UTF-8'},
+            data: "'" + userId + "'"
+        })
+        .then((response) => {
+                // const data = response.data.message
+                const eventsData = response.data
+                dispatch(takeMyEvents(eventsData))
                 // dispatch(successMessageAction(data))
                 dispatch(toggleLoaderAction(false))
         })

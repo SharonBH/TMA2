@@ -17,7 +17,9 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var tournament = context.Tournaments.FirstOrDefault(t => t.TournamentId == tournamentId && t.IsDeleted == false);
+                    var tournament = context.Tournaments
+                        .Include(x => x.EventType)
+                        .FirstOrDefault(t => t.TournamentId == tournamentId && t.IsDeleted == false);
                     if (tournament == null )
                         throw new Exception($"There is an existing tournament for '{tournamentId}'.");
 
@@ -42,7 +44,9 @@ namespace TMA.DAL
 
                     var createdEvent = context.Events.FirstOrDefault(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
                     var eventId = createdEvent.EventId;
-                    eventResults.ForEach(x => x.EventId = eventId);                    
+                    eventResults.ForEach(x => x.EventId = eventId);
+
+                    CalculateScoreOnEventsResults(eventResults, tournament.EventType);
 
                     createdEvent.EventResults = eventResults;
                     context.SaveChanges();
@@ -53,6 +57,38 @@ namespace TMA.DAL
                 throw new Exception($"An error occuored on 'CreateEvent'.", ex);
             }
         }
+
+        private void CalculateScoreOnEventsResults(List<EventResults> eventResults, LkpEvent eventType)
+        {
+            try
+            {
+                if (eventResults.All(   x => x.Result != null))
+                {
+                    if (eventType.EventTypeName.ToLower() == "fifa")
+                    {
+                        var winner = eventResults.OrderByDescending(x => x.Result).First();
+                        var loser = eventResults.OrderBy(x => x.Result).First();
+
+                        if (winner.Result > loser.Result)
+                        {
+                            winner.Score = 3;
+                            loser.Score = 0;                            
+                        }
+
+                        else // winner.Result == loser.Result
+                        {
+                            winner.Score = 1;
+                            loser.Score = 1;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'CalculateScoreOnEventsResults'.", ex);
+            }
+        }
+
 
         public void EditEvent(int eventId, string eventName, DateTime eventDate, int? tournamentId, List<EventResults> eventResults)
         {
@@ -80,6 +116,12 @@ namespace TMA.DAL
                     {
                         context.EventResults.RemoveRange(getEvent.EventResults);
                         context.SaveChanges();
+
+                        var eventType = context.Tournaments
+                            .Include(x => x.EventType)
+                            .FirstOrDefault(x => x.TournamentId == tournamentId).EventType;
+                        CalculateScoreOnEventsResults(eventResults, eventType);
+
                         getEvent.EventResults = eventResults;
                     }
 
@@ -93,6 +135,32 @@ namespace TMA.DAL
             catch (Exception ex)
             {
                 throw new Exception($"An error occuored on 'EditEvent'.", ex);
+            }
+        }
+
+        public List<Events> GetEventsByUserId(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var eventResults = context.EventResults
+                        .Include(x => x.Event)
+                        .Where(x => x.UserId == userId).ToList();
+
+                    var eventIds = eventResults.Select(x => x.Event).Where(e => e.IsDeleted == false).Select(x=> x.EventId).ToList();
+
+                    var events = context.Events
+                        .Include(x => x.EventResults).ThenInclude(x => x.User)
+                        .Where(x => eventIds.Contains(x.EventId))
+                        .ToList();
+
+                    return events;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetEventsByUserId'.", ex);
             }
         }
 
@@ -378,6 +446,42 @@ namespace TMA.DAL
             }
         }
 
+        public List<LeaderboardModel> GetLeaderboards(int tournamentId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var leaderboards = new List<LeaderboardModel>();
+                    var eventIds = context.Events.Where(x => x.TournamentId == tournamentId && x.IsDeleted == false).Select(x => x.EventId).ToList();
+
+                    var eventsResults = context.EventResults
+                        .Where(x => eventIds.Contains(x.EventId)).ToList();
+
+                    var userIdsEventsResults = eventsResults.Select(x => x.UserId).Distinct();
+
+                    foreach (var userId in userIdsEventsResults)
+                    {
+                        var user = context.AspNetUsers.FirstOrDefault(x => x.Id == userId);
+                        var userScores = eventsResults.Where(x => x.UserId == userId).Sum(x=> x.Score);
+                        var userEvents = eventsResults.Where(x => x.UserId == userId).Count();
+                        var leaderboard = new LeaderboardModel
+                        {
+                            User = user,
+                            NumberOfEvents = userEvents,
+                            TotalScores = userScores ?? 0
+                        };
+                        leaderboards.Add(leaderboard);
+                    }
+
+                    return leaderboards;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetLeaderboards'.", ex);
+            }
+        }
 
         #endregion  
 

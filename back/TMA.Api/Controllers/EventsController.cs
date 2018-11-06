@@ -132,6 +132,21 @@ namespace TMA.Api.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("GetEventsByUserId")]
+        public JsonResult GetEventsByUserId([FromBody]string userId)
+        {
+            try
+            {
+                var eventsByUserId = _mainRepository.GetEventsByUserId(userId);
+                return Json(eventsByUserId);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
 
         [HttpGet]
         [HttpPost]

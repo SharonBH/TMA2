@@ -142,7 +142,7 @@
     }
     .eventsTable{
         width: 65%;
-        ul{
+        ul, ol{
             li{
                 div{
                     white-space: nowrap;
@@ -199,7 +199,7 @@
         ul{
             list-style: none;
             padding: 15px 0 0 0;
-            height: calc(100vh - 240px);
+            // height: calc(100vh - 240px);
             overflow-y: auto;
             margin-top: 0;
         
@@ -216,6 +216,29 @@
                 justify-content: space-between;
             }
         }
+        ol{
+            overflow-y: auto;
+            padding-left: 25px;
+            &::-webkit-scrollbar{
+                width: 3px;
+                background: #c5c5c5;
+            }
+            &::-webkit-scrollbar-thumb{
+                background: $blue;
+            }
+            li{
+                margin-bottom: 10px; 
+                display: list-item;
+                justify-content: space-between;
+                &>div{
+                    display: inline-block;
+                    position: relative;
+                    top: 4px;
+                    width: 33% !important;
+                }
+            }
+        }
+        
         .usersHead{
             display: flex;
             justify-content: space-between;
@@ -268,6 +291,9 @@
             display: inline-block;
             width: 24%;
         }
+        .leaderBoardTD{
+            width: 34%;
+        }
         .editBTN{
             display: inline-block;
         }
@@ -278,6 +304,11 @@
     .usersTable{
         ul{
             height: calc(100vh - 480px);
+        }
+    }
+    .eventsTable{
+        ul{
+            height: calc(60vh - 240px);
         }
     }
     .success {
@@ -380,7 +411,8 @@
             display: block;
             .eventsTable, .usersTable{
                 width: 100%;
-                ul{
+               
+                ul, ol{
                     height: auto;
                     overflow: visible;
                     li{

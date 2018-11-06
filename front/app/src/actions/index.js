@@ -105,7 +105,6 @@ export const getAllToursAction = (response) => {
 }
 //get Tournament by ID
 export const getTournByIdAction = (response) => {
-    console.log('11111', response)
     return {
         type: 'GET_TOURN_BY_ID',
         payload: response
@@ -193,14 +192,20 @@ export const takeMyTournaments = (tourns) => {
         payload: tourns
     }
 }
-//take groups by id
+//take groups by user id
 export const takeMyGroups = (groups) => {
     return {
         type: 'GET_GROUPS_BY_USER_ID',
         payload: groups
     }
 }
-
+//take events by user id
+export const takeMyEvents = (events) => {
+    return {
+        type: 'TAKE_EVENTS_BY_ID_ACTION',
+        payload: events
+    }
+}
 // edit This group Action
 export const editThisGroupAction = (boll) => {
     return {
@@ -221,5 +226,25 @@ export const sendEvetnMatchAction = (match) => {
     return {
         type: 'SEND_EVENT_MATCH',
         payload: match
+    }
+}
+export const getLeaderboardsSAction = (leaderData) => {
+
+    return {
+        type: 'GET_LEADERBOARD_DATA',
+        payload: leaderData
+    }
+}
+
+export const takeGroupIdPop = (groupId) => {
+    return {
+        type: 'TAKE_GROUP_ID',
+        payload: groupId
+    }
+}
+export const takeGroupIdPopAction = (boll) => {
+    return {
+        type: 'TAKE_GROUP_ID_ACTION',
+        payload: boll
     }
 }

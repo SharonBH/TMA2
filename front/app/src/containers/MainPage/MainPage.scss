@@ -12,3 +12,64 @@
         max-width: 97.6%;
     }
 }
+
+.EventsPage{
+    text-align: left;
+    padding: 0 15px;
+    h1{
+        text-align: center;
+    }
+    .eventsTBLS{
+        display: flex;
+        justify-content: space-around;
+        .eventsTable{
+            display: block;
+            width: 49%;
+            border: 1px solid #ddd;
+            padding: 0 1%;
+            h4{
+                text-align: center;
+                margin-top: 10px;
+                padding-bottom: 5px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+            &>div{
+                ul{
+                    padding: 0 5px;
+                    list-style: none;
+                    li{
+                        .eventData{
+                            padding: 5px 0;
+                            border-bottom: 1px solid #ddd;
+                            p{
+                                display: block;
+                                margin-top: 0;
+                                span{
+                                    font-weight: 600;
+                                    margin-right: 10px;
+                                } 
+                                i{
+                                    &::after {
+                                        content: ", ";
+                                    }
+                                }
+                                i{
+                                    &:last-child{
+                                        &::after {
+                                            content: " ";
+                                        }
+                                    }
+                                }
+                                
+                            }
+                            .eventName{}
+                            .eventDate{}
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+}

@@ -168,6 +168,38 @@
             }
         }
     }
+    .popupLink{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #616161ad;
+        .popup_inner{
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            background: #fff;
+            padding: 10px;
+            box-shadow: 0 0 8px 1px #03a3d0;
+            right: 15%;
+            text-align: center;
+            .closeBTN {
+                padding: 0 5px;
+                background: #fff;
+                border: 1px solid #999;
+                border-radius: 11px;
+                position: absolute;
+                top: -8px;
+                right: -6px;
+                cursor: pointer;
+                &:hover {
+                    background: #000;
+                    color: #fff;
+                }
+            }
+        }
+    }
     
 }
 
@@ -226,4 +258,5 @@ div.EditBtn {
             }
         }
     }
+    
 }

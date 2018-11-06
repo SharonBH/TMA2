@@ -18,9 +18,6 @@ export class Nav extends Component {
                 <Link to='/my_tournaments' className={classes.navLink}>
                     <i className="fas fa-dice"></i><span>My Tournaments</span>
                 </Link>
-                {/* <Link to='/all_events' className={classes.navLink}>
-                    <i className="fas fa-gamepad"></i><span>Events</span>
-                </Link>*/}
                 {this.props.currentUser.role === 'Admin' 
                     ?   <Link to='/all_groups' className={classes.navLink}>
                             <i className="fas fa-users"></i><span>All Groups</span>
@@ -38,7 +35,6 @@ export class Nav extends Component {
     }
 
     render(){
-        console.log('NAV PROPS ', this.props)
         return   <div className={this.props.navAction.navState ? classes.navclosed : classes.nav}>
                     <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
                         {this.navLinks()} 
