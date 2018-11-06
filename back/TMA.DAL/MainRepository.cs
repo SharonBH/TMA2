@@ -142,6 +142,32 @@ namespace TMA.DAL
             }
         }
 
+        public List<Events> GetEventsByUserId(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var eventResults = context.EventResults
+                        .Include(x => x.Event)
+                        .Where(x => x.UserId == userId).ToList();
+
+                    var eventIds = eventResults.Select(x => x.Event).Where(e => e.IsDeleted == false).Select(x=> x.EventId).ToList();
+
+                    var events = context.Events
+                        .Include(x => x.EventResults).ThenInclude(x => x.User)
+                        .Where(x => eventIds.Contains(x.EventId))
+                        .ToList();
+
+                    return events;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetEventsByUserId'.", ex);
+            }
+        }
+
         public void DeleteEvent(int eventId)
         {
             try
