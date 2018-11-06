@@ -168,6 +168,23 @@ namespace TMA.DAL
             }
         }
 
+        public void RemoveUserFromGroups(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userGroups = context.UsersGroups.Where(x => x.UserId == userId).ToList();
+                    context.UsersGroups.RemoveRange(userGroups);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'RemoveUserFromGroups'.", ex);
+            }
+        }
+
         public void DeleteEvent(int eventId)
         {
             try

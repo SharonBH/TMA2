@@ -188,5 +188,10 @@ namespace TMA.BLL
             var userRoles = _mainRepository.GetUserRoles();
             return userRoles;
         }
+
+        public void RemoveUserFromGroups(string userId)
+        {
+            _mainRepository.RemoveUserFromGroups(userId);
+        }
     }
 }
