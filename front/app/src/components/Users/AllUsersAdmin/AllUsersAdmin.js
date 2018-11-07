@@ -12,7 +12,7 @@ import { deleteConfirmMessageAction } from '../../../actions';
 import UserSummary from '../UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import { ADD_USER, EDIT, DELETE_USER } from '../../../configuration/config'
-
+import { getAllGroupsRequest } from "../../../actions/GamesApi";
 import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction }  from '../../../actions';
 export class AllUsersAdmin extends Component {
 
@@ -41,6 +41,7 @@ export class AllUsersAdmin extends Component {
     }
     componentDidMount(){
         this.props.successMessageAction(null)
+        this.props.getAllGroupsRequest()
     }
     componentWillUnmount(){
         this.props.errorMessageAction(null)
@@ -104,7 +105,7 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.role}>{item.role}</div>
                 <div className={classes.allUsButtons} id={index}>
                     <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/></Link>
-                    {/* <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/> */}
+                    {/*NOT DELETE_____ <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/> */}
                  </div>
             </li>
         })
@@ -121,7 +122,11 @@ export class AllUsersAdmin extends Component {
                     <div className={classes.email}>Email</div>
                     <div className={classes.email}>User Name</div>
                     <div className={classes.role}></div>
-                    <div className={classes.addBtn}><BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/></div>
+                    {this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin' 
+                    ? <div className={classes.addBtn}><BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/></div>
+                    : null
+                    }
+                    
                 </div> 
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
@@ -138,7 +143,8 @@ const mapStateToProps = (state) => {
         addItem: state.addNewItemReducer.addItem,
         editThisItem: state.editItemReducer.editThisItem,
         successMessage: state.sharedReducer.successMessage,
-        deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage
+        deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
+        currentUser: state.userReducer.currentUser
     }
 }
 
@@ -151,6 +157,7 @@ const mapDispatchToProps = dispatch => {
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),
+        getAllGroupsRequest: payload => dispatch(getAllGroupsRequest(payload)),
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload))
     }
 }

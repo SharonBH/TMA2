@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './RegisterComp.scss';
 import { registerRequest, addNewUserRequest, appCallTakeAllUsers } from "../../actions/Api";
-import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest, editGroupRequest, appCallTakeAllEvents, tournEventsByIdRequest } from "../../actions/GamesApi";
+import { addNewTournamentRequest, addNewEventRequest, addNewGroupRequest, editGroupRequest, appCallTakeAllEvents, tournEventsByIdRequest, getAllGroupsRequest } from "../../actions/GamesApi";
 import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction, editThisGroupAction } from '../../actions';
 import { connect } from 'react-redux';
 import InputComp from '../UI/InputComp/InputComp';
@@ -31,6 +31,7 @@ class Register extends Component {
             name: '',
             userType: 'User',
             userName: '',
+            groupId: '',
 
             TournamentName:'',
             EventTypeName:'',
@@ -86,6 +87,7 @@ class Register extends Component {
     onConfirmPasswordChange = (e) => {this.setState({confirmPassword: e.target.value})}
     onNameChange = (e) => { this.setState({ name: e.target.value})}
     onUserNameChange = (e) => { this.setState({userName: e.target.value})}
+    onUserGroupChange = (e) => { this.setState({groupId: Number(e.target.value)})}
 
     onTournamentNameChange = (e) => { this.setState({TournamentName: e.target.value})}
     onTypeOfEventChange = (e) => { this.setState({EventTypeName: e.target.value})}
@@ -170,28 +172,29 @@ class Register extends Component {
         }
     }
     addNewUser = (e, headline) => {
-        const { email, password, confirmPassword, name, userType, userName } = this.state
+        e.preventDefault()
+        const { email, password, confirmPassword, name, userType, userName, groupId } = this.state
         const groupIdUrl = history.location.search
         const urlsplit = groupIdUrl.split("=");
-        const groupId = urlsplit[urlsplit.length-1];
-        if(history.location.search === `groupId=${groupId}`){
-          return groupId
-        }
-        e.preventDefault()
-        if(!email.includes('@')) {
+        const groupUrlId = urlsplit[urlsplit.length-1];
+
+        const groupIdSend = headline === REGISTER || history.location.search === `groupId=${groupUrlId}` ? groupUrlId : groupId
+        
+        if (userName === '') {
+            this.props.errorMessageAction('you must enter a user name')
+        } else if(!email.includes('@')) {
             this.props.errorMessageAction('you must enter a valid email address')
-        } else if (password.length < 6) {
+        } else if (name === '') {
+            this.props.errorMessageAction('you must enter a name')
+        }else if (password.length < 6) {
             this.props.errorMessageAction('password must have at least 6 characters')
         } else if (password !== confirmPassword) {
             this.props.errorMessageAction('confirm password doesn\'t match  password')
-        } else if (name === '') {
-            this.props.errorMessageAction('you must enter a name')
-        } else if (userName === '') {
-            this.props.errorMessageAction('you must enter a user name')
-        } else {
+        }  else  {
             headline === ADD_USER 
-            ? this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName)
-            : this.props.registerRequest(email, password, confirmPassword, name, userType, userName, groupId) 
+            ? this.props.addNewUserRequest(email, password, confirmPassword, name, userType, userName, groupIdSend)
+            : this.props.registerRequest(email, password, confirmPassword, name, userType, userName, groupIdSend)
+            
         }
     }
 
@@ -248,8 +251,6 @@ class Register extends Component {
         this.setState({addSearchUsersResult: removeAddUser})
     }
 
-
-
     errorMessage = () => {
         const error = this.props.errorMessage
         if (error !== null) {
@@ -279,22 +280,35 @@ class Register extends Component {
     }
 
     rgisterFage = (headline, classStr) => {
+        
+           const groupsName = this.props.groupsList !== null ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : null
+        
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
+                    <InputComp inputType="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
                     <InputComp inputType="email" name="email" placeholder="eMail" onChange={this.onEmailChange}/>
+                    <InputComp inputType="text" name="name" placeholder="Name" onChange={this.onNameChange}/>
                     <InputComp inputType="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
                     <InputComp inputType="password" name="ConfirmPassword" placeholder="ConfirmPassword" onChange={this.onConfirmPasswordChange}/>
-                    <InputComp inputType="text" name="name" placeholder="Name" onChange={this.onNameChange}/>
-                    <InputComp inputType="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
+                    {headline === ADD_USER 
+                    ? <SelectIdComp
+                        onChange={this.onUserGroupChange}
+                        options={groupsName}
+                        // content={this.state.userDetailsArr[index].editInput}
+                        // selected={item.param}
+                        placeholder={'Choose group'}
+                    />
+                    : null
+                    }
                     {this.errorMessage()}
                     {this.successMessage()}
                     {<BtnComp 
-                        inputType="submit" 
+                        inputType="submit"
                         name="register" 
                         content={headline} 
-                        onClick={(e, headline) => this.addNewUser(e, headline)}
+                        onClick={(e) => this.addNewUser(e, headline) }
                     />}
                     {headline === 'Add User' ? <div className={classes.closePopBtn} onClick={()=>this.closePopUp()}><span>Close</span></div> : null}
                 </form>
@@ -397,8 +411,6 @@ class Register extends Component {
     }
     
     eventFage = (headline) => {
-
-        console.log( 'sadasdasd', this.state)
         const {tourn, groupById} = this.props
         const arr = [...groupById.users]
         arr.sort((a, b) => { return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;})
@@ -590,8 +602,8 @@ class Register extends Component {
     }
     
     render() {
-        console.log('this.state.groupName',  this.props, '_________', history.location.search)
-        
+        console.log('ADD___', this.props)
+        console.log('ADD___state', this.state)
         return (
             <div className={classes.RegisterWrapper}>
                 {this.outputToRender()}
@@ -620,7 +632,7 @@ const mapDispatchToProps = dispatch => {
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: (payload) => dispatch(successMessageAction(payload)),
         registerRequest: (email, password, confirmPassword, name, userType, userName, groupId) => dispatch(registerRequest(email, password, confirmPassword, name, userType, userName, groupId)),
-        addNewUserRequest: (email, password, confirmPassword, name, userType, userName) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName)),
+        addNewUserRequest: (email, password, confirmPassword, name, userType, userName, groupId) => dispatch(addNewUserRequest(email, password, confirmPassword, name, userType, userName, groupId)),
         addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups)),
         addNewEventRequest: (EventName, Tournament, EventDate, usersWithResults) => dispatch(addNewEventRequest(EventName, Tournament, EventDate, usersWithResults)),
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
@@ -632,6 +644,7 @@ const mapDispatchToProps = dispatch => {
         appCallTakeAllUsers: (payload) => dispatch(appCallTakeAllUsers(payload)),
         appCallTakeAllEvents: (payload) => dispatch(appCallTakeAllEvents(payload)),
         tournEventsByIdRequest: (payload) => dispatch(tournEventsByIdRequest(payload)),
+        getAllGroupsRequest: (payload) => dispatch(getAllGroupsRequest(payload)),
     }
 }
 
