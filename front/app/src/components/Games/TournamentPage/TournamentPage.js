@@ -324,6 +324,7 @@ const mapStateToProps = (state) => {
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
+        toggleSpinner: state.sharedReducer.toggleSpinner,
 
 
     }
