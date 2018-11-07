@@ -187,10 +187,13 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var getEvent = context.Events.FirstOrDefault(e => e.EventId == eventId);
+                    var getEvent = context.Events
+                        .Include(e=> e.EventResults)
+                        .FirstOrDefault(e => e.EventId == eventId);
                     if (getEvent == null)
                         throw new Exception($"Event for EventId [{eventId}] was not found.");
                     getEvent.IsDeleted = true;
+                    getEvent.EventResults = null;
                     context.Events.Update(getEvent);
                     context.SaveChanges();
                 }
