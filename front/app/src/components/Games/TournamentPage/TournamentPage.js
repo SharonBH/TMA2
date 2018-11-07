@@ -12,6 +12,7 @@ import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 // import SelectComp from '../../UI/SelectComp/SelectComp'
+import Spinner from '../../UI/Spinner';
 
 import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
@@ -258,8 +259,17 @@ export class TournamentPage extends Component {
         </div>
         )
     }
+ 
+    spinner = () => {
+        if (this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
+    }
     turnPageInformation = () => {
-        const { eventTypeId, numberOfEvents, startDate, endDate  } =  this.props.tournById
+        const tournData = this.props.tournById !== null ? this.props.tournById : this.spinner()
+        const { eventTypeId, numberOfEvents, startDate, endDate  } =  tournData
         const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventTypeId} ) : null
         return(
             <div className={classes.tournTime}>
