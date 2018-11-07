@@ -54,7 +54,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                                         const session = JSON.parse(sessionStorage.getItem('session'));
                                         dispatch(getUserAction(session))
                                         dispatch(toggleLoaderAction(false))
-                                        history.push({pathname: '/home', state:[response.data]})
+                                        history.push({pathname: '/homeEvents', state:[response.data]})
                                     })
                                     .catch((error) => {
                                         dispatch(catchErrorAction([error][0]))
@@ -140,10 +140,10 @@ export const loginRequest = (userName, password) => {
 };
 
 // add New-User Request
-export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName) => {
+export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName, groupId) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}`)
+        return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}&GroupId=${groupId}`)
             .then((response) => {
                 console.log('response', response)
                 if (response.data.response === 'Success') {

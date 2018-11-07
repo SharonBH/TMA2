@@ -13,7 +13,7 @@ class LinkPopup extends React.Component {
       return (
         <div className={classes.popupLink}>
           <div className={classes.popup_inner}>
-            <span>{`https://tma-front.azurewebsites.net?groupId=${this.props.groupId}`}</span>
+            <span>{`https://tma-front.azurewebsites.net/register?groupId=${this.props.groupId}`}</span>
             <span onClick={()=>this.closeMessage()} className={classes.closeBTN }>x</span>
           </div>
         </div>
