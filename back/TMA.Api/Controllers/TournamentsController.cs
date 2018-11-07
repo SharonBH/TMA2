@@ -271,5 +271,27 @@ namespace TMA.Api.Controllers
                 return Json(new { Response = "Error", Message = ex.InnerException.Message });
             }
         }
+
+        [HttpPost]
+        [Route("GetHomeLeaderboards")]
+        public JsonResult GetHomeLeaderboards([FromBody]string userId)
+        {
+            try
+            {
+                var homeLeaderboards = _mainRepository.GetHomeLeaderboards(userId);
+                var homeEvents = _mainRepository.GetHomeEvents(userId);
+
+                var result = new
+                {
+                    Past = new { PastLeaderboard =  homeLeaderboards["Past"], PastEvent = homeEvents["Past"]},
+                    Next = new { NextLeaderboard = homeLeaderboards["Next"], NextEvent = homeEvents["Next"] }
+                };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
     }
 }

@@ -794,5 +794,61 @@ namespace TMA.DAL
                 throw new Exception($"An error occuored on 'GetUserRoles'.", ex);
             }
         }
+
+        public Dictionary<string, List<LeaderboardModel>> GetHomeLeaderboards(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var a = context.AspNetUsers
+                        .Include(x=> x.EventResults).ThenInclude(x=>x.Event)
+                        .FirstOrDefault(x => x.Id == userId)
+                        .EventResults.FirstOrDefault(y => y.Event.EventDate >= DateTime.Now).Event.TournamentId;
+                    var homeEvents = GetHomeEvents(userId);
+                    var pastTournamentId = homeEvents["Past"]?.TournamentId ?? 0;
+                    var nextTournamentId = homeEvents["Next"]?.TournamentId ?? 0;
+
+                    var pastLeaderboard = GetLeaderboards(pastTournamentId);
+                    var nextLeaderboard = GetLeaderboards(nextTournamentId);
+
+                    var result = new Dictionary<string, List<LeaderboardModel>>
+                    {
+                        ["Past"] = pastLeaderboard,
+                        ["Next"] = nextLeaderboard
+                    };
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetHomeLeaderboards'.", ex);
+            }
+        }
+
+        public Dictionary<string, Events> GetHomeEvents(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userEvents = context.EventResults.Include(x => x.Event).Where(x => x.UserId == userId).Select(x => x.Event).Where(e=> e.IsDeleted == false).ToList();
+                    var pastEvent = userEvents.OrderByDescending(x => x.EventDate).FirstOrDefault(x => x.EventDate <= DateTime.Now);
+                    var nextEvent = userEvents.OrderBy(x => x.EventDate).FirstOrDefault(x => x.EventDate > DateTime.Now);
+
+                    var result = new Dictionary<string, Events>
+                    {
+                        ["Past"] = pastEvent,
+                        ["Next"] = nextEvent
+                    };
+                    
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetHomeEvents'.", ex);
+            }
+        }
     }
 }
