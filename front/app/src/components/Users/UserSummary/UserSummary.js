@@ -28,13 +28,15 @@ class UserSummary extends Component {
             changePassword: false,
             inputs: [],
             userDetailsArr: this.detailsToState(),
-            selectedDate: moment().format('YYYY-MM-DD, HH:MM'),
+            selectedDate: '',
             selectedStartDate: '',
             selectedEndDate: '',
         }
         this.editDetail = this.editDetailBtn.bind(this)
     }
     componentWillMount = () => {
+        
+        this.setState({selectedDate: this.props.event.eventDate})
         this.props.getAllRolesRequest()
         const tournamentData = this.props.tournById
         if(this.props.headline === EDIT_TOURNAMENT){
@@ -392,6 +394,7 @@ class UserSummary extends Component {
                             : detail === 'Event Users Results' 
                             ?  item.param.eventUsers.map((user) => {
                                 const fill = item.param.eventResults.find(result => {return result.userId === user.userId})
+                                
                                 return <div key={user.userId} className={classes.eventResult}>
                                     <span className={classes.name}>{user.name}</span>
                                     <InputComp 
@@ -408,7 +411,7 @@ class UserSummary extends Component {
                         </div> 
                     : <span className={classes.editLineInput}>
                         {detail === 'Event Date' 
-                        ? moment(item.param).format('LLLL') 
+                        ? moment(item.param).format('MMMM Do YYYY, h:mm:ss a') 
                         : detail === 'Event Users Results' 
                         ? item.param.eventUsers.map((user) => {
                             const fill = item.param.eventResults.find(result => {return result.userId === user.userId})
@@ -431,7 +434,7 @@ class UserSummary extends Component {
         if(headline === EDIT_USER){
             name = user !== null ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
         } else if( headline === EDIT_TOURNAMENT ){
-            name = tournament !== null ? tournament.tournamentName : null
+            name = tournament !== null ? ' - '+tournament.tournamentName : null
         } else if ( headline === EDIT_EVENT ){
             name = event !== null ? event.eventName : null
         }
