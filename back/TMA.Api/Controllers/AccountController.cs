@@ -493,7 +493,8 @@ namespace TMA.Api.Controllers
                     return Json(new { Response = "Error", Message = $"User [{username}] has no role, add role to user before delete." });
                 }
                 else
-                { 
+                {
+                    _mainRepository.RemoveUserFromGroups(user.Id);
                     var remFromRole = await _userManager.RemoveFromRoleAsync(user, userRoles.FirstOrDefault());
 
                     // If successful

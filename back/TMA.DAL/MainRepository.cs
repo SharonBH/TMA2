@@ -17,12 +17,8 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var isEventExisting = context.Events.Any(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
-                    if(isEventExisting)
-                        throw new Exception($"There is an existing '{eventName}' event.");
-
                     var tournament = context.Tournaments
-                        .Include(x=>x.EventType)
+                        .Include(x => x.EventType)
                         .FirstOrDefault(t => t.TournamentId == tournamentId && t.IsDeleted == false);
                     if (tournament == null )
                         throw new Exception($"There is an existing tournament for '{tournamentId}'.");
@@ -33,7 +29,7 @@ namespace TMA.DAL
                         var existingEvents = context.Events.Count(e => e.TournamentId == tournamentId && e.IsDeleted == false);
                         if(existingEvents >= maxEventsNumber)
                             throw new Exception($"You've reached the maximum number of events for this tournament.");
-                    }
+                    }   
 
 
                     var newEvent = new Events
@@ -46,13 +42,13 @@ namespace TMA.DAL
                     context.Events.Add(newEvent);
                     context.SaveChanges();
 
-                    var createdEvent = context.Events.FirstOrDefault(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
-                    var eventId = createdEvent.EventId;
+                    //var createdEvent = context.Events.FirstOrDefault(e => e.EventName.ToLower() == eventName.ToLower() && e.IsDeleted == false);
+                    var eventId = newEvent.EventId;
                     eventResults.ForEach(x => x.EventId = eventId);
 
                     CalculateScoreOnEventsResults(eventResults, tournament.EventType);
 
-                    createdEvent.EventResults = eventResults;
+                    newEvent.EventResults = eventResults;
                     context.SaveChanges();
                 }
             }
@@ -168,16 +164,36 @@ namespace TMA.DAL
             }
         }
 
+        public void RemoveUserFromGroups(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userGroups = context.UsersGroups.Where(x => x.UserId == userId).ToList();
+                    context.UsersGroups.RemoveRange(userGroups);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'RemoveUserFromGroups'.", ex);
+            }
+        }
+
         public void DeleteEvent(int eventId)
         {
             try
             {
                 using (var context = new TMAContext())
                 {
-                    var getEvent = context.Events.FirstOrDefault(e => e.EventId == eventId);
+                    var getEvent = context.Events
+                        .Include(e=> e.EventResults)
+                        .FirstOrDefault(e => e.EventId == eventId);
                     if (getEvent == null)
                         throw new Exception($"Event for EventId [{eventId}] was not found.");
                     getEvent.IsDeleted = true;
+                    getEvent.EventResults = null;
                     context.Events.Update(getEvent);
                     context.SaveChanges();
                 }
@@ -779,6 +795,62 @@ namespace TMA.DAL
             catch (Exception ex)
             {
                 throw new Exception($"An error occuored on 'GetUserRoles'.", ex);
+            }
+        }
+
+        public Dictionary<string, List<LeaderboardModel>> GetHomeLeaderboards(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    //var a = context.AspNetUsers
+                    //    .Include(x=> x.EventResults).ThenInclude(x=>x.Event)
+                    //    .FirstOrDefault(x => x.Id == userId)
+                    //    .EventResults.FirstOrDefault(y => y.Event.EventDate >= DateTime.Now).Event.TournamentId;
+                    var homeEvents = GetHomeEvents(userId);
+                    var pastTournamentId = homeEvents["Past"]?.TournamentId ?? 0;
+                    var nextTournamentId = homeEvents["Next"]?.TournamentId ?? 0;
+
+                    var pastLeaderboard = GetLeaderboards(pastTournamentId);
+                    var nextLeaderboard = GetLeaderboards(nextTournamentId);
+
+                    var result = new Dictionary<string, List<LeaderboardModel>>
+                    {
+                        ["Past"] = pastLeaderboard,
+                        ["Next"] = nextLeaderboard
+                    };
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetHomeLeaderboards'.", ex);
+            }
+        }
+
+        public Dictionary<string, Events> GetHomeEvents(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userEvents = context.EventResults.Include(x => x.Event).Where(x => x.UserId == userId).Select(x => x.Event).Where(e=> e.IsDeleted == false).ToList();
+                    var pastEvent = userEvents.OrderByDescending(x => x.EventDate).FirstOrDefault(x => x.EventDate <= DateTime.Now);
+                    var nextEvent = userEvents.OrderBy(x => x.EventDate).FirstOrDefault(x => x.EventDate > DateTime.Now);
+
+                    var result = new Dictionary<string, Events>
+                    {
+                        ["Past"] = pastEvent,
+                        ["Next"] = nextEvent
+                    };
+                    
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetHomeEvents'.", ex);
             }
         }
     }
