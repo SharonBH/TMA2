@@ -35,8 +35,9 @@ class UserSummary extends Component {
         this.editDetail = this.editDetailBtn.bind(this)
     }
     componentWillMount = () => {
-        
-        this.setState({selectedDate: this.props.event.eventDate})
+        if(this.props.headline === EDIT_EVENT){
+            this.setState({selectedDate: this.props.event.eventDate})
+        }
         this.props.getAllRolesRequest()
         const tournamentData = this.props.tournById
         if(this.props.headline === EDIT_TOURNAMENT){
