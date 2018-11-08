@@ -52,7 +52,7 @@ class Register extends Component {
             addSearchUsersResult: [],
             usersIds: [],
             editGroupName: false,
-
+            EventNameArr: []
             
             
         }
@@ -96,7 +96,11 @@ class Register extends Component {
 
     onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
 
-    onEventNameChange = (e) => { this.setState({EventName: e.target.value})}
+    onEventNameChange = (e) => { 
+        if(e){
+            this.setState({EventName: e.target.value}) 
+        }
+    }
     onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
     handleDateChange = (date) => { 
         const dateMF = moment(date).format('MM DD YYYY, hh:mm:ss ')
@@ -135,25 +139,44 @@ class Register extends Component {
             return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
         })
         this.setState({addSearchUsersResult: array})
+        console.log('1_onSearchUsersChange__1')
     }
     addSearchUsers = (user) => {
-        // const { EventDate } = this.state
-        // const {groupById} = this.props
 
         const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId))
         const array = [...fill, {userId: user.userId, score: null, username: user.username}]
-
+        const namesArray = [...fill, {userId: user.userId, score: null, username: user.username}]
         array.sort((a, b) => {
             return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
         })
         this.setState({addSearchUsersResult: array})
 
+        if(this.onEventNameChange){
+            const name = namesArray !== ''
+            ? namesArray.map((user) => {return user.username})
+            : this.state.EventName
+            const names = !name || name !== '' ? name.join(' Vs. ') : '';
+            // this.setState({EventName: names}) 
+            this.setState({EventName: names})
+        }
 
         // if(EventDate === '') {
         //     this.props.errorMessageAction('you must first enter a date for this event')
         // } else {
             
         // }
+    }
+    removeSelectedUser = (index) => {
+        let removeAddUser = [...this.state.addSearchUsersResult]
+        removeAddUser.splice(index, 1)
+        this.setState({addSearchUsersResult: removeAddUser})
+
+        const splited = this.state.EventName.split(' Vs. ')
+        let removeNameFromArr = [...splited]
+        removeNameFromArr.splice(index, 1)
+        const names = removeNameFromArr.join(' Vs. ') ;
+        this.setState({EventName: names})
+
     }
     addNewGroup = (e) => {
         e.preventDefault()
@@ -228,7 +251,6 @@ class Register extends Component {
         const {tourn, allEventTypesList} = this.props
         const { EventName, selectedDate, addSearchUsersResult } = this.state
 
-        
         const Tournament = tourn.tournamentName
         const usersWithResults = []
         addSearchUsersResult.map(user => {return usersWithResults.push({userId: user.userId, result: user.score})})
@@ -245,11 +267,7 @@ class Register extends Component {
         }
     }
 
-    removeSelectedUser = (index) => {
-        let removeAddUser = [...this.state.addSearchUsersResult]
-        removeAddUser.splice(index, 1)
-        this.setState({addSearchUsersResult: removeAddUser})
-    }
+   
 
     errorMessage = () => {
         const error = this.props.errorMessage
@@ -414,13 +432,24 @@ class Register extends Component {
         const {tourn, groupById} = this.props
         const arr = [...groupById.users]
         arr.sort((a, b) => { return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;})
+        
         return (
             <div className={classes.Register}>
                 <h1>{headline}</h1>
                 <form>
                     <InputComp inputType="text" name="tournament" placeholder={'Tournament Name'} content={tourn.tournamentName} onChange={() => {}}/>
-                    <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}/>
-                    {/* <InputComp inputType="datetime-local" name="deteOfEvent" placeholder="Date Of Event" onChange={this.onDateOfEventChange}/> */}
+                    <div className={classes.usersAddedWrapper} >
+                        {<span className={classes.searchResult}>select players from the tournament group</span>}
+                        {arr !== undefined ? arr.map((user, index) => {
+                        return (
+                            <span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+                                {user.username}
+                                <i className="far fa-plus-square"></i>
+                            </span>      
+                         ) }): null}
+                    </div>
+                    <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange} content={this.state.EventName}/>
+                    
                     <MuiPickersUtilsProvider utils={MomentUtils}>
                         
                         <DateTimePicker
@@ -434,21 +463,12 @@ class Register extends Component {
                             format="MM DD YYYY, hh:mm:ss "
                             label={'Event Time:'}
                         />
-                        </MuiPickersUtilsProvider>
+                    </MuiPickersUtilsProvider>
                     <div className={classes.usersAddedWrapper}>
                         {<span className={classes.searchResult}>selected players for this event</span>}
                         {this.eventUsersPlaying()}
                     </div>
-                    <div className={classes.usersAddedWrapper} >
-                        {<span className={classes.searchResult}>select players from the tournament group</span>}
-                        {arr !== undefined ? arr.map((user, index) => {
-                        return (
-                            <span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
-                                {user.username}
-                                <i className="far fa-plus-square"></i>
-                            </span>      
-                         ) }): null}
-                    </div>
+                    
                     {this.errorMessage()}
                     {this.successMessage()}
                     {headline === ADD_EVENT

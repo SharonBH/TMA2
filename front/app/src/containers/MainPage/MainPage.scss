@@ -25,49 +25,93 @@
         .eventsTable{
             display: block;
             width: 49%;
-            border: 1px solid #ddd;
+            border: 1px solid #a9a9a9;
             padding: 0 1%;
             h4{
                 text-align: center;
                 margin-top: 10px;
                 padding-bottom: 5px;
                 margin-bottom: 10px;
-                border-bottom: 1px solid #ddd;
+                border-bottom: 1px solid #a9a9a9;
+            }
+            .noResults{
+                text-align: center;
+                margin-top: 25px;
+                width: 100%;
+                display: inline-block;
+                font-weight: 600;
+                margin-bottom: 35px;
             }
             &>div{
-                ul{
-                    padding: 0 5px;
-                    list-style: none;
-                    li{
-                        .eventData{
-                            padding: 5px 0;
-                            border-bottom: 1px solid #ddd;
-                            p{
-                                display: block;
-                                margin-top: 0;
-                                span{
-                                    font-weight: 600;
-                                    margin-right: 10px;
-                                } 
-                                i{
-                                    &::after {
-                                        content: ", ";
-                                    }
+                
+                .eventData{
+                    padding: 5px 0;
+                    // border-bottom: 1px solid #a9a9a9;
+                    
+                    p{
+                        display: block;
+                        margin-top: 0;
+                        &>span{
+                            font-weight: 600;
+                            margin-right: 10px;
+                        } 
+                        i{
+                            &::after {
+                                content: ", ";
+                            }
+                        }
+                        i{
+                            &:last-child{
+                                &::after {
+                                    content: " ";
                                 }
-                                i{
-                                    &:last-child{
-                                        &::after {
-                                            content: " ";
-                                        }
-                                    }
+                            }
+                        }
+                        
+                    }
+                    &>div{
+                        &>span{
+                            display: block;
+                            text-align: center;
+                            border-bottom: 1px solid #a9a9a9;
+                            padding-bottom: 5px;
+                            margin-bottom: 10px;
+                            font-weight: 600;
+                            margin-top: 30px;
+                        }
+                        ul{
+                            padding: 0 5px;
+                            list-style: none;
+                            margin-bottom: 0;
+                            
+                            li{
+                                display: inline-block;
+                                width: 45%;
+                                margin-bottom: 10px;
+                                padding-bottom: 10px;
+                                border-bottom: 1px solid #a9a9a9;
+                                span{
+                                    font-weight: 400;
+                                }
+                                &>p{
+                                    display: flex;
+                                    margin-top: 0;
+                                    justify-content: space-between;
                                 }
                                 
                             }
-                            .eventName{}
-                            .eventDate{}
+                            
+                            li:nth-child(2n+2) {
+                                margin-left: 10%;
+                            }
+                            li:last-child, li:nth-last-child(2){
+                                border: 0;
+                                margin-bottom: 0;
+                            }
                         }
                     }
                 }
+                
             }
         }
     }

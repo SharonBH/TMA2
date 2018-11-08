@@ -206,6 +206,13 @@ export const takeMyEvents = (events) => {
         payload: events
     }
 }
+//take events by user id
+export const takeMyHomeLeader = (allData) => {
+    return {
+        type: 'TAKE_HOME_LEADERBOARD_ACTION',
+        payload: allData
+    }
+}
 // edit This group Action
 export const editThisGroupAction = (boll) => {
     return {

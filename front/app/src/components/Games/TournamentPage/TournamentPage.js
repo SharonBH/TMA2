@@ -165,7 +165,6 @@ export class TournamentPage extends Component {
                     </div>
                     <ul>
                     {(this.props.tournEventsByIdNoS !== undefined ) ? this.props.tournEventsByIdNoS.map((item, index) => {
-                        console.log('TIME_',moment(item.eventDate, 'YYYY-MM-DDTHH:mm:ss').format('DD-Mo-YYYY, HH:mm A'))
                             return <li key={index}>
                                 <div className={classes.eventName}>{item.eventName}</div>
                                 <div className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY, HH:mm A')}</div>
