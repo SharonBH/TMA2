@@ -804,10 +804,10 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var a = context.AspNetUsers
-                        .Include(x=> x.EventResults).ThenInclude(x=>x.Event)
-                        .FirstOrDefault(x => x.Id == userId)
-                        .EventResults.FirstOrDefault(y => y.Event.EventDate >= DateTime.Now).Event.TournamentId;
+                    //var a = context.AspNetUsers
+                    //    .Include(x=> x.EventResults).ThenInclude(x=>x.Event)
+                    //    .FirstOrDefault(x => x.Id == userId)
+                    //    .EventResults.FirstOrDefault(y => y.Event.EventDate >= DateTime.Now).Event.TournamentId;
                     var homeEvents = GetHomeEvents(userId);
                     var pastTournamentId = homeEvents["Past"]?.TournamentId ?? 0;
                     var nextTournamentId = homeEvents["Next"]?.TournamentId ?? 0;
