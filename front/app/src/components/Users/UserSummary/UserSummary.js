@@ -235,8 +235,8 @@ class UserSummary extends Component {
             const eyyyy = end.getFullYear();
             const eEndDate = emm + edd + eyyyy;
 
-            const startDateToCheck = Date.parse(this.state.selectedStartDate)
-            const endDateToCheck = Date.parse(this.state.selectedEndDate)
+            // const startDateToCheck = Date.parse(this.state.selectedStartDate)
+            // const endDateToCheck = Date.parse(this.state.selectedEndDate)
             
             const findId = typeof editRequestParam[1] === 'string' ? this.props.groupsList.find(gName => { return gName.groupName === editRequestParam[1] }) : this.state.userDetailsArr[1].editInput
             const sendData = findId !== undefined ? findId.groupId :  this.state.userDetailsArr[1].editInput
