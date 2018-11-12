@@ -225,7 +225,7 @@ class UserSummary extends Component {
             const tournamentId = this.props.tournament.tournamentId
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter a tournament name')
-            } else if (today >= endDateToCheck) {
+            } else if (today > startDateToCheck) {
                 this.props.errorMessageAction('the tournament start date must start from today')
             } else if (startDateToCheck >= endDateToCheck) {
                 this.props.errorMessageAction('the tournament end date must be later than the start date')
