@@ -66,6 +66,7 @@ export class HomeEvents extends Component {
         const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
         const filltournamentName = fill !== undefined ? fill.tournamentName : ''
         console.log('next', past)
+
         return(
             <div>
                 {past.pastEvent === null ? <span className={classes.noResults}>No Past events</span>
@@ -89,20 +90,77 @@ export class HomeEvents extends Component {
         </div>
         )
     }
+    pastEventTableOutput = () => {
+        const {past, next} =  this.props.allMyHomeData
+        const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
+        const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
+        console.log('tournaments', pastTournament, '===' ,nextTournament)
+        // const reducedT = ''
+        const sortedBoard = past.pastLeaderboard !== null ? past.pastLeaderboard.sort((a, b) => {
+            return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
+        }) : null
+        return (
+            <div className={classes.leaderTop}>
+                <p>{pastTournament.tournamentName}</p>
+                <div className={classes.leaderTableHead}>
+                    <b>User Name</b>
+                    <b>Number of Events</b>
+                    <b>Total Scores</b>
+                </div>
+                <ul>{sortedBoard.map((user, i) => { 
+                        return <li key={i}><div>
+                            <p><span>{user.user.userName}</span></p>
+                            <p><span>{user.numberOfEvents}</span></p>
+                            <p><span>{user.totalScores}</span></p>
+                        </div></li>
+                    })}
+                </ul>
+            </div>
+        )
+    } 
+
+    leaderboardTable = () => {
+        const {past, next} =  this.props.allMyHomeData
+        const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
+        const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
+        console.log('tournaments', pastTournament, '===' ,nextTournament)
+        // const reducedT = ''
+        // const sortedBoard = past.pastLeaderboard !== null ? past.pastLeaderboard.sort((a, b) => {
+        //     return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
+        // }) : null
+        if(pastTournament !== undefined && nextTournament !== undefined ){
+            if(pastTournament.tournamentId === nextTournament.tournamentId){
+                console.log('reducedT', pastTournament.tournamentName)
+                return this.pastEventTableOutput()
+            }
+            
+        }else if(pastTournament !== undefined && nextTournament === undefined){
+            return this.pastEventTableOutput()
+        }
+        
+    }
+
     render() {
 
         console.log('main props', this.props.allMyHomeData)
         return (
             <div className={classes.EventsPage}>
-                <h1>Hello, you have some events</h1>
-                <div className={classes.eventsTBLS}>
-                    <div className={classes.eventsTable}>
-                        <h4>Youre past event</h4>
-                        <div>{this.pastEventsList()}</div>
-                    </div>
-                    <div className={classes.eventsTable}>
-                        <h4>Youre future event</h4>
-                        <div>{this.futureEventsList()}</div>
+                <div>
+                    <h1>Hello, your leader board</h1>
+                    {this.leaderboardTable()}
+
+                </div>
+                <div>
+                    <h1>You have some events</h1>
+                    <div className={classes.eventsTBLS}>
+                        <div className={classes.eventsTable}>
+                            <h4>Youre past event</h4>
+                            <div>{this.pastEventsList()}</div>
+                        </div>
+                        <div className={classes.eventsTable}>
+                            <h4>Youre future event</h4>
+                            <div>{this.futureEventsList()}</div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -268,7 +268,11 @@ export class TournamentPage extends Component {
         }
     }
     turnPageInformation = () => {
-        const tournData = this.props.tournById !== null ? this.props.tournById : this.spinner()
+        const url = this.props.match.url
+        const urlsplit = url.split("/");
+        const action = urlsplit[urlsplit.length-1];
+        const allT = this.props.allTournsList.find((item) => { return item.tournamentName === action}) 
+        const tournData = this.props.tournById !== null ? this.props.tournById : allT
         const { eventTypeId, numberOfEvents, startDate, endDate  } =  tournData
         const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventTypeId} ) : null
         return(

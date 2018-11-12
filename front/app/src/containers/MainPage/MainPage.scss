@@ -16,6 +16,32 @@
 .EventsPage{
     text-align: left;
     padding: 0 15px;
+    .leaderTop{
+        .leaderTableHead{
+            display: flex;
+            justify-content: space-around;
+            width: 97%;
+            padding-left: 3%; 
+            b{
+                width: 30%;
+            }
+        }
+        &>ul{
+            padding-left: 3%;;
+            width: 97%;
+            list-style-type: decimal;
+            li{
+                
+                &>div{
+                    display: flex;
+                    justify-content: space-around;
+                }
+                p{
+                    width: 30%;
+                }
+            }
+        }
+    }
     h1{
         text-align: center;
     }
