@@ -198,7 +198,12 @@ class UserSummary extends Component {
     }
 
     submitUserAditeChanges = (headline) => {
-        const today = Date.parse(new Date())
+        // const today = Date.parse(new Date())
+        const today = new Date();
+        const dd = today.getDate();
+        const mm = today.getMonth()+1; //January is 0!
+        const yyyy = today.getFullYear();
+        const todayDate = mm + dd + yyyy;
         const editRequestParam = []
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput) 
@@ -216,6 +221,20 @@ class UserSummary extends Component {
             const startDayToSend = moment(this.state.selectedStartDate).format('YYYY-MM-DD')
             const endDayToSend = moment(this.state.selectedEndDate).format('YYYY-MM-DD')
 
+            
+
+            const q = new Date(this.state.selectedStartDate)
+            const qdd = q.getDate();
+            const qmm = q.getMonth()+1; //January is 0!
+            const qyyyy = q.getFullYear();
+            const qstartDate = qmm + qdd + qyyyy;
+
+            const end = new Date(this.state.selectedEndDate)
+            const edd = end.getDate();
+            const emm = end.getMonth()+1; //January is 0!
+            const eyyyy = end.getFullYear();
+            const eEndDate = emm + edd + eyyyy;
+
             const startDateToCheck = Date.parse(this.state.selectedStartDate)
             const endDateToCheck = Date.parse(this.state.selectedEndDate)
             
@@ -225,9 +244,9 @@ class UserSummary extends Component {
             const tournamentId = this.props.tournament.tournamentId
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter a tournament name')
-            } else if (today > startDateToCheck) {
+            } else if (todayDate > qstartDate) {
                 this.props.errorMessageAction('the tournament start date must start from today')
-            } else if (startDateToCheck >= endDateToCheck) {
+            } else if (qstartDate >= eEndDate) {
                 this.props.errorMessageAction('the tournament end date must be later than the start date')
             }else {
                 this.props.editThisTournamentRequest( tournamentId, editRequestParam[2], sendData, editRequestParam[0], startDayToSend, endDayToSend, editRequestParam[5])
