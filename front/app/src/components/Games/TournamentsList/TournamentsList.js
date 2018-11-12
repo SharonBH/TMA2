@@ -23,8 +23,14 @@ export class TournamentsList extends Component {
         allEventTypesList: PropTypes.array,
         tournsDataById: PropTypes.array,
         currentUser: PropTypes.object,
-        errorMessage: PropTypes.object,
-        successMessage: PropTypes.object,
+        errorMessage: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object,
+        ]),
+        successMessage: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.object,
+        ]),
         addItem: PropTypes.bool,
         addTournament: PropTypes.bool,
         addEvent: PropTypes.bool,

@@ -95,11 +95,11 @@ class Register extends Component {
     onEndDateChange = (eDate) => { this.setState({TournamentEndDate: new Date(eDate ) });}
 
     onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})}
-
-    onEventNameChange = (e) => { 
         if(e){
             this.setState({EventName: e.target.value}) 
         }
+
+    onEventNameChange = (e) => { 
     }
     onTournamentChange = (e) => { this.setState({Tournament: e.target.value})}
     handleDateChange = (date) => { 
@@ -224,9 +224,25 @@ class Register extends Component {
     addNewTournament = (e) => {
         const { TournamentName, TournamentStartDate, TournamentEndDate, EventsMaxNum, EventTypeName, groups } = this.state
         e.preventDefault()
-        const today = Date.parse(new Date())
-        const startday = Date.parse(TournamentStartDate)
-        const endday = Date.parse(TournamentEndDate)
+        const today = new Date();
+        const dd = today.getDate();
+        const mm = today.getMonth()+1; //January is 0!
+        const yyyy = today.getFullYear();
+        const todayDate = mm + dd + yyyy;
+
+        const q = new Date(TournamentStartDate)
+        const qdd = q.getDate();
+        const qmm = q.getMonth()+1; //January is 0!
+        const qyyyy = q.getFullYear();
+        const qstartDate = qmm + qdd + qyyyy;
+
+        const end = new Date(TournamentEndDate)
+        const edd = end.getDate();
+        const emm = end.getMonth()+1; //January is 0!
+        const eyyyy = end.getFullYear();
+        const eEndDate = emm + edd + eyyyy;
+        
+        // const endday = Date.parse(TournamentEndDate)
         if(TournamentName === '') {
             this.props.errorMessageAction('you must enter a tournament name')
         } else if (groups === '') {
@@ -235,13 +251,11 @@ class Register extends Component {
             this.props.errorMessageAction('you must choose event type')
         } else if (TournamentStartDate === '' || TournamentEndDate === '') {
             this.props.errorMessageAction('you must enter the tournament start & end dates')
-        } else if (today > startday) {
+        } else if (qstartDate < todayDate ) {
             this.props.errorMessageAction('the tournament start date must be later than today')
-        } else if (startday > endday) {
+        } else if (qstartDate > eEndDate) {
             this.props.errorMessageAction('the tournament end date must be later than the start date')
-        } else if (EventsMaxNum === '') {
-            this.props.errorMessageAction('you must enter a number of max events')
-        } else {
+        }  else {
             this.props.addNewTournamentRequest(TournamentName, moment(TournamentStartDate).format('YYYY-MM-DD hh:mm:ss '), moment(TournamentEndDate).format('YYYY-MM-DD hh:mm:ss '), EventsMaxNum, EventTypeName, groups)
         }
     } 

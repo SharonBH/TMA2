@@ -24,16 +24,13 @@ import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 export class MainPage extends Component {
 
     componentWillMount() {
-        const userId = this.props.currentUser.userId
-        setTimeout(() => {
-            // this.props.appCallTakeAllTournaments()
-            // this.props.appCallTakeAllEvents()
-            // this.props.mainPageGetAllGroupsRequest()
-            // this.props.appCallTakeAllUsers()
-            // this.props.appCallgetAllGroupsRequest()
-            this.props.takeMyHomeLeaderboardRequest(userId)
-            
-        }, 200)
+        if(this.props.currentUser !== null){
+            const userId = this.props.currentUser.userId
+            setTimeout(() => {
+                this.props.takeMyHomeLeaderboardRequest(userId)
+            }, 200)
+        }
+        
     }
 
     render() {
