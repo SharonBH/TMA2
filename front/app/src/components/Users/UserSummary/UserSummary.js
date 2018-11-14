@@ -22,7 +22,7 @@ import { DateTimePicker, DatePicker } from 'material-ui-pickers';
 class UserSummary extends Component {
 
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             currentUser: '',
             changePassword: false,
@@ -31,7 +31,7 @@ class UserSummary extends Component {
             selectedDate: '',
             selectedStartDate: '',
             selectedEndDate: '',
-        }
+        };
         this.editDetail = this.editDetailBtn.bind(this)
     }
     componentWillMount = () => {
@@ -532,7 +532,6 @@ const mapDispatchToProps = dispatch => {
         errorMessageAction: payload => dispatch(errorMessageAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
         editThisItemAction: (payload) => dispatch(editThisItemAction(payload)),
-        editThisGroupAction: payload => dispatch(editThisGroupAction(payload)),
         editThisEventAction: payload => dispatch(editThisEventAction(payload)),
         getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),

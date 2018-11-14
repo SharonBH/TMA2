@@ -9,29 +9,31 @@ const editItemReducer = (state = InitialState, action) => {
     switch (action.type) {
 
         case 'EDIT_THIS_ITEM':
-            const boll = action.payload
+            const boll = action.payload;
             return {
                 ...state,
                 editThisItem: boll
-            }
+            };
         case 'EDIT_THIS_GROUP':
-            const group = action.payload
+            const group = action.payload;
+	
+	        console.log('groupreducer', group)
             return {
                 ...state,
                 editThisGroup: group
-            }
+            };
         case 'EDIT_THIS_EVENT':
-            const event = action.payload
+            const event = action.payload;
             return {
                 ...state,
                 editThisEvent: event
-            }
+            };
         case 'SEND_EVENT_MATCH':
-            const eventMatch = action.payload
+            const eventMatch = action.payload;
             return {
                 ...state,
                 editThisEventMatch: eventMatch
-            }
+            };
         default:
     }
     return state;
