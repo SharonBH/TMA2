@@ -215,6 +215,8 @@ export const takeMyHomeLeader = (allData) => {
 }
 // edit This group Action
 export const editThisGroupAction = (boll) => {
+	
+	console.log('boll action', boll)
     return {
         type: 'EDIT_THIS_GROUP',
         payload: boll

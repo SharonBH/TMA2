@@ -95,7 +95,7 @@ export class TournamentPage extends Component {
         }, 200)
 
     }
-    addEventBtn = (item) => {
+    addEventBtn = (item, headline) => {
         setTimeout(() => {
             this.props.addNewEventAction(true)
         }, 200)

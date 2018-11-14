@@ -167,9 +167,9 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                         .then((response) => {
                             const users = response.data
                             dispatch(getAllUsersAction(users));
-                            history.push({pathname: '/all_users'})
-                            dispatch(addNewItemAction(false))
-                            dispatch(successMessageAction('User Added Successfuly'))
+                            history.push({pathname: '/all_users'});
+                            dispatch(addNewItemAction(false));
+                            dispatch(successMessageAction('User Added Successfuly'));
                             dispatch(toggleLoaderAction(false))
                         })
                         .catch((error) => {
