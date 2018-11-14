@@ -46,16 +46,7 @@ export class HomeEvents extends Component {
                     <p className={classes.eventName}><span>Event Name:</span>{next.nextEvent.eventName}</p>
                     <p className={classes.eventName}><span>Tournament Name:</span>{filltournamentName}</p>
                     <p className={classes.eventDate}><span>Event Date:</span>{moment(next.nextEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
-                    {/*<div><span>Leadr Board of event:</span>*/}
-                    {/*<ul>{next.nextLeaderboard.map((user, i) => { */}
-                            {/*return <li key={i}>*/}
-                                {/*<p><b>User Name:</b><span>{user.user.userName}</span></p>*/}
-                                {/*<p><b>Number of Events:</b><span>{user.numberOfEvents}</span></p>*/}
-                                {/*<p><b>Total Scores:</b><span>{user.totalScores}</span></p>*/}
-                            {/*</li>*/}
-                        {/*})}*/}
-                    {/*</ul>*/}
-                    {/*</div>*/}
+         
                 </div>
                 }
         </div>
@@ -75,16 +66,7 @@ export class HomeEvents extends Component {
                     <p className={classes.eventName}><span>Event Name:</span>{past.pastEvent.eventName}</p>
                     <p className={classes.eventName}><span>Tournament Name:</span>{filltournamentName}</p>
                     <p className={classes.eventDate}><span>Event Date:</span>{moment(past.pastEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
-                    {/*<div><span>Leadr Board of event:</span>*/}
-                        {/*<ul>{past.pastLeaderboard.map((user, i) => { */}
-                                {/*return <li key={i}>*/}
-                                    {/*<p><b>User Name:</b><span>{user.user.userName}</span></p>*/}
-                                    {/*<p><b>Number of Events:</b><span>{user.numberOfEvents}</span></p>*/}
-                                    {/*<p><b>Total Scores:</b><span>{user.totalScores}</span></p>*/}
-                                {/*</li>*/}
-                            {/*})}*/}
-                        {/*</ul>*/}
-                    {/*</div>*/}
+ 
                 </div>
                 }
         </div>
