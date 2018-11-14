@@ -46,25 +46,25 @@ export class HomeEvents extends Component {
                     <p className={classes.eventName}><span>Event Name:</span>{next.nextEvent.eventName}</p>
                     <p className={classes.eventName}><span>Tournament Name:</span>{filltournamentName}</p>
                     <p className={classes.eventDate}><span>Event Date:</span>{moment(next.nextEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
-                    <div><span>Leadr Board of event:</span>
-                    <ul>{next.nextLeaderboard.map((user, i) => { 
-                            return <li key={i}>
-                                <p><b>User Name:</b><span>{user.user.userName}</span></p>
-                                <p><b>Number of Events:</b><span>{user.numberOfEvents}</span></p>
-                                <p><b>Total Scores:</b><span>{user.totalScores}</span></p>
-                            </li>
-                        })}
-                    </ul>
-                    </div>
+                    {/*<div><span>Leadr Board of event:</span>*/}
+                    {/*<ul>{next.nextLeaderboard.map((user, i) => { */}
+                            {/*return <li key={i}>*/}
+                                {/*<p><b>User Name:</b><span>{user.user.userName}</span></p>*/}
+                                {/*<p><b>Number of Events:</b><span>{user.numberOfEvents}</span></p>*/}
+                                {/*<p><b>Total Scores:</b><span>{user.totalScores}</span></p>*/}
+                            {/*</li>*/}
+                        {/*})}*/}
+                    {/*</ul>*/}
+                    {/*</div>*/}
                 </div>
                 }
         </div>
         )
     }
     pastEventsList = () => {
-        const {past} =  this.props.allMyHomeData
-        const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
-        const filltournamentName = fill !== undefined ? fill.tournamentName : ''
+        const {past} =  this.props.allMyHomeData;
+        const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null;
+        const filltournamentName = fill !== undefined ? fill.tournamentName : '';
         console.log('next', past)
 
         return(
@@ -75,30 +75,32 @@ export class HomeEvents extends Component {
                     <p className={classes.eventName}><span>Event Name:</span>{past.pastEvent.eventName}</p>
                     <p className={classes.eventName}><span>Tournament Name:</span>{filltournamentName}</p>
                     <p className={classes.eventDate}><span>Event Date:</span>{moment(past.pastEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
-                    <div><span>Leadr Board of event:</span>
-                        <ul>{past.pastLeaderboard.map((user, i) => { 
-                                return <li key={i}>
-                                    <p><b>User Name:</b><span>{user.user.userName}</span></p>
-                                    <p><b>Number of Events:</b><span>{user.numberOfEvents}</span></p>
-                                    <p><b>Total Scores:</b><span>{user.totalScores}</span></p>
-                                </li>
-                            })}
-                        </ul>
-                    </div>
+                    {/*<div><span>Leadr Board of event:</span>*/}
+                        {/*<ul>{past.pastLeaderboard.map((user, i) => { */}
+                                {/*return <li key={i}>*/}
+                                    {/*<p><b>User Name:</b><span>{user.user.userName}</span></p>*/}
+                                    {/*<p><b>Number of Events:</b><span>{user.numberOfEvents}</span></p>*/}
+                                    {/*<p><b>Total Scores:</b><span>{user.totalScores}</span></p>*/}
+                                {/*</li>*/}
+                            {/*})}*/}
+                        {/*</ul>*/}
+                    {/*</div>*/}
                 </div>
                 }
         </div>
         )
     }
+    
     pastEventTableOutput = () => {
-        const {past, next} =  this.props.allMyHomeData
+        const {past} =  this.props.allMyHomeData
         const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
-        const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
-        console.log('tournaments', pastTournament, '===' ,nextTournament)
+        
+       
         // const reducedT = ''
         const sortedBoard = past.pastLeaderboard !== null ? past.pastLeaderboard.sort((a, b) => {
             return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
-        }) : null
+        }) : null;
+        console.log('leader sort', sortedBoard)
         return (
             <div className={classes.leaderTop}>
                 <p>{pastTournament.tournamentName}</p>
@@ -117,7 +119,34 @@ export class HomeEvents extends Component {
                 </ul>
             </div>
         )
-    } 
+    };
+	nextEventTableOutput = () => {
+		const {next} =  this.props.allMyHomeData
+		const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
+		const sortedBoard = next.nextLeaderboard !== null ? next.nextLeaderboard.sort((a, b) => {
+			return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
+		}) : null;
+		console.log('leader sort', sortedBoard)
+		return (
+			<div className={classes.leaderTop}>
+				<p>{nextTournament.tournamentName}</p>
+				<div className={classes.leaderTableHead}>
+					<b>User Name</b>
+					<b>Number of Events</b>
+					<b>Total Scores</b>
+				</div>
+				<ul>{sortedBoard.map((user, i) => {
+					return <li key={i}><div>
+						<p><span>{user.user.userName}</span></p>
+						<p><span>{user.numberOfEvents}</span></p>
+						<p><span>{user.totalScores}</span></p>
+					</div></li>
+				})}
+				</ul>
+			</div>
+		)
+    };
+	
 
     leaderboardTable = () => {
         const {past, next} =  this.props.allMyHomeData
@@ -130,11 +159,20 @@ export class HomeEvents extends Component {
         // }) : null
         if(pastTournament !== undefined && nextTournament !== undefined ){
             if(pastTournament.tournamentId === nextTournament.tournamentId){
-                console.log('reducedT', pastTournament.tournamentName)
+                console.log('reducedT', pastTournament.tournamentName);
                 return this.pastEventTableOutput()
+            }else if(pastTournament.tournamentId !== nextTournament.tournamentId){
+	            return (
+		            <div className={classes.doubleBoard}>
+                        <div>{this.pastEventTableOutput()}</div>
+			            <div>{this.nextEventTableOutput()}</div>
+		            </div>
+	            )
             }
             
         }else if(pastTournament !== undefined && nextTournament === undefined){
+	        console.log('reducedT', pastTournament.tournamentName);
+	        
             return this.pastEventTableOutput()
         }
         
