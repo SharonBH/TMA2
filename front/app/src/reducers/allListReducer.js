@@ -1,6 +1,6 @@
-const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
-
-const storageData = storage === null ? null : storage
+// const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
+//
+// const storageData = storage === null ? null : storage
 
 
 const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
@@ -15,7 +15,8 @@ const InitialState = {
     allEventsList: [],
     allEventTypesList: [],
     groupsList: null,
-    tournById: storageData,
+    // tournById: storageData,
+	tournById: [],
     eventDataArr: '',
     tournEventsByIdNoS: [],
     groupById: '',
