@@ -71,7 +71,7 @@ export class HomeEvents extends Component {
                 }
         </div>
         )
-    }
+    };
     
     pastEventTableOutput = () => {
         const {past} =  this.props.allMyHomeData

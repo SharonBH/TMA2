@@ -150,35 +150,33 @@ export class TournamentsList extends Component {
         const path = this.props.match.url
         switch (path) {
             case "/my_tournaments":
-            return  <Link to={path +`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link> 
+            return  <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
             case "/all_tournaments":
-            return <Link to={path +`/${item.tournamentName}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link> 
+            return <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
            default:
          }
     }
 
     tournamentList = () => {
         const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
-        return tournaments !== undefined ? tournaments.map((item, index) => {        
+        return tournaments !== undefined ? tournaments.map((item, index) => {
             return <li key={index}>
                 <div className={classes.username}>
-                { this.pathChanger(item) }
+                    { this.pathChanger(item) }
                 </div>
                 <div className={classes.email}>{moment(item.startDate).format('Do MMM YYYY')}</div>
                 <div className={classes.email}>{moment(item.endDate).format('Do MMM YYYY')}</div>
-                <div className={classes.role}>{item.numberOfEvents}</div>
+                <div className={classes.role}>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</div>
                 <div className={classes.role}>{item.eventTypeName}</div>
                 <div id={index} className={classes.allUsButtons}>
                     <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
-                 </div>
+                </div>
             </li>
         })
         : null
-    }
+    };
     
     render (){
-        console.log('TOURN LIST PROPS ', this.props)
-        console.log('PROP TYPES ', typeof(this.props.deleteUserConfirmMessage))
         return (
             <div className={classes.usersWrapper}>
                 <div>
