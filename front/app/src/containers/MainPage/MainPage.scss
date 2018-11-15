@@ -17,6 +17,16 @@
     text-align: left;
     padding: 0 15px;
     .leaderTop{
+        border: 1px solid #b9b9b9;
+        margin-bottom: 40px;
+        &>p{
+            text-align: left;
+            border-bottom: 1px solid #bbb;
+            padding-bottom: 9px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding-left: 18px;
+        }
         .leaderTableHead{
             display: flex;
             justify-content: space-around;
@@ -30,14 +40,16 @@
             padding-left: 3%;;
             width: 97%;
             list-style-type: decimal;
+            margin-bottom: -1px;
             li{
-                
+                border-bottom: 1px dashed #b9b9b9;
                 &>div{
                     display: flex;
                     justify-content: space-around;
                 }
                 p{
                     width: 30%;
+                    margin: 5px 0;
                 }
             }
         }
