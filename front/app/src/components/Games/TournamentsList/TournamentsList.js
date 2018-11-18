@@ -150,9 +150,9 @@ export class TournamentsList extends Component {
         const path = this.props.match.url
         switch (path) {
             case "/my_tournaments":
-            return  <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
+            return  <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName} - {item.tournamentId}</Link>
             case "/all_tournaments":
-            return <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
+            return <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName} - {item.tournamentId}</Link>
            default:
          }
     }
