@@ -1,10 +1,11 @@
-import classes from "./TournamentPage..scss";
+import classes from "./TournamentPage.scss";
 import moment from "moment";
 import EditBtn from "../../UI/BtnComp/EditBtn";
 import DeleteBtn from "../../UI/BtnComp/DeleteBtn";
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {tournEventsByIdRequest} from "../../../actions/GamesApi";
+import SmallSpinner from "../../UI/SmallSpinner/SmallSpinner";
 
 
 
@@ -43,7 +44,10 @@ export class TournyPageLeaderBoard extends Component {
 						
 						}
 					</ol>
-					: <ul className={classes.noresults}><p>No results</p></ul>}
+					: <ul className={classes.noresults}>
+						<SmallSpinner/>
+						{/*<p>No results</p>*/}
+					</ul>}
 			</div>
 		)
 	}

@@ -1,6 +1,7 @@
 const InitialState = {
     signOutConfirmMessage: false,
     deleteUserConfirmMessage: false,
+	deleteEvent: ''
 }
 
 const confirmMessageReducer = (state = InitialState, action) => {
@@ -30,6 +31,12 @@ const confirmMessageReducer = (state = InitialState, action) => {
                 ...state,
                 deleteUserConfirmMessage: boolea
             }
+	    case 'DELETE_EVENT_ACTION':
+            const item = action.payload
+		    return {
+			    ...state,
+			    deleteEvent: item
+		    }
         default:
     }
     return state;

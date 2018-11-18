@@ -40,7 +40,7 @@ class ConfirmMessage extends Component {
     }
 
     approve = (headline, user ) => {
-        const { item } = this.props
+        const { item, deleteEvent } = this.props
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
         const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
         switch(headline) {
@@ -51,7 +51,7 @@ class ConfirmMessage extends Component {
                 this.props.DeleteTournamentRequest(itemForDel.tournamentId)
                 break
             case DELETE_EVENT:
-                this.props.DeleteEventRequest(item)
+                this.props.DeleteEventRequest(deleteEvent)
                 break
             case SING_OUT:
                 this.props.getUserAction(null)
@@ -68,9 +68,10 @@ class ConfirmMessage extends Component {
     }
 
     popUpContent = () => {
-        const { headline, user, item } = this.props
+        const { headline, user, item, deleteEvent } = this.props
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
-        const eventForDel = this.props.tournById !== null ? this.props.tournById.events.find(id => { return id.eventId === item}) : null
+        const eventForDel = this.props.tournById !== null ? this.props.tournById.events.find(id => { return id.eventId === deleteEvent}) : null
+        console.log('CONFIRM',  this.props)
         let name = ''
         
         // headline === 'delete user' ? user.username : itemForDel.tournamentName
@@ -113,6 +114,7 @@ const mapStateToProps = (state) => {
         allTournsList: state.allListReducer.allTournsList,
         allEventsList: state.allListReducer.allEventsList,
         tournById: state.allListReducer.tournById,
+	    deleteEvent: state.confirmMessageReducer.deleteEvent,
     }
 }
 const mapDispatchToProps = dispatch => {

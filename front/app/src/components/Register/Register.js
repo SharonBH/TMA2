@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classes from './RegisterComp.scss';
-import {  appCallTakeAllEvents } from "../../actions/GamesApi";
+// import {  appCallTakeAllEvents } from "../../actions/GamesApi";
 import { successMessageAction, errorMessageAction, addNewItemAction, addNewEventAction, addNewTournamentAction, editThisGroupAction } from '../../actions';
 import { connect } from 'react-redux';
 
@@ -23,7 +23,7 @@ class Register extends Component {
     componentWillMount() {
         const { headline, group } = this.props;
         if(headline === ADD_TOURNAMENT) {
-            this.props.appCallTakeAllEvents()
+            // this.props.appCallTakeAllEvents()
         }
     }
 
@@ -128,9 +128,9 @@ const mapDispatchToProps = dispatch => {
         addNewItemAction: (payload) => dispatch(addNewItemAction(payload)),
         addNewEventAction: (payload) => dispatch(addNewEventAction(payload)),
         addNewTournamentAction: (payload) => dispatch(addNewTournamentAction(payload)),
-        appCallTakeAllEvents: (payload) => dispatch(appCallTakeAllEvents(payload)),
+        // appCallTakeAllEvents: (payload) => dispatch(appCallTakeAllEvents(payload)),
 	    editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
-        
+     
         
     }
 };

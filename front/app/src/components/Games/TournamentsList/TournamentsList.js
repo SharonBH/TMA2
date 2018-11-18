@@ -14,7 +14,7 @@ import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
 
-import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest, takeMyGroupsRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest, takeMyGroupsRequest, mainPageGetAllGroupsRequest } from '../../../actions/GamesApi';
 import { addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 export class TournamentsList extends Component {
@@ -55,13 +55,13 @@ export class TournamentsList extends Component {
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
 
-    componentWillMount(){
-        if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
-            this.props.takeAllTournaments()
-        } else {
-            return null
-        }
-    }
+    // componentWillMount(){
+    //     if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
+    //         this.props.takeAllTournaments()
+    //     } else {
+    //         return null
+    //     }
+    // }
     componentDidMount(){
         this.props.successMessageAction(null)
         const userID = this.props.currentUser.userId
@@ -101,10 +101,12 @@ export class TournamentsList extends Component {
     }
 
     addTournamentBtn = () => {
-        const userID = this.props.currentUser.userId
+        const userID = this.props.currentUser.userId;
+	    // this.props.mainPageGetAllGroupsRequest();
         setTimeout(() => {
-            this.props.addNewTournamentAction(true)
+            this.props.addNewTournamentAction(true);
             this.props.takeMyGroupsRequest(userID)
+	        
         }, 200)
     }
 
@@ -139,7 +141,7 @@ export class TournamentsList extends Component {
     getTournById=(tournIdToPage)=>{
         this.setState({someId: tournIdToPage})
         this.props.tournEventsByIdRequest(tournIdToPage)
-        this.props.goToTournPageRequest(tournIdToPage)
+        // this.props.goToTournPageRequest(tournIdToPage)
     }
     closeMessage = () => {
         this.props.successMessageAction(null)
@@ -235,6 +237,7 @@ const mapDispatchToProps = dispatch => {
         goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         takeMyGroupsRequest: payload => dispatch(takeMyGroupsRequest(payload)),
+	    mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
 
         
     }
