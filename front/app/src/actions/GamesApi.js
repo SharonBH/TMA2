@@ -67,7 +67,7 @@ const url = 'https://tma-api.azurewebsites.net/';
 // };
 
 // delete event
-export const DeleteEventRequest = (eventId) => {
+export const DeleteEventRequest = (eventId, currentTournamentId) => {
 	return (dispatch) => {
 		console.log('eventId', eventId)
 		dispatch(toggleLoaderAction(true))
@@ -81,13 +81,13 @@ export const DeleteEventRequest = (eventId) => {
 				if(response.data.response === 'Success') {
 					const data = response.data.message
 					dispatch(successMessageAction(data))
-					return axios.post(cors + url + `Events/GetEvents`)
-						.then((response) => {
-							const events = response.data
-							dispatch(getAllEventsAction(events))
-							// history.push({pathname: '/tournament_page'})
-							
-							dispatch(toggleLoaderAction(false))
+					// return axios.post(cors + url + `Events/GetEvents`)
+						// .then((response) => {
+						// 	const events = response.data
+						// 	dispatch(getAllEventsAction(events))
+						// 	// history.push({pathname: '/tournament_page'})
+						//
+						// 	dispatch(toggleLoaderAction(false))
 							return axios.post(cors + url + `Events/GetEventTypes`)
 								.then((response) => {
 									const eventTypes = response.data
@@ -100,13 +100,13 @@ export const DeleteEventRequest = (eventId) => {
 									dispatch(catchErrorAction([error][0]))
 									dispatch(errorMessageAction([error][0]))
 									dispatch(toggleLoaderAction(false))
-								});
+								// });
 						})
-						.catch((error) => {
-							dispatch(catchErrorAction([error][0]))
-							dispatch(errorMessageAction([error][0]))
-							dispatch(toggleLoaderAction(false))
-						});
+						// .catch((error) => {
+						// 	dispatch(catchErrorAction([error][0]))
+						// 	dispatch(errorMessageAction([error][0]))
+						// 	dispatch(toggleLoaderAction(false))
+						// });
 				} else {
 					const error = response.data.message
 					dispatch(errorMessageAction(error))
@@ -175,7 +175,7 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
 // edit Event
 export const editThisEventRequest = (eventID, eventName, tournN, eventDate, eventResults) => {
 	return (dispatch) => {
-		console.log('API', eventID, eventName, tournN, eventDate, eventResults)
+		console.log('eventID, eventName, tournN, eventDate, eventResults', eventID, eventName, tournN, eventDate, eventResults)
 		dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
@@ -190,7 +190,7 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate, even
 			}
 		})
 			.then((response) => {
-				dispatch(toggleLoaderAction(true))
+				// dispatch(toggleLoaderAction(true))
 				if (response.data.response === 'Success') {
 					dispatch(successMessageAction('Event Edited Successfuly'))
 					setTimeout((

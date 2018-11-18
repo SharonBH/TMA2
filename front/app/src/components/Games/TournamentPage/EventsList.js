@@ -60,7 +60,7 @@ export class EventsList extends Component {
 
 	}
 	eventsTable = () => {
-		
+		const { currentTournamentId } = this.props
 		return (
 				<div>
 					<h3>All events of tournament</h3>
@@ -74,6 +74,7 @@ export class EventsList extends Component {
 						?
 						<ul>
 							{(this.props.tournEventsByIdNoS !== undefined || this.props.tournEventsByIdNoS.length !== 0)  ? this.props.tournEventsByIdNoS.map((item, index) => {
+								console.log('2222', item)
 								return <li key={index}>
 									<div className={classes.eventName}>{item.eventName}</div>
 									<div
@@ -95,7 +96,7 @@ export class EventsList extends Component {
 									<div className={classes.turnPageEventsBTN}>
 										<a className={classes.editBTN}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item, this.props.match)}/></a>
 										<div className={classes.deleteBTN}><DeleteBtn
-											onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'}
+											onClick={() => this.DeleteEventBtn(item.eventId, currentTournamentId)} inputType={'button'}
 											content={`Delete`}/></div>
 									</div>
 								</li>

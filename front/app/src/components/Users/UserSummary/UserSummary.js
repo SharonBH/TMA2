@@ -208,7 +208,8 @@ class UserSummary extends Component {
         const editRequestParam = []
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput) 
-        })           
+        })
+        
         if(headline === EDIT || headline === YOUR_PROFILE) {
             if(!editRequestParam[2].includes('@')) {
                 this.props.errorMessageAction('you must enter a valid email address')
@@ -254,14 +255,14 @@ class UserSummary extends Component {
             }
         } 
         else if(headline === EDIT_EVENT){
-            const eventId = this.props.eventDataArr.eventId
-            const { eventDataArr } = this.props
-            const fill = eventDataArr.eventResults.map(result => {return result })
-            const idies = fill.filter(list => this.state.inputs.findIndex(id => id.userId === list.userId) === -1)
-            const notState = idies.map(item => {return {userId: item.userId, result: item.result } })
-            const concated = notState.concat(this.state.inputs)
-
-            const dateToSend = moment(this.state.selectedDate).format('YYYY-MM-DD hh:mm:ss')
+            const eventId = this.props.eventDataArr.eventId;
+            const { eventDataArr } = this.props;
+            const fill = eventDataArr.eventResults.map(result => {return result });
+            const idies = fill.filter(list => this.state.inputs.findIndex(id => id.userId === list.userId) === -1);
+            const notState = idies.map(item => {return {userId: item.userId, result: item.result } });
+            const concated = notState.concat(this.state.inputs);
+	        const TName = this.props.eventDataArr.tournamentName;
+            const dateToSend = moment(this.state.selectedDate).format('YYYY-MM-DD hh:mm:ss');
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter the event name')
             }
@@ -269,7 +270,7 @@ class UserSummary extends Component {
                 this.props.errorMessageAction('you must enter a date later than today')
             }  
             else {
-                this.props.editThisEventRequest(eventId, editRequestParam[0], editRequestParam[1], dateToSend, concated)
+                this.props.editThisEventRequest(eventId, editRequestParam[0], TName, dateToSend, concated)
             } 
 
         }

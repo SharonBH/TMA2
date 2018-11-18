@@ -81,13 +81,13 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 // login request
 export const loginRequest = (userName, password) => {
     return (dispatch) => {
+	    dispatch(toggleLoaderAction(true))
         return axios.post(cors + url + `Account/GetUserRoles`)
             .then((response) => {
                 // const roles = response.data
                 localStorage.setItem('localStoreRoles', JSON.stringify(response.data));
                 const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
                 dispatch(getAllRoles(roles));
-            dispatch(toggleLoaderAction(true))
             return axios({
                 method: 'post',
                 data: {
@@ -117,7 +117,7 @@ export const loginRequest = (userName, password) => {
                             const session = JSON.parse(sessionStorage.getItem('session'));
                             console.log('API', session)
                             dispatch(getUserAction(session))
-                            dispatch(toggleLoaderAction(false))
+                            // dispatch(toggleLoaderAction(false))
                             return axios({
                                 method: 'POST',
                                 url: cors + url + 'Tournaments/GetHomeLeaderboards',
