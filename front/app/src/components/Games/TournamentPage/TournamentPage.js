@@ -184,7 +184,7 @@ export class TournamentPage extends Component {
                      ? <div>
                          <EventsList currentTournamentId={action} currentTournamentName={currentTournament}/>
                          <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
-                    </div>
+                        </div>
                     : <Spinner/>
                      }
                 </div>
@@ -193,6 +193,11 @@ export class TournamentPage extends Component {
     };
  
     usersTable = () => {
+	    const currentTournament = this.state.tournById !== null ? this.state.tournById.tournamentName : null
+	    const locationName = this.props.location.pathname;
+	    const urlsplit2 = locationName.split("/");
+	    const urlsplit3 = urlsplit2[2].split('=');
+	    const action2 = urlsplit3[ urlsplit3.length - 2 ];
         const tournGroupById = this.props.groupById
         const gName = tournGroupById !== null ? tournGroupById.groupName : null
         const groupName = tournGroupById !== null ? tournGroupById.users : null
@@ -201,16 +206,23 @@ export class TournamentPage extends Component {
                     {this.turnPageInformation()}
                     <div>
                     <h3>All users of tournament</h3>
-                    <div className={classes.usersTBL}><h5 className={classes.groupName}>Group Name: </h5> <span>{gName}</span></div>
+                    <div className={classes.usersTBL}><h5 className={classes.groupName}>Group Name: </h5>
+	                    {(currentTournament !== undefined && currentTournament === action2)
+		                    ? <span>{gName}</span>
+		                    : <spinner/>
+	                    }
+                    </div>
                     <div className={classes.usersTBList}>
                         <h5 className={classes.eventDate}>Users:</h5>
                         <ul>
-                        {groupName !== undefined ? groupName.map((item, index) => {
-                            return(
-                                <li key={index}>
-                                    {item.username}
-                                </li>
-                            )}) : null
+                        {(currentTournament !== undefined && currentTournament === action2)
+	                        ? groupName !== undefined ? groupName.map((item, index) => {
+	                            return(
+	                                <li key={index}>
+	                                    {item.username}
+	                                </li>
+	                            )}) : null
+	                        : <Spinner/>
                         }
                         </ul>
                     </div>
