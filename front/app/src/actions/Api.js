@@ -9,7 +9,8 @@ import {
     // changePassAction,
     successMessageAction,
     errorMessageAction,
-    getAllRoles
+    getAllRoles,
+    takeMyHomeLeader
 } from './index';
 import { EDIT, YOUR_PROFILE } from '../configuration/config'
 
@@ -114,9 +115,24 @@ export const loginRequest = (userName, password) => {
                         .then((response) => {
                             sessionStorage.setItem('session', JSON.stringify(response.data));
                             const session = JSON.parse(sessionStorage.getItem('session'));
+                            console.log('API', session)
                             dispatch(getUserAction(session))
                             dispatch(toggleLoaderAction(false))
-                            history.push({pathname: '/homeEvents', state:response.data})
+                            return axios({
+                                method: 'POST',
+                                url: cors + url + 'Tournaments/GetHomeLeaderboards',
+                                headers: {'Content-Type': 'application/json; charset=UTF-8'},
+                                data: "'" + session.userId + "'"
+                            })
+                            .then((response) => {
+                                // const data = response.data.message
+                                // const allData = response.data
+                                localStorage.setItem('localStoreLeaderboarddData', JSON.stringify(response.data));
+                                const allData = JSON.parse(localStorage.getItem('localStoreLeaderboarddData'));
+                                dispatch(takeMyHomeLeader(allData))
+                                history.push({pathname: '/homeEvents', state:response.data})
+                            })
+       
                         })
                         .catch((error) => {
                             dispatch(catchErrorAction([error][0]))
@@ -151,9 +167,9 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
                         .then((response) => {
                             const users = response.data
                             dispatch(getAllUsersAction(users));
-                            history.push({pathname: '/all_users'})
-                            dispatch(addNewItemAction(false))
-                            dispatch(successMessageAction('User Added Successfuly'))
+                            history.push({pathname: '/all_users'});
+                            dispatch(addNewItemAction(false));
+                            dispatch(successMessageAction('User Added Successfuly'));
                             dispatch(toggleLoaderAction(false))
                         })
                         .catch((error) => {

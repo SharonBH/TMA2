@@ -34,8 +34,8 @@ export class Groups extends Component {
     }
 
     componentWillMount(){
-        const userID = this.props.currentUser.userId
-        this.props.takeMyGroupsRequest(userID)
+        const userID = this.props.currentUser.userId;
+        this.props.takeMyGroupsRequest(userID);
         if(this.props.groupsList === null) {
             this.props.getAllGroupsRequest()
             
@@ -45,8 +45,8 @@ export class Groups extends Component {
     }
 
     componentWillUnmount(){
-        this.props.errorMessageAction(null)
-        this.props.successMessageAction(null)
+        this.props.errorMessageAction(null);
+        this.props.successMessageAction(null);
     }
 
     successDeleteMessage = () => {
@@ -80,26 +80,26 @@ export class Groups extends Component {
     }
 
     editGroupBtn = (group) => {
-        this.setState({groupInEditMode: group})
-        setTimeout(() => {
-            this.props.editThisGroupAction(true)
-        }, 200)
-    }
+	    this.props.editThisGroupAction(true);
+        this.setState({groupInEditMode: group});
+       
+    };
     
-    editGroupComp = () => {
-        return <Register headline={EDIT_GROUP} classStr='none' group={this.state.groupInEditMode}/>
-    }
+    
 
     addNewGroupBtn = () => {
         setTimeout(() => {
             this.props.addNewItemAction(true)
         }, 200)
-    }
-
+    };
+    
     addGroupComp = () => {
         return <Register headline={ADD_NEW_GROUP} classStr='none' />
-    }
-
+    };
+	editGroupComp = () => {
+		return <Register headline={EDIT_GROUP} classStr='none' group={this.state.groupInEditMode}/>
+	};
+	
     tableHeader = () => (
         <div className={classes.Head}>
             <div className={classes.headline}>Group Name</div>
@@ -127,7 +127,8 @@ export class Groups extends Component {
                     </div>
                 </div>
                 <div id={index} className={classes.allUsButtons}>
-                    <Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
+                    {/*<Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>*/}
+	                <Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
                     <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>
                     <BtnComp onClick={() => this.togglePopup(group.groupId)} inputType={'button'} content='Link to copy'/>
                  </div>
@@ -143,6 +144,7 @@ export class Groups extends Component {
       }
 
     render() {
+
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}

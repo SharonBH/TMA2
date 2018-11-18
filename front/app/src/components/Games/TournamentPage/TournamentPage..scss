@@ -4,7 +4,7 @@
     text-align: left;
     margin-top: 10px;
     padding: 0 10px;
-    
+
     .AddUser {
         display: flex;
         justify-content: center;
@@ -142,6 +142,11 @@
     }
     .eventsTable{
         width: 65%;
+        &>div {
+            ul.noresults {
+                text-align: center;
+            }
+        }
         ul, ol{
             li{
                 div{
@@ -160,7 +165,7 @@
     }
     .usersTable{
         width: 35%;
-        
+
     }
 .turnPageEventsBTN{
     width: 10%;

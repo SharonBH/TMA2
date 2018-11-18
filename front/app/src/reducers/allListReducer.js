@@ -1,10 +1,13 @@
-const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
-
-const storageData = storage === null ? null : storage
+// const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
+//
+// const storageData = storage === null ? null : storage
 
 
 const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
-const rolesData = storage === null ? null : roles
+const rolesData = roles === null ? null : roles
+
+const allData = JSON.parse(localStorage.getItem('localStoreLeaderboarddData'));
+const leaderboardData = allData === null ? null : allData
 
 const InitialState = {
     allList: [],
@@ -12,7 +15,8 @@ const InitialState = {
     allEventsList: [],
     allEventTypesList: [],
     groupsList: null,
-    tournById: storageData,
+    // tournById: storageData,
+	tournById: [],
     eventDataArr: '',
     tournEventsByIdNoS: [],
     groupById: '',
@@ -21,7 +25,8 @@ const InitialState = {
     groupsDataById: [],
     leaderBoardData: [],
     groupId: '',
-    myEventsById: []
+    myEventsById: [],
+    allMyHomeData: leaderboardData
 }
 
 const allListReducer = (state = InitialState, action) => {
@@ -115,6 +120,12 @@ const allListReducer = (state = InitialState, action) => {
             return {
                 ...state,
                 myEventsById: myEvents
+            }
+        case 'TAKE_HOME_LEADERBOARD_ACTION':
+            const myHomeData = action.payload
+            return {
+                ...state,
+                allMyHomeData: myHomeData
             }
         default:
     }

@@ -11,6 +11,7 @@ export class InputComp extends Component {
         content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
+            PropTypes.array,
         ]),
         placeholder: PropTypes.string,
         onFocus: PropTypes.func,

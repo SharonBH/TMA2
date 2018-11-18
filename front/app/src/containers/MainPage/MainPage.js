@@ -14,7 +14,7 @@ import UserSummary from '../../components/Users/UserSummary';
 import TournamentsList from '../../components/Games/TournamentsList';
 import HomeEvents from '../../components/HomeEvents/HomeEvents'
 // import EventsList from '../../components/Games/EventsList';
-import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest } from '../../actions/GamesApi';
+import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest,takeMyHomeLeaderboardRequest } from '../../actions/GamesApi';
 import TournamentPage from '../../components/Games/TournamentPage';
 import { appCallTakeAllUsers, getAllRolesRequest } from '../../actions/Api';
 import Groups from '../../components/Games/Groups';
@@ -24,14 +24,13 @@ import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 export class MainPage extends Component {
 
     componentWillMount() {
-        setTimeout(() => {
-            // this.props.appCallTakeAllTournaments()
-            // this.props.appCallTakeAllEvents()
-            // this.props.mainPageGetAllGroupsRequest()
-            // this.props.appCallTakeAllUsers()
-            // this.props.appCallgetAllGroupsRequest()
-            
-        }, 200)
+        if(this.props.currentUser !== null){
+            const userId = this.props.currentUser.userId
+            setTimeout(() => {
+                this.props.takeMyHomeLeaderboardRequest(userId)
+            }, 200)
+        }
+        
     }
 
     render() {
@@ -166,6 +165,7 @@ const mapDispatchToProps = dispatch => {
         mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
         appCallgetAllGroupsRequest: payload => dispatch(appCallgetAllGroupsRequest(payload)),
         getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
+        takeMyHomeLeaderboardRequest: payload => dispatch(takeMyHomeLeaderboardRequest(payload)),
     }
 }
 
