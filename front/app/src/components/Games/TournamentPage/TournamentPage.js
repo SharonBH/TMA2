@@ -169,21 +169,6 @@ export class TournamentPage extends Component {
         this.props.editThisEventAction(null)
     }
 
-    // DeleteEventBtn = (item) => {
-    //     this.setState({eventForDelete: item})
-    //     this.setState({eventInEditMode: null})
-    //     this.props.deleteConfirmMessageAction(true)
-    //
-    // }
-    // editEventBtn = (item, match) => {
-    //     this.props.sendEventDataAction(item)
-    //     this.props.sendEvetnMatchAction(match)
-    //     this.setState({eventInEditMode: item})
-    //     setTimeout(() => {
-    //         this.props.editThisEventAction(true)
-    //     }, 200)
-    //
-    // }
     eventsTable = () => {
 	    const currentTournament = this.state.tournById !== null ? this.state.tournById.tournamentName : null
 	    const locationName = this.props.location.pathname;
