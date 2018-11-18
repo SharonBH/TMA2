@@ -271,6 +271,7 @@ export const takeMyHomeLeaderboardRequest = (userId) => {
 
 // take all events by tournament id
 export const tournEventsByIdRequest = (tournamentId) => {
+	console.log('single')
 	return (dispatch) => {
 		dispatch(toggleLoaderAction(true))
 		return axios({
@@ -443,7 +444,9 @@ export const goToTournPageRequest = (tournamentId) => {
 						.post(cors + url + `Events/GetEventTypes`)
 						.then((response) => {
 							const eventTypes = response.data;
-							dispatch(getAllEventTypesAction(eventTypes));
+							console.log(tournamentId)
+							dispatch(getAllEventTypesAction(eventTypes))
+							console.log('all')
 							return axios({
 								method: 'POST',
 								headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -451,8 +454,8 @@ export const goToTournPageRequest = (tournamentId) => {
 								data: tournamentId
 							})
 								.then((response) => {
-									const tournamentId = response.data;
-									dispatch(getTournByIdNoSAction(tournamentId));
+									// const tournamentId = response.data;
+									// dispatch(getTournByIdNoSAction(tournamentId));
 									// history.push({pathname: '/all_events'})
 									
 									return axios

@@ -13,12 +13,12 @@ import { SING_OUT } from './configuration/config'
 
 class App extends Component {
   spinner = () => {
-    if (this.props.toggleSpinner) {
-        return <Spinner />
-    } else {
-        return null
-    }
-}
+        if (this.props.toggleSpinner) {
+            return <Spinner />
+        } else {
+            return null
+        }
+  };
 
     render() {
         return (

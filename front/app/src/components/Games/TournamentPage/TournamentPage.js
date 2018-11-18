@@ -17,6 +17,8 @@ import BtnComp from '../../UI/BtnComp/BtnComp';
 import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
+import EventsList  from './EventsList.js'
+import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
 
 import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents, tournEventsByIdRequest, goToTournPageRequest } from '../../../actions/GamesApi';
 import {
@@ -31,6 +33,7 @@ import {
 	sendEvetnMatchAction,
 	toggleLoaderAction
 } from '../../../actions';
+import Spinner from "../../UI/Spinner";
 
     // const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
 export class TournamentPage extends Component {
@@ -60,10 +63,18 @@ export class TournamentPage extends Component {
 	        allTournsList: []
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
-        
+	    
     }
-
+	spinner = () => {
+		if (this.props.toggleSpinner) {
+			return <Spinner />
+		} else {
+			return null
+		}
+	};
     componentWillMount(){
+	    this.props.groupById.length !== 0 ? this.props.toggleLoaderAction(false) : this.props.toggleLoaderAction(true)
+     
 	    this.setStateAsync = Promise.promisify(this.setState);
 	    
 	    this.props.successMessageAction(null);
@@ -71,20 +82,22 @@ export class TournamentPage extends Component {
         const locationName = this.props.location.pathname;
         const urlsplit = locationName.split("=");
         const action = urlsplit[ urlsplit.length - 1 ];
-        if ((this.props.tournById.length === 0 || this.props.groupById === '')) {
+        if ((this.props.tournById.length === 0)) {
             this.props.goToTournPageRequest(action);
         }
 	    this.setState({currentPage: this.props.tournById});
+	    
 	    setTimeout(()=>{
-	          this.setStateAsync({
-                tournEventsByIdNoS: this.props.tournEventsByIdNoS,
-                leaderBoardData: this.props.leaderBoardData,
-                tournById: this.props.tournById,
-	            groupById: this.props.groupById,
-	            allEventTypesList: this.props.allEventTypesList,
-	            allTournsList: this.props.allTournsList
-            })
-    }, 2000)
+	        this.setStateAsync({
+		        tournById: this.props.tournById,
+		        tournEventsByIdNoS: this.props.tournEventsByIdNoS,
+		        leaderBoardData: this.props.leaderBoardData,
+		        groupById: this.props.groupById,
+		        allEventTypesList: this.props.allEventTypesList,
+		        allTournsList: this.props.allTournsList,
+	        })
+
+	        }, 3000)
     }
 
     componentWillUnmount(){
@@ -95,17 +108,17 @@ export class TournamentPage extends Component {
 	    this.state.tournEventsByIdNoS = [];
         this.state.leaderBoardData = [];
         this.state.tournById = []
-        
+
 	    this.state.groupById = []
         this.state.allEventTypesList = []
         this.state.allTournsList = []
     }
 
-    DeleteTournamentBtn = (item) => {
-        this.setState({tournamentForDelete: item})
-        this.setState({tournamentInEditMode: null})
-        this.props.deleteConfirmMessageAction(true)
-    }
+    // DeleteTournamentBtn = (item) => {
+    //     this.setState({tournamentForDelete: item})
+    //     this.setState({tournamentInEditMode: null})
+    //     this.props.deleteConfirmMessageAction(true)
+    // }
 
     editTournamentBtn = (item) => {
         this.setState({tournamentInEditMode: item})
@@ -119,9 +132,9 @@ export class TournamentPage extends Component {
             this.props.addNewEventAction(true)
         }, 200)
     }
-    addTournamentComp = () => {
-        return <Register headline={ADD_TOURNAMENT} classStr='none' />
-    }
+    // addTournamentComp = () => {
+    //     return <Register headline={ADD_TOURNAMENT} classStr='none' />
+    // }
     addEventComp = () => {
         return <Register headline={ADD_EVENT} tourn={this.state.tournById} classStr='none' />
     }
@@ -156,128 +169,77 @@ export class TournamentPage extends Component {
         this.props.editThisEventAction(null)
     }
 
-    DeleteEventBtn = (item) => {
-        this.setState({eventForDelete: item})
-        this.setState({eventInEditMode: null})
-        this.props.deleteConfirmMessageAction(true)
-        
-    }
-    editEventBtn = (item, match) => {
-        this.props.sendEventDataAction(item)
-        this.props.sendEvetnMatchAction(match)
-        this.setState({eventInEditMode: item})
-        setTimeout(() => {
-            this.props.editThisEventAction(true)
-        }, 200)
-
-    }
+    // DeleteEventBtn = (item) => {
+    //     this.setState({eventForDelete: item})
+    //     this.setState({eventInEditMode: null})
+    //     this.props.deleteConfirmMessageAction(true)
+    //
+    // }
+    // editEventBtn = (item, match) => {
+    //     this.props.sendEventDataAction(item)
+    //     this.props.sendEvetnMatchAction(match)
+    //     this.setState({eventInEditMode: item})
+    //     setTimeout(() => {
+    //         this.props.editThisEventAction(true)
+    //     }, 200)
+    //
+    // }
     eventsTable = () => {
+	    const currentTournament = this.state.tournById !== null ? this.state.tournById.tournamentName : null
+	    const locationName = this.props.location.pathname;
+	    const urlsplit = locationName.split("=");
+	    const action = urlsplit[ urlsplit.length - 1 ];
+	    const urlsplit2 = locationName.split("/");
+	    const urlsplit3 = urlsplit2[2].split('=');
+	    const action2 = urlsplit3[ urlsplit3.length - 2 ];
         return (
-            <div className={classes.eventsTable}>
-                <div>
-                    <h3>All events of tournament</h3>
-                    <div className={classes.usersHead}>
-                        <h4 className={classes.eventName}>Event Name</h4>
-                        <h4 className={classes.eventDate}>Event Date</h4>
-                        <h4 className={classes.usersInGame}>Users in Game</h4>
-                        <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
+	        
+		         <div className={classes.eventsTable}>
+                     {(currentTournament !== undefined && currentTournament === action2)
+                     ? <div>
+                         <EventsList currentTournamentId={action} currentTournamentName={currentTournament}/>
+                         <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
                     </div>
-                    {this.state.tournEventsByIdNoS.length !== 0
-                    ?
-                    <ul>
-                    {(this.state.tournEventsByIdNoS !== undefined ) ? this.state.tournEventsByIdNoS.map((item, index) => {
-                            return <li key={index}>
-                                <div className={classes.eventName}>{item.eventName}</div>
-                                <div className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY, HH:mm A')}</div>
-                                <div className={classes.usersInGame}>
-                                    <span className={classes.showUsers}>Hover to show</span>
-                                    <ul className={classes.hiddenUsers}>
-                                        {item.eventUsers.map((user, index) => {
-                                            const fill = item.eventResults.find(result => {return result.userId === user.userId})
-                                            return <li key={index}>
-                                                <span>{user.name}</span>
-                                                <span>{fill.result === null ? 'none' : fill.result}</span>
-                                            </li>})} 
-                                    </ul>
-                                </div>
-                                <div className={classes.turnPageEventsBTN}>
-                                    <a className={classes.editBTN}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item, this.props.match)}/></a>
-                                    <div className={classes.deleteBTN}><DeleteBtn onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'} content={`Delete`}/></div>
-                                </div>
-                            </li>
-                    }) : null}
-                    </ul>
-                    : <ul className={classes.noresults}><p>No events</p></ul>
-                    }
+                    : <Spinner/>
+                     }
                 </div>
-                {this.leaderBoardTable()}
-            </div>
+                
         )
-    }
-    leaderBoardTable = () => {
-        const leaderUsers = this.state.leaderBoardData
-        const sortedBoard = leaderUsers !== null ? leaderUsers.sort((a, b) => {
-            return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
-        }) : null
-        return(
-            <div>
-                <h3>Leader Board of tournament</h3>
-                <div className={classes.usersHead}>
-                    <h4 className={classes.leaderBoardTD}>User Name</h4>
-                    <h4 className={classes.leaderBoardTD}>Points</h4>
-                    <h4 className={classes.leaderBoardTD}>Events</h4>
-                </div>
-	            {sortedBoard.length !== 0
-		            ?
-                <ol>
-                    {sortedBoard !== null ? sortedBoard.map((item, index) => {
-                        return ( <li key={index}>
-                                <div className={classes.leaderBoardTD}>{item.user.username}</div>
-                                <div className={classes.leaderBoardTD}>{item.totalScores}</div>
-                                <div className={classes.leaderBoardTD}>{item.numberOfEvents}</div>
-                            </li>)
-                    }) : null
-                    
-                }
-                </ol>
-		            : <ul className={classes.noresults}><p>No results</p></ul>}
-            </div>
-        )
-    }
+    };
+ 
     usersTable = () => {
-    const tournGroupById = this.state.groupById
-    const gName = tournGroupById !== null ? tournGroupById.groupName : null
-    const groupName = tournGroupById !== null ? tournGroupById.users : null
-        return (
-            <div className={classes.usersTable}>
-                {this.turnPageInformation()}
-                <div>
-                <h3>All users of tournament</h3>
-                <div className={classes.usersTBL}><h5 className={classes.groupName}>Group Name: </h5> <span>{gName}</span></div>
-                <div className={classes.usersTBList}>
-                    <h5 className={classes.eventDate}>Users:</h5>
-                    <ul>
-                    {groupName !== undefined ? groupName.map((item, index) => {
-                        return(
-                            <li key={index}>
-                                {item.username}
-                            </li>
-                        )}) : null
-                    }
-                    </ul>
+        const tournGroupById = this.props.groupById
+        const gName = tournGroupById !== null ? tournGroupById.groupName : null
+        const groupName = tournGroupById !== null ? tournGroupById.users : null
+            return (
+                <div className={classes.usersTable}>
+                    {this.turnPageInformation()}
+                    <div>
+                    <h3>All users of tournament</h3>
+                    <div className={classes.usersTBL}><h5 className={classes.groupName}>Group Name: </h5> <span>{gName}</span></div>
+                    <div className={classes.usersTBList}>
+                        <h5 className={classes.eventDate}>Users:</h5>
+                        <ul>
+                        {groupName !== undefined ? groupName.map((item, index) => {
+                            return(
+                                <li key={index}>
+                                    {item.username}
+                                </li>
+                            )}) : null
+                        }
+                        </ul>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
-        )
-    }  
+            )
+    };
     turnamentHeadLine=()=>{
         const path = this.props.match.path === '/all_tournaments/:tournamentName'  ? '/all_tournaments' : '/my_tournaments'
         const currentTournament = this.state.tournById !== null ? this.state.tournById.tournamentName : null
         return(
         <div className={classes.headTPage}>
-            <h1><span>Tournament Name: </span>{currentTournament} </h1>
+            <h1><span>Tournament Name: </span>{currentTournament} - {this.state.tournById.tournamentId}</h1>
             <div className={classes.tournPButtons}>
-                {/* <BtnComp inputType="button" content='Leader Board' onClick={() => this.editTournamentBtn(currentTournament)}/> */}
                 <BtnComp content='Add Event' inputType='button' onClick={this.addEventBtn}/>
                 <BtnComp inputType="button" content='Edit Tournament' onClick={() => this.editTournamentBtn(currentTournament)}/>
                 <Link className={classes.backBtn} to={`${path}`}><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
@@ -309,10 +271,9 @@ export class TournamentPage extends Component {
         )
     }
     render (){
-        console.log('TOURN PAGE', this.props)
-	    console.log('TOURN PAGE state', this.state)
         return (
             <div className={classes.tournPageWrapper}>
+                {this.spinner()}
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
                 <div className={classes.turnInfo}>
@@ -354,7 +315,7 @@ const mapStateToProps = (state) => {
 
 
     }
-}
+};
 
 const mapDispatchToProps = dispatch => {
 
@@ -376,6 +337,6 @@ const mapDispatchToProps = dispatch => {
         goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
 	    toggleLoaderAction: payload => dispatch(toggleLoaderAction(payload)),
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TournamentPage);
