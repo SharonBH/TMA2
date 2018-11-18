@@ -66,19 +66,17 @@ namespace TMA.DAL
                 {
                     if (eventType.EventTypeName.ToLower() == "fifa")
                     {
-                        var winner = eventResults.OrderByDescending(x => x.Result).First();
-                        var loser = eventResults.OrderBy(x => x.Result).First();
+                        var result = eventResults.FirstOrDefault().Result;
 
-                        if (winner.Result > loser.Result)
+                        if (eventResults.All(x => x.Result == result))
+                            eventResults.ForEach(x => x.Score = 1);
+
+                        else
                         {
+                            var winner = eventResults.OrderByDescending(x => x.Result).First();
+                            var loser = eventResults.OrderBy(x => x.Result).First();
                             winner.Score = 3;
                             loser.Score = 0;                            
-                        }
-
-                        else // winner.Result == loser.Result
-                        {
-                            winner.Score = 1;
-                            loser.Score = 1;
                         }
                     }
                 }
