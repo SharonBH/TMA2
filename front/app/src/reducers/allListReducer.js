@@ -99,6 +99,7 @@ const allListReducer = (state = InitialState, action) => {
             }
         case 'SEND_EVENT_DATA':
             const eventData = action.payload
+            console.log('eventData', eventData)
             return {
                 ...state,
                 eventDataArr: eventData
