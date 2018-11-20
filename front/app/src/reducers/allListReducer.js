@@ -1,6 +1,5 @@
-// const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
-//
-// const storageData = storage === null ? null : storage
+
+
 
 
 const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
@@ -99,7 +98,6 @@ const allListReducer = (state = InitialState, action) => {
             }
         case 'SEND_EVENT_DATA':
             const eventData = action.payload
-            console.log('eventData', eventData)
             return {
                 ...state,
                 eventDataArr: eventData

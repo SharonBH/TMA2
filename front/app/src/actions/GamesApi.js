@@ -69,7 +69,6 @@ const url = 'https://tma-api.azurewebsites.net/';
 // delete event
 export const DeleteEventRequest = (eventId, currentTournamentId) => {
 	return (dispatch) => {
-		console.log('eventId', eventId)
 		dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
@@ -175,7 +174,6 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
 // edit Event
 export const editThisEventRequest = (eventID, eventName, tournN, eventDate, eventResults) => {
 	return (dispatch) => {
-		console.log('eventID, eventName, tournN, eventDate, eventResults', eventID, eventName, tournN, eventDate, eventResults)
 		dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
@@ -274,9 +272,8 @@ export const takeMyHomeLeaderboardRequest = (userId) => {
 
 // take all events by tournament id
 export const tournEventsByIdRequest = (tournamentId) => {
-	console.log('single')
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
 			headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -284,8 +281,9 @@ export const tournEventsByIdRequest = (tournamentId) => {
 			data: tournamentId
 		})
 			.then((response) => {
-				const tournamentId = response.data
-				dispatch(getTournByIdNoSAction(tournamentId))
+				// const tournamentId = response.data
+				const eventsById = response.data.length !== 0 ? response.data : [{eventName: "No Data"}]
+				dispatch(getTournByIdNoSAction(eventsById))
 				dispatch(toggleLoaderAction(false))
 			})
 	}
@@ -299,7 +297,7 @@ export const tournEventsByIdRequest = (tournamentId) => {
 // get all tournaments
 export const takeAllTournaments = () => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true));
+		// dispatch(toggleLoaderAction(true));
 		return axios.post(cors + url + `Tournaments/GetTournaments`)
 			.then((response) => {
 				const tournaments = response.data;
@@ -421,7 +419,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
 // get Tournament by tournament id
 export const goToTournPageRequest = (tournamentId) => {
 		return (dispatch) => {
-			dispatch(toggleLoaderAction(true));
+			// dispatch(toggleLoaderAction(true));
 			return axios({
 				method: 'POST',
 				url: cors + url + 'Tournaments/GetTournamentById',
@@ -429,7 +427,6 @@ export const goToTournPageRequest = (tournamentId) => {
 				data: tournamentId
 			})
 			.then((response) => {
-				console.log('api_    ', response)
 				// localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
 				// const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
 				dispatch(getTournByIdAction(response.data));
@@ -444,13 +441,17 @@ export const goToTournPageRequest = (tournamentId) => {
 				.then((response) => {
 					const groupById = response.data;
 					dispatch(getGroupById(groupById));
+					
 					return axios
 						.post(cors + url + `Events/GetEventTypes`)
-						.then((response) => {
-							const eventTypes = response.data;
-							console.log(tournamentId)
-							dispatch(getAllEventTypesAction(eventTypes))
-							console.log('all')
+				})
+				.then((response) => {
+					const eventTypes = response.data;
+					dispatch(getAllEventTypesAction(eventTypes))
+					if(response.statusText === 'OK') {
+						dispatch(toggleLoaderAction(false))
+					}
+				})
 							// return axios({
 							// 	method: 'POST',
 							// 	headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -467,22 +468,20 @@ export const goToTournPageRequest = (tournamentId) => {
 									// 	.then((response) => {
 									// 		const groups = response.data;
 									// 		dispatch(getAllGroups(groups));
-											if(response.statusText === 'OK') {
-												dispatch(toggleLoaderAction(false))
-											}
+										
 										// })
 										// .catch((error) => {
 										// 	dispatch(catchErrorAction([ error ][ 0 ]));
 										// 	dispatch(errorMessageAction(error[ 0 ]));
 										// })
 								// })
-						})
+						
 						.catch((error) => {
 							dispatch(catchErrorAction([error][0]));
 							dispatch(errorMessageAction(error[0]))
 						})
 					
-				})
+				
 				.catch((error) => {
 					dispatch(catchErrorAction([error][0]));
 					dispatch(errorMessageAction(error[0]))
@@ -553,7 +552,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tou
 
 export const getLeaderboards = (tournamentId) => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
 			headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -562,7 +561,8 @@ export const getLeaderboards = (tournamentId) => {
 		})
 			.then((response) => {
 				const data = response.data
-				dispatch(getLeaderboardsSAction(data))
+				const leaderList = data.length !== 0 ? data : [{user: "No Data"}]
+				dispatch(getLeaderboardsSAction(leaderList))
 				dispatch(toggleLoaderAction(false))
 			})
 	}
@@ -574,7 +574,7 @@ export const getLeaderboards = (tournamentId) => {
 // get all groups
 export const getAllGroupsRequest = () => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios.post(cors + url + `Groups/GetGroups`)
 			.then((response) => {
 				const groups = response.data
@@ -634,7 +634,6 @@ export const addNewGroupRequest = (groupName, usersIds) => {
 							
 							dispatch(addNewGroupAction(false))
 							dispatch(successMessageAction('Group Added Successfuly'))
-							console.log(response)
 							setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
 							dispatch(toggleLoaderAction(false))
 						})
@@ -747,7 +746,7 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
 // take all groups by user id
 export const takeMyTournamentsRequest = (userId) => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
 			url: cors + url + 'Tournaments/GetUserTournaments',
@@ -772,7 +771,7 @@ export const takeMyTournamentsRequest = (userId) => {
 // take all groups by user id
 export const takeMyGroupsRequest = (userId) => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
 			url: cors + url + 'Groups/GetUserGroups',

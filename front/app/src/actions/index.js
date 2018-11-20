@@ -222,14 +222,12 @@ export const editThisGroupAction = (boll) => {
 }
 
 export const sendEventDataAction = (data, match) => {
-console.log('index data', data)
     return {
         type: 'SEND_EVENT_DATA',
         payload: data
     }
 }
 export const sendEvetnMatchAction = (match) => {
-	console.log('index match', match)
     return {
         type: 'SEND_EVENT_MATCH',
         payload: match
