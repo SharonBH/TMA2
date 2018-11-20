@@ -528,7 +528,7 @@ namespace TMA.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> EditUser(UserModel userModel)
+        public async Task<IActionResult> EditUser([FromBody]UserModel userModel)
         {
             try
             {
