@@ -307,14 +307,14 @@ export const takeAllTournaments = () => {
 					.then((response) => {
 						const groups = response.data;
 						dispatch(getAllGroups(groups));
-						dispatch(toggleLoaderAction(false))
 						return axios
 							.post(cors + url + `Events/GetEventTypes`)
-					})
-					.then((response) => {
-						const eventTypes = response.data;
-						dispatch(getAllEventTypesAction(eventTypes))
-					})
+							})
+							.then((response) => {
+								const eventTypes = response.data;
+								dispatch(getAllEventTypesAction(eventTypes))
+								dispatch(toggleLoaderAction(false))
+							})
 					.catch((error) => {
 						dispatch(catchErrorAction([error][0]));
 						dispatch(errorMessageAction(error[0]));

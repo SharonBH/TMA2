@@ -220,14 +220,14 @@ export class TournamentPage extends Component {
                     {this.turnPageInformation()}
                     <div>
                     <h3>All users of tournament</h3>
-                    <div className={classes.usersTBL}><h5 className={classes.groupName}>Group Name:
-	                    {gName !== undefined
-	                        ? <span>{gName}</span>
-		                    : <div className={classes.typeNameSpinner}><SmallSpinner /></div>
-	                    }
-	                    
-                    </h5>
-	                   
+                    <div className={classes.usersTBL}>
+	                    <h5 className={classes.groupName}>Group Name:
+		                    {
+	                            gName !== undefined
+			                        ? <span>{gName}</span>
+				                    : <div className={classes.typeNameSpinner}><SmallSpinner /></div>
+		                    }
+                        </h5>
                     </div>
                     <div className={classes.usersTBList}>
                         <h5 className={classes.eventDate}>Users:</h5>
