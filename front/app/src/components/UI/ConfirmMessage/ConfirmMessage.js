@@ -68,12 +68,14 @@ class ConfirmMessage extends Component {
     }
 
     popUpContent = () => {
-        const { headline, user, item, deleteEvent } = this.props
+        const { headline, user, item, deleteEvent, event } = this.props
+	    console.log('CONFIRM11',  this.props)
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
-        const eventForDel = this.props.tournById !== null ? this.props.tournById.events.find(id => { return id.eventId === deleteEvent}) : null
-        console.log('CONFIRM',  this.props)
+
+        const eventForDel = headline === DELETE_EVENT && (this.props.tournById !== null || this.props.tournById.length !== 0) ? this.props.tournById.events.find(id => { return id.eventId === deleteEvent}) : null
+        // console.log('CONFIRM22',  this.props)
         let name = ''
-        
+        //
         // headline === 'delete user' ? user.username : itemForDel.tournamentName
         if(headline === DELETE_USER){
             name = user.username
@@ -83,7 +85,8 @@ class ConfirmMessage extends Component {
             name = ''
         }else if(headline === DELETE_EVENT){
             name =  eventForDel.eventName
-        }else if(headline === DELETE_GROUP){
+        }
+        else if(headline === DELETE_GROUP){
             name =  item.groupName
         }
 

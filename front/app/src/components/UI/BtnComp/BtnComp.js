@@ -10,7 +10,8 @@ export class BtnComp extends Component {
         content: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.number,
-        ]).isRequired
+        ]).isRequired,
+	    disabled: PropTypes.bool
     };
 
     render(){
@@ -21,7 +22,9 @@ export class BtnComp extends Component {
                     className={classes.sendBtn}
                     type={this.props.inputType}
                     value={this.props.content}
-                    onClick={this.props.onClick} />
+                    onClick={this.props.onClick}
+                    disabled={this.props.disabled}
+                />
             </div>
         )
     }

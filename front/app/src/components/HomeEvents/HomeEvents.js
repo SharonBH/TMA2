@@ -16,7 +16,8 @@ export class HomeEvents extends Component {
             this.props.takeAllTournaments()
 
         }, 200)
-	    if(this.props.currentUser !== null){
+	    if(this.props.currentUser !== null &&  this.props.allMyHomeData === ''){
+	    	console.log('1')
 		    const userId = this.props.currentUser.userId
 		    setTimeout(() => {
 			    this.props.takeMyHomeLeaderboardRequest(userId)
@@ -40,8 +41,7 @@ export class HomeEvents extends Component {
         const {next} =  this.props.allMyHomeData
         
         const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
-        const filltournamentName = fill !== undefined ? fill.tournamentName : ''
-        console.log('next', fill)
+        const filltournamentName = fill !== undefined ? fill.tournamentName : '';
 
         return(
             

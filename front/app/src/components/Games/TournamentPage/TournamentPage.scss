@@ -23,6 +23,10 @@
         .headTPage{
             display: flex;
             justify-content: space-between;
+            .typeNameSpinner{
+                display: inline-block;
+            }
+
             .editBTN{
                 display: inline-block;
             }
@@ -40,6 +44,10 @@
             .tournPButtons{
                 text-align: right;
                 margin-right: 20px;
+                input:disabled{
+                    background: #999;
+                }
+
                 &>*{
                     display: inline-block;
                     margin-bottom: 5px;

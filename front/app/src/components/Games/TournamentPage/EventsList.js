@@ -13,6 +13,7 @@ import {
 	deleteEventAction
 } from "../../../actions";
 import SmallSpinner from '../../UI/SmallSpinner'
+import Promise from "bluebird";
 
 
 export class EventsList extends Component {
@@ -27,7 +28,6 @@ export class EventsList extends Component {
 	componentWillMount(){
 		const { currentTournamentId, currentTournamentName } = this.props
 		
-		console.log('events list currentTournament', currentTournamentId)
 		if( currentTournamentId !== undefined ){
 			this.props.tournEventsByIdRequest(currentTournamentId)
 			
@@ -35,13 +35,22 @@ export class EventsList extends Component {
 		
 	}
 	componentDidMount = () => {
-		// if(this.props.tournEventsByIdNoS.length !== 0 ){
-			this.setState({tournEventsByIdNoS: this.props.tournEventsByIdNoS})
-		// }
+		this.setStateAsync = Promise.promisify(this.setState);
+		
+		setTimeout(()=>{
+			this.setStateAsync({
+				tournEventsByIdNoS: this.props.tournEventsByIdNoS
+			})
+			
+		}, 3000)
+		
 	}
-	componentWillUnmount = () => {
-	
+	componentWillUnmount(){
+		this.setState({tournEventsByIdNoS: []})
+		
 	}
+
+
 	DeleteEventBtn = (item) => {
 	    this.setState({eventForDelete: item})
 	    this.setState({eventInEditMode: null})
@@ -50,7 +59,6 @@ export class EventsList extends Component {
 
 	}
 	editEventBtn = (item, match) => {
-		console.log('item, match', item, match)
 	    this.props.sendEventDataAction(item)
 	    this.props.sendEvetnMatchAction(match)
 	    this.setState({eventInEditMode: item})
@@ -60,7 +68,7 @@ export class EventsList extends Component {
 
 	}
 	eventsTable = () => {
-		
+		const { currentTournamentId } = this.props
 		return (
 				<div>
 					<h3>All events of tournament</h3>
@@ -70,35 +78,40 @@ export class EventsList extends Component {
 						<h4 className={classes.usersInGame}>Users in Game</h4>
 						<h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
 					</div>
-					{this.props.tournEventsByIdNoS.length !== 0
+					{this.state.tournEventsByIdNoS.length !== 0
 						?
 						<ul>
-							{(this.props.tournEventsByIdNoS !== undefined || this.props.tournEventsByIdNoS.length !== 0)  ? this.props.tournEventsByIdNoS.map((item, index) => {
-								return <li key={index}>
-									<div className={classes.eventName}>{item.eventName}</div>
-									<div
-										className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY, HH:mm A')}</div>
-									<div className={classes.usersInGame}>
-										<span className={classes.showUsers}>Hover to show</span>
-										<ul className={classes.hiddenUsers}>
-											{item.eventUsers.map((user, index) => {
-												const fill = item.eventResults.find(result => {
-													return result.userId === user.userId
-												})
-												return <li key={index}>
-													<span>{user.name}</span>
-													<span>{fill.result === null ? 'none' : fill.result}</span>
-												</li>
-											})}
-										</ul>
-									</div>
-									<div className={classes.turnPageEventsBTN}>
-										<a className={classes.editBTN}><EditBtn inputType="submit" content='Edit' onClick={() => this.editEventBtn(item, this.props.match)}/></a>
-										<div className={classes.deleteBTN}><DeleteBtn
-											onClick={() => this.DeleteEventBtn(item.eventId)} inputType={'button'}
-											content={`Delete`}/></div>
-									</div>
-								</li>
+							{(this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS.map((item, index) => {
+								 return item.eventName !== 'No Data'
+								? <li key={index}>
+										 <div className={classes.eventName}>{item.eventName}</div>
+										<div
+											className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY, HH:mm A')}</div>
+										<div className={classes.usersInGame}>
+											<span className={classes.showUsers}>Hover to show</span>
+											<ul className={classes.hiddenUsers}>
+												{item.eventUsers !== undefined ? item.eventUsers.map((user, index) => {
+													const fill = item.eventResults.find(result => {
+														return result.userId === user.userId
+													})
+													return <li key={index}>
+														<span>{user.name}</span>
+														<span>{fill.result === null ? 'none' : fill.result}</span>
+													</li>
+												}) : null}
+											</ul>
+										</div>
+										<div className={classes.turnPageEventsBTN}>
+											<a className={classes.editBTN}><EditBtn inputType="submit" content='Edit'
+											                                        onClick={() => this.editEventBtn(item, this.props.match)}/></a>
+											<div className={classes.deleteBTN}><DeleteBtn
+												onClick={() => this.DeleteEventBtn(item.eventId, currentTournamentId)}
+												inputType={'button'}
+												content={`Delete`}/></div>
+										</div>
+									</li>
+								: <div key={index}>No Events</div>
+								
 							}) : null}
 						</ul>
 						: <ul className={classes.noresults}>
