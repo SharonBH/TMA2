@@ -212,11 +212,25 @@ export const takeAllUsers = () => {
 };
 
 // edit User Request
-export const editThisUserRequest = (headline, userName, name, email, userType ) => {
+export const editThisUserRequest = (headline, userName, name, email, image, userType) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(cors + url + `Account/EditUser?Email=${email}&Name=${name}&Role=${userType}&Username=${userName}`)
+	    
+        // return axios.post(cors + url + `Account/EditUser?Email=${email}&Name=${name}&image=${image}&Role=${userType}&Username=${userName}`)
+	    return axios({
+		    method: 'POST',
+		    headers: {'Content-Type': 'application/json; charset=UTF-8; multipart/form-data'},
+		    url: cors + url + 'Account/EditUser',
+		    data: {
+			    Email: email,
+			    Name: name,
+			    Role: userType,
+			    Username: userName,
+			    avatar: image,
+		    }
+	    })
             .then((response) => {
+	            console.log('respose', response)
                 if (response.data.response === 'Success') {
                     if(headline === EDIT){
                         return axios.post(cors + url + `Account/GetUsers`)
