@@ -17,7 +17,24 @@
         height: auto;
         position: relative;
         margin: auto auto;
+        .profileAvatar{
+            width: 75px;
+            height: 75px;
+            display: inline-block;
+            border-radius: 150px;
+            overflow: hidden;
+            margin-right: 15px;
+            &>img{
+                max-width: 100%;
 
+            }
+        }
+        .innerWrapper{
+            position: relative;
+            padding-bottom: 45px;
+            margin-bottom: 25px;
+
+        }
         .success {
             position: absolute;
             bottom: 13px;
@@ -32,21 +49,31 @@
         h1 {
             width: 100%;
             text-align: left;
+            display: flex;
+            align-items: center;
             span{
                 font-weight: 400;
             }
         }
         .closePopBtn{
             display: inline-block;
-            width: 100%;
+            width: auto;
             text-align: right;
-            margin-top: 15px;
+            float: right;
+            cursor: pointer;
+            position: absolute;
+            bottom: 0;
+            right: 75px;
+            height: 36px;
+            margin: 0;
             span{
-                padding: 5px;
+                padding: 7px 5px;
                 border: 1px solid;
                 color: #03a3d0;
                 position: relative;
                 z-index: 5;
+                display: block;
+                bottom: 0;
                 &:hover {
                     background: #03a3d0;
                     color: #fff;
@@ -237,9 +264,12 @@
 
         }
         .SubmitAll {
-            width: 100%;
             display: inline-block;
-            margin-top: 15px; 
+            text-align: right;
+            min-width: 67px;
+            position: absolute;
+            right: 0;
+            bottom: 1px;
             div {
                 border: 0;
                 padding: 0;

@@ -131,18 +131,20 @@ export class AddTournament extends Component{
 							label='End Date:'
 						/>
 					</MuiPickersUtilsProvider>
+					<div className={classes.lastLine}>
 					<InputComp
 						inputType="number"
 						name="maxNumOfEvents"
 						placeholder="Maximum number Of Events"
 						onChange={this.onMaxNumChange}
 					/>
-					{<BtnComp
+					</div>
+					{<div className={classes.saveButton}><BtnComp
 						inputType="submit"
 						name="createTour"
-						content={ADD_TOURNAMENT}
+						content='Save'
 						onClick={this.addNewTournament}
-					/> }
+					/></div> }
 				</div>
 		)
 	};
