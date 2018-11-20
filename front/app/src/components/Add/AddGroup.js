@@ -165,7 +165,7 @@ class AddGroup extends Component {
 					<BtnComp
 						inputType="submit"
 						name="createGroup"
-						content={EDIT_GROUP}
+						content={this.props.headline === ADD_NEW_GROUP ? ADD_NEW_GROUP : EDIT_GROUP}
 						onClick={this.props.headline === ADD_NEW_GROUP ? this.addNewGroup : (e) => this.editGroup(e, this.props.group)}
 					/>
 			</div>
