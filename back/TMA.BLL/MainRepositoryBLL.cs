@@ -205,5 +205,16 @@ namespace TMA.BLL
             var homeEvents = _mainRepository.GetHomeEvents(userId);
             return homeEvents;
         }
+
+        public void InsertUserAvatar(string username, byte[] avatar)
+        {
+            _mainRepository.InsertUserAvatar(username, avatar);
+        }
+
+        public byte[] GetUserAvatar(string username)
+        {
+            var userAvatar = _mainRepository.GetUserAvatar(username);
+            return userAvatar;
+        }
     }
 }

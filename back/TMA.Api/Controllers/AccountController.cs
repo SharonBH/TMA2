@@ -290,7 +290,7 @@ namespace TMA.Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(UserModel model)
+        public async Task<IActionResult> Register([FromBody]UserModel model)
         {
             try
             {
@@ -318,7 +318,12 @@ namespace TMA.Api.Controllers
                             {
                                 bool succeeded = _mainRepository.AddUserToGroup(currentUser.Id, model.GroupId);
                                 if (succeeded)
+                                {
+                                    if (model.Avatar != null)
+                                        _mainRepository.InsertUserAvatar(currentUser.UserName, model.Avatar);
+
                                     return Json(new { Response = "Success", Message = "User created successfully." });
+                                }
 
                                 else
                                     return Json(new { Response = "Error", Message = "Error when adding the user to group." });
@@ -570,10 +575,17 @@ namespace TMA.Api.Controllers
 
                 var results = await _userManager.UpdateAsync(user);
 
+
                 // If successful
                 if (results.Succeeded)
+                {
+                    if (userModel.Avatar != null)
+                    {
+                        _mainRepository.InsertUserAvatar(userModel.Username, userModel.Avatar);
+                    }
                     // Redirect to Users page
                     return Json(new { Response = "Success", Message = $"User {user} was edited successfully." });
+                }
 
                 else
                     return Json(new { Response = "Error", Message = results.Errors });
@@ -602,14 +614,15 @@ namespace TMA.Api.Controllers
 
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var userRole = userRoles.FirstOrDefault();
-
+                var userAvatar = _mainRepository.GetUserAvatar(user.UserName);
                 var userModel = new UserModel()
                 {
                     UserId = user.Id,
                     Email = user.Email,
                     Name = user.Name,
                     Username = user.UserName,
-                    Role = userRole
+                    Role = userRole,
+                    Avatar = userAvatar
                 };
 
                 return Json(userModel);

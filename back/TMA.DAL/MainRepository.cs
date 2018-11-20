@@ -179,6 +179,50 @@ namespace TMA.DAL
             }
         }
 
+        public byte[] GetUserAvatar(string username)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var user = context.AspNetUsers.Include(x => x.UsersAvatar).FirstOrDefault(x => x.UserName == username);
+                    if(user == null)
+                        throw new Exception($"Username {username} was not found.");
+
+                    var userAvatar = user.UsersAvatar.Avatar;
+                    return userAvatar;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetUserAvatar'.", ex);
+            }
+        }
+
+        public void InsertUserAvatar(string username, byte[] avatar)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var user = context.AspNetUsers.Include(x => x.UsersAvatar).FirstOrDefault(x => x.UserName == username);
+                    if(user.UsersAvatar == null)
+                    {
+                        user.UsersAvatar = new UsersAvatar { UserId = user.Id, Avatar = avatar };
+                    }
+                    else
+                    {
+                        user.UsersAvatar.Avatar = avatar;
+                    }
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'InsertUserAvatar'.", ex);
+            }
+        }
+
         public void DeleteEvent(int eventId)
         {
             try
