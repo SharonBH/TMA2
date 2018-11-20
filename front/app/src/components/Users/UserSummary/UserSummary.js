@@ -36,7 +36,7 @@ class UserSummary extends Component {
     }
     componentWillMount = () => {
         if(this.props.headline === EDIT_EVENT){
-            this.setState({selectedDate: this.props.event.eventDate})
+            this.setState({selectedDate: this.props.eventDataArr.eventDate})
         }
         this.props.getAllRolesRequest()
         const tournamentData = this.props.tournById
@@ -66,7 +66,7 @@ class UserSummary extends Component {
     detailsToState = () => {
         const headline = this.props.headline
         if(headline === EDIT_TOURNAMENT){
-            const tournamentData = this.props.tournament
+            const tournamentData = this.props.tournById
             const grName = this.props.groupById
 
             const eventTName = (this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null)
@@ -101,7 +101,8 @@ class UserSummary extends Component {
                 {edit: false, detail: 'User Type', param: role,  editInput: role},
             ])
         } else if( headline === EDIT_EVENT ){
-            const eventData = this.props.event
+            const eventData = this.props.eventDataArr
+            console.log('____eventData____', this.props)
             const TournamName = this.props.allTournsList.find((tourn) => {
                 return tourn.tournamentName === eventData.tournamentName}
             )
@@ -207,7 +208,8 @@ class UserSummary extends Component {
         const editRequestParam = []
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput) 
-        })           
+        })
+        
         if(headline === EDIT || headline === YOUR_PROFILE) {
             if(!editRequestParam[2].includes('@')) {
                 this.props.errorMessageAction('you must enter a valid email address')
@@ -253,14 +255,14 @@ class UserSummary extends Component {
             }
         } 
         else if(headline === EDIT_EVENT){
-            const eventId = this.props.event.eventId
-            const { event } = this.props
-            const fill = event.eventResults.map(result => {return result })
-            const idies = fill.filter(list => this.state.inputs.findIndex(id => id.userId === list.userId) === -1)
-            const notState = idies.map(item => {return {userId: item.userId, result: item.result } })
-            const concated = notState.concat(this.state.inputs)
-
-            const dateToSend = moment(this.state.selectedDate).format('YYYY-MM-DD hh:mm:ss')
+            const eventId = this.props.eventDataArr.eventId;
+            const { eventDataArr } = this.props;
+            const fill = eventDataArr.eventResults.map(result => {return result });
+            const idies = fill.filter(list => this.state.inputs.findIndex(id => id.userId === list.userId) === -1);
+            const notState = idies.map(item => {return {userId: item.userId, result: item.result } });
+            const concated = notState.concat(this.state.inputs);
+	        const TName = this.props.eventDataArr.tournamentName;
+            const dateToSend = moment(this.state.selectedDate).format('YYYY-MM-DD hh:mm:ss');
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter the event name')
             }
@@ -268,7 +270,7 @@ class UserSummary extends Component {
                 this.props.errorMessageAction('you must enter a date later than today')
             }  
             else {
-                this.props.editThisEventRequest(eventId, editRequestParam[0], editRequestParam[1], dateToSend, concated)
+                this.props.editThisEventRequest(eventId, editRequestParam[0], TName, dateToSend, concated)
             } 
 
         }
@@ -450,6 +452,7 @@ class UserSummary extends Component {
 
     userSummary = (headline, user, tournament, event) => {
         const headLine = headline;
+        const {tournById} = this.props
         let name = ''
         if(headline === EDIT_USER){
             name = user !== null ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
@@ -458,7 +461,8 @@ class UserSummary extends Component {
         } else if ( headline === EDIT_EVENT ){
             name = event !== null ? event.eventName : null
         }
-        const path = this.props.editThisEventMatch.path === '/all_tournaments/:tournamentName' ? '/all_tournaments' : '/my_tournaments'
+        console.log('11',tournament)
+        const path = this.props.editThisEventMatch.path === `/all_tournaments/:tournamentName=${tournById.tournamentId}` ? '/all_tournaments' : '/my_tournaments'
         const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
         return (
             <div className={classes.Profile} >
@@ -481,7 +485,7 @@ class UserSummary extends Component {
                 <span className={classes.SubmitAll}>
                 {headline === EDIT_EVENT 
                 ? 
-                <Link to={`${path}/${this.props.tournById.tournamentName}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
+                <Link to={`${path}/${this.props.tournById.tournamentName}=${tournById.tournamentId}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
                     <BtnComp className={classes.editBtn}  inputType="submit"   content='Save All Changes'  onClick={() => this.submitUserAditeChanges(headline)} />
                 </Link>
                 :<BtnComp className={classes.editBtn}  inputType="submit"   content='Save All Changes'  onClick={() => this.submitUserAditeChanges(headline)} />
@@ -522,6 +526,8 @@ const mapStateToProps = (state) => {
         groupById: state.allListReducer.groupById,
         allRoles: state.allListReducer.allRoles,
         editThisEventMatch: state.editItemReducer.editThisEventMatch,
+	    eventMatch: state.editItemReducer.eventMatch,
+	    eventDataArr: state.allListReducer.eventDataArr,
     }
 }
 

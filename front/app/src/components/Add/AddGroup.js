@@ -116,7 +116,18 @@ class AddGroup extends Component {
 			this.setState({searchUsersResult: []})
 		}, 200)
 	};
-	
+	editBtnFunc = () => {
+		return (
+			<div className={classes.BTN}>
+				<i className={
+					this.state.editGroupName
+						?   classes.active + ' fas fa-pen'
+						:   classes.notActive + ' fas fa-pen'  }
+				   onClick={() => this.editGroupNameBtn()}>
+				</i>
+			</div>
+		)
+	};
 	addNewGroupPage = (headline, group) => {
 		return (
 			<div>
@@ -165,7 +176,7 @@ class AddGroup extends Component {
 					<BtnComp
 						inputType="submit"
 						name="createGroup"
-						content={EDIT_GROUP}
+						content={this.props.headline === ADD_NEW_GROUP ? ADD_NEW_GROUP : EDIT_GROUP}
 						onClick={this.props.headline === ADD_NEW_GROUP ? this.addNewGroup : (e) => this.editGroup(e, this.props.group)}
 					/>
 			</div>
@@ -198,18 +209,7 @@ class AddGroup extends Component {
 		
 	};
 	
-	editBtnFunc = () => {
-		return (
-			<div className={classes.BTN}>
-				<i className={
-					this.state.editGroupName
-						?   classes.active + ' fas fa-pen'
-						:   classes.notActive + ' fas fa-pen'  }
-				   onClick={() => this.editGroupNameBtn()}>
-				</i>
-			</div>
-		)
-	};
+	
 	
 	editGroupNameBtn = () => {
 		this.setState({editGroupName: !this.state.editGroupName})

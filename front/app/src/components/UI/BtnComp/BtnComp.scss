@@ -4,7 +4,9 @@
     
  
 }
-
+input:disabled {
+    background: #999;
+}
 .sendBtn{
     background: $blue;
     color: $white;

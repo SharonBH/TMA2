@@ -13,10 +13,12 @@ import BtnComp from '../../UI/BtnComp/BtnComp';
 import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-
-import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest, takeMyGroupsRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest, takeMyGroupsRequest, mainPageGetAllGroupsRequest } from '../../../actions/GamesApi';
 import { addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
+import SmallSpinner from "../../UI/SmallSpinner/SmallSpinner";
+
+
 export class TournamentsList extends Component {
     static propTypes = {
         allTournsList: PropTypes.array,
@@ -50,19 +52,21 @@ export class TournamentsList extends Component {
             display: false,
             userDetailsArr: [],
             someId:'',
-            tournamentID:''
+            tournamentID:'',
+	        buttonStatus: true
         }
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
 
-    componentWillMount(){
-        if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
-            this.props.takeAllTournaments()
-        } else {
-            return null
-        }
-    }
+    // componentWillMount(){
+    //     if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
+    //         this.props.takeAllTournaments()
+    //     } else {
+    //         return null
+    //     }
+    // }
     componentDidMount(){
+	    
         this.props.successMessageAction(null)
         const userID = this.props.currentUser.userId
         this.props.takeMyTournamentsRequest(userID)
@@ -71,6 +75,7 @@ export class TournamentsList extends Component {
         } else {
             return null
         }
+	    
     }
     componentWillUnmount(){
         this.props.errorMessageAction(null)
@@ -101,10 +106,12 @@ export class TournamentsList extends Component {
     }
 
     addTournamentBtn = () => {
-        const userID = this.props.currentUser.userId
+        const userID = this.props.currentUser.userId;
+	    // this.props.mainPageGetAllGroupsRequest();
         setTimeout(() => {
-            this.props.addNewTournamentAction(true)
+            this.props.addNewTournamentAction(true);
             this.props.takeMyGroupsRequest(userID)
+	        
         }, 200)
     }
 
@@ -139,7 +146,7 @@ export class TournamentsList extends Component {
     getTournById=(tournIdToPage)=>{
         this.setState({someId: tournIdToPage})
         this.props.tournEventsByIdRequest(tournIdToPage)
-        this.props.goToTournPageRequest(tournIdToPage)
+        // this.props.goToTournPageRequest(tournIdToPage)
     }
     closeMessage = () => {
         this.props.successMessageAction(null)
@@ -158,6 +165,7 @@ export class TournamentsList extends Component {
     }
 
     tournamentList = () => {
+	    
         const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
         return tournaments !== undefined ? tournaments.map((item, index) => {
             return <li key={index}>
@@ -172,11 +180,15 @@ export class TournamentsList extends Component {
                     <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
                 </div>
             </li>
+	         
+            
         })
         : null
     };
     
     render (){
+	    
+        console.log('tournyList', this.props)
         return (
             <div className={classes.usersWrapper}>
                 <div>
@@ -189,10 +201,23 @@ export class TournamentsList extends Component {
                     <div className={classes.email}>End Date</div>
                     <div className={classes.role}>Max Events</div>
                     <div className={classes.role}>Event Type</div>
-                    <div className={classes.addBtn}><BtnComp inputType="submit" content='Add Tournament' onClick={this.addTournamentBtn}/></div>
+                    <div className={classes.addBtn}>
+                      
+                        <BtnComp
+                            inputType="submit"
+                            content='Add Tournament'
+                            onClick={this.addTournamentBtn}
+                            disabled={this.props.allTournsList.length !== 0 || this.props.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
+                        />
+                    
+                    </div>
                 </div> 
                 </div>
-                <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
+                {this.props.allTournsList.length !== 0
+                ? <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
+	            : <ul className={classes.uesrsListSpinner}><SmallSpinner/></ul>
+                }
+                
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
                 {this.props.addTournament ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
@@ -235,6 +260,7 @@ const mapDispatchToProps = dispatch => {
         goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         takeMyGroupsRequest: payload => dispatch(takeMyGroupsRequest(payload)),
+	    mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
 
         
     }

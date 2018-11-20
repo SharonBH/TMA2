@@ -24,12 +24,12 @@ import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 export class MainPage extends Component {
 
     componentWillMount() {
-        if(this.props.currentUser !== null){
-            const userId = this.props.currentUser.userId
-            setTimeout(() => {
-                this.props.takeMyHomeLeaderboardRequest(userId)
-            }, 200)
-        }
+        // if(this.props.currentUser !== null){
+        //     const userId = this.props.currentUser.userId
+        //     setTimeout(() => {
+        //         this.props.takeMyHomeLeaderboardRequest(userId)
+        //     }, 200)
+        // }
         
     }
 
@@ -159,13 +159,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        appCallTakeAllTournaments: payload => dispatch(appCallTakeAllTournaments(payload)),
-        appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
-        appCallTakeAllUsers: payload => dispatch(appCallTakeAllUsers(payload)),
-        mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
-        appCallgetAllGroupsRequest: payload => dispatch(appCallgetAllGroupsRequest(payload)),
+        // appCallTakeAllTournaments: payload => dispatch(appCallTakeAllTournaments(payload)),
+        // appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
+        // appCallTakeAllUsers: payload => dispatch(appCallTakeAllUsers(payload)),
+        // mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
+        // appCallgetAllGroupsRequest: payload => dispatch(appCallgetAllGroupsRequest(payload)),
         getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
-        takeMyHomeLeaderboardRequest: payload => dispatch(takeMyHomeLeaderboardRequest(payload)),
+        // takeMyHomeLeaderboardRequest: payload => dispatch(takeMyHomeLeaderboardRequest(payload)),
     }
 }
 

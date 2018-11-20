@@ -15,6 +15,7 @@ import { getAllGroupsRequest, takeMyGroupsRequest } from '../../../actions/Games
 // import { takeAllUsers } from '../../../actions/Api';
 import { addNewItemAction, editThisGroupAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction, takeGroupIdPop, takeGroupIdPopAction }  from '../../../actions';
 import moment from 'moment';
+import SmallSpinner from "../../UI/SmallSpinner/SmallSpinner";
 export class Groups extends Component {
     static propTypes = {
         groupsList: PropTypes.array,
@@ -30,6 +31,7 @@ export class Groups extends Component {
         this.state = {
             groupForDelete: null,
             groupInEditMode: null,
+	        buttonStatus: true
         }
     }
 
@@ -100,16 +102,26 @@ export class Groups extends Component {
 		return <Register headline={EDIT_GROUP} classStr='none' group={this.state.groupInEditMode}/>
 	};
 	
-    tableHeader = () => (
-        <div className={classes.Head}>
-            <div className={classes.headline}>Group Name</div>
-            <div className={classes.headline}>Created Date</div>
-            <div className={classes.users}>Group Users</div>
-            <div className={classes.addBtn}><BtnComp inputType="submit" content='Add New Group' onClick={this.addNewGroupBtn}/></div>
-        </div>
-    )
+    tableHeader = () => {
+	    const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+	    return (
+		    <div className={classes.Head}>
+			    <div className={classes.headline}>Group Name</div>
+			    <div className={classes.headline}>Created Date</div>
+			    <div className={classes.users}>Group Users</div>
+			    <div className={classes.addBtn}>
+				    <BtnComp
+					    inputType="submit"
+					    content='Add New Group'
+					    onClick={this.addNewGroupBtn}
+					    disabled={groups !== null && groups.length !== 0  ? !this.state.buttonStatus : this.state.buttonStatus}
+				    />
+			    </div>
+		    </div>)
+    }
     groupsList = () => {
         const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+        
         return groups !== null ? groups.map((group, index) => { 
             const usersInGroup = []
             group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
@@ -118,7 +130,7 @@ export class Groups extends Component {
                 <div className={classes.createdDate}>{moment(group.createdDate).format('LL')}</div>
                 <div>
                     <div className={classes.select}>
-                        <SelectComp 
+                        <SelectComp
                             options={usersInGroup}
                             placeholder={"group users list"}
                             name={'event'}
@@ -144,14 +156,17 @@ export class Groups extends Component {
       }
 
     render() {
-
+	    const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
                 <h1>Groups List</h1>
                 {this.tableHeader()}
-                <ul className={classes.groupsList}>{this.groupsList()}</ul>
+                {groups !== null && groups.length !== 0
+                  ?  <ul className={classes.groupsList}>{this.groupsList()}</ul>
+                  : <ul className={classes.groupsListSpinner}><SmallSpinner/></ul>
+                }
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}
                 {this.props.editThisGroup ? <div className={classes.AddUser}>{this.editGroupComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_GROUP} item={this.state.groupForDelete}/> : null}

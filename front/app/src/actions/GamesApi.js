@@ -33,43 +33,42 @@ const url = 'https://tma-api.azurewebsites.net/';
 //////////  EVENTS   ///////////////
 
 // get all events
-export const takeAllEvents = () => {
-	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
-		return axios.post(cors + url + `Events/GetEvents`)
-			.then((response) => {
-				// if(response.data.response === 'Success') {
-				// const data = response.data.message
-				// dispatch(successMessageAction(data))
-				const events = response.data
-				dispatch(getAllEventsAction(events));
-				return axios.post(cors + url + `Events/GetEventTypes`)
-					.then((response) => {
-						
-						const eventTypes = response.data
-						dispatch(getAllEventTypesAction(eventTypes));
-						// history.push({pathname: '/all_events'})
-						dispatch(toggleLoaderAction(false))
-					})
-					.catch((error) => {
-						dispatch(catchErrorAction([error][0]))
-						dispatch(errorMessageAction([error][0]))
-						dispatch(toggleLoaderAction(false))
-					});
-				// }
-			})
-			.catch((error) => {
-				dispatch(catchErrorAction([error][0]))
-				dispatch(errorMessageAction([error][0]))
-				dispatch(toggleLoaderAction(false))
-			});
-	}
-};
+// export const takeAllEvents = () => {
+// 	return (dispatch) => {
+// 		dispatch(toggleLoaderAction(true))
+// 		return axios.post(cors + url + `Events/GetEvents`)
+// 			.then((response) => {
+// 				// if(response.data.response === 'Success') {
+// 				// const data = response.data.message
+// 				// dispatch(successMessageAction(data))
+// 				const events = response.data
+// 				dispatch(getAllEventsAction(events));
+// 				return axios.post(cors + url + `Events/GetEventTypes`)
+// 					.then((response) => {
+//
+// 						const eventTypes = response.data
+// 						dispatch(getAllEventTypesAction(eventTypes));
+// 						// history.push({pathname: '/all_events'})
+// 						dispatch(toggleLoaderAction(false))
+// 					})
+// 					.catch((error) => {
+// 						dispatch(catchErrorAction([error][0]))
+// 						dispatch(errorMessageAction([error][0]))
+// 						dispatch(toggleLoaderAction(false))
+// 					});
+// 				// }
+// 			})
+// 			.catch((error) => {
+// 				dispatch(catchErrorAction([error][0]))
+// 				dispatch(errorMessageAction([error][0]))
+// 				dispatch(toggleLoaderAction(false))
+// 			});
+// 	}
+// };
 
 // delete event
-export const DeleteEventRequest = (eventId) => {
+export const DeleteEventRequest = (eventId, currentTournamentId) => {
 	return (dispatch) => {
-		console.log('eventId', eventId)
 		dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
@@ -81,13 +80,13 @@ export const DeleteEventRequest = (eventId) => {
 				if(response.data.response === 'Success') {
 					const data = response.data.message
 					dispatch(successMessageAction(data))
-					return axios.post(cors + url + `Events/GetEvents`)
-						.then((response) => {
-							const events = response.data
-							dispatch(getAllEventsAction(events))
-							// history.push({pathname: '/tournament_page'})
-							
-							dispatch(toggleLoaderAction(false))
+					// return axios.post(cors + url + `Events/GetEvents`)
+						// .then((response) => {
+						// 	const events = response.data
+						// 	dispatch(getAllEventsAction(events))
+						// 	// history.push({pathname: '/tournament_page'})
+						//
+						// 	dispatch(toggleLoaderAction(false))
 							return axios.post(cors + url + `Events/GetEventTypes`)
 								.then((response) => {
 									const eventTypes = response.data
@@ -100,13 +99,13 @@ export const DeleteEventRequest = (eventId) => {
 									dispatch(catchErrorAction([error][0]))
 									dispatch(errorMessageAction([error][0]))
 									dispatch(toggleLoaderAction(false))
-								});
+								// });
 						})
-						.catch((error) => {
-							dispatch(catchErrorAction([error][0]))
-							dispatch(errorMessageAction([error][0]))
-							dispatch(toggleLoaderAction(false))
-						});
+						// .catch((error) => {
+						// 	dispatch(catchErrorAction([error][0]))
+						// 	dispatch(errorMessageAction([error][0]))
+						// 	dispatch(toggleLoaderAction(false))
+						// });
 				} else {
 					const error = response.data.message
 					dispatch(errorMessageAction(error))
@@ -137,45 +136,44 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
 				eventResults: usersWithResults
 			}
 		})
-			.then((response) => {
-				dispatch(toggleLoaderAction(true));
-				if (response.data.response === 'Success') {
-					return axios.post(cors + url + `Events/GetEvents`)
-						.then((response) => {
-							const events = response.data;
-							dispatch(getAllEventsAction(events));
-							// history.push({pathname: '/tournament_page'})
-							dispatch(addNewEventAction(false));
-							dispatch(successMessageAction('Event Added Successfuly'));
-							// dispatch(toggleLoaderAction(false));
-							// setTimeout(() => {
-							if(response.statusText === 'OK'){ window.location.reload()}
-							
-							//} , 1000);
-						})
-						.catch((error) => {
-							dispatch(catchErrorAction([error][0]));
-							dispatch(errorMessageAction([error][0]));
-							dispatch(toggleLoaderAction(false))
-						});
-				} else {
-					const error = response.data.message
-					dispatch(errorMessageAction(error))
-					dispatch(toggleLoaderAction(false))
-				}
-			})
-			.catch((error) => {
-				dispatch(catchErrorAction([error][0]))
-				dispatch(errorMessageAction([error][0]))
-				dispatch(toggleLoaderAction(false))
-			});
+		.then((response) => {
+			// dispatch(toggleLoaderAction(true));
+			// if (response.data.response === 'Success') {
+			// 	return axios.post(cors + url + `Events/GetEvents`)
+			// 		.then((response) => {
+			// 			const events = response.data;
+						// history.push({pathname: '/tournament_page'})
+						dispatch(addNewEventAction(false));
+						// dispatch(getAllEventsAction(events));
+						dispatch(successMessageAction('Event Added Successfuly'));
+						dispatch(toggleLoaderAction(false));
+						// setTimeout(() => {
+						if(response.statusText === 'OK'){ window.location.reload()}
+						
+						//} , 1000);
+					// })
+					// .catch((error) => {
+					// 	dispatch(catchErrorAction([error][0]));
+					// 	dispatch(errorMessageAction([error][0]));
+					// 	dispatch(toggleLoaderAction(false))
+					// });
+			// } else {
+			// 	const error = response.data.message
+			// 	dispatch(errorMessageAction(error))
+			// 	dispatch(toggleLoaderAction(false))
+			// }
+		})
+		.catch((error) => {
+			dispatch(catchErrorAction([error][0]))
+			dispatch(errorMessageAction([error][0]))
+			dispatch(toggleLoaderAction(false))
+		});
 	}
 }
 
 // edit Event
 export const editThisEventRequest = (eventID, eventName, tournN, eventDate, eventResults) => {
 	return (dispatch) => {
-		console.log('API', eventID, eventName, tournN, eventDate, eventResults)
 		dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
@@ -190,21 +188,24 @@ export const editThisEventRequest = (eventID, eventName, tournN, eventDate, even
 			}
 		})
 			.then((response) => {
-				dispatch(toggleLoaderAction(true))
+				// dispatch(toggleLoaderAction(true))
 				if (response.data.response === 'Success') {
 					dispatch(successMessageAction('Event Edited Successfuly'))
-					return axios.post(cors + url + `Events/GetEvents`)
-						.then((response) => {
-							const events = response.data
-							dispatch(getAllEventsAction(events));
-							window.location.reload()
-							// history.push({pathname: '/tournament_page/:tournamentName'})
-							dispatch(toggleLoaderAction(false))
-						})
-						.catch((error) => {
-							dispatch(errorMessageAction([error][0]))
-							dispatch(toggleLoaderAction(false))
-						});
+					setTimeout((
+						window.location.reload()
+					),2000)
+					// return axios.post(cors + url + `Events/GetEvents`)
+					// 	.then((response) => {
+					// 		const events = response.data
+					// 		dispatch(getAllEventsAction(events));
+					// 		window.location.reload()
+					// 		// history.push({pathname: '/tournament_page/:tournamentName'})
+					// 		dispatch(toggleLoaderAction(false))
+					// 	})
+					// 	.catch((error) => {
+					// 		dispatch(errorMessageAction([error][0]))
+					// 		dispatch(toggleLoaderAction(false))
+					// 	});
 				} else {
 					const error = response.data.message
 					dispatch(errorMessageAction(error))
@@ -271,9 +272,8 @@ export const takeMyHomeLeaderboardRequest = (userId) => {
 
 // take all events by tournament id
 export const tournEventsByIdRequest = (tournamentId) => {
-	console.log('single')
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
 			headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -281,8 +281,9 @@ export const tournEventsByIdRequest = (tournamentId) => {
 			data: tournamentId
 		})
 			.then((response) => {
-				const tournamentId = response.data
-				dispatch(getTournByIdNoSAction(tournamentId))
+				// const tournamentId = response.data
+				const eventsById = response.data.length !== 0 ? response.data : [{eventName: "No Data"}]
+				dispatch(getTournByIdNoSAction(eventsById))
 				dispatch(toggleLoaderAction(false))
 			})
 	}
@@ -296,7 +297,7 @@ export const tournEventsByIdRequest = (tournamentId) => {
 // get all tournaments
 export const takeAllTournaments = () => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true));
+		// dispatch(toggleLoaderAction(true));
 		return axios.post(cors + url + `Tournaments/GetTournaments`)
 			.then((response) => {
 				const tournaments = response.data;
@@ -306,8 +307,14 @@ export const takeAllTournaments = () => {
 					.then((response) => {
 						const groups = response.data;
 						dispatch(getAllGroups(groups));
-						dispatch(toggleLoaderAction(false))
-					})
+						return axios
+							.post(cors + url + `Events/GetEventTypes`)
+							})
+							.then((response) => {
+								const eventTypes = response.data;
+								dispatch(getAllEventTypesAction(eventTypes))
+								dispatch(toggleLoaderAction(false))
+							})
 					.catch((error) => {
 						dispatch(catchErrorAction([error][0]));
 						dispatch(errorMessageAction(error[0]));
@@ -418,7 +425,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
 // get Tournament by tournament id
 export const goToTournPageRequest = (tournamentId) => {
 		return (dispatch) => {
-			dispatch(toggleLoaderAction(true));
+			// dispatch(toggleLoaderAction(true));
 			return axios({
 				method: 'POST',
 				url: cors + url + 'Tournaments/GetTournamentById',
@@ -440,45 +447,47 @@ export const goToTournPageRequest = (tournamentId) => {
 				.then((response) => {
 					const groupById = response.data;
 					dispatch(getGroupById(groupById));
+					
 					return axios
 						.post(cors + url + `Events/GetEventTypes`)
-						.then((response) => {
-							const eventTypes = response.data;
-							console.log(tournamentId)
-							dispatch(getAllEventTypesAction(eventTypes))
-							console.log('all')
-							return axios({
-								method: 'POST',
-								headers: {'Content-Type': 'application/json; charset=UTF-8'},
-								url: cors + url + 'Events/GetEventsByTournamentId',
-								data: tournamentId
-							})
-								.then((response) => {
+				})
+				.then((response) => {
+					const eventTypes = response.data;
+					dispatch(getAllEventTypesAction(eventTypes))
+					if(response.statusText === 'OK') {
+						dispatch(toggleLoaderAction(false))
+					}
+				})
+							// return axios({
+							// 	method: 'POST',
+							// 	headers: {'Content-Type': 'application/json; charset=UTF-8'},
+							// 	url: cors + url + 'Events/GetEventsByTournamentId',
+							// 	data: tournamentId
+							// })
+							// 	.then((response) => {
 									// const tournamentId = response.data;
 									// dispatch(getTournByIdNoSAction(tournamentId));
 									// history.push({pathname: '/all_events'})
 									
-									return axios
-										.post(cors + url + `Groups/GetGroups`)
-										.then((response) => {
-											const groups = response.data;
-											dispatch(getAllGroups(groups));
-											if(response.statusText === 'OK') {
-												dispatch(toggleLoaderAction(false))
-											}
-										})
-										.catch((error) => {
-											dispatch(catchErrorAction([ error ][ 0 ]));
-											dispatch(errorMessageAction(error[ 0 ]));
-										})
-								})
-						})
+									// return axios
+									// 	.post(cors + url + `Groups/GetGroups`)
+									// 	.then((response) => {
+									// 		const groups = response.data;
+									// 		dispatch(getAllGroups(groups));
+										
+										// })
+										// .catch((error) => {
+										// 	dispatch(catchErrorAction([ error ][ 0 ]));
+										// 	dispatch(errorMessageAction(error[ 0 ]));
+										// })
+								// })
+						
 						.catch((error) => {
 							dispatch(catchErrorAction([error][0]));
 							dispatch(errorMessageAction(error[0]))
 						})
 					
-				})
+				
 				.catch((error) => {
 					dispatch(catchErrorAction([error][0]));
 					dispatch(errorMessageAction(error[0]))
@@ -549,7 +558,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tou
 
 export const getLeaderboards = (tournamentId) => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
 			headers: {'Content-Type': 'application/json; charset=UTF-8'},
@@ -558,7 +567,8 @@ export const getLeaderboards = (tournamentId) => {
 		})
 			.then((response) => {
 				const data = response.data
-				dispatch(getLeaderboardsSAction(data))
+				const leaderList = data.length !== 0 ? data : [{user: "No Data"}]
+				dispatch(getLeaderboardsSAction(leaderList))
 				dispatch(toggleLoaderAction(false))
 			})
 	}
@@ -570,7 +580,7 @@ export const getLeaderboards = (tournamentId) => {
 // get all groups
 export const getAllGroupsRequest = () => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios.post(cors + url + `Groups/GetGroups`)
 			.then((response) => {
 				const groups = response.data
@@ -630,7 +640,6 @@ export const addNewGroupRequest = (groupName, usersIds) => {
 							
 							dispatch(addNewGroupAction(false))
 							dispatch(successMessageAction('Group Added Successfuly'))
-							console.log(response)
 							setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
 							dispatch(toggleLoaderAction(false))
 						})
@@ -743,7 +752,7 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
 // take all groups by user id
 export const takeMyTournamentsRequest = (userId) => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
 			url: cors + url + 'Tournaments/GetUserTournaments',
@@ -768,7 +777,7 @@ export const takeMyTournamentsRequest = (userId) => {
 // take all groups by user id
 export const takeMyGroupsRequest = (userId) => {
 	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
+		// dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',
 			url: cors + url + 'Groups/GetUserGroups',
@@ -793,58 +802,58 @@ export const takeMyGroupsRequest = (userId) => {
 
 /////////////////////////////////////
 //////////  GENERAL   ///////////////
-
-
-// get all tournaments by app comp
-export const appCallTakeAllTournaments = () => {
-    return (dispatch) => {
-        return axios.post(cors + url + `Tournaments/GetTournaments`)
-            .then((response) => {
-                const tournaments = response.data
-                dispatch(getAllToursAction(tournaments));
-            })
-            .catch((error) => {
-                dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction(error[0]))
-            });  
-    }
-};
-// get all events by main page comp
-export const appCallTakeAllEvents = () => {
-    return (dispatch) => {
-        dispatch(toggleLoaderAction(true))
-        return axios.post(cors + url + `Events/GetEventTypes`)
-            .then((response) => {
-                const eventTypes = response.data
-                dispatch(getAllEventTypesAction(eventTypes));
-                dispatch(toggleLoaderAction(false))
-            })
-            .catch((error) => {
-                dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction(error[0]))
-                dispatch(toggleLoaderAction(false))
-            });
-    }
-};
-// get all groups by main page comp
-export const appCallgetAllGroupsRequest = () => {
-    return (dispatch) => {
-        dispatch(toggleLoaderAction(true))
-        return axios.post(cors + url + `Groups/GetGroups`)
-        
-            .then((response) => {
-                    const groups = response.data
-                    dispatch(getAllGroups(groups));
-                    dispatch(toggleLoaderAction(false))
-            })
-            .catch((error) => {
-                dispatch(catchErrorAction([error][0]))
-                dispatch(errorMessageAction(error[0]))
-                dispatch(toggleLoaderAction(false))
-            });  
-    }
-};
-
+//
+//
+// // get all tournaments by app comp
+// export const appCallTakeAllTournaments = () => {
+//     return (dispatch) => {
+//         return axios.post(cors + url + `Tournaments/GetTournaments`)
+//             .then((response) => {
+//                 const tournaments = response.data
+//                 dispatch(getAllToursAction(tournaments));
+//             })
+//             .catch((error) => {
+//                 dispatch(catchErrorAction([error][0]))
+//                 dispatch(errorMessageAction(error[0]))
+//             });
+//     }
+// };
+// // get all events by main page comp
+// export const appCallTakeAllEvents = () => {
+//     return (dispatch) => {
+//         dispatch(toggleLoaderAction(true))
+//         return axios.post(cors + url + `Events/GetEventTypes`)
+//             .then((response) => {
+//                 const eventTypes = response.data
+//                 dispatch(getAllEventTypesAction(eventTypes));
+//                 dispatch(toggleLoaderAction(false))
+//             })
+//             .catch((error) => {
+//                 dispatch(catchErrorAction([error][0]))
+//                 dispatch(errorMessageAction(error[0]))
+//                 dispatch(toggleLoaderAction(false))
+//             });
+//     }
+// };
+// // get all groups by main page comp
+// export const appCallgetAllGroupsRequest = () => {
+//     return (dispatch) => {
+//         dispatch(toggleLoaderAction(true))
+//         return axios.post(cors + url + `Groups/GetGroups`)
+//
+//             .then((response) => {
+//                     const groups = response.data
+//                     dispatch(getAllGroups(groups));
+//                     dispatch(toggleLoaderAction(false))
+//             })
+//             .catch((error) => {
+//                 dispatch(catchErrorAction([error][0]))
+//                 dispatch(errorMessageAction(error[0]))
+//                 dispatch(toggleLoaderAction(false))
+//             });
+//     }
+// };
+//
 
 
 

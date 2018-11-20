@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import moment from 'moment'
 import classes from '../../containers/MainPage/MainPage.scss';
-import { takeAllTournaments } from '../../actions/GamesApi';
+import {takeAllTournaments, takeMyHomeLeaderboardRequest} from '../../actions/GamesApi';
 import { getAllRolesRequest } from '../../actions/Api';
 import Spinner from '../UI/Spinner'
 
@@ -16,6 +16,13 @@ export class HomeEvents extends Component {
             this.props.takeAllTournaments()
 
         }, 200)
+	    if(this.props.currentUser !== null &&  this.props.allMyHomeData === ''){
+	    	console.log('1')
+		    const userId = this.props.currentUser.userId
+		    setTimeout(() => {
+			    this.props.takeMyHomeLeaderboardRequest(userId)
+		    }, 200)
+	    }
     }
     eventDateCheck = () => {
         this.props.myEventsById.map((item, index) => { 
@@ -34,8 +41,7 @@ export class HomeEvents extends Component {
         const {next} =  this.props.allMyHomeData
         
         const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
-        const filltournamentName = fill !== undefined ? fill.tournamentName : ''
-        console.log('next', fill)
+        const filltournamentName = fill !== undefined ? fill.tournamentName : '';
 
         return(
             
@@ -201,6 +207,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
+	    takeMyHomeLeaderboardRequest: payload => dispatch(takeMyHomeLeaderboardRequest(payload)),
     }
 }
 
