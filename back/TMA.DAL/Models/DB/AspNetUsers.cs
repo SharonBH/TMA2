@@ -31,6 +31,7 @@ namespace TMA.DAL.Models.DB
         public string UserName { get; set; }
         public string Name { get; set; }
 
+        public UsersAvatar UsersAvatar { get; set; }
         public ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }
         public ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }

@@ -27,6 +27,7 @@ namespace TMA.DAL.Models.DB
         public virtual DbSet<Groups> Groups { get; set; }
         public virtual DbSet<LkpEvent> LkpEvent { get; set; }
         public virtual DbSet<Tournaments> Tournaments { get; set; }
+        public virtual DbSet<UsersAvatar> UsersAvatar { get; set; }
         public virtual DbSet<UsersGroups> UsersGroups { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -215,6 +216,21 @@ namespace TMA.DAL.Models.DB
                     .HasForeignKey(d => d.GroupId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tournaments_Groups");
+            });
+
+            modelBuilder.Entity<UsersAvatar>(entity =>
+            {
+                entity.HasKey(e => e.UserId);
+
+                entity.Property(e => e.UserId).ValueGeneratedNever();
+
+                entity.Property(e => e.Avatar).IsRequired();
+
+                entity.HasOne(d => d.User)
+                    .WithOne(p => p.UsersAvatar)
+                    .HasForeignKey<UsersAvatar>(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UsersAvatar_AspNetUsers");
             });
 
             modelBuilder.Entity<UsersGroups>(entity =>

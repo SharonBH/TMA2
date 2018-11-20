@@ -34,5 +34,7 @@ namespace TMA.Api.Models
 
         [Required]
         public int? GroupId { get; set; }
+
+        public byte[] Avatar { get; set; }
     }
 }
