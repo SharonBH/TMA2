@@ -5,8 +5,9 @@ import classes from './InputComp.scss'
 export class InputComp extends Component {
     
     static propTypes = {  
-        inputType: PropTypes.oneOf(['text', 'number', 'password', 'email', 'date','number', 'datetime-local']).isRequired,
+        inputType: PropTypes.oneOf(['text', 'number', 'password', 'email', 'date','number', 'datetime-local', 'file']).isRequired,
         name: PropTypes.string.isRequired,
+	    id: PropTypes.string,
         onChange: PropTypes.func,
         content: PropTypes.oneOfType([
             PropTypes.string,
@@ -24,6 +25,7 @@ export class InputComp extends Component {
                 <input
                     className={classes.InputComp}
                     name={this.props.name}
+                    id={this.props.id}
                     type={this.props.inputType}
                     value={this.props.content}
                     onChange={this.props.onChange}

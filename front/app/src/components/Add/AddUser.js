@@ -79,12 +79,12 @@ export class AddUser extends Component {
 					/>
 					: null
 				}
-				{<BtnComp
+				{<div className={classes.saveButton}><BtnComp
 					inputType="submit"
 					name="register"
-					content={this.props.headline}
+					content='Save'
 					onClick={(e) => this.addNewUser(e, headline) }
-				/>}
+				/></div>}
 				{this.props.headline === REGISTER
 					? <div className={classes.classStr}>
 						<h3>Have a user? Keep Calm.</h3>

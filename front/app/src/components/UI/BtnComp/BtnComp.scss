@@ -1,7 +1,10 @@
 @import '../../../styles/colors.scss';
 .BtnComp{
     text-align: center;
-    
+    display: inline-block;
+    float: right;
+    min-width: 67px;
+    cursor: pointer;
  
 }
 input:disabled {
@@ -10,10 +13,10 @@ input:disabled {
 .sendBtn{
     background: $blue;
     color: $white;
-    padding: 7px;
+    padding: 8px;
     border: 0;
     border-bottom: 1px solid #999;
-    
+    cursor: pointer;
 
     &:hover{
         background: $dark-gray;
@@ -30,6 +33,7 @@ input:disabled {
     margin: 0 2px;
     text-align: center;
     position: relative;
+    cursor: pointer;
     i {
         width: 80%;
         span {
@@ -66,6 +70,7 @@ input:disabled {
     margin: 0 2px;
     text-align: center;
     position: relative;
+    cursor: pointer;
     i {
         width: 80%;
         span {

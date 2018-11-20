@@ -154,12 +154,12 @@ export class AddEvent extends Component{
 						{this.eventUsersPlaying()}
 					</div>
 					<Link to={`/tournament_page/${this.props.tournById.tournamentName}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
-						<BtnComp
+						<div className={classes.saveButton}><BtnComp
 							inputType="submit"
 							name="createEvent"
-							content={ADD_EVENT}
+							content='Save'
 							onClick={this.addNewEvent}
-						/>
+						/></div>
 					</Link>
 				</div>
 		)

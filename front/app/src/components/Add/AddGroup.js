@@ -173,12 +173,14 @@ class AddGroup extends Component {
 							))}
 						</div>
 					</div>
+				<div className={classes.saveButton}>
 					<BtnComp
 						inputType="submit"
 						name="createGroup"
-						content={this.props.headline === ADD_NEW_GROUP ? ADD_NEW_GROUP : EDIT_GROUP}
+						content='Save'
 						onClick={this.props.headline === ADD_NEW_GROUP ? this.addNewGroup : (e) => this.editGroup(e, this.props.group)}
 					/>
+				</div>
 			</div>
 		)
 	};
