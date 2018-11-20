@@ -93,7 +93,13 @@
             }
         }
     }
-    
+    ul.groupsListSpinner{
+        display: inline-block;
+        margin-top: 150px;
+        width: 100%;
+        padding: 0;
+        text-align: center;
+    }
     .success {
         position: fixed;
         width: 100%;
