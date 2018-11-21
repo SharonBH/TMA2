@@ -122,18 +122,36 @@ export class AddEvent extends Component{
 	};
 	eventPage = (headline) => {
 		const {tournById, groupById} = this.props;
+		const { selectedDate, addSearchUsersResult } = this.state;
+		const today = Date.parse(new Date());
+		const eventday = Date.parse(selectedDate);
 		const arr = [...groupById.users];
+		console.log('addSearchUsersResult__________', addSearchUsersResult)
 		return ( <div>
 					<InputComp inputType="text" name="tournament" placeholder={'Tournament Name'} content={tournById.tournamentName} onChange={() => {}}/>
 					<div className={classes.usersAddedWrapper} >
 						{<span className={classes.searchResult}>select players from the tournament group</span>}
+						
 						{arr !== undefined ? arr.map((user, index) => {
-							return (
-								<span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
-                                {user.username}
-									<i className="far fa-plus-square"></i>
-                            </span>
-							) }): null}
+							console.log('user ', user)
+							const x = addSearchUsersResult!== null || addSearchUsersResult.length > 0 ? addSearchUsersResult.find((name) =>  {return name.username === user.username }) : null
+								console.log('x ', x)
+							return addSearchUsersResult.length > 0 && x !== undefined
+									?  <span className={classes.user +' '+classes.userResult} key={index}>
+                                            {x.username}
+											{today > eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, x)}/> : null}
+											<i className="far fa-times-circle" onClick={() => this.removeSelectedUser(user)}></i>
+                                        </span>
+
+									:
+							<span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+											{user.username}
+								<i className="far fa-plus-square"></i>
+									   </span>
+
+
+						}): null
+						}
 					</div>
 					<InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange} content={this.state.EventName}/>
 					<MuiPickersUtilsProvider utils={MomentUtils}>
@@ -149,10 +167,14 @@ export class AddEvent extends Component{
 							label={'Event Time:'}
 						/>
 					</MuiPickersUtilsProvider>
-					<div className={classes.usersAddedWrapper}>
-						{<span className={classes.searchResult}>selected players for this event</span>}
-						{this.eventUsersPlaying()}
-					</div>
+				
+					{/*==========================*/}
+					{/*<div className={classes.usersAddedWrapper}>*/}
+						{/*{<span className={classes.searchResult}>selected players for this event</span>}*/}
+						{/*{this.eventUsersPlaying()}*/}
+					{/*</div>*/}
+					{/*==========================*/}
+					
 					<Link to={`/tournament_page/${this.props.tournById.tournamentName}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
 						<div className={classes.saveButton}><BtnComp
 							inputType="submit"

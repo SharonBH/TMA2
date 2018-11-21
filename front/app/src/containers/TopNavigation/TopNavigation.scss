@@ -33,6 +33,14 @@
             &>img{
                 max-width: 100%;
             }
+            i{
+
+                &:hover{
+                    background: #03a3d0;
+                    color: #ffffff;
+                    box-shadow: none;
+                }
+            }
         }
         i{
             font-size: 20px;
@@ -209,7 +217,7 @@
             color: #fff;
             display: flex;
             align-items: center;
-            i{
+            & > i {
                 display: none;
                 font-size: 20px;
                 padding: 6px 4px;

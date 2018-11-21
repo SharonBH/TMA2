@@ -182,6 +182,7 @@
                         width: 135px;
                         cursor: default;
                         margin-right: 9px;
+                        height: 45px;
                     }
                 }
             }
@@ -431,9 +432,10 @@
 
     .user {
         border: 1px solid #03a3d0;
-        width: 46%;
+        width: 47%;
         cursor: default;
         margin-right: 9px;
+        height: 45px;
     }
     .userResult {
         width: 47%;
@@ -446,6 +448,9 @@
             border: 1px solid #03a3d0;
             margin: 5px;
             -webkit-appearance: none;
+        }
+        input[type=number]{
+            margin: 0;
         }
         
         i {

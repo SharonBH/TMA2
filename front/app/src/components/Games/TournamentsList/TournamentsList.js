@@ -53,7 +53,8 @@ export class TournamentsList extends Component {
             userDetailsArr: [],
             someId:'',
             tournamentID:'',
-	        buttonStatus: true
+	        buttonStatus: true,
+	        changeList: 'FIFA'
         }
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
@@ -157,25 +158,41 @@ export class TournamentsList extends Component {
         const path = this.props.match.url
         switch (path) {
             case "/my_tournaments":
-            return  <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName} - {item.tournamentId}</Link>
+            return  <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
             case "/all_tournaments":
-            return <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName} - {item.tournamentId}</Link>
+            return <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
            default:
          }
     }
 
     tournamentList = () => {
+	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
+	    const sortedBoard = tournaments.length !== 0 || tournaments !== null ? tournaments.sort((a, b) => {
+		    return a.startDate === b.startDate ? 0 : a.startDate < b.startDate ? 1 : -1;
+	    }) : null
 	    
-        const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
-        return tournaments !== undefined ? tournaments.map((item, index) => {
-            return <li key={index}>
+	    const today = new Date();
+	    const dd = today.getDate();
+	    const mm = today.getMonth()+1; //January is 0!
+	    const yyyy = today.getFullYear();
+	    const todayDate = mm + dd + yyyy;
+	    const sortedList = sortedBoard.filter((tourny) =>  tourny.eventTypeName === this.state.changeList)
+        return sortedList !== undefined ? sortedList.map((item, index) => {
+		        const end = new Date(item.endDate)
+		        const edd = end.getDate();
+		        const emm = end.getMonth()+1; //January is 0!
+		        const eyyyy = end.getFullYear();
+		        const eEndDate = emm + edd + eyyyy;
+		        
+            return <li key={index} className={eEndDate < todayDate ? classes.notActive : null}>
                 <div className={classes.username}>
                     { this.pathChanger(item) }
                 </div>
-                <div className={classes.email}>{moment(item.startDate).format('Do MMM YYYY')}</div>
-                <div className={classes.email}>{moment(item.endDate).format('Do MMM YYYY')}</div>
-                <div className={classes.role}>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</div>
-                <div className={classes.role}>{item.eventTypeName}</div>
+                <div className={classes.email}><span>{moment(item.startDate).format('Do MMM YYYY')}</span></div>
+                <div className={classes.email}><span>{moment(item.endDate).format('Do MMM YYYY')}</span></div>
+	            <div className={classes.role}><span>{item.eventsCount}</span></div>
+                <div className={classes.role}><span>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</span></div>
+                <div className={classes.role}><span>{item.eventTypeName}</span></div>
                 <div id={index} className={classes.allUsButtons}>
                     <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
                 </div>
@@ -185,33 +202,38 @@ export class TournamentsList extends Component {
         })
         : null
     };
-    
+	changeList = (item) => {
+	    this.setState({changeList: item.target.value})
+    }
     render (){
 	    
         console.log('tournyList', this.props)
         return (
             <div className={classes.usersWrapper}>
                 <div>
-                <h1>Tournaments List</h1>
-                {this.successDeleteMessage()}
-                {this.errorDeleteMessage()}
-                <div className={classes.usersHead}>
-                    <div className={classes.username}>Tournament Name</div>
-                    <div className={classes.email}>Start Date</div>
-                    <div className={classes.email}>End Date</div>
-                    <div className={classes.role}>Max Events</div>
-                    <div className={classes.role}>Event Type</div>
-                    <div className={classes.addBtn}>
-                      
-                        <BtnComp
-                            inputType="submit"
-                            content='Add Tournament'
-                            onClick={this.addTournamentBtn}
-                            disabled={this.props.allTournsList.length !== 0 || this.props.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
-                        />
-                    
+                    <div className={classes.sortTabs}>
+                        <BtnComp inputType={'button'} content={'FIFA'} onClick={(item) => this.changeList(item)}/>
+	                    <BtnComp inputType={'button'} content={'Poker'} onClick={(item) => this.changeList(item)}/>
                     </div>
-                </div> 
+                    <h1>Tournaments List</h1>
+                    {this.successDeleteMessage()}
+                    {this.errorDeleteMessage()}
+                    <div className={classes.usersHead}>
+                        <div className={classes.username}>Tournament Name</div>
+                        <div className={classes.email}>Start Date</div>
+                        <div className={classes.email}>End Date</div>
+                        <div className={classes.role}>Num of Events</div>
+                        <div className={classes.role}>Max Events</div>
+                        <div className={classes.role}>Event Type</div>
+                        <div className={classes.addBtn}>
+                            <BtnComp
+                                inputType="submit"
+                                content='Add Tournament'
+                                onClick={this.addTournamentBtn}
+                                disabled={this.props.allTournsList.length !== 0 || this.props.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
+                            />
+                        </div>
+                    </div>
                 </div>
                 {this.props.allTournsList.length !== 0
                 ? <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
@@ -240,7 +262,8 @@ const mapStateToProps = (state) => {
         successMessage: state.sharedReducer.successMessage,
         errorMessage: state.sharedReducer.errorMessage,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
-        currentUser: state.userReducer.currentUser
+        currentUser: state.userReducer.currentUser,
+	    tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
 
     }
 }

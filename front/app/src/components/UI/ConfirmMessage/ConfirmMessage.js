@@ -96,8 +96,8 @@ class ConfirmMessage extends Component {
                     <div className={classes.ConfirmMessage}>
                         <p>Are you sure you want to {headline} {name}</p>
                         <div className={classes.btm}>
-                            <BtnComp inputType="submit" name="Approve" content="Approve" onClick={() => this.approve(headline, user)}/>
-                            <BtnComp inputType="submit" name="Denied" content="Denied" onClick={this.denied}/>
+                            <BtnComp inputType="submit" name="Approve" content="Ok" onClick={() => this.approve(headline, user)}/>
+                            <BtnComp inputType="submit" name="Denied" content="Close" onClick={this.denied}/>
                         </div>
                     </div>
                 </Zoom>

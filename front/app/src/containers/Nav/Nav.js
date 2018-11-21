@@ -9,6 +9,9 @@ export class Nav extends Component {
     navLinks = () => {
         return (
             <div className={classes.innerNav}>
+	            <Link to='/homeEvents' className={classes.navLink}>
+		            <i className="fas fa-home"></i><span>Home</span>
+	            </Link>
                 {this.props.currentUser.role === 'Admin' 
                     ?  <Link to='/all_tournaments' className={classes.navLink}>
                             <i className="fas fa-trophy"></i><span>All Tournaments</span>
@@ -27,9 +30,9 @@ export class Nav extends Component {
                 <Link to='/my_groups' className={classes.navLink}>
                     <i className="fab fa-freebsd"></i><span>My Groups</span>
                 </Link>
-                <Link to='/scores' className={classes.navLink}>
-                    <i className="fas fa-star-half-alt"></i><span>Scores - soon...</span>
-                </Link>
+                {/*<Link to='/scores' className={classes.navLink}>*/}
+                    {/*<i className="fas fa-star-half-alt"></i><span>Scores - soon...</span>*/}
+                {/*</Link>*/}
             </div>
         )
     }
