@@ -232,7 +232,7 @@
                 background: $blue;
             }
             li{
-                margin-bottom: 10px; 
+                margin-bottom: 10px;
                 display: flex;
                 justify-content: space-between;
             }
@@ -259,6 +259,7 @@
                 }
             }
         }
+
         
         .usersHead{
             display: flex;
@@ -320,6 +321,21 @@
                 span{
                     margin: 0 5px;
                 }
+                .profileImage{
+                    display: flex;
+                    width: 30px;
+                    height: 30px;
+                    align-items: center;
+                    text-align: center;
+                    justify-content: space-around;
+                    border-radius: 35px;
+                    overflow: hidden;
+                    img{
+                        max-width: 100%;
+                        width: auto;
+                        height: auto;
+                    }
+                }
             }
         }
         .editBTN{
@@ -327,6 +343,20 @@
         }
         .deleteBTN{
             display: inline-block;
+        }
+    }
+    .eventsTable{
+        div {
+            ol {
+                li {
+                    line-height: 30px;
+                    margin: 0;
+                    i{
+                        font-size: 28px;
+                        color: #b3b3b3;
+                    }
+                }
+            }
         }
     }
     .usersTable{
@@ -461,14 +491,9 @@
                     }
                 }
             }
-            // .usersTable{
-            //     display: flex;
-            //     justify-content: inherit;
-            //     .tournTime, &> div{
-            //         width: 48%;
-            //         border: 0;
-            //     }
-            // }
+             .usersTable{
+
+             }
         }
     }
 }

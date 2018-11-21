@@ -56,7 +56,7 @@ export class TournyPageLeaderBoard extends Component {
 									const profileImage = item.user.avatar === undefined || item.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${item.user.avatar}`} />
 									return sortedBoard !== undefined && sortedBoard[0].user !== 'No Data'
 										? <li key={index}>
-											<div className={classes.leaderBoardTD}><span className={classes.nameLine}><span>{profileImage}</span><span>{item.user.username}</span></span></div>
+											<div className={classes.leaderBoardTD}><span className={classes.nameLine}><span className={classes.profileImage}>{profileImage}</span><span>{item.user.username}</span></span></div>
 											<div className={classes.leaderBoardTD}>{item.totalScores}</div>
 											<div className={classes.leaderBoardTD}>{item.numberOfEvents}</div>
 										  </li>

@@ -500,7 +500,8 @@ class UserSummary extends Component {
         const headLine = headline;
         const {tournById, currentUser} = this.props
         
-        const profileImage = currentUser.avatar
+        
+	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
         let name = ''
         if(headline === EDIT_USER){
             name = user !== null ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
@@ -515,7 +516,7 @@ class UserSummary extends Component {
         return (
             <div className={classes.Profile} >
                 {<h1>
-	                {<div className={classes.profileAvatar}><img src={`data:image/jpeg;base64,`+`${profileImage}`} /></div>}
+	                {<div className={classes.profileAvatar}>{profileImage}</div>}
                     {headline} {name}
                     {headline === EDIT_EVENT ? <span> by {this.props.tournById.tournamentName}</span> : null}
                     
