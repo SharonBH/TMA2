@@ -249,7 +249,7 @@ export class TournamentPage extends Component {
         <div className={classes.headTPage}>
             <h1><span>Tournament Name:</span>
 	            { currentTournament !== undefined
-		            ? <span> {currentTournament} - {this.props.tournById.tournamentId}</span>
+		            ? <span> {currentTournament}</span>
 		            : <div className={classes.typeNameSpinner}><SmallSpinner/></div>
 		            
 	            }
