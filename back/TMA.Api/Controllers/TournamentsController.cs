@@ -247,7 +247,7 @@ namespace TMA.Api.Controllers
                 var leaderboards = _mainRepository.GetLeaderboards(tournamentId);
                 foreach (var leaderboard in leaderboards)
                 {
-                    var userAvatar = _mainRepository.GetUserAvatar(leaderboard.User.Id);
+                    var userAvatar = _mainRepository.GetUserAvatar(leaderboard.User.UserName);
                     var user = new UserModel
                     {
                         UserId = leaderboard.User.Id,
