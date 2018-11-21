@@ -189,7 +189,8 @@ namespace TMA.DAL
                     if(user == null)
                         throw new Exception($"Username {username} was not found.");
 
-                    var userAvatar = user.UsersAvatar.Avatar;
+                    var userAvatar = user.UsersAvatar?.Avatar;
+
                     return userAvatar;
                 }
             }
