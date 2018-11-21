@@ -555,6 +555,56 @@ namespace TMA.DAL
             }
         }
 
+        public void CreateTournamentPresets(int tournamentId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var groupId = context.Tournaments.FirstOrDefault(x => x.TournamentId == tournamentId).GroupId;
+                    var users = context.UsersGroups
+                        .Include(x=> x.User)
+                        .Where(x => x.GroupId == groupId)
+                        .Select(x=> x.User).ToList();
+                    var events = new List<Events>();
+
+                    var usersListTemp = users.ToList();
+                    foreach (var user in users)
+                    {
+                        usersListTemp.Remove(user);
+                        foreach (var secondUser in usersListTemp)
+                        {
+                            var newEvent = new Events
+                            {
+                                EventName = $"{user.Name} VS. {secondUser.Name}",
+                                EventDate = DateTime.Now,
+                                TournamentId = tournamentId,
+                                EventResults = new List<EventResults>
+                                {
+                                    new EventResults
+                                    {
+                                        UserId = user.Id
+                                    },
+                                    new EventResults
+                                    {
+                                        UserId = secondUser.Id
+                                    }
+                                }
+                                
+                            };
+                            events.Add(newEvent);
+                        }
+                    }
+                    context.Events.AddRange(events);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'CreateTournamentPresets'.", ex);
+            }
+        }
+
         #endregion  
 
         #region EventTypes

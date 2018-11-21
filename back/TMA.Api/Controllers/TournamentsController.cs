@@ -296,5 +296,20 @@ namespace TMA.Api.Controllers
                 return Json(new { Response = "Error", Message = ex.InnerException.Message });
             }
         }
+
+        [HttpPost]
+        [Route("CreateTournamentPresets")]
+        public JsonResult CreateTournamentPresets([FromBody]int tournamentId)
+        {
+            try
+            {
+                _mainRepository.CreateTournamentPresets(tournamentId);
+                return Json(new { Response = "Success", Message = "Tournament Presets created successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
     }
 }

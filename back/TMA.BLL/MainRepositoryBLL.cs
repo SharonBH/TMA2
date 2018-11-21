@@ -216,5 +216,10 @@ namespace TMA.BLL
             var userAvatar = _mainRepository.GetUserAvatar(username);
             return userAvatar;
         }
+
+        public void CreateTournamentPresets(int tournamentId)
+        {
+            _mainRepository.CreateTournamentPresets(tournamentId);
+        }
     }
 }
