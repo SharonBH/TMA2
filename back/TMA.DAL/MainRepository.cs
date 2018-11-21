@@ -62,7 +62,7 @@ namespace TMA.DAL
         {
             try
             {
-                if (eventResults.All(   x => x.Result != null))
+                if (eventResults.All(x => x.Result != null))
                 {
                     if (eventType.EventTypeName.ToLower() == "fifa")
                     {
@@ -76,7 +76,16 @@ namespace TMA.DAL
                             var winner = eventResults.OrderByDescending(x => x.Result).First();
                             var loser = eventResults.OrderBy(x => x.Result).First();
                             winner.Score = 3;
-                            loser.Score = 0;                            
+                            loser.Score = 0;
+                        }
+                    }
+                    else if (eventType.EventTypeName.ToLower() == "poker")
+                    {
+                        var totalUserInEvent = eventResults.Count();
+                        foreach (var eventResult in eventResults)
+                        {
+                            var placeResult = eventResult.Result;
+                            eventResult.Score = (totalUserInEvent - 1) - placeResult + (totalUserInEvent - placeResult) / (placeResult * placeResult);
                         }
                     }
                 }
