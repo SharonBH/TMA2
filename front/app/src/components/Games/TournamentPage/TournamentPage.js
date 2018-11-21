@@ -193,16 +193,11 @@ export class TournamentPage extends Component {
 	    const locationName = this.props.location.pathname;
 	    const urlsplit = locationName.split("=");
 	    const action = urlsplit[ urlsplit.length - 1 ];
-	    // const urlsplit2 = locationName.split("/");
-	    // const urlsplit3 = urlsplit2[2].split('=');
-	    // const action2 = urlsplit3[ urlsplit3.length - 2 ];
         return (
 		         <div className={classes.eventsTable}>
 			         <EventsList match={this.props.match} currentTournamentId={action} currentTournamentName={currentTournament}/>
 			         <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
-                
                 </div>
-                
         )
     };
  
