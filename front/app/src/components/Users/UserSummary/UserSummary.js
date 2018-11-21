@@ -340,13 +340,14 @@ class UserSummary extends Component {
 		                           onChange={(e)=>this.imageUpload(e)}
 		                           multiple
 	                           />
-	                           : <InputComp
+	                           : <div><InputComp
                                 inputType={'text'}
                                 name={detail} 
                                 placeholder={detail} 
                                 content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
-                            />
+                                />
+                               </div>
                         }
                         </div>
                     : headline === "Edit" ? <span className={classes.editLineInput}>{item.param}</span> : <span>{item.param}</span>
@@ -497,11 +498,9 @@ class UserSummary extends Component {
 
     userSummary = (headline, user, tournament, event) => {
         const headLine = headline;
-        const {tournById} = this.props
-	    const imageData = this.state.imagePreviewUrl
-	
-	    const imgsplit = imageData.split(",");
-	    const imgToSend = imgsplit[imgsplit.length-1];
+        const {tournById, currentUser} = this.props
+        
+        const profileImage = currentUser.avatar
         let name = ''
         if(headline === EDIT_USER){
             name = user !== null ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
@@ -516,7 +515,7 @@ class UserSummary extends Component {
         return (
             <div className={classes.Profile} >
                 {<h1>
-	                {<div className={classes.profileAvatar}><img src={`data:image/jpeg;base64,`+`${imgToSend}`} /></div>}
+	                {<div className={classes.profileAvatar}><img src={`data:image/jpeg;base64,`+`${profileImage}`} /></div>}
                     {headline} {name}
                     {headline === EDIT_EVENT ? <span> by {this.props.tournById.tournamentName}</span> : null}
                     

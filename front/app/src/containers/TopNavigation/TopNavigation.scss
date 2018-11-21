@@ -9,16 +9,31 @@
     transition: all ease .3s;
     z-index: 9;
     height: 40px;
-    
+    display: flex;
+    align-items: center;
+
     & > div{
         display: inline-block;
         width: 50%;
     }
     & > span{
-        display: inline-block;
+        //display: inline-block;
         width: 50%;
         text-align: left;
         color: #fff;
+        display: flex;
+        align-items: center;
+        .navProfileAvatar{
+            max-width: 30px;
+            max-height: 30px;
+            display: inline-block;
+            overflow: hidden;
+            border-radius: 35px;
+            margin: 0 8px 0 0;
+            &>img{
+                max-width: 100%;
+            }
+        }
         i{
             font-size: 20px;
             padding: 6px 4px;
@@ -94,15 +109,29 @@
     transition: all ease .3s;
     z-index: 9;
     height: 40px;
+    display: flex;
+    align-items: center;
     & > div{
         display: inline-block;
         width: 50%;
     }
     & > span{
-        display: inline-block;
         width: 50%;
         text-align: left;
         color: #fff;
+        display: flex;
+        align-items: center;
+        .navProfileAvatar {
+            max-width: 30px;
+            max-height: 30px;
+            display: inline-block;
+            overflow: hidden;
+            border-radius: 35px;
+            margin: 0 8px 0 0;
+            & > img {
+                max-width: 100%;
+            }
+        }
         i{
             font-size: 20px;
             padding: 6px 4px;
@@ -175,10 +204,11 @@
             width: 50%;
         }
         & > span{
-            display: inline-block;
             width: 50%;
             text-align: left;
             color: #fff;
+            display: flex;
+            align-items: center;
             i{
                 display: none;
                 font-size: 20px;
@@ -275,6 +305,8 @@
         & > span {
             width: auto;
             line-height: 35px;
+            display: flex;
+            align-items: center;
             span {
                 margin-left: 0;
             }

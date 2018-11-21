@@ -314,6 +314,13 @@
         }
         .leaderBoardTD{
             width: 34%;
+            .nameLine{
+                display: flex;
+                align-items: center;
+                span{
+                    margin: 0 5px;
+                }
+            }
         }
         .editBTN{
             display: inline-block;

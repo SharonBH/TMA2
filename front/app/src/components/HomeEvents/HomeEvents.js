@@ -7,6 +7,7 @@ import classes from '../../containers/MainPage/MainPage.scss';
 import {takeAllTournaments, takeMyHomeLeaderboardRequest} from '../../actions/GamesApi';
 import { getAllRolesRequest } from '../../actions/Api';
 import Spinner from '../UI/Spinner'
+import SmallSpinner from "../UI/SmallSpinner/SmallSpinner";
 
 
 export class HomeEvents extends Component {
@@ -17,7 +18,6 @@ export class HomeEvents extends Component {
 
         }, 200)
 	    if(this.props.currentUser !== null &&  this.props.allMyHomeData === ''){
-	    	console.log('1')
 		    const userId = this.props.currentUser.userId
 		    setTimeout(() => {
 			    this.props.takeMyHomeLeaderboardRequest(userId)
@@ -34,7 +34,6 @@ export class HomeEvents extends Component {
                 )
             } 
         })
-
     }
     
     futureEventsList = () => {
@@ -42,9 +41,7 @@ export class HomeEvents extends Component {
         
         const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
         const filltournamentName = fill !== undefined ? fill.tournamentName : '';
-
         return(
-            
             <div>
                 {next.nextEvent === null ? <span className={classes.noResults}>No Future events</span>
                 :
@@ -52,7 +49,6 @@ export class HomeEvents extends Component {
                     <p className={classes.eventName}><span>Event Name:</span>{next.nextEvent.eventName}</p>
                     <p className={classes.eventName}><span>Tournament Name:</span>{filltournamentName}</p>
                     <p className={classes.eventDate}><span>Event Date:</span>{moment(next.nextEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
-         
                 </div>
                 }
         </div>
@@ -62,7 +58,6 @@ export class HomeEvents extends Component {
         const {past} =  this.props.allMyHomeData;
         const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null;
         const filltournamentName = fill !== undefined ? fill.tournamentName : '';
-        console.log('next', past)
 
         return(
             <div>
@@ -82,13 +77,11 @@ export class HomeEvents extends Component {
     pastEventTableOutput = () => {
         const {past} =  this.props.allMyHomeData
         const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
-        
-       
-        // const reducedT = ''
+
         const sortedBoard = past.pastLeaderboard !== null ? past.pastLeaderboard.sort((a, b) => {
             return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
         }) : null;
-        console.log('leader sort', sortedBoard)
+
         return (
             <div className={classes.leaderTop}>
                 <p>{pastTournament.tournamentName}</p>
@@ -97,12 +90,21 @@ export class HomeEvents extends Component {
                     <b>Number of Events</b>
                     <b>Total Scores</b>
                 </div>
-                <ul>{sortedBoard.map((user, i) => { 
-                        return <li key={i}><div>
-                            <p><span>{user.user.userName}</span></p>
-                            <p><span>{user.numberOfEvents}</span></p>
-                            <p><span>{user.totalScores}</span></p>
-                        </div></li>
+                <ul>{sortedBoard.map((user, i) => {
+	                const profileImage = user.user.usersAvatar === undefined || user.user.usersAvatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.usersAvatar}`} />
+                        return <li key={i}>
+	                        <div>
+		                        <p><span>
+				                        {<span className={classes.profileAvatar}>
+					                        {profileImage}
+				                        </span>}
+			                        </span>
+			                        <span>
+			                        {user.user.userName}</span></p>
+	                            <p><span>{user.numberOfEvents}</span></p>
+	                            <p><span>{user.totalScores}</span></p>
+                            </div>
+                        </li>
                     })}
                 </ul>
             </div>
@@ -114,7 +116,6 @@ export class HomeEvents extends Component {
 		const sortedBoard = next.nextLeaderboard !== null ? next.nextLeaderboard.sort((a, b) => {
 			return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
 		}) : null;
-		console.log('leader sort', sortedBoard)
 		return (
 			<div className={classes.leaderTop}>
 				<p>{nextTournament.tournamentName}</p>
@@ -124,8 +125,13 @@ export class HomeEvents extends Component {
 					<b>Total Scores</b>
 				</div>
 				<ul>{sortedBoard.map((user, i) => {
+					const profileImage = user.user.usersAvatar === undefined || user.user.usersAvatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.usersAvatar}`} />
 					return <li key={i}><div>
-						<p><span>{user.user.userName}</span></p>
+						<p><span>
+			                        {<span className={classes.profileAvatar}>
+				                        {profileImage}
+			                        </span>}
+		                        </span><span>{user.user.userName}</span></p>
 						<p><span>{user.numberOfEvents}</span></p>
 						<p><span>{user.totalScores}</span></p>
 					</div></li>
@@ -140,15 +146,10 @@ export class HomeEvents extends Component {
         const {past, next} =  this.props.allMyHomeData
         const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
         const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
-        console.log('tournaments', pastTournament, '===' ,nextTournament)
-        // const reducedT = ''
-        // const sortedBoard = past.pastLeaderboard !== null ? past.pastLeaderboard.sort((a, b) => {
-        //     return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
-        // }) : null
+
         if(pastTournament !== undefined && nextTournament !== undefined ){
-            if(pastTournament.tournamentId === nextTournament.tournamentId){
-                console.log('reducedT', pastTournament.tournamentName);
-                return this.pastEventTableOutput()
+	        if(pastTournament.tournamentId === nextTournament.tournamentId){
+                return  this.pastEventTableOutput()
             }else if(pastTournament.tournamentId !== nextTournament.tournamentId){
 	            return (
 		            <div className={classes.doubleBoard}>
@@ -157,24 +158,26 @@ export class HomeEvents extends Component {
 		            </div>
 	            )
             }
-            
         }else if(pastTournament !== undefined && nextTournament === undefined){
-	        console.log('reducedT', pastTournament.tournamentName);
-	        
             return this.pastEventTableOutput()
         }
         
     }
 
     render() {
-
-        console.log('main props', this.props.allMyHomeData)
+	    const {past, next} =  this.props.allMyHomeData
+	    const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
+	    const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
         return (
             <div className={classes.EventsPage}>
                 <div>
                     <h1>Hello, your leader board</h1>
-                    {this.leaderboardTable()}
-
+	                <div className={classes.leaderBoardTables}>
+                        {pastTournament !== undefined || nextTournament !== undefined
+                        	? this.leaderboardTable()
+                            :  <div className={classes.smallSpinner}><SmallSpinner/></div>
+                        }
+	                </div>
                 </div>
                 <div>
                     <h1>You have some events</h1>
