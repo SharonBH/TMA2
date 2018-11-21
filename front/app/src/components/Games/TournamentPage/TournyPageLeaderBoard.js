@@ -25,7 +25,7 @@ export class TournyPageLeaderBoard extends Component {
 				leaderBoardData: this.props.leaderBoardData
 			})
 			
-		}, 3000)
+		}, 3500)
 
 	}
 	componentWillUnmount(){
@@ -49,26 +49,25 @@ export class TournyPageLeaderBoard extends Component {
 					<h4 className={classes.leaderBoardTD}>Events</h4>
 				</div>
 					{
-						// sortedBoard.user === 'No Data'
-						// 	?
-							sortedBoard.length !== 0
-								? <ol>
-									{sortedBoard !== null ? sortedBoard.map((item, index) => {
-										return sortedBoard !== undefined && sortedBoard[0].user !== 'No Data'
-											? <li key={index}>
-												<div className={classes.leaderBoardTD}>{item.user.username}</div>
-												<div className={classes.leaderBoardTD}>{item.totalScores}</div>
-												<div className={classes.leaderBoardTD}>{item.numberOfEvents}</div>
-											  </li>
-											: <div key={index}>No Results</div>
-										}) : null
-										
-										}
-								</ol>
-								
-								: <ul className={classes.noresults}>
-									<SmallSpinner/>
-								</ul>
+						sortedBoard.length !== 0
+							? <ol>
+								{sortedBoard !== null ? sortedBoard.map((item, index) => {
+									console.log(item.user)
+									const profileImage = item.user.avatar === undefined || item.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${item.user.avatar}`} />
+									return sortedBoard !== undefined && sortedBoard[0].user !== 'No Data'
+										? <li key={index}>
+											<div className={classes.leaderBoardTD}><span className={classes.nameLine}><span>{profileImage}</span><span>{item.user.username}</span></span></div>
+											<div className={classes.leaderBoardTD}>{item.totalScores}</div>
+											<div className={classes.leaderBoardTD}>{item.numberOfEvents}</div>
+										  </li>
+										: <div key={index}>No Results</div>
+									}) : null
+									
+									}
+							</ol>
+							: <ul className={classes.noresults}>
+								<SmallSpinner/>
+							</ul>
 					}
 			</div>
 		)

@@ -33,10 +33,15 @@ class TopNavigation extends Component {
     }
 
     render() {
+        console.log()
+        const { currentUser } = this.props
+	    const profileImage = currentUser.avatar !== undefined ? <img src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} /> : <i className="fas fa-user-circle"></i>
+        
         return (
             <div className={this.state.navState ? classes.TopNavClosed : classes.TopNav} >
                 <span className={classes.closeBtn}>
                     <i className="fas fa-bars"  onClick={this.navState}></i>
+	                {<div className={classes.navProfileAvatar}> {profileImage}</div>}
                     {this.helloUser()}
                 </span>
                 
