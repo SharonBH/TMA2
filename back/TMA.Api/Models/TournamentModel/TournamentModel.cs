@@ -19,5 +19,6 @@ namespace TMA.Api.Controllers
         public int GroupId { get; set; }
         public GroupModel GroupModel { get; set; }
         public List<EventModel> Events {get;set;}
+        public int  EventsCount { get; set; }
     }
 }

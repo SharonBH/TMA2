@@ -155,6 +155,7 @@ namespace TMA.Api.Controllers
                     }
                     groupModel.Users = users;
                     tournamentModel.GroupModel = groupModel;
+                    tournamentModel.EventsCount = tournament.Events.Count;
 
                     //var tournamentsEvents = new List<EventModel>();
                     //foreach (var tournamentEvent in tournament.Events)
