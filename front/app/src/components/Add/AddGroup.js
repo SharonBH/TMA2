@@ -219,7 +219,8 @@ class AddGroup extends Component {
 	
 	
 	render(){
-		console.log('add',this.props)
+		console.log('add group',this.props)
+		console.log('add group state',this.state)
 		return(
 			this.addNewGroupPage()
 		)

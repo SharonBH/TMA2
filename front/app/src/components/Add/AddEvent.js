@@ -40,7 +40,7 @@ export class AddEvent extends Component{
 		const fill = this.state.addSearchUsersResult.filter(item => item.userId !== index);
 		this.setState({addSearchUsersResult: fill});
 		
-		if(this.props.allEventTypesList.eventTypeName === 'FIFA') {
+		if(this.props.tournById.eventTypeId == 1)  {
 			const splited = this.state.EventName.split(' Vs. ');
 			let removeNameFromArr = [ ...splited ];
 			removeNameFromArr.splice(index, 1);
@@ -72,8 +72,7 @@ export class AddEvent extends Component{
 			return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
 		});
 		this.setState({addSearchUsersResult: namesArray});
-		
-		if(this.props.allEventTypesList.eventTypeName === 'FIFA') {
+		if(this.props.tournById.eventTypeId == 1) {
 			if (this.onEventNameChange) {
 				const name = namesArray !== ''
 					? namesArray.map((user) => {
@@ -93,7 +92,7 @@ export class AddEvent extends Component{
 		if(addSearchUsersResult.length > 0) {
 			return addSearchUsersResult.map((user, index) => {
 				return <span className={classes.user +' '+classes.userResult} key={index}>
-                    {user.username}
+					<span className={classes.eventNames}>{user.username}</span>
 					{today > eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, user)}/> : null}
 					<i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
                 </span>
@@ -141,13 +140,13 @@ export class AddEvent extends Component{
 							return <li key={index}>
 									{addSearchUsersResult.length > 0 && x !== undefined
 									?  <span className={classes.user +' '+classes.userResult} >
-                                            {x.username}
+											<span className={classes.eventNames}>{x.username}</span>
 											{today > eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, x)}/> : null}
 											<i className="far fa-times-circle" onClick={this.removeSelectedUser.bind(this, x.userId)}></i>
                                         </span>
 
 									: <span className={classes.user} onClick={() => this.addSearchUsers(user)}>
-											{user.username}
+											<span className={classes.eventNames}>{user.username}</span>
 											<i className="far fa-plus-square"></i>
 									   </span>
 									}
