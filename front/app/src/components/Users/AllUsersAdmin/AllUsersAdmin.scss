@@ -15,10 +15,12 @@
           &>div{
             margin: 0 10px;
           }
+          .active{
+            background: #acedff;
+          }
         }
     }
     div.username, div.email, div.role{
-        width: 20%;
         overflow-y: auto;
         &::-webkit-scrollbar{
             height: 2px;
@@ -28,10 +30,16 @@
             background: $blue;
         }
     }
+    div.username{
+        width: 25%
+    }
     div.role{
         border: 0;
-        width: 8%
+        width: 10%
     }
+    div.email{
+        width: 16%
+  }
     .select{
         display: block !important;
         width: 20%;
@@ -47,12 +55,12 @@
 
         & > div {
             padding: 0 0;
-            margin: 0 6px;
+            margin: 0 0px;
             display: inline-flex;
             justify-content: start;
         }
         .addBtn{
-            width: 203px;
+            width: 109px;
         }
     }
 
@@ -83,10 +91,15 @@
             line-height: 25px;
 
             div.allUsButtons {
-                width: 200px;
+                width: 109px;
+                display: flex;
+                justify-content: flex-end;
             }
             & > a{
-                display: inline-block;
+              width: 100%;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
             }
             & > div{
                 padding: 0 0;
@@ -246,9 +259,14 @@ div.EditBtn {
         display: flex;
         justify-content: center;
         margin-top: 20px;
+        .active{
+          background: #acedff;
+        }
         &>div{
           margin: 0 10px;
+
         }
+
       }
     }
 

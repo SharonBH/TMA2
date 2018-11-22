@@ -104,7 +104,7 @@ export class AddTournament extends Component{
 						<SelectComp
 							key={eventTypes}
 							options={eventTypes}
-							placeholder={'Tournament Type'}
+							placeholder={'Game Type'}
 							name={'eventType'}
 							onChange={(e) => this.onTypeOfEventChange(e)}
 						/>

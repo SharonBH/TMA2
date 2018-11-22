@@ -303,7 +303,7 @@ export class TournamentPage extends Component {
 	                : <SmallSpinner/>
                     }
                 </div>
-	            <div className={classes.turnPageTiming}><b>Type of Tournament: </b>{eventTName !== undefined ? eventTName.eventTypeName : <div className={classes.typeNameSpinner}><SmallSpinner/></div>}</div>
+	            <div className={classes.turnPageTiming}><b>Type of Game: </b>{eventTName !== undefined ? eventTName.eventTypeName : <div className={classes.typeNameSpinner}><SmallSpinner/></div>}</div>
             </div>
         )
     }
