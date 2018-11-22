@@ -516,7 +516,7 @@ class UserSummary extends Component {
         return (
             <div className={classes.Profile} >
                 {<h1>
-	                {<div className={classes.profileAvatar}>{profileImage}</div>}
+	                {headline === YOUR_PROFILE ? <div className={classes.profileAvatar}>{profileImage}</div> : null}
                     {headline} {name}
                     {headline === EDIT_EVENT ? <span> by {this.props.tournById.tournamentName}</span> : null}
                     

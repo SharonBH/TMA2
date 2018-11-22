@@ -66,6 +66,7 @@
             }
             .timePicker{
                 width: 100%;
+                margin-bottom: 15px;
                 label {
                     top: 37%;
                     font-size: 18px;
@@ -126,7 +127,7 @@
               margin-bottom: 20px;
 
 
-              .usersWrapper, .usersAddedWrapper {
+                .usersWrapper, .usersAddedWrapper {
                     display: flex;
                     flex-wrap: wrap;
                     align-items: center;
@@ -145,26 +146,34 @@
                         padding: 5px;
                         font-size: 15px;
                     }
-    
-                    .user {
+                    ul.usersAddedWrapperList{
+                        padding: 0;
                         width: 100%;
-                        margin: 5px 0 5px 0;
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                        border-radius: 10px;
-                        padding: 5px 10px 5px 10px;
-                        background-color: $white;
-                        cursor: pointer;
-
-                        i {
-                            font-size: 20px;
-                            color: $blue;
-                            border-left: 1px solid $blue;
-                            padding: 0 0 0 10px;
+                        margin: 5px 0;
+                        li{
+                            width: 47%;
+                        }
+                        .user {
+                            width: 100%;
+                            margin: 5px 0 5px 0;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            border-radius: 10px;
+                            padding: 5px 10px 5px 10px;
+                            background-color: $white;
                             cursor: pointer;
+
+                            i {
+                                font-size: 20px;
+                                color: $blue;
+                                border-left: 1px solid $blue;
+                                padding: 0 0 0 10px;
+                                cursor: pointer;
+                            }
                         }
                     }
+
                     .user:hover {
                         background-color: rgba(128, 128, 128, 0.3);
                     }
@@ -398,26 +407,36 @@
         padding: 5px;
         font-size: 15px;
     }
-
-    .user {
+    ul.usersAddedWrapperList{
+        padding: 0;
         width: 100%;
-        margin: 5px 0 5px 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-radius: 10px;
-        padding: 5px 10px 5px 10px;
-        background-color: $white;
-        cursor: pointer;
-
-        i {
-            font-size: 20px;
-            color: $blue;
-            border-left: 1px solid $blue;
-            padding: 0 0 0 10px;
+        margin: 5px 0;
+        li{
+            width: 48%;
+            display: inline-block;
+            margin: 0 1%;
+        }
+        .user {
+            width: 100%;
+            margin: 5px 0 5px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 10px;
+            padding: 5px 10px 5px 10px;
+            background-color: $white;
             cursor: pointer;
+
+            i {
+                font-size: 20px;
+                color: $blue;
+                border-left: 1px solid $blue;
+                padding: 0 0 0 10px;
+                cursor: pointer;
+            }
         }
     }
+
     .user:hover {
         background-color: rgba(128, 128, 128, 0.3);
     }
@@ -432,13 +451,15 @@
 
     .user {
         border: 1px solid #03a3d0;
-        width: 47%;
+        width: 100%;
         cursor: default;
         margin-right: 9px;
         height: 45px;
     }
     .userResult {
         width: 47%;
+        background: #03a3d0 !important;
+        color: #fff;
 
         input {
             height: 30px;
@@ -451,10 +472,16 @@
         }
         input[type=number]{
             margin: 0;
+            background: #03a3d0;
+            color: #fff;
+            &::placeholder{
+                color: #fff;
+            }
         }
         
         i {
             border: none;
+            color: #fff !important;
         }
 
         input[type=number]::-webkit-inner-spin-button, 

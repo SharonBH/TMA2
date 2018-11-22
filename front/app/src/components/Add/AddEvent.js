@@ -37,14 +37,16 @@ export class AddEvent extends Component{
 	
 	removeSelectedUser = (index) => {
 		let removeAddUser = [...this.state.addSearchUsersResult];
-		removeAddUser.splice(index, 1);
-		this.setState({addSearchUsersResult: removeAddUser});
+		const fill = this.state.addSearchUsersResult.filter(item => item.userId !== index);
+		this.setState({addSearchUsersResult: fill});
 		
-		const splited = this.state.EventName.split(' Vs. ');
-		let removeNameFromArr = [...splited];
-		removeNameFromArr.splice(index, 1);
-		const names = removeNameFromArr.join(' Vs. ') ;
-		this.setState({EventName: names})
+		if(this.props.allEventTypesList.eventTypeName === 'FIFA') {
+			const splited = this.state.EventName.split(' Vs. ');
+			let removeNameFromArr = [ ...splited ];
+			removeNameFromArr.splice(index, 1);
+			const names = removeNameFromArr.join(' Vs. ');
+			this.setState({EventName: names})
+		}
 		
 	};
 	addSearchUserResult = (user, e) => {
@@ -70,14 +72,17 @@ export class AddEvent extends Component{
 			return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
 		});
 		this.setState({addSearchUsersResult: namesArray});
-
 		
-		if(this.onEventNameChange){
-			const name = namesArray !== ''
-				? namesArray.map((user) => {return user.username})
-				: this.state.EventName;
-			const names = !name || name !== '' ? name.join(' Vs. ') : '';
-			this.setState({EventName: names})
+		if(this.props.allEventTypesList.eventTypeName === 'FIFA') {
+			if (this.onEventNameChange) {
+				const name = namesArray !== ''
+					? namesArray.map((user) => {
+						return user.username
+					})
+					: this.state.EventName;
+				const names = !name || name !== '' ? name.join(' Vs. ') : '';
+				this.setState({EventName: names})
+			}
 		}
 
 	};
@@ -126,32 +131,31 @@ export class AddEvent extends Component{
 		const today = Date.parse(new Date());
 		const eventday = Date.parse(selectedDate);
 		const arr = [...groupById.users];
-		console.log('addSearchUsersResult__________', addSearchUsersResult)
 		return ( <div>
 					<InputComp inputType="text" name="tournament" placeholder={'Tournament Name'} content={tournById.tournamentName} onChange={() => {}}/>
 					<div className={classes.usersAddedWrapper} >
 						{<span className={classes.searchResult}>select players from the tournament group</span>}
-						
+						<ul className={classes.usersAddedWrapperList}>
 						{arr !== undefined ? arr.map((user, index) => {
-							console.log('user ', user)
 							const x = addSearchUsersResult!== null || addSearchUsersResult.length > 0 ? addSearchUsersResult.find((name) =>  {return name.username === user.username }) : null
-								console.log('x ', x)
-							return addSearchUsersResult.length > 0 && x !== undefined
-									?  <span className={classes.user +' '+classes.userResult} key={index}>
+							return <li key={index}>
+									{addSearchUsersResult.length > 0 && x !== undefined
+									?  <span className={classes.user +' '+classes.userResult} >
                                             {x.username}
 											{today > eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, x)}/> : null}
-											<i className="far fa-times-circle" onClick={() => this.removeSelectedUser(user)}></i>
+											<i className="far fa-times-circle" onClick={this.removeSelectedUser.bind(this, x.userId)}></i>
                                         </span>
 
-									:
-							<span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+									: <span className={classes.user} onClick={() => this.addSearchUsers(user)}>
 											{user.username}
-								<i className="far fa-plus-square"></i>
+											<i className="far fa-plus-square"></i>
 									   </span>
-
+									}
+								</li>
 
 						}): null
 						}
+						</ul>
 					</div>
 					<InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange} content={this.state.EventName}/>
 					<MuiPickersUtilsProvider utils={MomentUtils}>
@@ -167,13 +171,6 @@ export class AddEvent extends Component{
 							label={'Event Time:'}
 						/>
 					</MuiPickersUtilsProvider>
-				
-					{/*==========================*/}
-					{/*<div className={classes.usersAddedWrapper}>*/}
-						{/*{<span className={classes.searchResult}>selected players for this event</span>}*/}
-						{/*{this.eventUsersPlaying()}*/}
-					{/*</div>*/}
-					{/*==========================*/}
 					
 					<Link to={`/tournament_page/${this.props.tournById.tournamentName}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
 						<div className={classes.saveButton}><BtnComp
@@ -188,6 +185,7 @@ export class AddEvent extends Component{
 	};
 	
 	render() {
+		console.log('_____________',this.props)
 		return this.eventPage()
 	}
 }

@@ -260,13 +260,13 @@ export class TournamentPage extends Component {
 	                content='Add Event'
 	                inputType='button'
 	                onClick={this.addEventBtn}
-	                disabled={this.state.groupsList.length !== 0  ? !this.state.buttonStatus : this.state.buttonStatus}
+	                disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0   ? !this.state.buttonStatus : this.state.buttonStatus}
                 />
                 <BtnComp
 	                inputType="button"
 	                content='Edit Tournament'
 	                onClick={() => this.editTournamentBtn(currentTournament)}
-	                disabled={this.state.groupsList.length !== 0 || this.state.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
+	                disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0 || this.state.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
                 />
                 <Link className={classes.backBtn} to={`${path}`}><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
             </div>
