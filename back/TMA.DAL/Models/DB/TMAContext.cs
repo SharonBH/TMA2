@@ -26,6 +26,7 @@ namespace TMA.DAL.Models.DB
         public virtual DbSet<Events> Events { get; set; }
         public virtual DbSet<Groups> Groups { get; set; }
         public virtual DbSet<LkpEvent> LkpEvent { get; set; }
+        public virtual DbSet<LkpTournamentType> LkpTournamentType { get; set; }
         public virtual DbSet<Tournaments> Tournaments { get; set; }
         public virtual DbSet<UsersAvatar> UsersAvatar { get; set; }
         public virtual DbSet<UsersGroups> UsersGroups { get; set; }
@@ -189,6 +190,17 @@ namespace TMA.DAL.Models.DB
                 entity.Property(e => e.EventTypeId).ValueGeneratedNever();
 
                 entity.Property(e => e.EventTypeName)
+                    .IsRequired()
+                    .HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<LkpTournamentType>(entity =>
+            {
+                entity.HasKey(e => e.TournamentTypeId);
+
+                entity.ToTable("LKP_TournamentType");
+
+                entity.Property(e => e.TournamentTypeName)
                     .IsRequired()
                     .HasMaxLength(150);
             });

@@ -20,5 +20,7 @@ namespace TMA.Api.Controllers
         public GroupModel GroupModel { get; set; }
         public List<EventModel> Events {get;set;}
         public int  EventsCount { get; set; }
+        public string TournamentTypeName { get; set; }
+        public int? NumberOfPresets { get; set; }
     }
 }

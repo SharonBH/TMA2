@@ -52,10 +52,11 @@ namespace TMA.BLL
 
         #region Tournaments
 
-        public void CreateTournament(string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
+        public int CreateTournament(string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
         {
             var eventType = _mainRepository.GetEventTypeByName(eventTypeName);
-            _mainRepository.CreateTournament(tournamentName, eventType, startDate, endDate, numberOfEvents, groupId);
+            var tournamentId = _mainRepository.CreateTournament(tournamentName, eventType, startDate, endDate, numberOfEvents, groupId);
+            return tournamentId;
         }
 
         public void EditTournament(int tournamentId, string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
@@ -217,9 +218,10 @@ namespace TMA.BLL
             return userAvatar;
         }
 
-        public void CreateTournamentPresets(int tournamentId)
+        public void CreateTournamentPresets(int tournamentId, string tournamentTypeName, int numberOfPresets = 1)
         {
-            _mainRepository.CreateTournamentPresets(tournamentId);
+            LkpTournamentType tournametType = _mainRepository.GetTournamentTypeByName(tournamentTypeName);
+            _mainRepository.CreateTournamentPresets(tournamentId, tournametType, numberOfPresets);
         }
     }
 }

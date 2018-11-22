@@ -21,8 +21,9 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId);
-
+                    var tournamentId = _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId);
+                    if(string.IsNullOrEmpty(tournamentModel.TournamentTypeName) == false)
+                        _mainRepository.CreateTournamentPresets(tournamentId, tournamentModel.TournamentTypeName, tournamentModel.NumberOfPresets ?? 1);
                     return Json(new { Response = "Success", Message = "Tournament created successfully." });
                 }
                 else if (ModelState.ErrorCount > 0)
@@ -299,11 +300,11 @@ namespace TMA.Api.Controllers
 
         [HttpPost]
         [Route("CreateTournamentPresets")]
-        public JsonResult CreateTournamentPresets([FromBody]int tournamentId)
+        public JsonResult CreateTournamentPresets([FromBody]TournamentPresetsModel tournamentPresetsModel)
         {
             try
             {
-                _mainRepository.CreateTournamentPresets(tournamentId);
+                _mainRepository.CreateTournamentPresets(tournamentPresetsModel.TournamentId,tournamentPresetsModel.TournamentTypeName, tournamentPresetsModel.NumberOfPresets ?? 1);
                 return Json(new { Response = "Success", Message = "Tournament Presets created successfully." });
             }
             catch (Exception ex)

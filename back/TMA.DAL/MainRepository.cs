@@ -188,6 +188,25 @@ namespace TMA.DAL
             }
         }
 
+        public LkpTournamentType GetTournamentTypeByName(string tournamentTypeName)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var tournamentType = context.LkpTournamentType.FirstOrDefault(x => x.TournamentTypeName.Trim().ToLower() == tournamentTypeName.Trim().ToLower());
+                    if(tournamentType == null)
+                        throw new Exception($"Tournament Type '{tournamentTypeName}' was not found.");
+
+                    return tournamentType;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetTournamentTypeByName'.", ex);
+            }
+        }
+
         public byte[] GetUserAvatar(string username)
         {
             try
@@ -338,7 +357,7 @@ namespace TMA.DAL
 
         #region Tournaments
 
-        public void CreateTournament(string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
+        public int CreateTournament(string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
         {
             try
             {
@@ -360,6 +379,7 @@ namespace TMA.DAL
                     };
                     context.Tournaments.Add(tournament);
                     context.SaveChanges();
+                    return tournament.TournamentId;
                 }
             }
             catch (Exception ex)
@@ -555,48 +575,47 @@ namespace TMA.DAL
             }
         }
 
-        public void CreateTournamentPresets(int tournamentId)
+        public void CreateTournamentPresets(int tournamentId, LkpTournamentType tournamentType, int numberOfPresets = 1)
         {
             try
             {
                 using (var context = new TMAContext())
                 {
-                    var groupId = context.Tournaments.FirstOrDefault(x => x.TournamentId == tournamentId).GroupId;
-                    var users = context.UsersGroups
-                        .Include(x=> x.User)
-                        .Where(x => x.GroupId == groupId)
-                        .Select(x=> x.User).ToList();
-                    var events = new List<Events>();
-
-                    var usersListTemp = users.ToList();
-                    foreach (var user in users)
+                    if (tournamentType.TournamentTypeName.ToLower() == "league")
                     {
-                        usersListTemp.Remove(user);
-                        foreach (var secondUser in usersListTemp)
+                        var groupId = context.Tournaments.FirstOrDefault(x => x.TournamentId == tournamentId).GroupId;
+                        var users = context.UsersGroups
+                            .Include(x => x.User)
+                            .Where(x => x.GroupId == groupId)
+                            .Select(x => x.User).ToList();
+                        var events = new List<Events>();
+
+                        for (int i = 0; i < users.Count - 1; i++)
                         {
-                            var newEvent = new Events
+                            for (int j = i + 1; j < users.Count; j++)
                             {
-                                EventName = $"{user.Name} VS. {secondUser.Name}",
-                                EventDate = DateTime.Now,
-                                TournamentId = tournamentId,
-                                EventResults = new List<EventResults>
+                                var user = users[i];
+                                var secondUser = users[j];
+                                for (int k = 0; k < numberOfPresets; k++)
                                 {
-                                    new EventResults
+                                    var newEvent = new Events
                                     {
-                                        UserId = user.Id
-                                    },
-                                    new EventResults
-                                    {
-                                        UserId = secondUser.Id
-                                    }
+                                        EventName = $"{user.Name} VS. {secondUser.Name}",
+                                        EventDate = DateTime.Now,
+                                        TournamentId = tournamentId,
+                                        EventResults = new List<EventResults>
+                                        {
+                                        new EventResults { UserId = user.Id},
+                                        new EventResults { UserId = secondUser.Id}
+                                        }
+                                    };
+                                    events.Add(newEvent);
                                 }
-                                
-                            };
-                            events.Add(newEvent);
+                            }
                         }
+                        context.Events.AddRange(events);
+                        context.SaveChanges();
                     }
-                    context.Events.AddRange(events);
-                    context.SaveChanges();
                 }
             }
             catch (Exception ex)
