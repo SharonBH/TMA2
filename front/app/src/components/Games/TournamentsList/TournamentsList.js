@@ -167,9 +167,7 @@ export class TournamentsList extends Component {
            default:
          }
     }
-	presetEvents = (tournamentId) => {
-        // this.props.CreateTournamentPresetsResponse(tournamentId)
-    }
+	
     tournamentList = () => {
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
 	    const sortedBoard = tournaments.length !== 0 || tournaments !== null ? tournaments.sort((a, b) => {
