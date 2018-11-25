@@ -260,3 +260,9 @@ export const deleteEventAction = (boll) => {
 		payload: boll
 	}
 }
+export const CreateTournamentPresetsAction = (response) => {
+	return {
+		type: 'CREATE_PRESET',
+		payload: response
+	}
+}

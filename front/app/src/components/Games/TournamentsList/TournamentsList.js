@@ -9,11 +9,12 @@ import { ADD_EVENT, ADD_TOURNAMENT, DELETE_TOURNAMENT } from '../../../configura
 
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
+import Tab from '../../UI/Tab/Tab';
 
 import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 
-import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest, takeMyGroupsRequest, mainPageGetAllGroupsRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest, takeMyGroupsRequest, mainPageGetAllGroupsRequest, CreateTournamentPresetsResponse } from '../../../actions/GamesApi';
 import { addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import SmallSpinner from "../../UI/SmallSpinner/SmallSpinner";
@@ -158,25 +159,28 @@ export class TournamentsList extends Component {
         const path = this.props.match.url
         switch (path) {
             case "/my_tournaments":
-            return  <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
+                return this.tournamentList()
+                // return  <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
             case "/all_tournaments":
-            return <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
+	            return this.tournamentList()
+                // return <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>{item.tournamentName}</Link>
            default:
          }
     }
-
+	
     tournamentList = () => {
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
 	    const sortedBoard = tournaments.length !== 0 || tournaments !== null ? tournaments.sort((a, b) => {
 		    return a.startDate === b.startDate ? 0 : a.startDate < b.startDate ? 1 : -1;
 	    }) : null
-	    
+	    const path = this.props.match.url
 	    const today = new Date();
 	    const dd = today.getDate();
 	    const mm = today.getMonth()+1; //January is 0!
 	    const yyyy = today.getFullYear();
 	    const todayDate = mm + dd + yyyy;
 	    const sortedList = sortedBoard.filter((tourny) =>  tourny.eventTypeName === this.state.changeList)
+        
         return sortedList !== undefined ? sortedList.map((item, index) => {
 		        const end = new Date(item.endDate)
 		        const edd = end.getDate();
@@ -185,17 +189,26 @@ export class TournamentsList extends Component {
 		        const eEndDate = emm + edd + eyyyy;
 		        
             return <li key={index} className={eEndDate < todayDate ? classes.notActive : null}>
-                <div className={classes.username}>
-                    { this.pathChanger(item) }
-                </div>
-                <div className={classes.email}><span>{moment(item.startDate).format('Do MMM YYYY')}</span></div>
-                <div className={classes.email}><span>{moment(item.endDate).format('Do MMM YYYY')}</span></div>
-	            <div className={classes.role}><span>{item.eventsCount}</span></div>
-                <div className={classes.role}><span>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</span></div>
-                <div className={classes.role}><span>{item.eventTypeName}</span></div>
-                <div id={index} className={classes.allUsButtons}>
-                    <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
-                </div>
+	            <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>
+                    <div className={classes.username}>
+                        {/*{ this.pathChanger(item) }*/}
+                        <span>{item.tournamentName}</span>
+                    </div>
+                    <div className={classes.email}><span>{moment(item.startDate).format('Do MMM YYYY')}</span></div>
+                    <div className={classes.email}><span>{moment(item.endDate).format('Do MMM YYYY')}</span></div>
+                    <div className={classes.role}><span>{item.eventsCount}</span></div>
+                    <div className={classes.role}><span>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</span></div>
+                    <div className={classes.role}><span>{item.eventTypeName}</span></div>
+                    <div id={index} className={classes.allUsButtons}>
+                        <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
+                        {/*{*/}
+                            {/*item.eventsCount !== null || item.eventsCount == 0*/}
+                            {/*? <div onClick={() => this.presetEvents(item.tournamentId)}>preset</div>*/}
+                            {/*: null*/}
+                        {/*}*/}
+                        
+                    </div>
+                </Link>
             </li>
 	         
             
@@ -212,8 +225,18 @@ export class TournamentsList extends Component {
             <div className={classes.usersWrapper}>
                 <div>
                     <div className={classes.sortTabs}>
-                        <BtnComp inputType={'button'} content={'FIFA'} onClick={(item) => this.changeList(item)}/>
-	                    <BtnComp inputType={'button'} content={'Poker'} onClick={(item) => this.changeList(item)}/>
+                        <div className={this.state.changeList === 'FIFA' ? classes.active : null }>
+                            <Tab
+                            inputType={'button'}
+                            content={'FIFA'}
+                            onClick={(item) => this.changeList(item)}
+                        /></div>
+	                    <div className={this.state.changeList === 'Poker' ? classes.active : null }>
+                            <Tab
+                            inputType={'button'}
+                            content={'Poker'}
+                            onClick={(item) => this.changeList(item)}
+                        /></div>
                     </div>
                     <h1>Tournaments List</h1>
                     {this.successDeleteMessage()}
@@ -224,7 +247,7 @@ export class TournamentsList extends Component {
                         <div className={classes.email}>End Date</div>
                         <div className={classes.role}>Num of Events</div>
                         <div className={classes.role}>Max Events</div>
-                        <div className={classes.role}>Event Type</div>
+                        <div className={classes.role}>Game Type</div>
                         <div className={classes.addBtn}>
                             <BtnComp
                                 inputType="submit"
@@ -236,7 +259,8 @@ export class TournamentsList extends Component {
                     </div>
                 </div>
                 {this.props.allTournsList.length !== 0
-                ? <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
+                // ? <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
+	                ? <ul className={classes.uesrsList}>{this.pathChanger()}</ul>
 	            : <ul className={classes.uesrsListSpinner}><SmallSpinner/></ul>
                 }
                 
@@ -255,6 +279,7 @@ const mapStateToProps = (state) => {
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
         tournsDataById: state.allListReducer.tournsDataById,
+	    tournById: state.allListReducer.tournById,
         addItem: state.addNewItemReducer.addItem,
         addEvent: state.addNewItemReducer.addEvent,
         addTournament: state.addNewItemReducer.addTournament,
@@ -284,6 +309,7 @@ const mapDispatchToProps = dispatch => {
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         takeMyGroupsRequest: payload => dispatch(takeMyGroupsRequest(payload)),
 	    mainPageGetAllGroupsRequest: payload => dispatch(mainPageGetAllGroupsRequest(payload)),
+	    CreateTournamentPresetsResponse: payload => dispatch(CreateTournamentPresetsResponse(payload)),
 
         
     }

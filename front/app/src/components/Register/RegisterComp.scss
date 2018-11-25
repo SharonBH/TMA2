@@ -171,6 +171,36 @@
                                 padding: 0 0 0 10px;
                                 cursor: pointer;
                             }
+                            &:hover {
+                                border-color: #fff !important;
+                                color: #d65000 !important;
+                            }
+                        }
+                    }
+                    .user {
+                        width: 100%;
+                        margin: 5px 0 5px 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        border-radius: 10px;
+                        padding: 5px 10px 5px 10px;
+                        background-color: $white;
+                        cursor: pointer;
+
+                        i {
+                            font-size: 20px;
+                            color: $blue;
+                            border-left: 1px solid $blue;
+                            padding: 0 0 0 10px;
+                            cursor: pointer;
+                        }
+                        //&:hover {
+                        //    border-color: #fff !important;
+                        //    color: #c74b00 !important;
+                        //}
+                        .eventNames{
+                            min-width: 45%;
                         }
                     }
 
@@ -192,6 +222,9 @@
                         cursor: default;
                         margin-right: 9px;
                         height: 45px;
+                    }
+                    .eventNames{
+                        min-width: 45%;
                     }
                 }
             }
@@ -320,7 +353,7 @@
           padding: 8px 10px;
           width: 100%;
             &:hover{
-                background: #999;
+                background: #087fa0;
             }
         }
         input[name='remember'] {
@@ -426,6 +459,9 @@
             padding: 5px 10px 5px 10px;
             background-color: $white;
             cursor: pointer;
+            .eventNames{
+                min-width: 46%;
+            }
 
             i {
                 font-size: 20px;
@@ -434,6 +470,27 @@
                 padding: 0 0 0 10px;
                 cursor: pointer;
             }
+        }
+    }
+    .user {
+        width: 100%;
+        margin: 5px 0 5px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 10px;
+        padding: 5px 10px 5px 10px;
+        background-color: $white;
+        cursor: pointer;
+        .eventNames{
+            min-width: 46%;
+        }
+        i {
+            font-size: 20px;
+            color: $blue;
+            border-left: 1px solid $blue;
+            padding: 0 0 0 10px;
+            cursor: pointer;
         }
     }
 
@@ -472,16 +529,24 @@
         }
         input[type=number]{
             margin: 0;
-            background: #03a3d0;
+            background: #39b7da;
             color: #fff;
+            width: 45px;
+            height: 29px;
             &::placeholder{
                 color: #fff;
             }
         }
         
         i {
-            border: none;
+            border-color: #fff !important;
             color: #fff !important;
+        }
+        i {
+            &:hover {
+                border-color: #fff !important;
+                color: #c74b00 !important;
+            }
         }
 
         input[type=number]::-webkit-inner-spin-button, 

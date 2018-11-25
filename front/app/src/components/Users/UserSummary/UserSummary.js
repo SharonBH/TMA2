@@ -510,7 +510,6 @@ class UserSummary extends Component {
         } else if ( headline === EDIT_EVENT ){
             name = event !== null ? event.eventName : null
         }
-        console.log('11',tournament)
         const path = this.props.editThisEventMatch.path === `/all_tournaments/:tournamentName=${tournById.tournamentId}` ? '/all_tournaments' : '/my_tournaments'
         const tournaments = this.props.allTournsList.map((game, index) => { return {key: game.tournamentId, value: game.tournamentName }})
         return (

@@ -20,7 +20,8 @@ import {
     takeMyGroups,
     getLeaderboardsSAction,
     takeMyEvents,
-    takeMyHomeLeader
+    takeMyHomeLeader,
+	CreateTournamentPresetsAction
 } from './index';
 
 
@@ -551,7 +552,24 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tou
 			});
 	}
 };
-
+// take all events by tournament id
+export const CreateTournamentPresetsResponse = (tournamentId) => {
+	return (dispatch) => {
+		// dispatch(toggleLoaderAction(true))
+		return axios({
+			method: 'POST',
+			headers: {'Content-Type': 'application/json; charset=UTF-8'},
+			url: cors + url + 'Tournaments/CreateTournamentPresets',
+			data: tournamentId
+		})
+			.then((response) => {
+				// const tournamentId = response.data
+				// const eventsById = response.data.length !== 0 ? response.data : [{eventName: "No Data"}]
+				dispatch(CreateTournamentPresetsAction(response.data))
+				dispatch(toggleLoaderAction(false))
+			})
+	}
+};
 
 /////////////////////////////////////////
 //////////  LEADERBOARD   ///////////////
