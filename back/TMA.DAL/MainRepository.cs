@@ -85,7 +85,7 @@ namespace TMA.DAL
                         foreach (var eventResult in eventResults)
                         {
                             var placeResult = eventResult.Result;
-                            eventResult.Score = (totalUserInEvent - 1) - placeResult + (totalUserInEvent - placeResult) / (placeResult * placeResult);
+                            eventResult.Score = (totalUserInEvent + 1) - placeResult + (totalUserInEvent - placeResult) / (placeResult * placeResult);
                         }
                     }
                 }
