@@ -26,11 +26,13 @@
     }
     .select{
         display: block !important;
-        width: 20%;
-        border: 1px solid #ddd;
+        width: 96% !important;
+        border: 0;
+        height: 37px;
 
         div {
             height: 100%;
+            margin: 0;
         }
     }
 
@@ -101,9 +103,9 @@
                 overflow-y: auto;
             }
 
-            .select {
-                width: 250px;
-            }
+            //.select {
+            //    width: 250px;
+            //}
         }
     }
     ul.groupsListSpinner{
