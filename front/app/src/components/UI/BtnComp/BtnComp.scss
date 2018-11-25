@@ -108,7 +108,9 @@ input:disabled {
     padding: 4px 15px;
     font-size: 16px;
     cursor: pointer;
-
+&:focus{
+    outline: none;
+}
     //text-decoration: none;
     ////color: rgba(0,0,0,.4);
     //z-index: 1;

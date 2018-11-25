@@ -21,7 +21,8 @@ export class InputComp extends Component {
 
     render() {
         return (
-            <div className=''>
+            <div className={classes.InputCompWrapper}>
+                <label></label>
                 <input
                     className={classes.InputComp}
                     name={this.props.name}

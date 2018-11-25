@@ -21,6 +21,7 @@ export class SelectIdComp extends Component {
     render(){
         return (
             <div className={classes.SelectComp}>
+                <label></label>
                 <select
                     name={this.props.name}
                     value={this.props.content}
