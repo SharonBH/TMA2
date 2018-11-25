@@ -373,7 +373,7 @@ export const DeleteTournamentRequest = (tournamentId) => {
 };
 
 // add New Tournament
-export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tournamentEndDate, eventsMaxNum, EventTypeName, groups) => {
+export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tournamentEndDate, typeOfTournament, presetNumber, eventsMaxNum, EventTypeName, groups) => {
 	return (dispatch) => {
 		dispatch(toggleLoaderAction(true));
 		return axios({
@@ -385,6 +385,8 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
 				eventTypeName: EventTypeName,
 				startDate: tournamentStartDate,
 				endDate: tournamentEndDate,
+				tournamentTypeName: typeOfTournament,
+				numberOfPresets: presetNumber,
 				numberOfEvents: eventsMaxNum,
 				groupId: groups
 			}
