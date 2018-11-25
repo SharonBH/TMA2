@@ -63,6 +63,20 @@
                     right: 0;
                     bottom: 1px;
                 }
+                .presetInput{
+                    display: block;
+                    &>div{
+                        &:first-child{
+                            width: 60%;
+                            display: inline-block;
+                            margin-right: 5%;
+                        }
+                        &:last-child{
+                            width: 35%;
+                            display: inline-block;
+                        }
+                    }
+                }
             }
             .timePicker{
                 width: 100%;

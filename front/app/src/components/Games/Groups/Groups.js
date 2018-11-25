@@ -109,14 +109,7 @@ export class Groups extends Component {
 			    <div className={classes.headline}>Group Name</div>
 			    <div className={classes.headline}>Created Date</div>
 			    <div className={classes.users}>Group Users</div>
-			    <div className={classes.addBtn}>
-				    <BtnComp
-					    inputType="submit"
-					    content='Add New Group'
-					    onClick={this.addNewGroupBtn}
-					    disabled={groups !== null && groups.length !== 0  ? !this.state.buttonStatus : this.state.buttonStatus}
-				    />
-			    </div>
+			    <div className={classes.addBtn}></div>
 		    </div>)
     }
     groupsList = () => {
@@ -161,7 +154,17 @@ export class Groups extends Component {
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
                 {this.errorDeleteMessage()}
-                <h1>Groups List</h1>
+                <div className={classes.listHeadLine}>
+                    <h1>Groups List</h1>
+	                <div className={classes.addBtn}>
+		                <BtnComp
+			                inputType="submit"
+			                content='Add New Group'
+			                onClick={this.addNewGroupBtn}
+			                disabled={groups !== null && groups.length !== 0  ? !this.state.buttonStatus : this.state.buttonStatus}
+		                />
+	                </div>
+                </div>
                 {this.tableHeader()}
                 {groups !== null && groups.length !== 0
                   ?  <ul className={classes.groupsList}>{this.groupsList()}</ul>

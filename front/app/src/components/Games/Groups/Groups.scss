@@ -3,7 +3,11 @@
 .groupsTable {
     text-align: left;
     padding: 0px 10px 0;
-
+    .listHeadLine{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
     div.role{
         border: 0;
         width: 10%
@@ -31,11 +35,14 @@
     }
 
     .Head {
-        padding: 5px 0 5px;
+        padding: 10px 15px;
         display: flex;
         justify-content: space-between;
         width: 100%;
-        border-bottom: 2px solid #e6e6e6;
+        border-bottom: 2px solid #00b0f2;
+        background: #ecf8ff;
+        color: #8e8e8e;
+        font-weight: 600;
 
         div {
             width: 25%;
@@ -66,13 +73,19 @@
             overflow: visible;
         }
         li{
-            border-bottom: 1px solid #e5e5e5;
-            padding: 9px 0;
+            border-top: 1px solid #dcdcdc;
+            padding: 9px 15px;
             display: flex;
             align-items: center;
             width: 100%;
             margin: 0;
             justify-content: space-between;
+            height: 50px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
+            background-color: var(--white);
+            color: #000;
+            font-weight: 600;
+            margin-top: 10px;
         
             & > a{
                 display: inline-block;
@@ -83,7 +96,7 @@
                 margin: 0 6px;
                 display: inline-flex;
                 justify-content: start;
-                height: 27px;
+                //height: 27px;
                 white-space: nowrap;
                 overflow-y: auto;
             }
