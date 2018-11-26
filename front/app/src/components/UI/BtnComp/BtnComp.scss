@@ -28,7 +28,7 @@ input:disabled {
 }
 
 .editBtn {
-    color: $blue;
+    color: #2196f3;
     background: none;
     border: 0;
     width: 40px;
@@ -48,7 +48,7 @@ input:disabled {
             top: -7px;
             left: -11px;
             background: #ffffff;
-            box-shadow: 0px 0px 3px 0px #03a3d0;
+            box-shadow: 0px 0px 3px 0px #1565c0;
             padding: 1px 6px;
             color: #000;
             font-weight: 400;
@@ -60,12 +60,12 @@ input:disabled {
     }
     
     &:hover{
-        color:$dark-gray;
+        color:#1565c0;
     }
 }
 .deleteBtn {
 
-    color: $orange;
+    color: #fb4444;
     background: none;
     border: 0;
     width: 40px;
@@ -85,7 +85,7 @@ input:disabled {
             top: -9px;
             left: -16px;
             background: #ffffff;
-            box-shadow: 0px 0px 3px 0px #03a3d0;
+            box-shadow: 0px 0px 3px 0px #ffdede;
             padding: 1px 6px;
             color: #000;
             font-weight: 400;
@@ -97,7 +97,7 @@ input:disabled {
     }
 
     &:hover{
-        color: $dark-gray;
+        color: #ffa1a1;
     }
 }
 .tabBtn{

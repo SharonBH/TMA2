@@ -2,7 +2,7 @@
 
 .nav {
     width: 13%;
-    background: #00627d;
+    background: #303F9F;
     box-sizing: border-box;
     padding: 5px;
     padding-top: 20px;
@@ -26,9 +26,9 @@
             margin-right: 10px;
         }
         &:hover {
-            background: #15bbe8;
+            background: #0084FF;
             color: #ffffff;
-            box-shadow: 0 0 12px 0px #03a3d0 inset;
+            box-shadow: 0 0 12px 0px #303F9F inset;
         }
     }
     span.logo_image {
@@ -80,7 +80,7 @@
 }
 
 .navclosed {
-    background: #00627d;
+    background: #303F9F;
     padding-top: 20px;
     transition: all ease .3s;
     z-index: 91;
@@ -108,6 +108,11 @@
             height: 100%;
             font-size: 25px;
             line-height: 35px;
+            &:hover{
+                background: #0084FF;
+                color: #ffffff;
+                box-shadow: 0 0 12px 0px #303F9F inset;
+            }
         }
         &:hover span {
             display: block;

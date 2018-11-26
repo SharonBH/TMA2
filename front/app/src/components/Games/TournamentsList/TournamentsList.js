@@ -171,7 +171,7 @@ export class TournamentsList extends Component {
     tournamentList = () => {
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
 	    const sortedBoard = tournaments.length !== 0 || tournaments !== null ? tournaments.sort((a, b) => {
-		    return a.startDate === b.startDate ? 0 : a.startDate < b.startDate ? 1 : -1;
+		    return a.endDate === b.endDate ? 0 : a.endDate < b.endDate ? 1 : -1;
 	    }) : null
 	    const path = this.props.match.url
 	    const today = new Date();
@@ -188,7 +188,7 @@ export class TournamentsList extends Component {
 		        const eyyyy = end.getFullYear();
 		        const eEndDate = emm + edd + eyyyy;
 		        
-            return <li key={index} className={eEndDate < todayDate ? classes.notActive : null}>
+            return <li key={index} className={eEndDate <= todayDate ? classes.notActive : null}>
 	            <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>
                     <div className={classes.username}>
                         {/*{ this.pathChanger(item) }*/}
