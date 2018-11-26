@@ -68,10 +68,12 @@ export class EventsList extends Component {
 
 	}
 	eventsTable = () => {
-		const { currentTournamentId } = this.props
+		const { currentTournamentId, tournEventsByIdNoS } = this.props
+		const nomEvents = tournEventsByIdNoS.length
+		console.log('nomEvents', nomEvents)
 		return (
 				<div>
-					<h3>All events of tournament</h3>
+					<h3>All events of tournament<span className={classes.eventsCount}>{nomEvents}</span></h3>
 					<div className={classes.usersHead}>
 						<h4 className={classes.eventName}>Event Name</h4>
 						<h4 className={classes.eventDate}>Event Date</h4>

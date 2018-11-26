@@ -47,7 +47,7 @@ export class HomeEvents extends Component {
                 :
                 <div className={classes.eventData}>
                     <p className={classes.eventName}><span>Event Name:</span>{next.nextEvent.eventName}</p>
-                    <p className={classes.eventName}><span>Tournament Name:</span>{filltournamentName}</p>
+                    <p className={classes.eventName}><span>Tournament Name:</span>{next.nextEvent.tournamentName}</p>
                     <p className={classes.eventDate}><span>Event Date:</span>{moment(next.nextEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
                 </div>
                 }
@@ -65,7 +65,7 @@ export class HomeEvents extends Component {
                 :
                 <div className={classes.eventData}>
                     <p className={classes.eventName}><span>Event Name:</span>{past.pastEvent.eventName}</p>
-                    <p className={classes.eventName}><span>Tournament Name:</span>{filltournamentName}</p>
+                    <p className={classes.eventName}><span>Tournament Name:</span>{past.pastEvent.tournamentName}</p>
                     <p className={classes.eventDate}><span>Event Date:</span>{moment(past.pastEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
  
                 </div>
@@ -165,6 +165,7 @@ export class HomeEvents extends Component {
     }
 
     render() {
+    	console.log('home page____', this.props)
 	    const {past, next} =  this.props.allMyHomeData
 	    const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
 	    const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null

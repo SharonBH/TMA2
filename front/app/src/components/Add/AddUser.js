@@ -79,12 +79,20 @@ export class AddUser extends Component {
 					/>
 					: null
 				}
-				{<div className={classes.saveButton}><BtnComp
-					inputType="submit"
-					name="register"
-					content='Save'
-					onClick={(e) => this.addNewUser(e, headline) }
-				/></div>}
+				{this.props.headline === REGISTER
+					? <div className={classes.saveButton + ' ' + classes.saveButtonRegister}><BtnComp
+						inputType="submit"
+						name="register"
+						content='Save'
+						onClick={(e) => this.addNewUser(e, headline) }
+					/></div>
+					:<div className={classes.saveButton}><BtnComp
+						inputType="submit"
+						name="register"
+						content='Save'
+						onClick={(e) => this.addNewUser(e, headline) }
+					/></div>
+				}
 				{this.props.headline === REGISTER
 					? <div className={classes.classStr}>
 						<h3>Have a user? Keep Calm.</h3>
