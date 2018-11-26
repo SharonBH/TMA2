@@ -171,7 +171,7 @@ export class TournamentsList extends Component {
     tournamentList = () => {
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
 	    const sortedBoard = tournaments.length !== 0 || tournaments !== null ? tournaments.sort((a, b) => {
-		    return a.startDate === b.startDate ? 0 : a.startDate < b.startDate ? 1 : -1;
+		    return a.endDate === b.endDate ? 0 : a.endDate < b.endDate ? 1 : -1;
 	    }) : null
 	    const path = this.props.match.url
 	    const today = new Date();
@@ -188,7 +188,7 @@ export class TournamentsList extends Component {
 		        const eyyyy = end.getFullYear();
 		        const eEndDate = emm + edd + eyyyy;
 		        
-            return <li key={index} className={eEndDate < todayDate ? classes.notActive : null}>
+            return <li key={index} className={eEndDate <= todayDate ? classes.notActive : null}>
 	            <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>
                     <div className={classes.username}>
                         {/*{ this.pathChanger(item) }*/}
@@ -218,27 +218,46 @@ export class TournamentsList extends Component {
 	changeList = (item) => {
 	    this.setState({changeList: item.target.value})
     }
+    
+	countOfOject = (obj, type) => {
+        const z = obj !== undefined ? obj.filter((item) => {return item.eventTypeName === type}) : null
+        const num = z.length
+        return num
+	}
     render (){
+	    const fifaNum = this.countOfOject(this.props.allTournsList, 'FIFA')
+        const pokerNum = this.countOfOject(this.props.allTournsList, 'Poker')
 	    
         console.log('tournyList', this.props)
         return (
             <div className={classes.usersWrapper}>
                 <div>
-                    <div className={classes.sortTabs}>
-                        <div className={this.state.changeList === 'FIFA' ? classes.active : null }>
-                            <Tab
-                            inputType={'button'}
-                            content={'FIFA'}
-                            onClick={(item) => this.changeList(item)}
-                        /></div>
-	                    <div className={this.state.changeList === 'Poker' ? classes.active : null }>
-                            <Tab
-                            inputType={'button'}
-                            content={'Poker'}
-                            onClick={(item) => this.changeList(item)}
-                        /></div>
+                    <div className={classes.topLine}>
+	                    <h1>Tournaments List</h1>
+                        <div className={classes.sortTabs}>
+                            <div className={this.state.changeList === 'FIFA' ? classes.active : null }>
+                                <Tab
+                                inputType={'button'}
+                                content={'FIFA'}
+                                onClick={(item) => this.changeList(item)}
+                            /><span className={classes.tournsCount}>{fifaNum}</span></div>
+                            <span className={classes.space}></span>
+                            <div className={this.state.changeList === 'Poker' ? classes.active : null }>
+                                <Tab
+                                inputType={'button'}
+                                content={'Poker'}
+                                onClick={(item) => this.changeList(item)}
+                            /><span className={classes.tournsCount}>{pokerNum}</span></div>
+                        </div>
+                        <div className={classes.addBtn}>
+                            <BtnComp
+                                inputType="submit"
+                                content='Add Tournament'
+                                onClick={this.addTournamentBtn}
+                                disabled={this.props.allTournsList.length !== 0 || this.props.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
+                            />
+                        </div>
                     </div>
-                    <h1>Tournaments List</h1>
                     {this.successDeleteMessage()}
                     {this.errorDeleteMessage()}
                     <div className={classes.usersHead}>
@@ -249,12 +268,12 @@ export class TournamentsList extends Component {
                         <div className={classes.role}>Max Events</div>
                         <div className={classes.role}>Game Type</div>
                         <div className={classes.addBtn}>
-                            <BtnComp
-                                inputType="submit"
-                                content='Add Tournament'
-                                onClick={this.addTournamentBtn}
-                                disabled={this.props.allTournsList.length !== 0 || this.props.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
-                            />
+                            {/*<BtnComp*/}
+                                {/*inputType="submit"*/}
+                                {/*content='Add Tournament'*/}
+                                {/*onClick={this.addTournamentBtn}*/}
+                                {/*disabled={this.props.allTournsList.length !== 0 || this.props.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}*/}
+                            {/*/>*/}
                         </div>
                     </div>
                 </div>

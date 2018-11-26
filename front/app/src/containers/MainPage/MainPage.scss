@@ -29,13 +29,19 @@
         .leaderTop{
             border: 1px solid #b9b9b9;
             margin-bottom: 40px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
+            background-color: var(--white);
             &>p{
                 text-align: left;
-                border-bottom: 1px solid #bbb;
                 padding-bottom: 9px;
                 font-weight: 600;
                 text-transform: uppercase;
                 padding-left: 18px;
+                border-bottom: 2px solid #00b0f2;
+                background: #ecf8ff;
+                color: #8e8e8e;
+                margin-top: 0;
+                padding-top: 14px;
             }
             .leaderTableHead{
                 display: flex;
@@ -71,23 +77,36 @@
         }
         }
         h1{
-            text-align: center;
+            //text-align: center;
+            //margin-left: 3px;
     }
 
     .eventsTBLS{
         display: flex;
         justify-content: space-around;
+        padding-bottom: 6px;
+
+
         .eventsTable{
             display: block;
             width: 49%;
             border: 1px solid #a9a9a9;
             padding: 0 1%;
+            margin: 0 1%;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
+            background-color: var(--white);
+            &:first-child{ margin-left: 0 }
+            &:last-child{ margin-right: 0 }
             h4{
                 text-align: center;
-                margin-top: 10px;
+                padding-top: 10px;
                 padding-bottom: 5px;
                 margin-bottom: 10px;
-                border-bottom: 1px solid #a9a9a9;
+                border-bottom: 2px solid #00b0f2;
+                background: #ecf8ff;
+                color: #8e8e8e;
+                font-weight: 600;
+                margin-top: 0;
             }
             .noResults{
                 text-align: center;

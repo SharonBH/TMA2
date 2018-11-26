@@ -115,17 +115,21 @@ export class AllUsersAdmin extends Component {
         console.log('1234', this.props)
         return (
             <div className={classes.usersWrapper}>
-                <h1>Users List</h1>
+                <div className={classes.usersListHead}>
+	                <h1>Users List</h1>
+	                {this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin'
+		                ? <div className={classes.addBtn}><BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/></div>
+		                : null
+	                }
+                </div>
+                
                 {this.successDeleteMessage()}
                 <div className={classes.usersHead}>
                     <div className={classes.username}>Name</div>
                     <div className={classes.email}>Email</div>
                     <div className={classes.email}>User Name</div>
                     <div className={classes.role}></div>
-                    {this.props.currentUser !== null && this.props.currentUser !== undefined && this.props.currentUser.role === 'Admin' 
-                    ? <div className={classes.addBtn}><BtnComp inputType="submit" content='Add User' onClick={this.addUserBtn}/></div>
-                    : null
-                    }
+                    <div className={classes.addBtn}></div>
                     
                 </div> 
                 <ul className={classes.uesrsList}>{this.ulserList()}</ul>

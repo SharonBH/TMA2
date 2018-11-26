@@ -14,9 +14,9 @@
         // margin-top: 110px;
         padding: 20px;
         background-color: #fff;
-        height: auto;
         position: relative;
         margin: auto auto;
+        //height: 70vh;
         .profileAvatar{
             width: 75px;
             height: 75px;
@@ -42,6 +42,7 @@
             position: relative;
             padding-bottom: 45px;
             margin-bottom: 25px;
+            //height: 82%;
 
         }
         .success {
@@ -72,19 +73,21 @@
             cursor: pointer;
             position: absolute;
             bottom: 0;
-            right: 75px;
+            right: 90px;
             height: 36px;
             margin: 0;
             span{
                 padding: 7px 5px;
                 border: 1px solid;
-                color: #03a3d0;
+                color: #1565c0;
                 position: relative;
                 z-index: 5;
                 display: block;
                 bottom: 0;
+                box-shadow: 0 3px 2px 0 rgba(70, 166, 255, 0.35);
                 &:hover {
-                    background: #03a3d0;
+                    background: #1565c0;
+                    border-color: #1565c0;
                     color: #fff;
                 }
             }
@@ -96,7 +99,7 @@
             font-size: 14px;
             padding: 2px 0;
             // border-bottom: 1px solid #999;
-            margin: 10px 0 5px;
+            margin: 10px 0 20px;
             color: #000;
             display: block;
             // display: flex;
@@ -122,14 +125,18 @@
                 height: 100%;
                 line-height: 30px;
             }
+            div.EditInput *{
+                height: 100%;
+                margin: 0 0 0px 0;
+                padding: 0;
+            }
             div.EditInput {
                 height: 100%;
                 width: 70%;
                 // max-width: 322px;
-                overflow: hidden;
-                &*{
-                    border: 0;
-                }
+                //overflow: hidden;
+
+
                     & > input{
                         border: 0;
                     }
@@ -137,6 +144,9 @@
                         width: 100%;
                         display: inline-block;
                         height: 100%;
+                        &>div{
+                            width: 100%;
+                        }
                         input[type=file]{
                             &::before{
                                 content: '';
@@ -324,14 +334,14 @@
 
 .notActive {
     font-size: 20px;
-    color: #616161;
+    color: #7b7b7b;
     padding: 5px;
     &:hover{
-        color: #03a3d0;
+        color: #1565c0;
     }
 }
 .active {
-    color: #03a3d0;
+    color: #1565c0;
     padding: 5px;
     margin-top:6px;
 }

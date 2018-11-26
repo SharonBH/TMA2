@@ -65,14 +65,14 @@
                     font-size: 36px;
                     position: relative;
                     top: 10px;
-                    color: $blue;
+                    color: #2196f3;
                     
                 }
                 span{
                     display: none;
                 }
                 :hover{
-                    color:$dark-gray;
+                    color:#0066c5;
                 }
                 &:hover span{
                     display: block;
@@ -173,7 +173,7 @@
                         background: #c5c5c5;
                     }
                     &::-webkit-scrollbar-thumb{
-                        background: $blue;
+                        background: #2196f3;
                     }
                 }
             }
@@ -348,6 +348,8 @@
     .eventsTable{
         div {
             ol {
+                height: 26vmin;
+                overflow-y: auto;
                 li {
                     line-height: 30px;
                     margin: 0;
