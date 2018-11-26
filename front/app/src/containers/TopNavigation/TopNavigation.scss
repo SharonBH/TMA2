@@ -1,5 +1,5 @@
 .TopNav{
-    background: #03a3d0;
+    background: #1565C0;
     position: fixed;
     top: 0;
     right: 0;
@@ -51,9 +51,9 @@
             margin-right: 12px;
             cursor: pointer;
             &:hover{
-                background: #15bbe8;
+                background: #0084FF;
                 color: #ffffff;
-                box-shadow: 0 0 12px 0px #03a3d0 inset;
+                box-shadow: 0 0 12px 0px #303F9F inset;
             } 
         }
         .HelloTop{
@@ -74,9 +74,9 @@
             display: none;
         }
         &:hover{
-            background: #15bbe8;
+            background: #0084FF;
             color: #ffffff;
-            box-shadow: 0 0 12px 0px #03a3d0 inset;
+            box-shadow: 0 0 12px 0px #303F9F inset;
         }
         &:hover span {
             display: block;
@@ -86,7 +86,7 @@
             top: 35px;
             text-align: center;
             background: #fff;
-            box-shadow: 0px 0px 3px 0px #03a3d0;
+            box-shadow: 0px 0px 3px 0px #303F9F;
             padding: 3px 8px;
             font-size: 14px;
         }
@@ -108,7 +108,7 @@
 
 .TopNavClosed{
     width: 96%;
-    background: #03a3d0;
+    background: #1565C0;
     position: fixed;
     top: 0;
     right: 0;
@@ -149,9 +149,9 @@
             margin-right: 12px;
             cursor: pointer;
             &:hover{
-                background: #15bbe8;
+                background: #0084FF;
                 color: #ffffff;
-                box-shadow: 0 0 12px 0px #03a3d0 inset;
+                box-shadow: 0 0 12px 0px #303F9F inset;
             } 
         }
         .HelloTop{
@@ -171,9 +171,9 @@
             display: none;
         }
         &:hover{
-            background: #15bbe8;
+            background: #0084FF;
             color: #ffffff;
-            box-shadow: 0 0 12px 0px #03a3d0 inset;
+            box-shadow: 0 0 12px 0px #303F9F inset;
         }
         &:hover span {
             display: block;

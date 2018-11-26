@@ -3,7 +3,11 @@
 .usersWrapper {
     text-align: left;
     padding: 0px 10px 0;
-
+    .usersListHead{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
     &>h1{
         
     }

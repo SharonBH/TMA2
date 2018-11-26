@@ -138,15 +138,16 @@
               margin: 0;
 
                 span{
-                  padding: 7px 5px;
-                  border: 1px solid;
-                  color: #03a3d0;
-                  position: relative;
-                  z-index: 5;
-                  display: block;
-                  bottom: 0;
+                    padding: 7px 5px;
+                    border: 1px solid;
+                    color: #0066c5;
+                    position: relative;
+                    border-radius: 2px;
+                    z-index: 5;
+                    display: block;
+                    bottom: 0;
                     &:hover {
-                        background: #03a3d0;
+                        background: #0066c5;
                         color: #fff;
                     }
                 }
@@ -208,8 +209,8 @@
 
                             i {
                                 font-size: 20px;
-                                color: $blue;
-                                border-left: 1px solid $blue;
+                                color: #303f9f;
+                                border-left: 1px solid #303f9f;
                                 padding: 0 0 0 10px;
                                 cursor: pointer;
                             }
@@ -232,8 +233,8 @@
 
                         i {
                             font-size: 20px;
-                            color: $blue;
-                            border-left: 1px solid $blue;
+                            color: #303f9f;
+                            border-left: 1px solid #303f9f;
                             padding: 0 0 0 10px;
                             cursor: pointer;
                         }
@@ -412,14 +413,16 @@
             margin: 5px 0;
         }
         input[type="submit"] {
-          background: #03a3d0;
-          color: #fff;
-          font-size: 16px;
-          margin: 0px 0 0 0;
-          padding: 8px 10px;
-          width: 100%;
+            background: #2196f3;
+            color: #fff;
+            border: 1px solid #0066c5;
+            font-size: 16px;
+            margin: 0px 0 0 0;
+            padding: 8px 10px;
+            width: 100%;
             &:hover{
-                background: #087fa0;
+                background: #fff;
+                color:#0066c5;
             }
         }
         input[name='remember'] {
@@ -497,8 +500,8 @@
     z-index: 100;
     max-height: 315px;
     overflow-y: auto;
-    border-left: 1px solid $blue;
-    border-bottom: 1px solid $blue;
+    border-left: 1px solid #2196f3;
+    border-bottom: 1px solid #2196f3;
 
     .searchResult {
         width: 100%;
@@ -531,8 +534,8 @@
 
             i {
                 font-size: 20px;
-                color: $blue;
-                border-left: 1px solid $blue;
+                color: #2196f3;
+                border-left: 1px solid #2196f3;
                 padding: 0 0 0 10px;
                 cursor: pointer;
             }
@@ -557,6 +560,7 @@
             border-left: 1px solid $blue;
             padding: 0 0 0 10px;
             cursor: pointer;
+            margin-left: 10px;
         }
     }
 
@@ -573,7 +577,7 @@
     padding: 5px;
 
     .user {
-        border: 1px solid #03a3d0;
+        border: 1px solid #2196f3;
         width: 100%;
         cursor: default;
         margin-right: 9px;
@@ -581,24 +585,24 @@
     }
     .userResult {
         width: 47%;
-        background: #03a3d0 !important;
+        background: #2196f3 !important;
         color: #fff;
-
         input {
             height: 30px;
             width: 50px;
             display: flex;
             text-align: center;
-            border: 1px solid #03a3d0;
+            border: 1px solid #2196f3;
             margin: 5px;
             -webkit-appearance: none;
         }
         input[type=number]{
             margin: 0;
-            background: #39b7da;
+            background: #2196f3;
             color: #fff;
-            width: 45px;
+            //width: 45px;
             height: 29px;
+            margin-top: 10px;
             &::placeholder{
                 color: #fff;
             }
