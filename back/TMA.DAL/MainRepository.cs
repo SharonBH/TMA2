@@ -85,7 +85,7 @@ namespace TMA.DAL
                         foreach (var eventResult in eventResults)
                         {
                             var placeResult = eventResult.Result;
-                            eventResult.Score = (totalUserInEvent + 1) - placeResult + (totalUserInEvent - placeResult) / (placeResult * placeResult);
+                            eventResult.Score = (float)(totalUserInEvent + 1) - placeResult + (totalUserInEvent - placeResult) / (placeResult * placeResult);
                         }
                     }
                 }
@@ -555,7 +555,7 @@ namespace TMA.DAL
                     foreach (var userId in userIdsEventsResults)
                     {
                         var user = context.AspNetUsers.FirstOrDefault(x => x.Id == userId);
-                        var userScores = eventsResults.Where(x => x.UserId == userId).Sum(x=> x.Score);
+                        var userScores = (int?)eventsResults.Where(x => x.UserId == userId).Sum(x=> x.Score);
                         var userEvents = eventsResults.Where(x => x.UserId == userId).Count();
                         var leaderboard = new LeaderboardModel
                         {

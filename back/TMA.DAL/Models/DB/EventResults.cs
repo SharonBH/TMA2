@@ -8,7 +8,7 @@ namespace TMA.DAL.Models.DB
         public string UserId { get; set; }
         public int EventId { get; set; }
         public int? Result { get; set; }
-        public int? Score { get; set; }
+        public double? Score { get; set; }
 
         public Events Event { get; set; }
         public AspNetUsers User { get; set; }
