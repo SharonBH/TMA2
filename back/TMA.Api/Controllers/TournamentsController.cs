@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TMA.Api.Models;
 using TMA.BLL;
+using TMA.DAL;
+using TMA.DAL.Models.DB;
 
 namespace TMA.Api.Controllers
 {
@@ -22,7 +24,7 @@ namespace TMA.Api.Controllers
                 if (ModelState.IsValid)
                 {
                     var tournamentId = _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId);
-                    if(string.IsNullOrEmpty(tournamentModel.TournamentTypeName) == false)
+                    if (string.IsNullOrEmpty(tournamentModel.TournamentTypeName) == false)
                         _mainRepository.CreateTournamentPresets(tournamentId, tournamentModel.TournamentTypeName, tournamentModel.NumberOfPresets ?? 1);
                     return Json(new { Response = "Success", Message = "Tournament created successfully." });
                 }
@@ -158,19 +160,6 @@ namespace TMA.Api.Controllers
                     tournamentModel.GroupModel = groupModel;
                     tournamentModel.EventsCount = tournament.Events.Count;
 
-                    //var tournamentsEvents = new List<EventModel>();
-                    //foreach (var tournamentEvent in tournament.Events)
-                    //{
-                    //    var eventModel = new EventModel
-                    //    {
-                    //        EventName = tournamentEvent.EventName,
-                    //        EventDate = tournamentEvent.EventDate,
-                    //        EventId = tournamentEvent.EventId,
-                    //        EventResults = tournamentEvent.EventResults.ToList()
-                    //    };
-                    //    tournamentsEvents.Add(eventModel);
-                    //}
-                    //tournamentModel.Events = tournamentsEvents;
                     tournamentsModel.Add(tournamentModel);
                 }
 
@@ -225,6 +214,7 @@ namespace TMA.Api.Controllers
                     }
                     groupModel.Users = users;
                     tournamentModel.GroupModel = groupModel;
+                    tournamentModel.EventsCount = tournament.Events.Count;
 
                     tournamentsModel.Add(tournamentModel);
                 }
@@ -245,8 +235,62 @@ namespace TMA.Api.Controllers
         {
             try
             {
-                var leaderboardsModel = new List<LeaderboardViewModel>();
                 var leaderboards = _mainRepository.GetLeaderboards(tournamentId);
+                var leaderboardsModel = CreateLeaderboardViewModel(leaderboards);
+
+                return Json(leaderboardsModel);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("GetHomeLeaderboards")]
+        public JsonResult GetHomeLeaderboards([FromBody]string userId)
+        {
+            try
+            {
+                var homeLeaderboards = _mainRepository.GetHomeLeaderboards(userId);
+                var homeEvents = _mainRepository.GetHomeEvents(userId);
+                var pastLeaderboardViewModel = CreateLeaderboardViewModel(homeLeaderboards["Past"]);
+                var nextLeaderboardViewModel = CreateLeaderboardViewModel(homeLeaderboards["Next"]);
+                var pastEvent = CreateEventsModel(homeEvents["Past"]);
+                var nextEvent = CreateEventsModel(homeEvents["Next"]);
+                var result = new
+                {
+                    Past = new { PastLeaderboard = pastLeaderboardViewModel, PastEvent = pastEvent },
+                    Next = new { NextLeaderboard = nextLeaderboardViewModel, NextEvent = nextEvent }
+                };
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("CreateTournamentPresets")]
+        public JsonResult CreateTournamentPresets([FromBody]TournamentPresetsModel tournamentPresetsModel)
+        {
+            try
+            {
+                _mainRepository.CreateTournamentPresets(tournamentPresetsModel.TournamentId, tournamentPresetsModel.TournamentTypeName, tournamentPresetsModel.NumberOfPresets ?? 1);
+                return Json(new { Response = "Success", Message = "Tournament Presets created successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        private List<LeaderboardViewModel> CreateLeaderboardViewModel(List<LeaderboardModel> leaderboards)
+        {
+            try
+            {
+                var leaderboardsModel = new List<LeaderboardViewModel>();
                 foreach (var leaderboard in leaderboards)
                 {
                     var userAvatar = _mainRepository.GetUserAvatar(leaderboard.User.UserName);
@@ -267,50 +311,26 @@ namespace TMA.Api.Controllers
 
                     leaderboardsModel.Add(leaderboardModel);
                 }
-
-                return Json(leaderboardsModel);
+                return leaderboardsModel;
             }
             catch (Exception ex)
             {
-                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+                throw new Exception($"Error occoured in 'CreateLeaderboardViewModel'", ex);
             }
         }
-
-        [HttpPost]
-        [Route("GetHomeLeaderboards")]
-        public JsonResult GetHomeLeaderboards([FromBody]string userId)
+        private EventModel CreateEventsModel(Events getEvent)
         {
-            try
-            {
-                var homeLeaderboards = _mainRepository.GetHomeLeaderboards(userId);
-                var homeEvents = _mainRepository.GetHomeEvents(userId);
+            if (getEvent == null)
+                return null;
 
-                var result = new
-                {
-                    Past = new { PastLeaderboard =  homeLeaderboards["Past"], PastEvent = homeEvents["Past"]},
-                    Next = new { NextLeaderboard = homeLeaderboards["Next"], NextEvent = homeEvents["Next"] }
-                };
-                return Json(result);
-            }
-            catch (Exception ex)
+            var eventModel = new EventModel
             {
-                return Json(new { Response = "Error", Message = ex.InnerException.Message });
-            }
-        }
-
-        [HttpPost]
-        [Route("CreateTournamentPresets")]
-        public JsonResult CreateTournamentPresets([FromBody]TournamentPresetsModel tournamentPresetsModel)
-        {
-            try
-            {
-                _mainRepository.CreateTournamentPresets(tournamentPresetsModel.TournamentId,tournamentPresetsModel.TournamentTypeName, tournamentPresetsModel.NumberOfPresets ?? 1);
-                return Json(new { Response = "Success", Message = "Tournament Presets created successfully." });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { Response = "Error", Message = ex.InnerException.Message });
-            }
+                EventName = getEvent.EventName,
+                EventDate = getEvent.EventDate,
+                EventId = getEvent.EventId,
+                TournamentName = getEvent.Tournament.TournamentName
+            };
+            return eventModel;
         }
     }
 }

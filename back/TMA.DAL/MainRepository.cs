@@ -956,7 +956,11 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var userEvents = context.EventResults.Include(x => x.Event).Where(x => x.UserId == userId).Select(x => x.Event).Where(e=> e.IsDeleted == false).ToList();
+                    var userEvents = context.EventResults
+                        .Include(x => x.Event)
+                        .Where(x => x.UserId == userId)
+                        .Select(x => x.Event).Include(x=> x.Tournament)
+                        .Where(e=> e.IsDeleted == false).ToList();
                     var pastEvent = userEvents.OrderByDescending(x => x.EventDate).FirstOrDefault(x => x.EventDate <= DateTime.Now);
                     var nextEvent = userEvents.OrderBy(x => x.EventDate).FirstOrDefault(x => x.EventDate > DateTime.Now);
 
