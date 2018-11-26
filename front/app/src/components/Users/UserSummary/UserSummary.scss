@@ -47,14 +47,14 @@
         }
         .success {
             position: absolute;
-            bottom: 13px;
+            bottom: -38px;
             margin: 0;
             background: #bdf9bd;
             padding: 6px;
-            left: 21px;
+            left: 0px;
             display: flex;
             justify-content: center;
-            width: 58%;
+            width: 100%;
         }
         h1 {
             width: 100%;
@@ -320,9 +320,9 @@
     .error{
         background: #f18383;
         position: absolute;
-        bottom: -1px;
-        width: 82%;
-        left: 20px;
+        bottom: -52px;
+        width: 100%;
+        left: 0;
         padding: 5px;
         text-align: center;
         color: #fff;

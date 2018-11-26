@@ -35,6 +35,7 @@
 
         h1 {
             width: 100%;
+            text-align: left;
         }
         .TName{
             width: 100%;
@@ -53,7 +54,7 @@
             display: block;
             padding: 0 0 35px 0;
             position: relative;
-            height: 83%;
+            //height: 83%;
             &>div{
                 display: inline-block;
                 width: 100%;
@@ -64,6 +65,10 @@
                     position: absolute;
                     right: 0;
                     bottom: 1px;
+                }
+                div.saveButtonRegister{
+                    width: 100%;
+                    position: relative;
                 }
                 .presetInput{
                     display: block;

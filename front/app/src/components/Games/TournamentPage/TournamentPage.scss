@@ -210,6 +210,18 @@
             text-align: center;
             border-bottom: 1px solid #ddd;
             margin-bottom: 10px;
+            .eventsCount{
+                display: inline-block;
+                border: 1px solid #7b7b7b;
+                min-width: 30px;
+                border-radius: 23px;
+                height: 30px;
+                line-height: 29px;
+                color: #7b7b7b;
+                font-weight: 400;
+                margin-left: 16px;
+
+            }
         }
         div {
             h4{

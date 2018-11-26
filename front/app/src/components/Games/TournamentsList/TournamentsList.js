@@ -174,19 +174,15 @@ export class TournamentsList extends Component {
 		    return a.endDate === b.endDate ? 0 : a.endDate < b.endDate ? 1 : -1;
 	    }) : null
 	    const path = this.props.match.url
-	    const today = new Date();
-	    const dd = today.getDate();
-	    const mm = today.getMonth()+1; //January is 0!
-	    const yyyy = today.getFullYear();
-	    const todayDate = mm + dd + yyyy;
+	    const now = new Date();
+
 	    const sortedList = sortedBoard.filter((tourny) =>  tourny.eventTypeName === this.state.changeList)
-        
         return sortedList !== undefined ? sortedList.map((item, index) => {
+		        
 		        const end = new Date(item.endDate)
-		        const edd = end.getDate();
-		        const emm = end.getMonth()+1; //January is 0!
-		        const eyyyy = end.getFullYear();
-		        const eEndDate = emm + edd + eyyyy;
+          
+		        const eEndDate = Date.parse(end)
+	            const todayDate = Date.parse(now)
 		        
             return <li key={index} className={eEndDate <= todayDate ? classes.notActive : null}>
 	            <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>
@@ -225,8 +221,9 @@ export class TournamentsList extends Component {
         return num
 	}
     render (){
-	    const fifaNum = this.countOfOject(this.props.allTournsList, 'FIFA')
-        const pokerNum = this.countOfOject(this.props.allTournsList, 'Poker')
+	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
+	    const fifaNum = this.countOfOject(tournaments, 'FIFA')
+        const pokerNum = this.countOfOject(tournaments, 'Poker')
 	    
         console.log('tournyList', this.props)
         return (
