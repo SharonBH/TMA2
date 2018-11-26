@@ -300,7 +300,7 @@ namespace TMA.Api.Controllers
                         Email = leaderboard.User.Email,
                         Username = leaderboard.User.UserName,
                         Name = leaderboard.User.Name,
-                        Avatar = userAvatar
+                        Avatar = userAvatar //leaderboard.User.UsersAvatar.Avatar
                     };
                     var leaderboardModel = new LeaderboardViewModel
                     {

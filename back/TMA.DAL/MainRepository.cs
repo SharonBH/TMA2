@@ -213,7 +213,7 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var user = context.AspNetUsers.Include(x => x.UsersAvatar).FirstOrDefault(x => x.UserName == username);
+                    var user = context.AspNetUsers.Include(x => x.UsersAvatar).FirstOrDefault(x => x.UserName.ToLower() == username.ToLower());
                     if(user == null)
                         throw new Exception($"Username {username} was not found.");
 
@@ -554,7 +554,9 @@ namespace TMA.DAL
 
                     foreach (var userId in userIdsEventsResults)
                     {
-                        var user = context.AspNetUsers.FirstOrDefault(x => x.Id == userId);
+                        var user = context.AspNetUsers
+                            //.Include(x=> x.UsersAvatar)
+                            .FirstOrDefault(x => x.Id == userId);
                         var userScores = (int?)eventsResults.Where(x => x.UserId == userId).Sum(x=> x.Score);
                         var userEvents = eventsResults.Where(x => x.UserId == userId).Count();
                         var leaderboard = new LeaderboardModel
