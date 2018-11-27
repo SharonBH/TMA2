@@ -25,7 +25,12 @@ export class AllUsersAdmin extends Component {
         this.state = {
             userInEditMode: null,
             userForDelete: null,
-            display: false
+            display: false,
+	        sortList: [],
+	        sortItem: 'name',
+	        toggleSort: true,
+         
+         
         }
         this.editUserBtn = this.editUserBtn.bind(this)
         // this.addUserBtn = this.addUserBtn.bind(this)
@@ -35,21 +40,70 @@ export class AllUsersAdmin extends Component {
     componentWillMount(){
         if(this.props.allList.length === 0) {
             this.props.takeAllUsers()
-        } else {
-            return null
         }
+
     }
     componentDidMount(){
         this.props.successMessageAction(null)
         this.props.getAllGroupsRequest()
+	    
     }
+    
+	componentWillReceiveProps(nextProps) {
+		const { allList } = nextProps;
+		
+		if (this.props.allList !== allList) {
+			const { sortedItem } = this.state
+			this.props.allList.sort((a, b) => {
+				return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() < b[sortedItem].toLowerCase() ? -1 : 1;
+			});
+			this.setState({sortList: this.props.allList});
+		}
+		
+	}
+    
+    
     componentWillUnmount(){
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
         this.setState({userForDelete: null})
         this.setState({userInEditMode: null})
     }
-
+    
+	sortTTTT = (sortList, sortBy, upDown) => {
+		const { toggleSort } = this.state
+  
+		const x = toggleSort ? 1 : -1
+		const y = toggleSort ? -1 : 1
+		sortList.sort((a, b) => {
+			if(a[sortBy] !== b[sortBy]){
+                if(a[sortBy].toLowerCase() < b[sortBy].toLowerCase()){
+                    return x
+                }else{
+                    return y
+                }
+			}
+		});
+		
+	}
+	Sort = (item) => {
+		const { sortItem, toggleSort, sortList } = this.state
+		const sortBy = item.target.id;
+		this.setState({sortItem: sortBy})
+		const attrId = document.getElementById(sortItem)
+		const upDown = toggleSort ? 'down' : 'up'
+		document.getElementById(sortBy).setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+		if(sortItem === sortBy){
+			this.setState({toggleSort: !toggleSort});
+			attrId.setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+			this.sortTTTT(sortList, sortBy, upDown)
+		}
+		else{
+			this.setState({toggleSort: false});
+			attrId.setAttribute('i-attribute', 'none');
+			this.sortTTTT(sortList, sortBy, upDown)
+		}
+	}
     DeleteUserBtn = (item) => {
         this.setState({userForDelete: item})
         this.setState({userInEditMode: null})
@@ -81,7 +135,7 @@ export class AllUsersAdmin extends Component {
     }
 
     successDeleteMessage = () => {
-        return this.props.successMessage !== null 
+        return this.props.successMessage !== null
         ? <p className={classes.success}>
             <span>{this.props.successMessage}
                 <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
@@ -91,13 +145,16 @@ export class AllUsersAdmin extends Component {
     }
 
     closeMessage = () => {
+        // this.setState({successMSG: !this.state.successMSG})
         this.props.successMessageAction(null)
         // this.props.addNewItemAction(false)
     }
+	
 
-
+    
+    
     ulserList = () => {
-        return this.props.allList.map((item, index) => {
+        return this.state.sortList.map((item, index) => {
             return <li key={index}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
@@ -112,7 +169,10 @@ export class AllUsersAdmin extends Component {
     }
     
     render (){
-        console.log('1234', this.props)
+        
+	    
+        console.log('user list ', this.props)
+	    console.log('user list state', this.state)
         return (
             <div className={classes.usersWrapper}>
                 <div className={classes.usersListHead}>
@@ -125,10 +185,10 @@ export class AllUsersAdmin extends Component {
                 
                 {this.successDeleteMessage()}
                 <div className={classes.usersHead}>
-                    <div className={classes.username}>Name</div>
-                    <div className={classes.email}>Email</div>
-                    <div className={classes.email}>User Name</div>
-                    <div className={classes.role}></div>
+                    <div className={classes.username} i-attribute="none" id={'name'} onClick={(item) => this.Sort(item)}>Name</div>
+                    <div className={classes.email} i-attribute="none" id={'email'} onClick={(item) => this.Sort(item)}>Email</div>
+                    <div className={classes.email} i-attribute="none" id={'username'} onClick={(item) => this.Sort(item)}>User Name</div>
+                    <div className={classes.role} i-attribute="none" id={'role'} onClick={(item) => this.Sort(item)}>Role</div>
                     <div className={classes.addBtn}></div>
                     
                 </div> 

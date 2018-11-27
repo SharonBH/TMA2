@@ -25,10 +25,10 @@
         margin-top: 0px;
         padding: 20px;
         background-color: $white;
-        height: 70vh;
+        height: auto;
         display: inline-table;
         position: relative;
-        min-height: 70vh;
+        //min-height: 70vh;
         .lastLine{
           margin-bottom: 20px;
         }
@@ -265,10 +265,10 @@
                     padding: 0px 0 20px 0;
 
                     .user {
-                        border: 1px solid #03a3d0;
-                        width: 135px;
+                        border: 1px solid #0084ff;
+                        width: 49%;
                         cursor: default;
-                        margin-right: 9px;
+                        margin-right: 1%;
                         height: 45px;
                     }
                     .eventNames{
@@ -482,12 +482,12 @@
     color: #616161;
     padding: 5px;
     &:hover{
-        color: #03a3d0;
+        color: #0084ff;
     }
 }
 
 .active {
-    color: #03a3d0;
+    color: #0084ff;
     padding: 5px;
     margin-top:6px;
 }

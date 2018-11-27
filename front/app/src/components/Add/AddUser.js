@@ -108,6 +108,7 @@ export class AddUser extends Component {
 	};
 	
 	render(){
+		console.log('add user props', this.props)
 		return (this.rgisterPage())
 	}
 }

@@ -31,7 +31,12 @@ export class Groups extends Component {
         this.state = {
             groupForDelete: null,
             groupInEditMode: null,
-	        buttonStatus: true
+	        buttonStatus: true,
+	        sortList: [],
+	        sortItem: 'groupName',
+	        toggleSort: true,
+	        groupsList: [],
+	        groupsDataById: []
         }
     }
 
@@ -40,12 +45,59 @@ export class Groups extends Component {
         this.props.takeMyGroupsRequest(userID);
         if(this.props.groupsList === null) {
             this.props.getAllGroupsRequest()
-            
         } else {
             return null
         }
     }
 
+	componentWillReceiveProps(nextProps) {
+  
+		const { groupsList, groupsDataById } = nextProps;
+		this.setState({groupsList: groupsList, groupsDataById: groupsDataById});
+		
+		const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+		groups !== null ? groups.sort((a, b) => {
+			const sortedItem = this.state.sortItem
+            return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() < b[sortedItem].toLowerCase() ? -1 : 1;
+        }) : null
+	}
+	
+	sortTTTT = (groups, sortBy, upDown) => {
+		const { toggleSort } = this.state
+		
+		const x = toggleSort ? 1 : -1
+		const y = toggleSort ? -1 : 1
+		groups.sort((a, b) => {
+			if(a[sortBy] !== b[sortBy]){
+				if(a[sortBy].toLowerCase() < b[sortBy].toLowerCase()){
+					return x
+				}else{
+					return y
+				}
+			}
+		});
+	}
+	Sort = (item) => {
+		const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
+  
+		this.setState({sortItem: sortBy, sortList: groups})
+		const { sortItem, toggleSort, sortList } = this.state
+		const sortBy = item.target.id;
+		this.setState({sortItem: sortBy})
+		const attrId = document.getElementById(sortItem)
+		const upDown = toggleSort ? 'down' : 'up'
+		document.getElementById(sortBy).setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+		if(sortItem === sortBy){
+			this.setState({toggleSort: !toggleSort});
+			attrId.setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+			this.sortTTTT(groups, sortBy, upDown)
+		}
+		else{
+			this.setState({toggleSort: false});
+			attrId.setAttribute('i-attribute', 'none');
+			this.sortTTTT(groups, sortBy, upDown)
+		}
+	}
     componentWillUnmount(){
         this.props.errorMessageAction(null);
         this.props.successMessageAction(null);
@@ -103,18 +155,17 @@ export class Groups extends Component {
 	};
 	
     tableHeader = () => {
-	    const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+	    // const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
 	    return (
 		    <div className={classes.Head}>
-			    <div className={classes.headline}>Group Name</div>
-			    <div className={classes.headline}>Created Date</div>
-			    <div className={classes.users}>Group Users</div>
-			    <div className={classes.addBtn}></div>
+			    <div className={classes.headline} i-attribute="down" id={'groupName'} onClick={(item) => this.Sort(item)}>Group Name</div>
+			    <div className={classes.headline} i-attribute="none" id={'createdDate'} onClick={(item) => this.Sort(item)}>Created Date</div>
+			    <div className={classes.users} id={'users'}>Group Users</div>
+			    <div className={classes.addBtn} ></div>
 		    </div>)
     }
     groupsList = () => {
-        const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
-        
+        const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
         return groups !== null ? groups.map((group, index) => { 
             const usersInGroup = []
             group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
@@ -149,7 +200,9 @@ export class Groups extends Component {
       }
 
     render() {
-	    const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+        console.log('groups props', this.props)
+	    console.log('groups state', this.state)
+	    const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
