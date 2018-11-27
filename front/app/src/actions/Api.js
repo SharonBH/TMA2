@@ -46,33 +46,47 @@ export const registerRequest = (email, password, confirmPassword, name, userType
                     const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
                     dispatch(getAllRoles(roles));
                     dispatch(toggleLoaderAction(true))
-                    return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}&groupId=${groupId}`)
-                        .then((response) => {
-                            if (response.data.response === 'Success') {
-                                return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
-                                    .then((response) => {
-                                        sessionStorage.setItem('session', JSON.stringify(response.data));
-                                        const session = JSON.parse(sessionStorage.getItem('session'));
-                                        dispatch(getUserAction(session))
-                                        dispatch(toggleLoaderAction(false))
-                                        history.push({pathname: '/homeEvents', state:[response.data]})
-                                    })
-                                    .catch((error) => {
-                                        dispatch(catchErrorAction([error][0]))
-                                        dispatch(errorMessageAction([error][0]))
-                                        dispatch(toggleLoaderAction(false))
-                                    });
-                            } else {
-                                const error = response.data.message
-                                dispatch(errorMessageAction(error))
-                                dispatch(toggleLoaderAction(false))
-                            }
-                        })
-                        .catch((error) => {
-                            dispatch(catchErrorAction([error][0]))
-                            dispatch(errorMessageAction([error][0]))
+                   
+                    return axios({
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json; charset=UTF-8; multipart/form-data'},
+                        url: cors + url + 'Account/Register',
+                        data: {
+	                        Email: email,
+	                        Password: password,
+	                        ConfirmPassword: confirmPassword,
+	                        Name: name,
+	                        Role: userType,
+	                        Username: userName,
+	                        GroupId: groupId
+                        }
+                    })
+                    .then((response) => {
+                        if (response.data.response === 'Success') {
+                            return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
+                                .then((response) => {
+                                    sessionStorage.setItem('session', JSON.stringify(response.data));
+                                    const session = JSON.parse(sessionStorage.getItem('session'));
+                                    dispatch(getUserAction(session))
+                                    dispatch(toggleLoaderAction(false))
+                                    history.push({pathname: '/homeEvents', state:[response.data]})
+                                })
+                                .catch((error) => {
+                                    dispatch(catchErrorAction([error][0]))
+                                    dispatch(errorMessageAction([error][0]))
+                                    dispatch(toggleLoaderAction(false))
+                                });
+                        } else {
+                            const error = response.data.message
+                            dispatch(errorMessageAction(error))
                             dispatch(toggleLoaderAction(false))
-                        });
+                        }
+                    })
+                    .catch((error) => {
+                        dispatch(catchErrorAction([error][0]))
+                        dispatch(errorMessageAction([error][0]))
+                        dispatch(toggleLoaderAction(false))
+                    });
             })
     }
 };
@@ -161,7 +175,21 @@ export const loginRequest = (userName, password) => {
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName, groupId) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-        return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}&GroupId=${groupId}`)
+	    return axios({
+		    method: 'POST',
+		    headers: {'Content-Type': 'application/json; charset=UTF-8; multipart/form-data'},
+		    url: cors + url + 'Account/Register',
+		    data: {
+			    Email: email,
+			    Password: password,
+			    ConfirmPassword: confirmPassword,
+			    Name: name,
+			    Role: userType,
+			    Username: userName,
+			    // avatar: image,
+			    GroupId: groupId
+		    }
+	    })
             .then((response) => {
                 console.log('response', response)
                 if (response.data.response === 'Success') {
@@ -216,8 +244,7 @@ export const takeAllUsers = () => {
 export const editThisUserRequest = (headline, userName, name, email, image, userType) => {
     return (dispatch) => {
         dispatch(toggleLoaderAction(true))
-	    
-        // return axios.post(cors + url + `Account/EditUser?Email=${email}&Name=${name}&image=${image}&Role=${userType}&Username=${userName}`)
+        
 	    return axios({
 		    method: 'POST',
 		    headers: {'Content-Type': 'application/json; charset=UTF-8; multipart/form-data'},
@@ -231,7 +258,6 @@ export const editThisUserRequest = (headline, userName, name, email, image, user
 		    }
 	    })
             .then((response) => {
-	            console.log('respose', response)
                 if (response.data.response === 'Success') {
                     if(headline === EDIT){
                         return axios.post(cors + url + `Account/GetUsers`)

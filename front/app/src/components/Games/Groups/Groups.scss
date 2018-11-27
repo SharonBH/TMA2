@@ -50,6 +50,34 @@
             width: 25%;
             display: flex;
             justify-content: flex-start;
+            overflow: visible;
+            &::after{
+                content: "\f0dd";
+                font-family: "Font Awesome 5 Free";
+                padding-left: 15px;
+                position: relative;
+                top: 3px;
+            }
+            &:last-child, &:nth-last-child(2){
+                &::after{
+                    content: ' ';
+                }
+            }
+        }
+        div[i-attribute="up"]::after {
+            content: '\f0de';
+            font-family: "Font Awesome 5 Free";
+            padding-left: 15px;
+        }
+        div[i-attribute="down"]::after {
+            content: "\F0DD";
+            font-family: "Font Awesome 5 Free";
+            padding-left: 15px;
+        }
+        div[i-attribute="none"]::after {
+            content: "\f0dc";
+            font-family: "Font Awesome 5 Free";
+            padding-left: 15px;
         }
         .addBtn{
             width: 200px;
