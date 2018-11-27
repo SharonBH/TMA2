@@ -46,21 +46,21 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 				const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
 				dispatch(getAllRoles(roles));
 				dispatch(toggleLoaderAction(true))
-				return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}&groupId=${groupId}`)
-				// return axios({
-				// 	method: 'POST',
-				// 	headers: {'Content-Type': 'application/json; charset=UTF-8; multipart/form-data'},
-				// 	url: cors + url + 'Account/Register',
-				// 	data: {
-				// 		Email: email,
-				// 		Password: password,
-				// 		ConfirmPassword: confirmPassword,
-				// 		Name: name,
-				// 		Role: userType,
-				// 		Username: userName,
-				// 		GroupId: groupId
-				// 	}
-				// })
+				// return axios.post(cors + url + `Account/Register?Email=${email}&Password=${password}&ConfirmPassword=${confirmPassword}&Name=${name}&Role=${userType}&Username=${userName}&groupId=${groupId}`)
+				return axios({
+					method: 'POST',
+					headers: {'Content-Type': 'application/json; charset=UTF-8; multipart/form-data'},
+					url: cors + url + 'Account/Register',
+					data: {
+						Email: email,
+						Password: password,
+						ConfirmPassword: confirmPassword,
+						Name: name,
+						Role: userType,
+						Username: userName,
+						GroupId: groupId
+					}
+				})
 					.then((response) => {
 						if (response.data.response === 'Success') {
 							return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
