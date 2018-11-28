@@ -135,7 +135,19 @@
                 width: 70%;
                 // max-width: 322px;
                 //overflow: hidden;
-
+                .inputWpapp{
+                    position: relative;
+                    &>label[for=file] {
+                        position: absolute;
+                        left: 91px;
+                        background: #fff;
+                        line-height: 30px;
+                        top: -5px;
+                        width: 70%;
+                        text-align: left;
+                        overflow: hidden;
+                    }
+                }
 
                     & > input{
                         border: 0;

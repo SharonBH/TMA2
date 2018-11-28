@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import classes from './Groups.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
+import InputComp from '../../UI/InputComp/InputComp';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp'
@@ -33,10 +34,11 @@ export class Groups extends Component {
             groupInEditMode: null,
 	        buttonStatus: true,
 	        sortList: [],
-	        sortItem: 'groupName',
+	        sortItem: 'createdDate',
 	        toggleSort: true,
 	        groupsList: [],
-	        groupsDataById: []
+	        groupsDataById: [],
+	        tooltip: "Click to copy"
         }
     }
 
@@ -158,9 +160,11 @@ export class Groups extends Component {
 	    // const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
 	    return (
 		    <div className={classes.Head}>
-			    <div className={classes.headline} i-attribute="down" id={'groupName'} onClick={(item) => this.Sort(item)}>Group Name</div>
-			    <div className={classes.headline} i-attribute="none" id={'createdDate'} onClick={(item) => this.Sort(item)}>Created Date</div>
-			    <div className={classes.users} id={'users'}>Group Users</div>
+                <span>
+                    <div className={classes.headline} i-attribute="none" id={'groupName'} onClick={(item) => this.Sort(item)}>Group Name</div>
+                    <div className={classes.headline} i-attribute="down" id={'createdDate'} onClick={(item) => this.Sort(item)}>Created Date</div>
+			    </span>
+                    <div className={classes.users} id={'users'}>Group Users</div>
 			    <div className={classes.addBtn} ></div>
 		    </div>)
     }
@@ -170,9 +174,11 @@ export class Groups extends Component {
             const usersInGroup = []
             group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
             return <li key={group.groupId}>
-                <div className={classes.groupName}>{group.groupName}</div>
-                <div className={classes.createdDate}>{moment(group.createdDate).format('LL')}</div>
-                <div>
+	            <Link to={`/all_groups/${group.groupName}`}  onClick={() => this.editGroupBtn(group)}>
+                    <div className={classes.groupName}>{group.groupName}</div>
+                    <div className={classes.createdDate}>{moment(group.createdDate).format('LL')}</div>
+	            </Link>
+                <div className={classes.groupSelect}>
                     <div className={classes.select}>
                         <SelectComp
                             options={usersInGroup}
@@ -182,22 +188,34 @@ export class Groups extends Component {
                         />
                     </div>
                 </div>
+	            
                 <div id={index} className={classes.allUsButtons}>
                     {/*<Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>*/}
-	                <Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
+	                <EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/>
                     <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>
-                    <BtnComp onClick={() => this.togglePopup(group.groupId)} inputType={'button'} content='Link to copy'/>
+	                <div className={classes.tooltip}>
+                        <BtnComp onClick={() => this.togglePopup(group.groupId)} inputType={'button'} content='Copy Link'/>
+	                    <span className={classes.hide}>
+                            <InputComp id={`copyLink-${group.groupId}`} name={'copyLink'} onChange={this.copyFunc()} inputType={'text'} content={`https://tma-front.azurewebsites.net/register?groupId=${group.groupId}`}/>
+                        </span>
+		                <span className={classes.tooltiptext} id={`myTooltip-${group.groupId}`}>Click to copy</span>
+                    </div>
                  </div>
+	            
             </li>
         })
         : null
     }
-
+	copyFunc = () => {}
     togglePopup(groupId) {
-        // this.setState({ showPopup: !this.state.showPopup });
-        this.props.takeGroupIdPopAction(true)
-        this.props.takeGroupIdPop(groupId)
-      }
+        
+        const copyText = document.getElementById(`copyLink-${groupId}`);
+        copyText.select();
+        document.execCommand("copy");
+	
+	    const tooltip = document.getElementById(`myTooltip-${groupId}`);
+	    tooltip.textContent = "Copied link with id: " + groupId;
+    }
 
     render() {
         console.log('groups props', this.props)

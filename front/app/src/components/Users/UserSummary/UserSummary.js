@@ -98,7 +98,7 @@ class UserSummary extends Component {
             const username = userData.username
             const email = userData.email
             const role = userData.role
-	        const image = ''
+	        const image =  ''
             return ( [
                 {edit: false, detail: 'User Name', param: username, editInput: username},
                 {edit: false, detail: 'Name', param: name, editInput: name},
@@ -138,22 +138,25 @@ class UserSummary extends Component {
         this.setState({ userDetailsArr: details })
 
     }
-    imageUpload = (e) => {
-        e.preventDefault();
-        
-        let reader = new FileReader();
-        let file = e.target.files[0];
-        
-        reader.onloadend = () => {
-            this.setState({
-                file: file,
+	imageUpload = (e) => {
+		e.preventDefault();
+		let preview = document.querySelector('img');
+		let file    = document.querySelector('input[type=file]').files[0];
+		let reader  = new FileReader();
+		reader.onloadend = () => {
+			preview.src = reader.result;
+			this.setState({
+               file: file.name,
                 imagePreviewUrl: reader.result
-            });
-        }
-        
-        reader.readAsDataURL(file)
-    
-    }
+           });
+		}
+		if (file) {
+			reader.readAsDataURL(file);
+		} else {
+			preview.src = "";
+		}
+	}
+
     editEventDetailInput = (index, user, e) => {
         const details = [...this.state.inputs]
         const results = {userId: user.userId, result: e.target.value}
@@ -167,12 +170,6 @@ class UserSummary extends Component {
 
     editBtnFunc = (item, index) => {
         if(item.detail !== 'User Type')
-        	// item.detail === 'Name' ||
-	        // item.detail === 'Profile Image' ||
-	        // item.detail === 'eMail' ||
-	        // (this.props.editThisItem && item.detail !== 'User Name' ) ||
-	        // this.props.editThisEvent ||
-	        // (this.props.editThisEvent && item.detail !== 'Tournament Name' ) )
         {
             return (
                 <div className={classes.BTN}>
@@ -311,7 +308,7 @@ class UserSummary extends Component {
     }
 	
     detailLine = (item, index, headline) => {
-        
+
         const detail = item.detail
         const { allRoles, currentUser } = this.props
         const roles = allRoles !== null ? allRoles.map((role, index) => { return {key: role.roleId, value: role.roleName }}) : null
@@ -332,14 +329,15 @@ class UserSummary extends Component {
                                 placeholder='Select User Type'
                             />
                             :  detail === 'Profile Image'
-	                           ? <InputComp
+	                           ? <div className={classes.inputWpapp}><InputComp
 		                           inputType={'file'}
 		                           id="file"
 		                           name="file"
 		                           content={this.state.userDetailsArr[index].editInput}
 		                           onChange={(e)=>this.imageUpload(e)}
-		                           multiple
-	                           />
+		                           // multiple
+	                           /><label htmlFor="file">{this.state.file === '' ? ' Select file ': this.state.file  }</label>
+                               </div>
 	                           : <div><InputComp
                                 inputType={'text'}
                                 name={detail} 

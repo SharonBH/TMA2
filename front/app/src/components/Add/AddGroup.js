@@ -49,12 +49,17 @@ class AddGroup extends Component {
 		this.setState({searchUsers: e.target.value});
 		
 		setTimeout(() => {
-			this.props.allList.map((user) => {
+			const { allList } = this.props
+			
+			allList.map((user) => {
 				const searchFor = this.state.searchUsers;
 				if(searchFor.length > 0 && ((user.username).toLowerCase()).includes(searchFor)) {
 					let arr = [...this.state.searchUsersResult, user];
-					const removeDuplicateArr = [...new Set(arr)];
-					return this.setState({searchUsersResult: removeDuplicateArr})
+					// const removeDuplicateArr = [...new Set(arr)];
+					const fillt = arr.filter((user) => {
+						return !this.state.addSearchUsersResult.find(item => user.userId === item.userId );
+					});
+					return this.setState({searchUsersResult: fillt})
 				}
 			})
 		}, 300)
@@ -64,25 +69,12 @@ class AddGroup extends Component {
 		const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId));
 		const array = [...fill, {userId: user.userId, score: null, username: user.username}];
 		const namesArray = [...fill, {userId: user.userId, score: null, username: user.username}];
-		array.sort((a, b) => {
-			return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
-		});
+		// array.sort((a, b) => {
+		// 	return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
+		// });
 		this.setState({addSearchUsersResult: array});
 		
-		// if(this.onEventNameChange){
-		//     const name = namesArray !== ''
-		//     ? namesArray.map((user) => {return user.username})
-		//     : this.state.EventName;
-		//     const names = !name || name !== '' ? name.join(' Vs. ') : '';
-		//     // this.setState({EventName: names})
-		//     this.setState({EventName: names})
-		// }
-		
-		// if(EventDate === '') {
-		//     this.props.errorMessageAction('you must first enter a date for this event')
-		// } else {
-		
-		// }
+
 	};
 	
 	removeSelectedUser = (index) => {
@@ -219,8 +211,8 @@ class AddGroup extends Component {
 	
 	
 	render(){
-		console.log('add group',this.props)
-		console.log('add group state',this.state)
+		// console.log('add group',this.props)
+		// console.log('add group state',this.state)
 		return(
 			this.addNewGroupPage()
 		)

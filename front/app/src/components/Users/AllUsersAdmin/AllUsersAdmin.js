@@ -156,14 +156,16 @@ export class AllUsersAdmin extends Component {
     ulserList = () => {
         return this.state.sortList.map((item, index) => {
             return <li key={index}>
+	            <Link to={`/edit_user/${item.username}`}  onClick={() => this.editUserBtn(item)}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
                 <div className={classes.email}>{item.username}</div>
                 <div className={classes.role}>{item.role}</div>
                 <div className={classes.allUsButtons} id={index}>
-                    <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/></Link>
+                    <EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/>
                     {/*NOT DELETE_____ <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/> */}
                  </div>
+	            </Link>
             </li>
         })
     }

@@ -10,7 +10,8 @@ import {
 	successMessageAction,
 	errorMessageAction,
 	getAllRoles,
-	takeMyHomeLeader
+	takeMyHomeLeader,
+	editThisItemAction
 } from './index';
 import { EDIT, YOUR_PROFILE } from '../configuration/config'
 
@@ -264,8 +265,9 @@ export const editThisUserRequest = (headline, userName, name, email, image, user
 							.then((response) => {
 								const users = response.data
 								dispatch(getAllUsersAction(users));
+								// history.push({pathname: '/all_users'})
+								dispatch(editThisItemAction(false))
 								dispatch(successMessageAction('User Edited Successfuly'))
-								history.push({pathname: '/all_users'})
 								dispatch(toggleLoaderAction(false))
 							})
 							.catch((error) => {
