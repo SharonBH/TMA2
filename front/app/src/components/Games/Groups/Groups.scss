@@ -45,12 +45,20 @@
         background: #ecf8ff;
         color: #8e8e8e;
         font-weight: 600;
-
+        span{
+            width: 52%;
+            display: flex;
+            justify-content: space-between;
+            div{
+                width: 50%;
+            }
+        }
         div {
             width: 25%;
             display: flex;
             justify-content: flex-start;
             overflow: visible;
+            cursor: pointer;
             &::after{
                 content: "\f0dd";
                 font-family: "Font Awesome 5 Free";
@@ -101,6 +109,53 @@
         .allUsButtons{
             width: 200px;
             overflow: visible;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .tooltip {
+                position: relative;
+                display: inline-block;
+            }
+            span.hide{
+                position: absolute;
+                top: 0px;
+                z-index: -1;
+                opacity: 0;
+            }
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: auto;
+                background-color: #555;
+                color: #fff;
+                text-align: center;
+                border-radius: 6px;
+                padding: 5px;
+                position: absolute;
+                z-index: 1;
+                right: 108%;
+                top: 3px;
+                margin-left: -75px;
+                opacity: 0;
+                transition: opacity 0.3s;
+                white-space: nowrap;
+            }
+
+            .tooltip .tooltiptext::after {
+                content: "";
+                position: absolute;
+                left: 100%;
+                top: 50%;
+                margin-top: -4px;
+                border-width: 5px;
+                border-style: solid;
+                border-color: #555 transparent transparent transparent;
+                transform: rotate(-90deg);
+            }
+
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
         }
         li{
             border-top: 1px solid #dcdcdc;
@@ -116,10 +171,19 @@
             color: #000;
             font-weight: 600;
             margin-top: 10px;
-        
-            & > a{
-                display: inline-block;
+            .groupSelect{
+                width: 25%;
             }
+
+            & > a{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 52%;
+                div{
+                    width: 50% !important;
+                }
+
             & > div{
                 width: 25%;
                 padding: 0 0;
@@ -129,6 +193,7 @@
                 //height: 27px;
                 white-space: nowrap;
                 overflow-y: auto;
+            }
             }
 
             //.select {
@@ -143,6 +208,43 @@
         padding: 0;
         text-align: center;
     }
+    //.success {
+    //    position: fixed;
+    //    width: 100%;
+    //    text-align: center;
+    //    top: 0;
+    //    margin: 0;
+    //    height: 100vh;
+    //    left: 0;
+    //    display: flex;
+    //    justify-content: center;
+    //    align-items: center;
+    //
+    //    span {
+    //        padding: 20px 40px;
+    //        background: #9dfca1;
+    //        border-bottom: 1px solid #999;
+    //        position: relative;
+    //        width: auto;
+    //        height: auto;
+    //        max-width: 477px;
+    //
+    //        .closeBTN {
+    //            padding: 0 5px;
+    //            background: #fff;
+    //            border: 1px solid #999;
+    //            border-radius: 11px;
+    //            position: absolute;
+    //            top: -8px;
+    //            right: -6px;
+    //            cursor: pointer;
+    //        }
+    //        &>:hover {
+    //            background: #000;
+    //            color: #fff;
+    //        }
+    //    }
+    //}
     .success {
         position: fixed;
         width: 100%;
@@ -154,29 +256,42 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        
-        span {
-            padding: 20px 40px;
-            background: #9dfca1;
-            border-bottom: 1px solid #999;
-            position: relative;
-            width: auto;
-            height: auto;
-            max-width: 477px;
+        z-index: 6;
+        transform: translateY(0%);
+        transition-timing-function: ease-in;
+        transition: 0.6s;
 
+        & > span {
+
+            padding: 22px 40px;
+            position: relative;
+            width: 574px;
+            height: 70px;
+            box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
+            background-color: #97b532;
+            color: #fff;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 20px;
+            &::before{
+                content: '\F00C';
+                font-family: "Font Awesome 5 Free";
+                font-weight: 600;
+                margin-right: 20px;
+                display: inline-block;
+                font-size: 23px;
+            }
             .closeBTN {
                 padding: 0 5px;
-                background: #fff;
-                border: 1px solid #999;
                 border-radius: 11px;
                 position: absolute;
-                top: -8px;
-                right: -6px;
+                top: 17px;
+                right: 21px;
                 cursor: pointer;
+                font-size: 26px;
             }
             &>:hover {
-                background: #000;
-                color: #fff;
+                color: #287b00;
             }
         }
     }

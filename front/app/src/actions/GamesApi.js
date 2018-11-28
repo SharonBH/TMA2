@@ -21,7 +21,8 @@ import {
     getLeaderboardsSAction,
     takeMyEvents,
     takeMyHomeLeader,
-	CreateTournamentPresetsAction
+	CreateTournamentPresetsAction,
+	editThisGroupAction
 } from './index';
 
 
@@ -744,10 +745,13 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
 					return axios.post(cors + url + `Groups/GetGroups`)
 						.then((response) => {
 							const groups = response.data
-							dispatch(getAllGroups(groups));
+							
 							// history.push({pathname: '/all_groups'})
 							// window.location.reload()
+							dispatch(editThisGroupAction(false));
+							dispatch(getAllGroups(groups));
 							dispatch(successMessageAction('Groups Was Edited Successfully'))
+							
 							setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
 							dispatch(toggleLoaderAction(false))
 						})

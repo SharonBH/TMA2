@@ -134,6 +134,7 @@
             display: inline-flex;
             justify-content: start;
             overflow: visible;
+            cursor: pointer;
             &::after{
                 content: "\f0dd";
                 font-family: "Font Awesome 5 Free";
