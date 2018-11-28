@@ -58,39 +58,34 @@ export class TournamentsList extends Component {
 	        changeList: 'FIFA',
 	        allTournaments: [],
 	        myTournaments: [],
-	        sorttournaments: [],
+	        // sorttournaments: [],
             sortItem: 'tournamentName',
             toggleSort: true,
+	        tournaments: ''
          
         }
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
 
-    // componentWillMount(){
-    //     if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
-    //         this.props.takeAllTournaments()
-    //     } else {
-    //         return null
-    //     }
-    // }
-	
+  
 	
 	componentWillReceiveProps(nextProps) {
         const allTournaments = this.props.allTournsList
 		const myTournaments = this.props.tournsDataById
-		// console.log('=======allTournaments==========', allTournaments)
-		// console.log('=======myTournaments==========', myTournaments)
 		const { allTournsList, tournsDataById } = nextProps;
-		// console.log('=======nextProps==========', allTournsList, tournsDataById)
 		if( allTournaments !== allTournsList || myTournaments !== tournsDataById ){
 
 			this.setState({allTournaments: nextProps.allTournsList, myTournaments: nextProps.tournsDataById});
 			
-			const tournaments = this.props.match.url === '/all_tournaments' ? this.state.allTournaments : this.state.myTournaments
+			// const tournaments = this.props.match.url === '/all_tournaments' ? this.state.allTournaments : this.state.myTournaments
+			const tournaments = this.props.match.url === '/all_tournaments' ? allTournsList : tournsDataById
 			const sortedItem = this.state.sortItem
             tournaments.sort((a, b) => {
 			    return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() < b[sortedItem].toLowerCase() ? -1 : 1;
 			});
+			this.props.match.url === '/all_tournaments'
+			? this.setState({allTournaments: tournaments})
+			: this.setState({myTournaments: tournaments})
         }
 
 	}
@@ -250,6 +245,7 @@ export class TournamentsList extends Component {
     tournamentList = () => {
 
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.state.allTournaments : this.state.myTournaments
+	    console.log('tournaments', tournaments)
 	    const path = this.props.match.url
 	    const now = new Date();
      
