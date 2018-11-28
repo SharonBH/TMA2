@@ -189,7 +189,10 @@ class UserSummary extends Component {
     errorMessage = () => {
         const error = this.props.errorMessage
         if (error !== null) {
-            return <p className={classes.error}>{error}</p>
+            return <p className={classes.error}>
+	            <span>{error}
+		            <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
+            </span></p>
         } else {
             return null
         }
@@ -199,11 +202,18 @@ class UserSummary extends Component {
         const success = this.props.successMessage
         if (success !== null) {
             this.props.errorMessageAction(null)
-            return <p className={classes.success}>{success}</p>
+            return <p className={classes.success}>
+	            <span>{success}
+		            <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
+            </span></p>
         } else {
             return null
         }
     }
+	closeMessage = () => {
+		this.props.successMessageAction(null)
+		this.props.errorMessageAction(null)
+	}
     changePassword = () => {
         setTimeout(() => {
             this.setState({changePassword: true})
@@ -232,10 +242,15 @@ class UserSummary extends Component {
         const yyyy = today.getFullYear();
         const todayDate = mm + dd + yyyy;
         const editRequestParam = []
-        const imageData = this.state.imagePreviewUrl
+	    const userData = this.props.user
         
+        const imageData = this.state.imagePreviewUrl === '' ? userData.avatar : this.state.imagePreviewUrl
+	    
+     
 	    const imgsplit = imageData.split(",");
-	    const imgToSend = imgsplit[imgsplit.length-1];
+	    const imgState = imgsplit[imgsplit.length-1]
+     
+	    const imgToSend = imgState
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput) 
         })
