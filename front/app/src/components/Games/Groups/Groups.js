@@ -53,12 +53,11 @@ export class Groups extends Component {
     }
 
 	componentWillReceiveProps(nextProps) {
-  
 		const { groupsList, groupsDataById } = nextProps;
 		this.setState({groupsList: groupsList, groupsDataById: groupsDataById});
 		
 		const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
-		groups !== null ? groups.sort((a, b) => {
+		groups !== null && groups !== undefined ? groups.sort((a, b) => {
 			const sortedItem = this.state.sortItem
             return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() < b[sortedItem].toLowerCase() ? -1 : 1;
         }) : null
@@ -130,9 +129,11 @@ export class Groups extends Component {
     }
 
     DeleteGoupBtn = (item) => {
+	    const userID = this.props.currentUser.userId;
         this.setState({groupForDelete: item})
         this.setState({groupInEditMode: null})
         this.props.deleteConfirmMessageAction(true)
+        
     }
 
     editGroupBtn = (group) => {
@@ -170,7 +171,7 @@ export class Groups extends Component {
     }
     groupsList = () => {
         const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
-        return groups !== null ? groups.map((group, index) => { 
+        return groups !== null  && groups !== undefined? groups.map((group, index) => {
             const usersInGroup = []
             group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
             return <li key={group.groupId}>
@@ -220,6 +221,7 @@ export class Groups extends Component {
     render() {
         console.log('groups props', this.props)
 	    console.log('groups state', this.state)
+	    const userID = this.props.currentUser.userId;
 	    const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
         return (
             <div className={classes.groupsTable}>
@@ -232,18 +234,18 @@ export class Groups extends Component {
 			                inputType="submit"
 			                content='Add New Group'
 			                onClick={this.addNewGroupBtn}
-			                disabled={groups !== null && groups.length !== 0  ? !this.state.buttonStatus : this.state.buttonStatus}
+			                disabled={groups !== null || groups !== undefined  ? !this.state.buttonStatus : this.state.buttonStatus}
 		                />
 	                </div>
                 </div>
                 {this.tableHeader()}
-                {groups !== null && groups.length !== 0
+                {groups !== null && groups !== undefined
                   ?  <ul className={classes.groupsList}>{this.groupsList()}</ul>
                   : <ul className={classes.groupsListSpinner}><SmallSpinner/></ul>
                 }
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}
                 {this.props.editThisGroup ? <div className={classes.AddUser}>{this.editGroupComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_GROUP} item={this.state.groupForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_GROUP} item={this.state.groupForDelete} userID={userID}/> : null}
                 {this.props.groupIdAction ? <LinkPopup className={classes.AddUser}></LinkPopup> : null}
             </div>
         )

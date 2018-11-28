@@ -11,6 +11,7 @@ const addNewItemReducer = (state = InitialState, action) => {
 
         case 'ADD_A_NEW_ITEM':
             const boll = action.payload
+            console.log(boll)
             return {
                 ...state,
                 addItem: boll
@@ -29,6 +30,7 @@ const addNewItemReducer = (state = InitialState, action) => {
             }
         case 'ADD_A_NEW_GROUP':
             const group = action.payload
+	        console.log(group)
             return {
                 ...state,
                 addGroup: group

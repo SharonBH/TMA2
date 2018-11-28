@@ -242,15 +242,14 @@ class UserSummary extends Component {
         const yyyy = today.getFullYear();
         const todayDate = mm + dd + yyyy;
         const editRequestParam = []
-	    const userData = this.props.user
         
-        const imageData = this.state.imagePreviewUrl === '' ? userData.avatar : this.state.imagePreviewUrl
+        const imageData = this.state.imagePreviewUrl
 	    
      
 	    const imgsplit = imageData.split(",");
 	    const imgState = imgsplit[imgsplit.length-1]
      
-	    const imgToSend = imgState
+	    const imgToSend = imgState  === '' ? null : this.state.imagePreviewUrl
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput) 
         })

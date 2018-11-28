@@ -55,8 +55,9 @@ class AddGroup extends Component {
 				const searchFor = this.state.searchUsers;
 				if(searchFor.length > 0 && ((user.username).toLowerCase()).includes(searchFor)) {
 					let arr = [...this.state.searchUsersResult, user];
-					// const removeDuplicateArr = [...new Set(arr)];
-					const fillt = arr.filter((user) => {
+					
+					const removeDuplicateArr = [...new Set(arr)];
+					const fillt = removeDuplicateArr.filter((user) => {
 						return !this.state.addSearchUsersResult.find(item => user.userId === item.userId );
 					});
 					return this.setState({searchUsersResult: fillt})
@@ -67,8 +68,8 @@ class AddGroup extends Component {
 	addSearchUsers = (user) => {
 		
 		const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId));
+
 		const array = [...fill, {userId: user.userId, score: null, username: user.username}];
-		const namesArray = [...fill, {userId: user.userId, score: null, username: user.username}];
 		// array.sort((a, b) => {
 		// 	return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
 		// });
@@ -95,7 +96,8 @@ class AddGroup extends Component {
 			addSearchUsersResult.map((user) => {
 				return arr.push(user.userId)
 			});
-			this.props.addNewGroupRequest(groupName, arr);
+			const userID = this.props.currentUser.userId;
+			this.props.addNewGroupRequest(groupName, arr, userID);
 			this.setState({groupName: '', usersIds: [], searchUsers: '', searchUsersResult: [], addSearchUsersResult: []})
 		}
 	};
@@ -188,6 +190,8 @@ class AddGroup extends Component {
 			let userIds = [];
 			const groupId = group.groupId;
 			const groupName = this.state.groupName;
+			
+
 			this.state.addSearchUsersResult.map(user => {
 				
 				if(headline === EDIT_GROUP){
@@ -198,7 +202,9 @@ class AddGroup extends Component {
 				
 				// userIds.push(user.user.userId)
 			});
-			this.props.editGroupRequest(groupId, groupName, userIds)
+			const userID = this.props.currentUser.userId;
+
+			this.props.editGroupRequest(groupId, groupName, userIds, userID)
 		}
 		
 	};
@@ -211,8 +217,8 @@ class AddGroup extends Component {
 	
 	
 	render(){
-		// console.log('add group',this.props)
-		// console.log('add group state',this.state)
+		console.log('add group',this.props)
+		console.log('add group state',this.state)
 		return(
 			this.addNewGroupPage()
 		)
@@ -222,6 +228,7 @@ class AddGroup extends Component {
 
 const mapStateToProps = (state) => {
 	return {
+		currentUser: state.userReducer.currentUser,
 		groupsList: state.allListReducer.groupsList,
 		allList: state.allListReducer.allList,
 	}
@@ -232,8 +239,8 @@ const mapDispatchToProps = dispatch => {
 		successMessageAction: (payload) => dispatch(successMessageAction(payload)),
 		getAllGroupsRequest: (payload) => dispatch(getAllGroupsRequest(payload)),
 		// editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
-		editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
-		addNewGroupRequest: (groupName, usersIds) => dispatch(addNewGroupRequest(groupName, usersIds)),
+		editGroupRequest: (groupId, groupName, userIds, userID) => dispatch(editGroupRequest(groupId, groupName, userIds, userID)),
+		addNewGroupRequest: (groupName, usersIds, userID) => dispatch(addNewGroupRequest(groupName, usersIds, userID)),
 		appCallTakeAllUsers: (payload) => dispatch(appCallTakeAllUsers(payload)),
 
 	}
