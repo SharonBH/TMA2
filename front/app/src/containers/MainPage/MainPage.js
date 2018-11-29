@@ -14,9 +14,9 @@ import UserSummary from '../../components/Users/UserSummary';
 import TournamentsList from '../../components/Games/TournamentsList';
 import HomeEvents from '../../components/HomeEvents/HomeEvents'
 // import EventsList from '../../components/Games/EventsList';
-import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest,takeMyHomeLeaderboardRequest } from '../../actions/GamesApi';
+// import { appCallTakeAllTournaments, appCallTakeAllEvents, mainPageGetAllGroupsRequest, appCallgetAllGroupsRequest,takeMyHomeLeaderboardRequest } from '../../actions/GamesApi';
 import TournamentPage from '../../components/Games/TournamentPage';
-import { appCallTakeAllUsers, getAllRolesRequest } from '../../actions/Api';
+import { getAllRolesRequest } from '../../actions/Api';
 import Groups from '../../components/Games/Groups';
 import { REGISTER, YOUR_PROFILE } from '../../configuration/config'
 
@@ -34,7 +34,7 @@ export class MainPage extends Component {
     }
 
     render() {
-        console.log('main props', this.props)
+        // console.log('main props', this.props)
         return (
             <div className={classes.MainPage}>
             

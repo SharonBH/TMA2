@@ -130,9 +130,8 @@ export const loginRequest = (userName, password) => {
 						return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
 							.then((response) => {
 								sessionStorage.setItem('session', JSON.stringify(response.data));
-								console.log('API response', response.data)
+							
 								const session = JSON.parse(sessionStorage.getItem('session'));
-								console.log('API', session)
 								dispatch(getUserAction(session))
 								return axios({
 									method: 'POST',
@@ -163,7 +162,6 @@ export const loginRequest = (userName, password) => {
 						// }
 					})
 					.catch((error) => {
-						console.log(error)
 						dispatch(catchErrorAction([error][0]))
 						dispatch(errorMessageAction(error[0]))
 						dispatch(toggleLoaderAction(false))

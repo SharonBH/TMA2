@@ -10,9 +10,9 @@ import SelectIdComp from '../../UI/SelectComp/SelectIdComp.js';
 import { changePasswordRequest, editThisUserRequest, getAllRolesRequest } from '../../../actions/Api';
 import { editThisTournamentRequest, editThisEventRequest, tournEventsByIdRequest } from '../../../actions/GamesApi';
 import ChangePassword from '../../ChangePassword/ChangePassword';
-import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisGroupAction, editThisEventAction }  from '../../../actions';
+import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisEventAction }  from '../../../actions';
 import { EDIT_TOURNAMENT, YOUR_PROFILE, EDIT, EDIT_EVENT, EDIT_USER } from '../../../configuration/config';
-import axios from 'axios'
+// import axios from 'axios'
 
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 
@@ -169,8 +169,8 @@ class UserSummary extends Component {
     }
 
     editBtnFunc = (item, index) => {
-        if(item.detail !== 'User Type')
-        {
+        const { currentUser } = this.props
+        if((item.detail === 'User Type' && currentUser.role === 'Admin') || item.detail !== 'User Type'){
             return (
                 <div className={classes.BTN}>
                     <i className={ 
@@ -184,6 +184,7 @@ class UserSummary extends Component {
         } else {
             return null
         }
+        
     }
     
     errorMessage = () => {
@@ -249,7 +250,7 @@ class UserSummary extends Component {
 	    const imgsplit = imageData.split(",");
 	    const imgState = imgsplit[imgsplit.length-1]
      
-	    const imgToSend = imgState  === '' ? null : this.state.imagePreviewUrl
+	    const imgToSend = imgState  === '' ? null : imgState
         this.state.userDetailsArr.map((item) => {
           return  editRequestParam.push(item.editInput) 
         })
@@ -301,7 +302,8 @@ class UserSummary extends Component {
         } 
         else if(headline === EDIT_EVENT){
             const eventId = this.props.eventDataArr.eventId;
-            const { eventDataArr } = this.props;
+            const { eventDataArr, tournById } = this.props;
+            const tournamentIdToSend = tournById.tournamentId
             const fill = eventDataArr.eventResults.map(result => {return result });
             const idies = fill.filter(list => this.state.inputs.findIndex(id => id.userId === list.userId) === -1);
             const notState = idies.map(item => {return {userId: item.userId, result: item.result } });
@@ -315,7 +317,7 @@ class UserSummary extends Component {
                 this.props.errorMessageAction('you must enter a date later than today')
             }  
             else {
-                this.props.editThisEventRequest(eventId, editRequestParam[0], TName, dateToSend, concated)
+                this.props.editThisEventRequest(eventId, editRequestParam[0], TName, dateToSend, concated, tournamentIdToSend)
             } 
 
         }
@@ -329,45 +331,45 @@ class UserSummary extends Component {
 
         return (
             
-            <div key={index} className={headline === YOUR_PROFILE && currentUser.role === 'User' && detail === 'User Type' ? classes.wrappLineNone : classes.wrappLine}>
+             <div key={index} className={(headline === YOUR_PROFILE && currentUser.role === 'User' && detail === 'User Type') || (headline === EDIT && detail === 'Profile Image') ? classes.wrappLineNone : classes.wrappLine}>
                 <label className={classes.HeadLine} name={detail}>{detail}:</label>
                 {
                     this.state.userDetailsArr[index].edit
                     ? <div className={classes.EditInput}>
                         {
                            detail === 'User Type'  
-                            ?
-	                           <SelectComp
+                            ? <SelectComp
                                 onChange={(e) => this.editDetailInput(index, e)}
                                 options={roles}
                                 placeholder='Select User Type'
                             />
-                            :  detail === 'Profile Image'
-	                           ? <div className={classes.inputWpapp}><InputComp
-		                           inputType={'file'}
-		                           id="file"
-		                           name="file"
-		                           content={this.state.userDetailsArr[index].editInput}
-		                           onChange={(e)=>this.imageUpload(e)}
-		                           // multiple
-	                           /><label htmlFor="file">{this.state.file === '' ? ' Select file ': this.state.file  }</label>
+                            : headline === YOUR_PROFILE && detail === 'Profile Image'
+                               ? <div className={classes.inputWpapp}><InputComp
+                                   inputType={'file'}
+                                   id="file"
+                                   name="file"
+                                   content={this.state.userDetailsArr[index].editInput}
+                                   onChange={(e)=>this.imageUpload(e)}
+                                   // multiple
+                               /><label htmlFor="file">{this.state.file === '' ? ' Select file ': this.state.file  }</label>
                                </div>
-	                           : <div><InputComp
+                               : <div><InputComp
                                 inputType={'text'}
-                                name={detail} 
-                                placeholder={detail} 
+                                name={detail}
+                                placeholder={detail}
                                 content={this.state.userDetailsArr[index].editInput}
                                 onChange={(e) => this.editDetailInput(index, e)}
                                 />
                                </div>
                         }
                         </div>
-                    : headline === "Edit" ? <span className={classes.editLineInput}>{item.param}</span> : <span>{item.param}</span>
+                    : headline === EDIT ? <span className={classes.editLineInput}>{item.param}</span> : <span>{item.param}</span>
                 }
                 {this.editBtnFunc(item, index)}
             </div>
         )
     }
+    
     editGameLine = (item, index) => {
         const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
         // const tournId = this.props.tournById.groupId
@@ -513,7 +515,7 @@ class UserSummary extends Component {
         const {tournById, currentUser} = this.props
         
         
-	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
+	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ? <i className="fas fa-user-circle" ></i> : <img alt="" src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
         let name = ''
         if(headline === EDIT_USER){
             name = user !== null ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null
@@ -564,8 +566,8 @@ class UserSummary extends Component {
     }
 
     render() {
-        console.log("EDIT PROPS",this.props)
-	    console.log("EDIT STATE",this.state)
+        // console.log("EDIT PROPS",this.props)
+	    // console.log("EDIT STATE",this.state)
 	    
         const { headline, user, tournament, group, event } = this.props
         return (
@@ -610,7 +612,7 @@ const mapDispatchToProps = dispatch => {
         getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
         tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         editThisUserRequest: (headline, userName, name, email, image, userType) => dispatch(editThisUserRequest(headline, userName, name, email, image, userType)),
-        editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate, eventResults) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate, eventResults)),
+        editThisEventRequest: (eventId, eventName, eventN, tournN, eventDate, eventResults, tournamentId) => dispatch(editThisEventRequest(eventId, eventName, eventN, tournN, eventDate, eventResults, tournamentId)),
         editThisTournamentRequest: (tournamentId, eventType, groupId, tournamentName, startDate, endDate, numberOfEvents) => dispatch(editThisTournamentRequest(tournamentId, eventType, groupId, tournamentName, startDate, endDate, numberOfEvents)),
     }
 }

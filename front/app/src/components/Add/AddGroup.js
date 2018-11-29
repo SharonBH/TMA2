@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {editThisGroupAction, errorMessageAction, successMessageAction} from "../../actions";
+import { errorMessageAction, successMessageAction} from "../../actions";
 import connect from "react-redux/es/connect/connect";
 import {ADD_NEW_GROUP, EDIT_GROUP} from "../../configuration/config";
 import classes from "../Register/RegisterComp.scss";
@@ -143,10 +143,20 @@ class AddGroup extends Component {
 							}
 							{this.editBtnFunc()}
 						</div>
-					:   <InputComp autoFocus={true} inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
+					:   <InputComp autoFocus={true} inputType="text" name="groupName"  placeholder="Group Name" onChange={this.onGroupNameChange}/>
 				}
 					<div className={classes.searchUsersWrapper}>
 						<InputComp inputType="text" autoFocus={true} onBlur={this.CleaningInputFromUsers} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add Users" onChange={this.onSearchUsersChange}/>
+						
+						<div className={classes.usersWrapper} >
+							{this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null}
+							{this.state.searchUsersResult.map((user, index) => (
+								<span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+                                    {user.username}
+									<i className="far fa-plus-square"></i>
+                                </span>
+							))}
+						</div>
 						<div className={classes.usersAddedWrapper}>
 							{this.state.addSearchUsersResult.length > 0 || this.state.addSearchUsersResult !== undefined
 								?   this.state.addSearchUsersResult.map((user, index) => {
@@ -156,15 +166,6 @@ class AddGroup extends Component {
                                         </span>
 								})
 								:   null}
-						</div>
-						<div className={classes.usersWrapper} >
-							{this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null}
-							{this.state.searchUsersResult.map((user, index) => (
-								<span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
-                                    {user.username}
-									<i className="far fa-plus-square"></i>
-                                </span>
-							))}
 						</div>
 					</div>
 				<div className={classes.saveButton}>
@@ -217,8 +218,8 @@ class AddGroup extends Component {
 	
 	
 	render(){
-		console.log('add group',this.props)
-		console.log('add group state',this.state)
+		// console.log('add group',this.props)
+		// console.log('add group state',this.state)
 		return(
 			this.addNewGroupPage()
 		)

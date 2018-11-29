@@ -10,7 +10,7 @@ import SelectComp from "../UI/SelectComp/SelectComp";
 import {DatePicker, MuiPickersUtilsProvider} from "material-ui-pickers";
 import MomentUtils from "material-ui-pickers/utils/moment-utils";
 import BtnComp from "../UI/BtnComp/BtnComp";
-import {ADD_TOURNAMENT} from "../../configuration/config";
+// import {ADD_TOURNAMENT} from "../../configuration/config";
 import React from "react";
 
 
@@ -177,8 +177,8 @@ export class AddTournament extends Component{
 		)
 	};
 	render(){
-		console.log('tourny', this.props)
-		console.log('tourny state', this.state)
+		// console.log('tourny', this.props)
+		// console.log('tourny state', this.state)
 		return this.tournamentPage()
 	}
 }

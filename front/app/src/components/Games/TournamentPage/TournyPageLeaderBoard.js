@@ -1,12 +1,12 @@
 import classes from "./TournamentPage.scss";
-import moment from "moment";
-import EditBtn from "../../UI/BtnComp/EditBtn";
-import DeleteBtn from "../../UI/BtnComp/DeleteBtn";
+// import moment from "moment";
+// import EditBtn from "../../UI/BtnComp/EditBtn";
+// import DeleteBtn from "../../UI/BtnComp/DeleteBtn";
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {tournEventsByIdRequest} from "../../../actions/GamesApi";
+// import {tournEventsByIdRequest} from "../../../actions/GamesApi";
 import SmallSpinner from "../../UI/SmallSpinner/SmallSpinner";
-import Promise from "bluebird";
+// import Promise from "bluebird";
 
 
 
@@ -17,16 +17,13 @@ export class TournyPageLeaderBoard extends Component {
 			leaderBoardData: []
 		}
 	}
-	componentDidMount = () => {
-		this.setStateAsync = Promise.promisify(this.setState);
-		
-		setTimeout(()=>{
-			this.setStateAsync({
-				leaderBoardData: this.props.leaderBoardData
-			})
+	componentWillReceiveProps(nextProps) {
+		const { leaderBoardData } = nextProps;
+		if (this.props.leaderBoardData !== leaderBoardData) {
 			
-		}, 3500)
-
+			this.setState({leaderBoardData: leaderBoardData});
+		}
+		
 	}
 	componentWillUnmount(){
 		this.setState({leaderBoardData: []})
@@ -43,6 +40,7 @@ export class TournyPageLeaderBoard extends Component {
 		return(
 			<div>
 				<h3>Leader Board of tournament</h3>
+				<div className={classes.wrapList}>
 				<div className={classes.usersHead}>
 					<h4 className={classes.leaderBoardTD}>User Name</h4>
 					<h4 className={classes.leaderBoardTD}>Points</h4>
@@ -52,8 +50,7 @@ export class TournyPageLeaderBoard extends Component {
 						sortedBoard.length !== 0
 							? <ol>
 								{sortedBoard !== null ? sortedBoard.map((item, index) => {
-									console.log(item.user)
-									const profileImage = item.user.avatar === undefined || item.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${item.user.avatar}`} />
+									const profileImage = item.user.avatar === undefined || item.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img alt='' src={`data:image/jpeg;base64,`+`${item.user.avatar}`} />
 									return sortedBoard !== undefined && sortedBoard[0].user !== 'No Data'
 										? <li key={index}>
 											<div className={classes.leaderBoardTD}><span className={classes.nameLine}><span className={classes.profileImage}>{profileImage}</span><span>{item.user.username}</span></span></div>
@@ -69,12 +66,13 @@ export class TournyPageLeaderBoard extends Component {
 								<SmallSpinner/>
 							</ul>
 					}
+				</div>
 			</div>
 		)
 	}
 	render(){
-		console.log('eventsLEADERBOARD list', this.props)
-		console.log('eventsLEADERBOARD STATE list', this.state)
+		// console.log('eventsLEADERBOARD list', this.props)
+		// console.log('eventsLEADERBOARD STATE list', this.state)
 		return	this.leaderBoardTable()
 	}
 }

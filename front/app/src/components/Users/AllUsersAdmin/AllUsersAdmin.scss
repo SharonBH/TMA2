@@ -3,6 +3,10 @@
 .usersWrapper {
     text-align: left;
     padding: 0px 10px 0;
+    ul.noresults {
+        text-align: center;
+        margin-top: 150px;
+    }
     .usersListHead{
         display: flex;
         justify-content: space-between;
@@ -269,7 +273,7 @@
         transform: translateY(0%);
         transition-timing-function: ease-in;
         transition: 0.6s;
-        
+
         & > span {
 
             padding: 22px 40px;
