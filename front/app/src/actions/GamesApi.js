@@ -22,7 +22,8 @@ import {
     takeMyEvents,
     takeMyHomeLeader,
 	CreateTournamentPresetsAction,
-	editThisGroupAction
+	editThisGroupAction,
+	addNewItemAction
 } from './index';
 
 
@@ -637,8 +638,7 @@ export const mainPageGetAllGroupsRequest = () => {
 };
 
 // add New Group Request
-export const addNewGroupRequest = (groupName, usersIds) => {
-	
+export const addNewGroupRequest = (groupName, usersIds, userId) => {
 	return (dispatch) => {
 		dispatch(toggleLoaderAction(true))
 		return axios({
@@ -656,13 +656,26 @@ export const addNewGroupRequest = (groupName, usersIds) => {
 						.then((response) => {
 							const groups = response.data
 							dispatch(getAllGroups(groups));
+							return axios({
+								method: 'POST',
+								url: cors + url + 'Groups/GetUserGroups',
+								headers: {'Content-Type': 'application/json; charset=UTF-8'},
+								data: "'" + userId + "'"
+							})
+								.then((response) => {
+									// dispatch(addNewGroupAction(false))
+									const groupsData = response.data
+									dispatch(takeMyGroups(groupsData))
+									
+									dispatch(addNewItemAction(false))
+									dispatch(successMessageAction('Group Added Successfuly'))
+									// setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
+									dispatch(toggleLoaderAction(false))
+								})
 							// history.push({pathname: '/all_groups'})
 							// window.location.reload()
 							
-							dispatch(addNewGroupAction(false))
-							dispatch(successMessageAction('Group Added Successfuly'))
-							setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
-							dispatch(toggleLoaderAction(false))
+							
 						})
 						.catch((error) => {
 							dispatch(catchErrorAction([error][0]))
@@ -684,7 +697,7 @@ export const addNewGroupRequest = (groupName, usersIds) => {
 };
 
 // delete group
-export const DeleteGroupRequest = (groupId) => {
+export const DeleteGroupRequest = (groupId, userId) => {
 	return (dispatch) => {
 		dispatch(toggleLoaderAction(true))
 		return axios({
@@ -696,16 +709,28 @@ export const DeleteGroupRequest = (groupId) => {
 			.then((response) => {
 				if(response.data.response === 'Success') {
 					const data = response.data.message
-					dispatch(successMessageAction(data))
+					// dispatch(successMessageAction(data))
 					return axios.post(cors + url + `Groups/GetGroups`)
 						.then((response) => {
 							const groups = response.data
 							dispatch(getAllGroups(groups));
+							return axios({
+								method: 'POST',
+								url: cors + url + 'Groups/GetUserGroups',
+								headers: {'Content-Type': 'application/json; charset=UTF-8'},
+								data: "'" + userId + "'"
+							})
+								.then((response) => {
+									const groupsData = response.data
+									dispatch(takeMyGroups(groupsData))
+									// setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
+									dispatch(successMessageAction('Group removed Successfuly'))
+									dispatch(toggleLoaderAction(false))
+								})
 							// history.push({pathname: '/all_groups'})
 							// window.location.reload()
-							dispatch(successMessageAction('Groups removed Successfuly'))
-							setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
-							dispatch(toggleLoaderAction(false))
+							
+							
 						})
 						.catch((error) => {
 							dispatch(catchErrorAction([error][0]))
@@ -727,7 +752,7 @@ export const DeleteGroupRequest = (groupId) => {
 };
 
 // edit group
-export const editGroupRequest = (groupId, groupName, userIds) => {
+export const editGroupRequest = (groupId, groupName, userIds, userId) => {
 	return (dispatch) => {
 		dispatch(toggleLoaderAction(true))
 		return axios({
@@ -745,15 +770,25 @@ export const editGroupRequest = (groupId, groupName, userIds) => {
 					return axios.post(cors + url + `Groups/GetGroups`)
 						.then((response) => {
 							const groups = response.data
-							
-							// history.push({pathname: '/all_groups'})
-							// window.location.reload()
-							dispatch(editThisGroupAction(false));
 							dispatch(getAllGroups(groups));
-							dispatch(successMessageAction('Groups Was Edited Successfully'))
 							
-							setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
-							dispatch(toggleLoaderAction(false))
+							return axios({
+								method: 'POST',
+								url: cors + url + 'Groups/GetUserGroups',
+								headers: {'Content-Type': 'application/json; charset=UTF-8'},
+								data: "'" + userId + "'"
+							})
+								.then((response) => {
+									const groupsData = response.data
+									console.log('11111', groupsData)
+									dispatch(editThisGroupAction(false));
+									dispatch(takeMyGroups(groupsData))
+									// setTimeout(() => { if(response.statusText === 'OK'){ window.location.reload()}}, 1000)
+									dispatch(successMessageAction('Groups Was Edited Successfully'))
+									dispatch(toggleLoaderAction(false))
+								})
+		
+							
 						})
 						.catch((error) => {
 							dispatch(errorMessageAction([error][0]))

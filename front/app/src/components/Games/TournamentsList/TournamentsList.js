@@ -349,7 +349,7 @@ export class TournamentsList extends Component {
                         </div>
                     </div>
                 </div>
-                {this.props.allTournsList.length !== 0
+                {this.state.allTournaments.length !== 0 || this.state.myTournaments.length !== 0
                 // ? <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
 	                ? <ul className={classes.uesrsList}>{this.pathChanger()}</ul>
 	            : <ul className={classes.uesrsListSpinner}><SmallSpinner/></ul>

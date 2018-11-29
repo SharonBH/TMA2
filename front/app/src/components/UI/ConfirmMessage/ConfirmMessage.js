@@ -39,8 +39,9 @@ class ConfirmMessage extends Component {
         this.props.deleteConfirmMessageAction(false)
     }
 
-    approve = (headline, user ) => {
-        const { item, deleteEvent } = this.props
+    approve = (headline, user) => {
+        const { item, deleteEvent, userID } = this.props
+	    console.log('CONFIRM1555551',  this.props)
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
         const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
         switch(headline) {
@@ -60,7 +61,7 @@ class ConfirmMessage extends Component {
                 history.push({pathname: '/'})
                 break
             case DELETE_GROUP:
-                this.props.DeleteGroupRequest(item.groupId)
+                this.props.DeleteGroupRequest(item.groupId, userID)
                 break
             default: 
         }
@@ -128,7 +129,7 @@ const mapDispatchToProps = dispatch => {
         DeleteTournamentRequest: payload => dispatch(DeleteTournamentRequest(payload)),
         DeleteEventRequest: payload => dispatch(DeleteEventRequest(payload)),
         getUserAction: payload => dispatch(getUserAction(payload)),
-        DeleteGroupRequest: payload => dispatch(DeleteGroupRequest(payload)),
+        DeleteGroupRequest: (group, id) => dispatch(DeleteGroupRequest(group, id)),
     }
 }
 
