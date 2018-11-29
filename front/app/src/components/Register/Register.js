@@ -21,7 +21,7 @@ class Register extends Component {
     }
     
     componentWillMount() {
-        const { headline, group } = this.props;
+        const { headline } = this.props;
         if(headline === ADD_TOURNAMENT) {
             // this.props.appCallTakeAllEvents()
         }
@@ -67,7 +67,7 @@ class Register extends Component {
 	
 
     outputToRender = () => {
-	    const { headline, classStr, group } = this.props;
+	    const { headline, group } = this.props;
     
         return <div className={classes.Register}>
                 <h1>{headline}</h1>

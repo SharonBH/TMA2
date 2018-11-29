@@ -82,7 +82,6 @@ export class HomeEvents extends Component {
 	    const sortedBoard = mapedBoard.sort((a, b) => {
             return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
         })
-		console.log('sortedBoard', sortedBoard)
         return (
             <div className={classes.leaderTop}>
                 <p>{pastTournament.tournamentName}</p>
@@ -92,7 +91,6 @@ export class HomeEvents extends Component {
                     <b>Total Scores</b>
                 </div>
                 <ul>{sortedBoard.map((user, i) => {
-	                console.log('user', user)
 	                const profileImage = user.user.avatar === undefined || user.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.avatar}`} />
                         return <li key={i}>
 	                        <div>
@@ -167,12 +165,10 @@ export class HomeEvents extends Component {
     }
 
     render() {
-    	console.log('home page____', this.props)
+    	// console.log('home page____', this.props)
 	    const {past, next} =  this.props.allMyHomeData
 	    const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (past.pastEvent === null ? null : past.pastEvent.tournamentName)}): null
 	    const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
-	    console.log('home page_1___', pastTournament, nextTournament)
-	    console.log('home page_2___', past, next)
         return (
             <div className={classes.EventsPage}>
                 <div>

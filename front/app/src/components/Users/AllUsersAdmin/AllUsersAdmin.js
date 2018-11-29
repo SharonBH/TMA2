@@ -14,6 +14,7 @@ import ConfirmMessage from '../../UI/ConfirmMessage';
 import { ADD_USER, EDIT, DELETE_USER } from '../../../configuration/config'
 import { getAllGroupsRequest } from "../../../actions/GamesApi";
 import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction }  from '../../../actions';
+import SmallSpinner from "../../UI/SmallSpinner";
 export class AllUsersAdmin extends Component {
 
     static propTypes = {
@@ -173,8 +174,8 @@ export class AllUsersAdmin extends Component {
     render (){
         
 	    
-        console.log('user list ', this.props)
-	    console.log('user list state', this.state)
+        // console.log('user list ', this.props)
+	    // console.log('user list state', this.state)
         return (
             <div className={classes.usersWrapper}>
                 <div className={classes.usersListHead}>
@@ -193,8 +194,10 @@ export class AllUsersAdmin extends Component {
                     <div className={classes.role} i-attribute="none" id={'role'} onClick={(item) => this.Sort(item)}>Role</div>
                     <div className={classes.addBtn}></div>
                     
-                </div> 
-                <ul className={classes.uesrsList}>{this.ulserList()}</ul>
+                </div>
+	            {this.state.sortList.length !== 0
+                ? <ul className={classes.uesrsList}>{this.ulserList()}</ul>
+	            : <ul className={classes.noresults}><SmallSpinner/></ul>}
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_USER} user={this.state.userForDelete}/> : null}

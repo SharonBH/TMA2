@@ -197,7 +197,7 @@ export class Groups extends Component {
 	                <div className={classes.tooltip}>
                         <BtnComp onClick={() => this.togglePopup(group.groupId)} inputType={'button'} content='Copy Link'/>
 	                    <span className={classes.hide}>
-                            <InputComp id={`copyLink-${group.groupId}`} name={'copyLink'} onChange={this.copyFunc()} inputType={'text'} content={`https://tma-front.azurewebsites.net/register?groupId=${group.groupId}`}/>
+                            <InputComp id={`copyLink-${group.groupId}`} name={'copyLink'} readOnly onChange={this.copyFunc()} inputType={'text'} content={`https://tma-front.azurewebsites.net/register?groupId=${group.groupId}`}/>
                         </span>
 		                <span className={classes.tooltiptext} id={`myTooltip-${group.groupId}`}>Click to copy</span>
                     </div>
@@ -219,8 +219,8 @@ export class Groups extends Component {
     }
 
     render() {
-        console.log('groups props', this.props)
-	    console.log('groups state', this.state)
+        // console.log('groups props', this.props)
+	    // console.log('groups state', this.state)
 	    const userID = this.props.currentUser.userId;
 	    const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
         return (

@@ -255,6 +255,7 @@ export const takeGroupIdPopAction = (boll) => {
 }
 
 export const deleteEventAction = (boll) => {
+    console.log(boll)
 	return {
 		type: 'DELETE_EVENT_ACTION',
 		payload: boll

@@ -245,7 +245,6 @@ export class TournamentsList extends Component {
     tournamentList = () => {
 
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.state.allTournaments : this.state.myTournaments
-	    console.log('tournaments', tournaments)
 	    const path = this.props.match.url
 	    const now = new Date();
      
@@ -292,7 +291,7 @@ export class TournamentsList extends Component {
         return num
 	}
     render (){
-	    const { toggleSort, sortItem } = this.state
+	    // const { toggleSort, sortItem } = this.state
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
 	    const fifaNum = this.countOfOject(tournaments, 'FIFA')
         const pokerNum = this.countOfOject(tournaments, 'Poker')

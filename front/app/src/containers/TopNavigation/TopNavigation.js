@@ -33,9 +33,9 @@ class TopNavigation extends Component {
     }
 
     render() {
-        console.log('this.props', this.props)
+        // console.log('this.props', this.props)
         const { currentUser } = this.props
-	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
+	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ? <i className="fas fa-user-circle"></i> : <img alt='' src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
         
         return (
             <div className={this.state.navState ? classes.TopNavClosed : classes.TopNav} >

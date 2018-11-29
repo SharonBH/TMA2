@@ -106,7 +106,7 @@
             display: block;
             width: 49%;
             border: 1px solid #a9a9a9;
-            padding: 0 1%;
+            padding: 0 0%;
             margin: 0 1%;
             box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
             background-color: var(--white);
@@ -132,7 +132,7 @@
                 margin-bottom: 35px;
             }
             &>div{
-                
+                padding: 0 15px;
                 .eventData{
                     padding: 5px 0;
                     // border-bottom: 1px solid #a9a9a9;

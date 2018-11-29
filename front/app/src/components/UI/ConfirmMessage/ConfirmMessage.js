@@ -40,10 +40,10 @@ class ConfirmMessage extends Component {
     }
 
     approve = (headline, user) => {
-        const { item, deleteEvent, userID } = this.props
-	    console.log('CONFIRM1555551',  this.props)
+        const { item, deleteEvent, userID, tournById, currentTournamentId } = this.props
+        const tournId = tournById.tournamentId
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
-        const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
+        // const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
         switch(headline) {
             case DELETE_USER:
                 this.props.DeleteUserRequest(user.username)
@@ -52,7 +52,7 @@ class ConfirmMessage extends Component {
                 this.props.DeleteTournamentRequest(itemForDel.tournamentId)
                 break
             case DELETE_EVENT:
-                this.props.DeleteEventRequest(deleteEvent)
+                this.props.DeleteEventRequest(deleteEvent, tournId)
                 break
             case SING_OUT:
                 this.props.getUserAction(null)
@@ -61,7 +61,7 @@ class ConfirmMessage extends Component {
                 history.push({pathname: '/'})
                 break
             case DELETE_GROUP:
-                this.props.DeleteGroupRequest(item.groupId, userID)
+                this.props.DeleteGroupRequest(item.groupId, userID, currentTournamentId)
                 break
             default: 
         }
@@ -69,8 +69,7 @@ class ConfirmMessage extends Component {
     }
 
     popUpContent = () => {
-        const { headline, user, item, deleteEvent, event } = this.props
-	    console.log('CONFIRM11',  this.props)
+        const { headline, user, item, deleteEvent } = this.props
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
 
         const eventForDel = headline === DELETE_EVENT && (this.props.tournById !== null || this.props.tournById.length !== 0) ? this.props.tournById.events.find(id => { return id.eventId === deleteEvent}) : null
@@ -127,9 +126,9 @@ const mapDispatchToProps = dispatch => {
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
         DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
         DeleteTournamentRequest: payload => dispatch(DeleteTournamentRequest(payload)),
-        DeleteEventRequest: payload => dispatch(DeleteEventRequest(payload)),
+        DeleteEventRequest: (eventId, tournamentId) => dispatch(DeleteEventRequest(eventId, tournamentId)),
         getUserAction: payload => dispatch(getUserAction(payload)),
-        DeleteGroupRequest: (group, id) => dispatch(DeleteGroupRequest(group, id)),
+        DeleteGroupRequest: (group, id, currentTournamentId) => dispatch(DeleteGroupRequest(group, id, currentTournamentId)),
     }
 }
 

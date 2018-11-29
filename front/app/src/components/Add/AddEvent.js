@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 import BtnComp from "../UI/BtnComp/BtnComp";
 import React, {Component} from "react";
 import connect from "react-redux/es/connect/connect";
-import { ADD_EVENT } from '../../configuration/config.js'
+// import { ADD_EVENT } from '../../configuration/config.js'
 import {addNewEventRequest, tournEventsByIdRequest} from "../../actions/GamesApi";
 import {errorMessageAction, successMessageAction} from "../../actions";
 
@@ -36,11 +36,11 @@ export class AddEvent extends Component{
 	};
 	
 	removeSelectedUser = (index) => {
-		let removeAddUser = [...this.state.addSearchUsersResult];
+		// let removeAddUser = [...this.state.addSearchUsersResult];
 		const fill = this.state.addSearchUsersResult.filter(item => item.userId !== index);
 		this.setState({addSearchUsersResult: fill});
 		
-		if(this.props.tournById.eventTypeId == 1)  {
+		if(this.props.tournById.eventTypeId === 1)  {
 			const splited = this.state.EventName.split(' Vs. ');
 			let removeNameFromArr = [ ...splited ];
 			removeNameFromArr.splice(index, 1);
@@ -72,7 +72,7 @@ export class AddEvent extends Component{
 			return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
 		});
 		this.setState({addSearchUsersResult: namesArray});
-		if(this.props.tournById.eventTypeId == 1) {
+		if(this.props.tournById.eventTypeId === 1) {
 			if (this.onEventNameChange) {
 				const name = namesArray !== ''
 					? namesArray.map((user) => {
@@ -184,7 +184,7 @@ export class AddEvent extends Component{
 	};
 	
 	render() {
-		console.log('_____________',this.props)
+		// console.log('_____________',this.props)
 		return this.eventPage()
 	}
 }

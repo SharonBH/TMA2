@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classes from './Groups.scss';
 import { connect } from 'react-redux';
 import { takeGroupIdPopAction }  from '../../../actions';
@@ -6,7 +6,6 @@ import { takeGroupIdPopAction }  from '../../../actions';
 class LinkPopup extends React.Component {
 
     closeMessage = (item) => {
-        console.log('2342342')
         this.props.takeGroupIdPopAction(false)
     }
     render() {

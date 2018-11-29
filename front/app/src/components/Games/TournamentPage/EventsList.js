@@ -13,7 +13,7 @@ import {
 	deleteEventAction
 } from "../../../actions";
 import SmallSpinner from '../../UI/SmallSpinner'
-import Promise from "bluebird";
+// import Promise from "bluebird";
 
 
 export class EventsList extends Component {
@@ -23,26 +23,34 @@ export class EventsList extends Component {
 			tournEventsByIdNoS: [],
 			eventInEditMode: null,
 			eventForDelete: null,
+			eventsListState: []
 		}
 	}
 	componentWillMount(){
-		const { currentTournamentId, currentTournamentName } = this.props
+		const { currentTournamentId } = this.props
 		
 		if( currentTournamentId !== undefined ){
 			this.props.tournEventsByIdRequest(currentTournamentId)
+		}
+	}
+	
+	componentWillReceiveProps(nextProps) {
+		const { tournEventsByIdNoS } = nextProps;
+		if (this.props.tournEventsByIdNoS !== tournEventsByIdNoS) {
 			
+			this.setState({tournEventsByIdNoS: tournEventsByIdNoS});
 		}
 		
 	}
 	componentDidMount = () => {
-		this.setStateAsync = Promise.promisify(this.setState);
-		
-		setTimeout(()=>{
-			this.setStateAsync({
-				tournEventsByIdNoS: this.props.tournEventsByIdNoS
-			})
-			
-		}, 3000)
+		// this.setStateAsync = Promise.promisify(this.setState);
+		//
+		// setTimeout(()=>{
+		// 	this.setStateAsync({
+		// 		tournEventsByIdNoS: this.props.tournEventsByIdNoS
+		// 	})
+		//
+		// }, 3000)
 		
 	}
 	componentWillUnmount(){
@@ -51,13 +59,15 @@ export class EventsList extends Component {
 	}
 
 
-	DeleteEventBtn = (item) => {
+	DeleteEventBtn = (item, currentTournamentId) => {
+		// const TId = parseInt(currentTournamentId)
 	    this.setState({eventForDelete: item})
 	    this.setState({eventInEditMode: null})
 		this.props.deleteEventAction(item)
 	    this.props.deleteConfirmMessageAction(true)
 
 	}
+	
 	editEventBtn = (item, match) => {
 	    this.props.sendEventDataAction(item)
 	    this.props.sendEvetnMatchAction(match)
@@ -70,10 +80,15 @@ export class EventsList extends Component {
 	eventsTable = () => {
 		const { currentTournamentId, tournEventsByIdNoS } = this.props
 		const nomEvents = tournEventsByIdNoS.length
-		console.log('nomEvents', nomEvents)
+		// const item = (this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS.map((item) => { return item }) : null
+		const item = (this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS : null
+		const x = item.some((o) => {return o["eventName"] === "No Data"})
 		return (
 				<div>
-					<h3>All events of tournament<span className={classes.eventsCount}>{nomEvents}</span></h3>
+					<h3>All events of tournament
+						{x ? <span className={classes.eventsCount}>0</span> : <span className={classes.eventsCount}>{nomEvents}</span>}
+					</h3>
+					<div className={classes.wrapList}>
 					<div className={classes.usersHead}>
 						<h4 className={classes.eventName}>Event Name</h4>
 						<h4 className={classes.eventDate}>Event Date</h4>
@@ -90,14 +105,14 @@ export class EventsList extends Component {
 										<div
 											className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY, HH:mm A')}</div>
 										<div className={classes.usersInGame}>
-											<span className={classes.showUsers}>Hover to show</span>
+											{/*<span className={classes.showUsers}>Hover to show</span>*/}
 											<ul className={classes.hiddenUsers}>
 												{item.eventUsers !== undefined ? item.eventUsers.map((user, index) => {
 													const fill = item.eventResults.find(result => {
 														return result.userId === user.userId
 													})
 													return <li key={index}>
-														<span>{user.name}</span>
+														{/*<span>{user.name}</span>*/}
 														<span>{fill.result === null ? 'none' : fill.result}</span>
 													</li>
 												}) : null}
@@ -121,14 +136,16 @@ export class EventsList extends Component {
 							{/*<p>No events</p>*/}
 						</ul>
 					}
+					</div>
 				</div>
+				
 				
 		)
 	};
 	render(){
 		
-		console.log('events list', this.props)
-		console.log('events list state', this.state)
+		// console.log('events list', this.props)
+		// console.log('events list state', this.state)
 		return	this.eventsTable()
 	}
 }
