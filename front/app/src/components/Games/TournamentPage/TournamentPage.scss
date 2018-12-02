@@ -526,10 +526,22 @@
             display: block;
             .eventsTable, .usersTable{
                 width: 100%;
-               
+                .usersHead{
+                    h4{
+                        text-align: center;
+                        margin: 0 0 10px 0;
+                        width: 33%;
+                    }
+                    .turnPageEventsBTN{
+                        display: none;
+                    }
+                }
+
                 ul, ol{
                     height: auto;
                     overflow: visible;
+                    padding: 0;
+
                     li{
                         display: block;
                         position: relative;
@@ -538,12 +550,24 @@
                         &>div{
                             margin: 0;
                             width: 100%;
+
+                        }
+                        .leaderBoardTD{
+                            text-align: center;
+                        }
+                        .usersInGame{
+                            position: absolute;
+                            top: 0px;
+                            right: 6px;
+                            width: auto;
+
                         }
                         .turnPageEventsBTN{
                             position: absolute;
                             bottom: 3px;
                             right: 0;
-                            width: auto;
+                            width: 50px;
+                            min-width: 56px;
                         }
                     }
                 }

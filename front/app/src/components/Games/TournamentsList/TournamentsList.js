@@ -261,7 +261,7 @@ export class TournamentsList extends Component {
                         {/*{ this.pathChanger(item) }*/}
                         <span>{item.tournamentName}</span>
                     </div>
-                    <div className={classes.email}><span>{moment(item.startDate).format('Do MMM YYYY')}</span></div>
+                    <div className={classes.email +' '+ classes.hide870}><span>{moment(item.startDate).format('Do MMM YYYY')}</span></div>
                     <div className={classes.email}><span>{moment(item.endDate).format('Do MMM YYYY')}</span></div>
                     <div className={classes.role +' '+ classes.hide}><span>{item.eventsCount}</span></div>
                     <div className={classes.role +' '+ classes.hide}><span>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</span></div>
@@ -293,8 +293,8 @@ export class TournamentsList extends Component {
         return num
 	}
     render (){
-		console.log('tList', this.props)
-	    console.log('tList state', this.state)
+		// console.log('tList', this.props)
+	    // console.log('tList state', this.state)
 	    // const { toggleSort, sortItem } = this.state
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
 	    const fifaNum = this.countOfOject(tournaments, 'FIFA')
@@ -337,7 +337,7 @@ export class TournamentsList extends Component {
                     <div className={classes.usersHead}>
                         {/*<div className={classes.username} id={'tournamentName'} onClick={(item) => this.Sort(item)}>Tournament Name <i id={'q'+this.parentNode} className={this.state.arrow}></i></div>*/}
 	                    <div className={classes.username} i-attribute="down" id={'tournamentName'} onClick={(item) => this.Sort(item)} > Tournament Name </div>
-                        <div className={classes.email} i-attribute="none" id={'startDate'} onClick={(item) => this.Sort(item)}>Start Date </div>
+                        <div className={classes.email +' '+ classes.hide870} i-attribute="none" id={'startDate'} onClick={(item) => this.Sort(item)}>Start Date </div>
                         <div className={classes.email} i-attribute="none" id={'endDate'} onClick={(item) => this.Sort(item)}>End Date </div>
                         <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'eventsCount'} onClick={(item) => this.Sort(item)}>Num of Events </div>
                         <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'numberOfEvents'} onClick={(item) => this.Sort(item)}>Max Events</div>

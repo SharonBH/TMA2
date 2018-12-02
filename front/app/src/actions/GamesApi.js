@@ -24,7 +24,8 @@ import {
 	CreateTournamentPresetsAction,
 	editThisGroupAction,
 	addNewItemAction,
-	editThisEventAction
+	editThisEventAction,
+	editThisItemAction
 } from './index';
 
 
@@ -507,6 +508,7 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tou
 							dispatch(successMessageAction('Tournament Edited Successfuly'))
 							const tournaments = response.data
 							dispatch(getAllToursAction(tournaments));
+							dispatch(editThisItemAction(false))
 							// history.push({pathname: '/:tournamentName'})
 							dispatch(toggleLoaderAction(false))
 						})

@@ -45,3 +45,9 @@ a{
 a:hover{
   font-weight: 600;
 }
+
+@media only screen and (max-width: 870px) {
+  h1{
+    font-size: 22px;
+  }
+}

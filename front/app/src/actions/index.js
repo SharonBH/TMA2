@@ -61,6 +61,12 @@ export const closeNav = (action) => {
         payload: action
     }
 }
+export const closeRespNav = (action) => {
+	return {
+		type: 'CLOSE_RESP_NAV',
+		payload: action
+	}
+}
 
 //CONFIRM MESSAGES
 

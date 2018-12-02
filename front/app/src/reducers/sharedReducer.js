@@ -4,6 +4,7 @@ const InitialState = {
     toggleSpinner: false,
     catchErrorNum: 404,
     navAction: true,
+	navRespAction: false,
 	presetReques: null
 }
 
@@ -40,6 +41,12 @@ const sharedReducer = (state = InitialState, action) => {
                 ...state,
                 navAction: navaction
             }
+	    case 'CLOSE_RESP_NAV':
+		    const navRespaction = action.payload
+		    return {
+			    ...state,
+			    navRespAction: navRespaction
+		    }
 	    case 'CREATE_PRESET':
 		    const presetaction = action.payload
 		    return {

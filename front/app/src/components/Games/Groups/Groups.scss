@@ -400,6 +400,7 @@ div.EditBtn {
 
 
 @media only screen and (max-width: 870px) {
+
     .groupsTable{
         position: relative;
         font-size: 14px;
@@ -408,6 +409,18 @@ div.EditBtn {
         }
         .Head{
             padding-right: 22%;
+            span{
+                div{
+                    width: 100%;
+                    &:first-child{
+                        display: none;
+                    }
+
+                }
+                .users{
+                    display: none;
+                }
+            }
             .addBtn{
                 div{
                     width: auto;
@@ -417,10 +430,29 @@ div.EditBtn {
                 top: -2px;
                 justify-content: flex-end;
             }
+
         }
         .groupsList{
             .allUsButtons{
-                width: 13%;
+                width: auto !important;
+                .tooltiptext{
+                    top: -2px;
+                }
+            }
+            li{
+                a{
+                    width: 62%;
+                    .createdDate{
+                        display: none;
+                    }
+                    div.groupName{
+                        width: 100% !important;
+                        margin: 0;
+                    }
+                }
+                .groupSelect{
+                    display: none;
+                }
             }
         }
     }

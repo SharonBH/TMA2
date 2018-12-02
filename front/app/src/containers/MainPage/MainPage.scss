@@ -6,12 +6,7 @@
     // max-height: 94vh;
     margin-top: 40px;
 }
-@media only screen and (max-width: 870px) {
-    .MainPage{
-        padding-left: 12%;
-        max-width: 97.6%;
-    }
-}
+
 
 .EventsPage{
     text-align: left;
@@ -205,4 +200,17 @@
         }
     }
     
+}
+@media only screen and (max-width: 1000px) {
+    .MainPage{
+        padding-left: 0%;
+        max-width: 100%;
+        .eventsTBLS {
+            display: block !important;
+            .eventsTable {
+                width: 100% !important;
+                margin: 0 0 10px 0 !important;
+            }
+        }
+    }
 }
