@@ -240,7 +240,7 @@ namespace TMA.DAL
                     using (var ms = new MemoryStream(avatar))
                     {
                         var avatarImage = Image.FromStream(ms);
-                        scopedImage = ScaleImage(avatarImage, 50, 50);
+                        scopedImage = ScaleImage(avatarImage, 250, 250);
                     }
                     using (var ms = new MemoryStream())
                     {
