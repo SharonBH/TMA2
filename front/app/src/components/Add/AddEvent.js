@@ -36,7 +36,7 @@ export class AddEvent extends Component{
 	};
 	
 	removeSelectedUser = (index) => {
-		// let removeAddUser = [...this.state.addSearchUsersResult];
+		let removeAddUser = [...this.state.addSearchUsersResult];
 		const fill = this.state.addSearchUsersResult.filter(item => item.userId !== index);
 		this.setState({addSearchUsersResult: fill});
 		
@@ -85,27 +85,27 @@ export class AddEvent extends Component{
 		}
 
 	};
-	eventUsersPlaying = () => {
-		const { selectedDate, addSearchUsersResult } = this.state;
-		const today = Date.parse(new Date());
-		const eventday = Date.parse(selectedDate);
-		if(addSearchUsersResult.length > 0) {
-			return addSearchUsersResult.map((user, index) => {
-				return <span className={classes.user +' '+classes.userResult} key={index}>
-					<span className={classes.eventNames}>{user.username}</span>
-					{today > eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, user)}/> : null}
-					<i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
-                </span>
-			})
-		} else {
-			return null
-		}
-	};
+	// eventUsersPlaying = () => {
+	// 	const { selectedDate, addSearchUsersResult } = this.state;
+	// 	const today = Date.parse(new Date());
+	// 	const eventday = Date.parse(selectedDate);
+	// 	if(addSearchUsersResult.length > 0) {
+	// 		return addSearchUsersResult.map((user, index) => {
+	// 			return <span className={classes.user +' '+classes.userResult} key={index}>
+	// 				<span className={classes.eventNames}>{user.username}</span>
+	// 				{today > eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, user)}/> : null}
+	// 				<i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
+    //             </span>
+	// 		})
+	// 	} else {
+	// 		return null
+	// 	}
+	// };
 	addNewEvent = (e) => {
 		e.preventDefault();
 		const {tournById, allEventTypesList} = this.props;
 		const { EventName, selectedDate, addSearchUsersResult } = this.state;
-		
+		const TournamentId = tournById.tournamentId;
 		const Tournament = tournById.tournamentName;
 		const usersWithResults = [];
 		addSearchUsersResult.map(user => {return usersWithResults.push({userId: user.userId, result: user.score})});
@@ -118,7 +118,7 @@ export class AddEvent extends Component{
 		} else if (allEventTypesList.eventTypeName === 'FIFA' && usersWithResults.length > 2 && usersWithResults.length < 2) {
 			this.props.errorMessageAction('in FIFA type must be two users for event')
 		}else {
-			 this.props.addNewEventRequest(EventName, Tournament,  moment(this.state.selectedDate).format('MM DD YYYY, hh:mm:ss '), usersWithResults)
+			 this.props.addNewEventRequest(EventName, Tournament,  moment(this.state.selectedDate).format('MM DD YYYY, hh:mm:ss '), usersWithResults, TournamentId)
 		}
 	};
 	getTournById=(tournIdToPage)=>{
@@ -184,7 +184,7 @@ export class AddEvent extends Component{
 	};
 	
 	render() {
-		// console.log('_____________',this.props)
+		console.log('_____________',this.props)
 		return this.eventPage()
 	}
 }
@@ -207,7 +207,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		errorMessageAction: payload => dispatch(errorMessageAction(payload)),
 		successMessageAction: (payload) => dispatch(successMessageAction(payload)),
-		addNewEventRequest: (EventName, Tournament, EventDate, usersWithResults) => dispatch(addNewEventRequest(EventName, Tournament, EventDate, usersWithResults)),
+		addNewEventRequest: (EventName, Tournament, EventDate, usersWithResults, TournamentId) => dispatch(addNewEventRequest(EventName, Tournament, EventDate, usersWithResults, TournamentId)),
 		tournEventsByIdRequest: (payload) => dispatch(tournEventsByIdRequest(payload)),
 	}
 };

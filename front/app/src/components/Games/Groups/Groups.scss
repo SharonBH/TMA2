@@ -37,7 +37,7 @@
     }
 
     .Head {
-        padding: 10px 15px;
+        padding: 17px 15px;
         display: flex;
         justify-content: space-between;
         width: 100%;
@@ -45,6 +45,7 @@
         background: #ecf8ff;
         color: #8e8e8e;
         font-weight: 600;
+        font-size: 14px;
         span{
             width: 52%;
             display: flex;
@@ -158,7 +159,7 @@
             }
         }
         li{
-            border-top: 1px solid #dcdcdc;
+            border: 1px solid #f0f2f7;
             padding: 9px 15px;
             display: flex;
             align-items: center;
@@ -166,11 +167,12 @@
             margin: 0;
             justify-content: space-between;
             height: 50px;
-            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
+            box-shadow: 0 0px 6px 0 rgba(0, 0, 0, 0.07);
             background-color: var(--white);
             color: #000;
             font-weight: 600;
             margin-top: 10px;
+            font-size: 14px;
             .groupSelect{
                 width: 25%;
             }
