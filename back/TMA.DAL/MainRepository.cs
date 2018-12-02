@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using TMA.DAL.Models;
 using TMA.DAL.Models.DB;
+using System.Drawing;
 
 namespace TMA.DAL
 {
@@ -234,10 +235,22 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var user = context.AspNetUsers.Include(x => x.UsersAvatar).FirstOrDefault(x => x.UserName == username);
-                    if(user.UsersAvatar == null)
+                    Image scopedImage = null;
+                    byte[] scopedImageBytes = null;
+                    using (var ms = new MemoryStream(avatar))
                     {
-                        user.UsersAvatar = new UsersAvatar { UserId = user.Id, Avatar = avatar };
+                        var avatarImage = Image.FromStream(ms);
+                        scopedImage = ScaleImage(avatarImage, 50, 50);
+                    }
+                    using (var ms = new MemoryStream())
+                    {
+                        scopedImage.Save(ms, scopedImage.RawFormat);
+                        scopedImageBytes = ms.ToArray();
+                    }
+                    var user = context.AspNetUsers.Include(x => x.UsersAvatar).FirstOrDefault(x => x.UserName == username);
+                    if (user.UsersAvatar == null)
+                    {
+                        user.UsersAvatar = new UsersAvatar { UserId = user.Id, Avatar = scopedImageBytes };
                     }
                     else
                     {
@@ -979,6 +992,22 @@ namespace TMA.DAL
             {
                 throw new Exception($"An error occuored on 'GetHomeEvents'.", ex);
             }
+        }
+        private static Image ScaleImage(Image image, int maxWidth, int maxHeight)
+        {
+            var ratioX = (double)maxWidth / image.Width;
+            var ratioY = (double)maxHeight / image.Height;
+            var ratio = Math.Min(ratioX, ratioY);
+
+            var newWidth = (int)(image.Width * ratio);
+            var newHeight = (int)(image.Height * ratio);
+
+            var newImage = new Bitmap(newWidth, newHeight);
+
+            using (var graphics = Graphics.FromImage(newImage))
+                graphics.DrawImage(image, 0, 0, newWidth, newHeight);
+
+            return newImage;
         }
     }
 }
