@@ -76,12 +76,12 @@ export class HomeEvents extends Component {
     
     pastEventTableOutput = () => {
         const {past} =  this.props.allMyHomeData
-        const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
-
-        const sortedBoard = past.pastLeaderboard !== null ? past.pastLeaderboard.sort((a, b) => {
+        const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (past.pastEvent === null ? null : past.pastEvent.tournamentName)}): null
+	
+	    const mapedBoard = past.pastLeaderboard !== undefined ? past.pastLeaderboard.map((item) => { return item }) : null;
+	    const sortedBoard = mapedBoard.sort((a, b) => {
             return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
-        }) : null;
-
+        })
         return (
             <div className={classes.leaderTop}>
                 <p>{pastTournament.tournamentName}</p>
@@ -91,7 +91,7 @@ export class HomeEvents extends Component {
                     <b>Total Scores</b>
                 </div>
                 <ul>{sortedBoard.map((user, i) => {
-	                const profileImage = user.user.usersAvatar === undefined || user.user.usersAvatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.usersAvatar}`} />
+	                const profileImage = user.user.avatar === undefined || user.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.avatar}`} />
                         return <li key={i}>
 	                        <div>
 		                        <p><span>
@@ -100,7 +100,7 @@ export class HomeEvents extends Component {
 				                        </span>}
 			                        </span>
 			                        <span>
-			                        {user.user.userName}</span></p>
+			                        {user.user.username}</span></p>
 	                            <p><span>{user.numberOfEvents}</span></p>
 	                            <p><span>{user.totalScores}</span></p>
                             </div>
@@ -112,8 +112,8 @@ export class HomeEvents extends Component {
     };
 	nextEventTableOutput = () => {
 		const {next} =  this.props.allMyHomeData
-		const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
-		const sortedBoard = next.nextLeaderboard !== null ? next.nextLeaderboard.sort((a, b) => {
+		const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
+		const sortedBoard = next.nextLeaderboard !== undefined ? next.nextLeaderboard.sort((a, b) => {
 			return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
 		}) : null;
 		return (
@@ -125,7 +125,7 @@ export class HomeEvents extends Component {
 					<b>Total Scores</b>
 				</div>
 				<ul>{sortedBoard.map((user, i) => {
-					const profileImage = user.user.usersAvatar === undefined || user.user.usersAvatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.usersAvatar}`} />
+					const profileImage = user.user.avatar === undefined || user.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.avatar}`} />
 					return <li key={i}><div>
 						<p><span>
 			                        {<span className={classes.profileAvatar}>
@@ -144,8 +144,8 @@ export class HomeEvents extends Component {
 
     leaderboardTable = () => {
         const {past, next} =  this.props.allMyHomeData
-        const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
-        const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
+        const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (past.pastEvent === null ? null : past.pastEvent.tournamentName)}): null
+        const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
 
         if(pastTournament !== undefined && nextTournament !== undefined ){
 	        if(pastTournament.tournamentId === nextTournament.tournamentId){
@@ -165,10 +165,10 @@ export class HomeEvents extends Component {
     }
 
     render() {
-    	console.log('home page____', this.props)
+    	// console.log('home page____', this.props)
 	    const {past, next} =  this.props.allMyHomeData
-	    const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null
-	    const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
+	    const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (past.pastEvent === null ? null : past.pastEvent.tournamentName)}): null
+	    const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
         return (
             <div className={classes.EventsPage}>
                 <div>

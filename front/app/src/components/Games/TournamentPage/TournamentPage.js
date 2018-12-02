@@ -7,10 +7,10 @@ import moment from 'moment'
 
 import classes from '../../Games/TournamentPage/TournamentPage.scss';
 
-import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, ADD_TOURNAMENT, DELETE_EVENT } from '../../../configuration/config'
+import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, DELETE_EVENT } from '../../../configuration/config'
 
-import EditBtn  from '../../UI/BtnComp/EditBtn';
-import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
+// import EditBtn  from '../../UI/BtnComp/EditBtn';
+// import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 // import SelectComp from '../../UI/SelectComp/SelectComp'
 
@@ -20,20 +20,20 @@ import ConfirmMessage from '../../UI/ConfirmMessage';
 import EventsList  from './EventsList.js'
 import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
 
-import { takeAllTournaments, DeleteTournamentRequest, takeAllEvents, appCallTakeAllEvents, tournEventsByIdRequest, goToTournPageRequest, getAllGroupsRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest } from '../../../actions/GamesApi';
 import {
-	editThisEventAction,
+	// editThisEventAction,
 	addNewEventAction,
-	addNewTournamentAction,
+	// addNewTournamentAction,
 	editThisItemAction,
 	successMessageAction,
 	errorMessageAction,
-	deleteConfirmMessageAction,
-	sendEventDataAction,
-	sendEvetnMatchAction,
+	// deleteConfirmMessageAction,
+	// sendEventDataAction,
+	// sendEvetnMatchAction,
 	toggleLoaderAction
 } from '../../../actions';
-import Spinner from "../../UI/Spinner";
+// import Spinner from "../../UI/Spinner";
 import SmallSpinner from "../../UI/SmallSpinner";
 
     // const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
@@ -170,7 +170,6 @@ export class TournamentPage extends Component {
     closeMessage = () => {
         this.props.successMessageAction(null)
         this.props.errorMessageAction(null)
-        this.props.editThisEventAction(null)
     }
 
     // DeleteEventBtn = (item) => {
@@ -214,30 +213,33 @@ export class TournamentPage extends Component {
                 <div className={classes.usersTable}>
                     {this.turnPageInformation()}
                     <div>
-                    <h3>All users of tournament</h3>
-                    <div className={classes.usersTBL}>
-	                    <h5 className={classes.groupName}>Group Name:
-		                    {
-	                            gName !== undefined
-			                        ? <span>{gName}</span>
-				                    : <div className={classes.typeNameSpinner}><SmallSpinner /></div>
-		                    }
-                        </h5>
-                    </div>
-                    <div className={classes.usersTBList}>
-                        <h5 className={classes.eventDate}>Users:</h5>
-                        <ul>
-	                        {(currentTournament !== undefined && currentTournament === action2)
-	                        ? groupName !== undefined  ? groupName.map((item, index) => {
-		                        return(
-		                        <li key={index}>
-		                            {item.username}
-		                        </li>
-		                        )}) : <SmallSpinner/>
-	                        : <SmallSpinner/>
-	                        }
-                        </ul>
-                    </div>
+	                    
+		                    <h3>All users of tournament</h3>
+	                    <div className={classes.wrapList}>
+		                    <div className={classes.usersTBL}>
+			                    <h5 className={classes.groupName}>Group Name:
+				                    {
+			                            gName !== undefined
+					                        ? <span>{gName}</span>
+						                    : <div className={classes.typeNameSpinner}><SmallSpinner /></div>
+				                    }
+		                        </h5>
+		                    </div>
+		                    <div className={classes.usersTBList}>
+		                        <h5 className={classes.eventDate}>Users:</h5>
+		                        <ul>
+			                        {(currentTournament !== undefined && currentTournament === action2)
+			                        ? groupName !== undefined  ? groupName.map((item, index) => {
+				                        return(
+				                        <li key={index}>
+				                            {item.username}
+				                        </li>
+				                        )}) : <SmallSpinner/>
+			                        : <SmallSpinner/>
+			                        }
+		                        </ul>
+		                    </div>
+	                    </div>
                     </div>
                 </div>
             )
@@ -291,8 +293,10 @@ export class TournamentPage extends Component {
         const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventTypeId} ) : null
         return(
             <div className={classes.tournTime}>
+	            <h3>Tournament info:</h3>
+	            <div className={classes.wrapList}>
                 <div className={classes.turnPageTiming}>
-	                <h3>Tournament info:</h3>
+	                
 	                {(currentTournament !== undefined && currentTournament === action2)
 	                ?
                         <div>
@@ -304,12 +308,13 @@ export class TournamentPage extends Component {
                     }
                 </div>
 	            <div className={classes.turnPageTiming}><b>Type of Game: </b>{eventTName !== undefined ? eventTName.eventTypeName : <div className={classes.typeNameSpinner}><SmallSpinner/></div>}</div>
+	            </div>
             </div>
         )
     }
     render (){
-	    console.log('TPAGE'  , this.props)
-	    console.log('TPAGE STATE'  , this.state)
+	    // console.log('TPAGE'  , this.props)
+	    // console.log('TPAGE STATE'  , this.state)
         return (
             <div className={classes.tournPageWrapper}>
                 {/*{this.spinner()}*/}

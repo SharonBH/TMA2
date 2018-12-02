@@ -69,8 +69,8 @@ export class AddUser extends Component {
 				<InputComp inputType="text" name="userName" placeholder="Username" onChange={this.onUserNameChange}/>
 				<InputComp inputType="email" name="email" placeholder="eMail" onChange={this.onEmailChange}/>
 				<InputComp inputType="text" name="name" placeholder="Name" onChange={this.onNameChange}/>
-				<InputComp inputType="password" name="password" placeholder="Password" onChange={this.onPasswordChange}/>
-				<InputComp inputType="password" name="ConfirmPassword" placeholder="ConfirmPassword" onChange={this.onConfirmPasswordChange}/>
+				<InputComp inputType="password" name="password" placeholder="Password must have(A-Z, a-z, 0-9, min 8 charts)" onChange={this.onPasswordChange}/>
+				<InputComp inputType="password" name="ConfirmPassword" placeholder="ConfirmPassword must have(A-Z, a-z, 0-9, min 8 charts)" onChange={this.onConfirmPasswordChange}/>
 				{this.props.headline === ADD_USER
 					? <SelectIdComp
 						onChange={this.onUserGroupChange}
@@ -108,6 +108,7 @@ export class AddUser extends Component {
 	};
 	
 	render(){
+		// console.log('add user props', this.props)
 		return (this.rgisterPage())
 	}
 }

@@ -109,7 +109,13 @@
             .typeNameSpinner{
                 display: inline-block;
             }
-
+            h5{
+                span{
+                    font-weight: 400;
+                    margin-left: 10px;
+                    font-size: 14px;
+                }
+            }
             &>*{
                 margin: 10px 10px 10px 0;
                 line-height: 20px;
@@ -117,7 +123,7 @@
         }
         .tournTime{
                 border-bottom: 1px solid #ddd;
-                margin-bottom: 15px;
+                margin-bottom: 0px;
             
             .turnPageTiming{
                 margin-bottom: 15px;
@@ -176,6 +182,19 @@
                         background: #2196f3;
                     }
                 }
+                .usersInGame{
+                    ul{
+                        white-space: nowrap;
+                        overflow-y: auto;
+                        &::-webkit-scrollbar{
+                            height: 2px;
+                            background: #c5c5c5;
+                        }
+                        &::-webkit-scrollbar-thumb{
+                            background: #2196f3;
+                        }
+                    }
+                }
             }
         }
     }
@@ -201,15 +220,19 @@
         display: inline-block;
         border: 1px solid #ddd;
         margin-top: 20px;
-        padding: 15px;
+        padding: 0 0px;
         margin: 1%;
        
         h3{
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            border-bottom: 2px solid #00b0f2;
+            background: #ecf8ff;
+            color: #8e8e8e;
+            font-weight: 600;
             margin-top: 0;
-            padding: 0 0 10px 0;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 10px;
             .eventsCount{
                 display: inline-block;
                 border: 1px solid #7b7b7b;
@@ -220,13 +243,16 @@
                 color: #7b7b7b;
                 font-weight: 400;
                 margin-left: 16px;
-
+                text-align: center;
             }
         }
         div {
             h4{
                 margin: 0;
                 text-align: left; 
+            }
+            .wrapList{
+                padding: 0 15px;
             }
         }
         ul{
@@ -295,24 +321,28 @@
                 }
             }
             .hiddenUsers{
-                width: 155px;
+                //width: 155px;
                 height: auto;
-                display: none;
                 position: relative;
-            }
-            &:hover {
-                .hiddenUsers{
-                    display: block;
-                    position: absolute;
-                    border: 1px solid #ddd;
-                    padding: 10px;
-                    background-color: #fff;
-                    box-shadow: 0px 0px 4px 0px #03a3d0;
-                    right: 0;
-                    z-index: 6;
-                    top: 20;
+                padding: 0;
+                li{
+                    display: inline-block;
+                    margin: 0 8px;
                 }
             }
+            //&:hover {
+            //    .hiddenUsers{
+            //        display: block;
+            //        position: absolute;
+            //        border: 1px solid #ddd;
+            //        padding: 10px;
+            //        background-color: #fff;
+            //        box-shadow: 0px 0px 4px 0px #03a3d0;
+            //        right: 0;
+            //        z-index: 6;
+            //        top: 20;
+            //    }
+            //}
             
             
             
@@ -395,28 +425,41 @@
         justify-content: center;
         align-items: center;
         z-index: 6;
-        
-        span {
-            padding: 20px 40px;
-            background: #9dfca1;
-            border-bottom: 1px solid #999;
+        transform: translateY(0%);
+        transition-timing-function: ease-in;
+        transition: 0.6s;
+
+        & > span {
+
+            padding: 22px 40px;
             position: relative;
-            width: auto;
-            height: auto;
-            max-width: 477px;
+            width: 574px;
+            height: 70px;
+            box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
+            background-color: #97b532;
+            color: #fff;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 20px;
+            &::before{
+                content: '\F00C';
+                font-family: "Font Awesome 5 Free";
+                font-weight: 600;
+                margin-right: 20px;
+                display: inline-block;
+                font-size: 23px;
+            }
             .closeBTN {
                 padding: 0 5px;
-                background: #fff;
-                border: 1px solid #999;
                 border-radius: 11px;
                 position: absolute;
-                top: -8px;
-                right: -6px;
+                top: 17px;
+                right: 21px;
                 cursor: pointer;
+                font-size: 26px;
             }
             &>:hover {
-                background: #000;
-                color: #fff;
+                color: #287b00;
             }
         }
     }
@@ -483,10 +526,22 @@
             display: block;
             .eventsTable, .usersTable{
                 width: 100%;
-               
+                .usersHead{
+                    h4{
+                        text-align: center;
+                        margin: 0 0 10px 0;
+                        width: 33%;
+                    }
+                    .turnPageEventsBTN{
+                        display: none;
+                    }
+                }
+
                 ul, ol{
                     height: auto;
                     overflow: visible;
+                    padding: 0;
+
                     li{
                         display: block;
                         position: relative;
@@ -495,12 +550,24 @@
                         &>div{
                             margin: 0;
                             width: 100%;
+
+                        }
+                        .leaderBoardTD{
+                            text-align: center;
+                        }
+                        .usersInGame{
+                            position: absolute;
+                            top: 0px;
+                            right: 6px;
+                            width: auto;
+
                         }
                         .turnPageEventsBTN{
                             position: absolute;
                             bottom: 3px;
                             right: 0;
-                            width: auto;
+                            width: 50px;
+                            min-width: 56px;
                         }
                     }
                 }

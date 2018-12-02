@@ -39,19 +39,21 @@ class ConfirmMessage extends Component {
         this.props.deleteConfirmMessageAction(false)
     }
 
-    approve = (headline, user ) => {
-        const { item, deleteEvent } = this.props
+    approve = (headline, user) => {
+        const { item, deleteEvent, userID, tournById, currentTournamentId, currentUser } = this.props
+        const tournId = tournById.tournamentId
+        const UserIdToSend = currentUser.userId
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
-        const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
+        // const eventForDel = this.props.allEventsList.find(id => { return id.eventId === item})
         switch(headline) {
             case DELETE_USER:
                 this.props.DeleteUserRequest(user.username)
                 break
             case DELETE_TOURNAMENT:
-                this.props.DeleteTournamentRequest(itemForDel.tournamentId)
+                this.props.DeleteTournamentRequest(itemForDel.tournamentId, UserIdToSend)
                 break
             case DELETE_EVENT:
-                this.props.DeleteEventRequest(deleteEvent)
+                this.props.DeleteEventRequest(deleteEvent, tournId)
                 break
             case SING_OUT:
                 this.props.getUserAction(null)
@@ -60,7 +62,7 @@ class ConfirmMessage extends Component {
                 history.push({pathname: '/'})
                 break
             case DELETE_GROUP:
-                this.props.DeleteGroupRequest(item.groupId)
+                this.props.DeleteGroupRequest(item.groupId, userID, currentTournamentId)
                 break
             default: 
         }
@@ -68,8 +70,8 @@ class ConfirmMessage extends Component {
     }
 
     popUpContent = () => {
-        const { headline, user, item, deleteEvent, event } = this.props
-	    console.log('CONFIRM11',  this.props)
+        const { headline, user, item, deleteEvent } = this.props
+        console.log(headline, user, item, deleteEvent )
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
 
         const eventForDel = headline === DELETE_EVENT && (this.props.tournById !== null || this.props.tournById.length !== 0) ? this.props.tournById.events.find(id => { return id.eventId === deleteEvent}) : null
@@ -118,6 +120,7 @@ const mapStateToProps = (state) => {
         allEventsList: state.allListReducer.allEventsList,
         tournById: state.allListReducer.tournById,
 	    deleteEvent: state.confirmMessageReducer.deleteEvent,
+	    currentUser: state.userReducer.currentUser,
     }
 }
 const mapDispatchToProps = dispatch => {
@@ -125,10 +128,10 @@ const mapDispatchToProps = dispatch => {
         signOutConfirmMessageAction: payload => dispatch(signOutConfirmMessageAction(payload)),
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),
         DeleteUserRequest: payload => dispatch(DeleteUserRequest(payload)),
-        DeleteTournamentRequest: payload => dispatch(DeleteTournamentRequest(payload)),
-        DeleteEventRequest: payload => dispatch(DeleteEventRequest(payload)),
+        DeleteTournamentRequest: (tournamentId, userID) => dispatch(DeleteTournamentRequest(tournamentId, userID)),
+        DeleteEventRequest: (eventId, tournamentId) => dispatch(DeleteEventRequest(eventId, tournamentId)),
         getUserAction: payload => dispatch(getUserAction(payload)),
-        DeleteGroupRequest: payload => dispatch(DeleteGroupRequest(payload)),
+        DeleteGroupRequest: (group, id, currentTournamentId) => dispatch(DeleteGroupRequest(group, id, currentTournamentId)),
     }
 }
 

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import classes from './TopNavigation.scss';
 import { connect } from 'react-redux';
-import { getUserAction, closeNav, signOutConfirmMessageAction, deleteConfirmMessageAction } from '../../actions';
+import { getUserAction, closeNav, closeRespNav, signOutConfirmMessageAction, deleteConfirmMessageAction } from '../../actions';
 class TopNavigation extends Component {
 
     state = {
-        navState: false
+        navState: false,
+	    navRespState: false
     }
 
     logout = () => {
@@ -31,16 +32,25 @@ class TopNavigation extends Component {
         this.setState({navState: !this.state.navState})
         this.props.closeNav({navState: !this.state.navState})
     }
+	navResponsiveState = () => {
+		// this.setState({navRespState: !this.state.navRespState})
+		this.props.closeRespNav(!this.props.navRespAction)
+    }
 
     render() {
-        console.log('this.props', this.props)
+	    // console.log('this.propsTOP STATE', this.state)
+	    const w = window.innerWidth;
         const { currentUser } = this.props
-	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
+	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ? <i className="fas fa-user-circle"></i> : <img alt='' src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
         
         return (
             <div className={this.state.navState ? classes.TopNavClosed : classes.TopNav} >
                 <span className={classes.closeBtn}>
-                    <i className="fas fa-bars"  onClick={this.navState}></i>
+                    {w > 1000
+                        ? <i className={'fas fa-bars'}  onClick={this.navState}></i>
+                        : <i className={'fas fa-bars'}  onClick={this.navResponsiveState}></i>
+                    }
+	                
 	                {<div className={classes.navProfileAvatar}> {profileImage}</div>}
                     {this.helloUser()}
                 </span>
@@ -68,6 +78,7 @@ class TopNavigation extends Component {
 const mapStateToProps = (state) => {
     
     return {
+	    navRespAction: state.sharedReducer.navRespAction,
         currentUser: state.userReducer.currentUser,
         // navAction: state.closeNavReducer.navAction
     }
@@ -75,6 +86,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         closeNav: payload => dispatch(closeNav(payload)),
+	    closeRespNav: payload => dispatch(closeRespNav(payload)),
         getUserAction: payload => dispatch(getUserAction(payload)),
         signOutConfirmMessageAction: payload => dispatch(signOutConfirmMessageAction(payload)),
         deleteConfirmMessageAction: payload => dispatch(deleteConfirmMessageAction(payload)),

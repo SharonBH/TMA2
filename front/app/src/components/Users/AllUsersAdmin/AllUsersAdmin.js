@@ -14,6 +14,7 @@ import ConfirmMessage from '../../UI/ConfirmMessage';
 import { ADD_USER, EDIT, DELETE_USER } from '../../../configuration/config'
 import { getAllGroupsRequest } from "../../../actions/GamesApi";
 import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction }  from '../../../actions';
+import SmallSpinner from "../../UI/SmallSpinner";
 export class AllUsersAdmin extends Component {
 
     static propTypes = {
@@ -25,7 +26,12 @@ export class AllUsersAdmin extends Component {
         this.state = {
             userInEditMode: null,
             userForDelete: null,
-            display: false
+            display: false,
+	        sortList: [],
+	        sortItem: 'name',
+	        toggleSort: true,
+         
+         
         }
         this.editUserBtn = this.editUserBtn.bind(this)
         // this.addUserBtn = this.addUserBtn.bind(this)
@@ -35,21 +41,70 @@ export class AllUsersAdmin extends Component {
     componentWillMount(){
         if(this.props.allList.length === 0) {
             this.props.takeAllUsers()
-        } else {
-            return null
         }
+
     }
     componentDidMount(){
         this.props.successMessageAction(null)
         this.props.getAllGroupsRequest()
+	    
     }
+    
+	componentWillReceiveProps(nextProps) {
+		const { allList } = nextProps;
+		
+		if (this.props.allList !== allList) {
+			const { sortedItem } = this.state
+			this.props.allList.sort((a, b) => {
+				return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() < b[sortedItem].toLowerCase() ? -1 : 1;
+			});
+			this.setState({sortList: this.props.allList});
+		}
+		
+	}
+    
+    
     componentWillUnmount(){
         this.props.errorMessageAction(null)
         this.props.successMessageAction(null)
         this.setState({userForDelete: null})
         this.setState({userInEditMode: null})
     }
-
+    
+	sortTTTT = (sortList, sortBy, upDown) => {
+		const { toggleSort } = this.state
+  
+		const x = toggleSort ? 1 : -1
+		const y = toggleSort ? -1 : 1
+		sortList.sort((a, b) => {
+			if(a[sortBy] !== b[sortBy]){
+                if(a[sortBy].toLowerCase() < b[sortBy].toLowerCase()){
+                    return x
+                }else{
+                    return y
+                }
+			}
+		});
+		
+	}
+	Sort = (item) => {
+		const { sortItem, toggleSort, sortList } = this.state
+		const sortBy = item.target.id;
+		this.setState({sortItem: sortBy})
+		const attrId = document.getElementById(sortItem)
+		const upDown = toggleSort ? 'down' : 'up'
+		document.getElementById(sortBy).setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+		if(sortItem === sortBy){
+			this.setState({toggleSort: !toggleSort});
+			attrId.setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+			this.sortTTTT(sortList, sortBy, upDown)
+		}
+		else{
+			this.setState({toggleSort: false});
+			attrId.setAttribute('i-attribute', 'none');
+			this.sortTTTT(sortList, sortBy, upDown)
+		}
+	}
     DeleteUserBtn = (item) => {
         this.setState({userForDelete: item})
         this.setState({userInEditMode: null})
@@ -81,7 +136,7 @@ export class AllUsersAdmin extends Component {
     }
 
     successDeleteMessage = () => {
-        return this.props.successMessage !== null 
+        return this.props.successMessage !== null
         ? <p className={classes.success}>
             <span>{this.props.successMessage}
                 <span onClick={this.closeMessage} className={classes.closeBTN }>x</span>
@@ -91,28 +146,36 @@ export class AllUsersAdmin extends Component {
     }
 
     closeMessage = () => {
+        // this.setState({successMSG: !this.state.successMSG})
         this.props.successMessageAction(null)
         // this.props.addNewItemAction(false)
     }
+	
 
-
+    
+    
     ulserList = () => {
-        return this.props.allList.map((item, index) => {
+        return this.state.sortList.map((item, index) => {
             return <li key={index}>
+	            <Link to={`/edit_user/${item.username}`}  onClick={() => this.editUserBtn(item)}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
-                <div className={classes.email}>{item.username}</div>
-                <div className={classes.role}>{item.role}</div>
+                <div className={classes.email +' '+ classes.hide}>{item.username}</div>
+                <div className={classes.role +' '+ classes.hide}>{item.role}</div>
                 <div className={classes.allUsButtons} id={index}>
-                    <Link to={`/edit_user/${item.username}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/></Link>
+                    <EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/>
                     {/*NOT DELETE_____ <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/> */}
                  </div>
+	            </Link>
             </li>
         })
     }
     
     render (){
-        console.log('1234', this.props)
+        
+	    
+        // console.log('user list ', this.props)
+	    // console.log('user list state', this.state)
         return (
             <div className={classes.usersWrapper}>
                 <div className={classes.usersListHead}>
@@ -125,14 +188,16 @@ export class AllUsersAdmin extends Component {
                 
                 {this.successDeleteMessage()}
                 <div className={classes.usersHead}>
-                    <div className={classes.username}>Name</div>
-                    <div className={classes.email}>Email</div>
-                    <div className={classes.email}>User Name</div>
-                    <div className={classes.role}></div>
-                    <div className={classes.addBtn}></div>
+                    <div className={classes.username} i-attribute="none" id={'name'} onClick={(item) => this.Sort(item)}>Name</div>
+                    <div className={classes.email} i-attribute="none" id={'email'} onClick={(item) => this.Sort(item)}>Email</div>
+                    <div className={classes.email +' '+ classes.hide} i-attribute="none" id={'username'} onClick={(item) => this.Sort(item)}>User Name</div>
+                    <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'role'} onClick={(item) => this.Sort(item)}>Role</div>
+                    <div className={classes.allUsButtons}></div>
                     
-                </div> 
-                <ul className={classes.uesrsList}>{this.ulserList()}</ul>
+                </div>
+	            {this.state.sortList.length !== 0
+                ? <ul className={classes.uesrsList}>{this.ulserList()}</ul>
+	            : <ul className={classes.noresults}><SmallSpinner/></ul>}
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addUserComp()}</div> : null}
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editUserComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_USER} user={this.state.userForDelete}/> : null}

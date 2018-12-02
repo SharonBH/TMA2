@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {editThisGroupAction, errorMessageAction, successMessageAction} from "../../actions";
+import { errorMessageAction, successMessageAction} from "../../actions";
 import connect from "react-redux/es/connect/connect";
 import {ADD_NEW_GROUP, EDIT_GROUP} from "../../configuration/config";
 import classes from "../Register/RegisterComp.scss";
@@ -49,12 +49,18 @@ class AddGroup extends Component {
 		this.setState({searchUsers: e.target.value});
 		
 		setTimeout(() => {
-			this.props.allList.map((user) => {
+			const { allList } = this.props
+			
+			allList.map((user) => {
 				const searchFor = this.state.searchUsers;
 				if(searchFor.length > 0 && ((user.username).toLowerCase()).includes(searchFor)) {
 					let arr = [...this.state.searchUsersResult, user];
+					
 					const removeDuplicateArr = [...new Set(arr)];
-					return this.setState({searchUsersResult: removeDuplicateArr})
+					const fillt = removeDuplicateArr.filter((user) => {
+						return !this.state.addSearchUsersResult.find(item => user.userId === item.userId );
+					});
+					return this.setState({searchUsersResult: fillt})
 				}
 			})
 		}, 300)
@@ -62,27 +68,14 @@ class AddGroup extends Component {
 	addSearchUsers = (user) => {
 		
 		const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId));
+
 		const array = [...fill, {userId: user.userId, score: null, username: user.username}];
-		const namesArray = [...fill, {userId: user.userId, score: null, username: user.username}];
-		array.sort((a, b) => {
-			return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
-		});
+		// array.sort((a, b) => {
+		// 	return a.username === b.username ? 0 : a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
+		// });
 		this.setState({addSearchUsersResult: array});
 		
-		// if(this.onEventNameChange){
-		//     const name = namesArray !== ''
-		//     ? namesArray.map((user) => {return user.username})
-		//     : this.state.EventName;
-		//     const names = !name || name !== '' ? name.join(' Vs. ') : '';
-		//     // this.setState({EventName: names})
-		//     this.setState({EventName: names})
-		// }
-		
-		// if(EventDate === '') {
-		//     this.props.errorMessageAction('you must first enter a date for this event')
-		// } else {
-		
-		// }
+
 	};
 	
 	removeSelectedUser = (index) => {
@@ -103,7 +96,8 @@ class AddGroup extends Component {
 			addSearchUsersResult.map((user) => {
 				return arr.push(user.userId)
 			});
-			this.props.addNewGroupRequest(groupName, arr);
+			const userID = this.props.currentUser.userId;
+			this.props.addNewGroupRequest(groupName, arr, userID);
 			this.setState({groupName: '', usersIds: [], searchUsers: '', searchUsersResult: [], addSearchUsersResult: []})
 		}
 	};
@@ -149,10 +143,20 @@ class AddGroup extends Component {
 							}
 							{this.editBtnFunc()}
 						</div>
-					:   <InputComp autoFocus={true} inputType="text" name="groupName" placeholder="Group Name" onChange={this.onGroupNameChange}/>
+					:   <InputComp autoFocus={true} inputType="text" name="groupName"  placeholder="Group Name" onChange={this.onGroupNameChange}/>
 				}
 					<div className={classes.searchUsersWrapper}>
 						<InputComp inputType="text" autoFocus={true} onBlur={this.CleaningInputFromUsers} content={this.state.searchUsers} name="Search User By UserName" placeholder="Search And Add Users" onChange={this.onSearchUsersChange}/>
+						
+						<div className={classes.usersWrapper} >
+							{this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null}
+							{this.state.searchUsersResult.map((user, index) => (
+								<span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
+                                    {user.username}
+									<i className="far fa-plus-square"></i>
+                                </span>
+							))}
+						</div>
 						<div className={classes.usersAddedWrapper}>
 							{this.state.addSearchUsersResult.length > 0 || this.state.addSearchUsersResult !== undefined
 								?   this.state.addSearchUsersResult.map((user, index) => {
@@ -162,15 +166,6 @@ class AddGroup extends Component {
                                         </span>
 								})
 								:   null}
-						</div>
-						<div className={classes.usersWrapper} >
-							{this.state.searchUsersResult.length > 0 ? <span className={classes.searchResult}>Search Result:</span> : null}
-							{this.state.searchUsersResult.map((user, index) => (
-								<span className={classes.user} key={index} onClick={() => this.addSearchUsers(user)}>
-                                    {user.username}
-									<i className="far fa-plus-square"></i>
-                                </span>
-							))}
 						</div>
 					</div>
 				<div className={classes.saveButton}>
@@ -196,6 +191,8 @@ class AddGroup extends Component {
 			let userIds = [];
 			const groupId = group.groupId;
 			const groupName = this.state.groupName;
+			
+
 			this.state.addSearchUsersResult.map(user => {
 				
 				if(headline === EDIT_GROUP){
@@ -206,7 +203,9 @@ class AddGroup extends Component {
 				
 				// userIds.push(user.user.userId)
 			});
-			this.props.editGroupRequest(groupId, groupName, userIds)
+			const userID = this.props.currentUser.userId;
+
+			this.props.editGroupRequest(groupId, groupName, userIds, userID)
 		}
 		
 	};
@@ -219,8 +218,8 @@ class AddGroup extends Component {
 	
 	
 	render(){
-		console.log('add group',this.props)
-		console.log('add group state',this.state)
+		// console.log('add group',this.props)
+		// console.log('add group state',this.state)
 		return(
 			this.addNewGroupPage()
 		)
@@ -230,6 +229,7 @@ class AddGroup extends Component {
 
 const mapStateToProps = (state) => {
 	return {
+		currentUser: state.userReducer.currentUser,
 		groupsList: state.allListReducer.groupsList,
 		allList: state.allListReducer.allList,
 	}
@@ -240,8 +240,8 @@ const mapDispatchToProps = dispatch => {
 		successMessageAction: (payload) => dispatch(successMessageAction(payload)),
 		getAllGroupsRequest: (payload) => dispatch(getAllGroupsRequest(payload)),
 		// editThisGroupAction: (payload) => dispatch(editThisGroupAction(payload)),
-		editGroupRequest: (groupId, groupName, userIds) => dispatch(editGroupRequest(groupId, groupName, userIds)),
-		addNewGroupRequest: (groupName, usersIds) => dispatch(addNewGroupRequest(groupName, usersIds)),
+		editGroupRequest: (groupId, groupName, userIds, userID) => dispatch(editGroupRequest(groupId, groupName, userIds, userID)),
+		addNewGroupRequest: (groupName, usersIds, userID) => dispatch(addNewGroupRequest(groupName, usersIds, userID)),
 		appCallTakeAllUsers: (payload) => dispatch(appCallTakeAllUsers(payload)),
 
 	}

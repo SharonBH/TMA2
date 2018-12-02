@@ -3,6 +3,10 @@
 .usersWrapper {
     text-align: left;
     padding: 0px 10px 0;
+    ul.noresults {
+        text-align: center;
+        margin-top: 150px;
+    }
     .usersListHead{
         display: flex;
         justify-content: space-between;
@@ -111,6 +115,9 @@
         width: 20%;
         border: 1px solid #ddd;
     }
+    .editB{
+        width: 109px;
+    }
 
     .usersHead {
         //padding: 5px 0 5px;
@@ -133,6 +140,36 @@
             margin: 0 0px;
             display: inline-flex;
             justify-content: start;
+            overflow: visible;
+            cursor: pointer;
+            &::after{
+                content: "\f0dd";
+                font-family: "Font Awesome 5 Free";
+                padding-left: 15px;
+                position: relative;
+                top: 3px;
+            }
+            &:last-child{
+                &::after{
+                    content: ' ';
+                }
+            }
+
+        }
+        div[i-attribute="up"]::after {
+            content: '\f0de';
+            font-family: "Font Awesome 5 Free";
+            padding-left: 15px;
+        }
+        div[i-attribute="down"]::after {
+            content: "\F0DD";
+            font-family: "Font Awesome 5 Free";
+            padding-left: 15px;
+        }
+        div[i-attribute="none"]::after {
+            content: "\f0dc";
+            font-family: "Font Awesome 5 Free";
+            padding-left: 15px;
         }
         .addBtn{
             width: 109px;
@@ -236,28 +273,41 @@
         justify-content: center;
         align-items: center;
         z-index: 6;
-        
-        span {
-            padding: 20px 40px;
-            background: #9dfca1;
-            border-bottom: 1px solid #999;
+        transform: translateY(0%);
+        transition-timing-function: ease-in;
+        transition: 0.6s;
+
+        & > span {
+
+            padding: 22px 40px;
             position: relative;
-            width: auto;
-            height: auto;
-            max-width: 477px;
+            width: 574px;
+            height: 70px;
+            box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
+            background-color: #97b532;
+            color: #fff;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 20px;
+            &::before{
+                content: '\F00C';
+                font-family: "Font Awesome 5 Free";
+                font-weight: 600;
+                margin-right: 20px;
+                display: inline-block;
+                font-size: 23px;
+            }
             .closeBTN {
                 padding: 0 5px;
-                background: #fff;
-                border: 1px solid #999;
                 border-radius: 11px;
                 position: absolute;
-                top: -8px;
-                right: -6px;
+                top: 17px;
+                right: 21px;
                 cursor: pointer;
+                font-size: 26px;
             }
             &>:hover {
-                background: #000;
-                color: #fff;
+                color: #287b00;
             }
         }
     }
@@ -333,15 +383,61 @@ div.EditBtn {
 @media only screen and  (max-width: 870px) {
 .usersWrapper{
     font-size: 14px;
-    h1{
-        font-size: 18px;
+    .hide870{
+        display: none;
+    }
+    .usersHead{
+        &>div{
+            width: 46%;
+        }
+        .allUsButtons{
+            width: 0%!important;
+        }
+        .hide870{
+            display: none;
+        }
+    }
+    .topLine{
+
+
+        display: block;
+        h1{
+            font-size: 18px;
+            width: 60%;
+            display: inline-block;
+        }
+        .addBtn{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+    }
+    .uesrsList{
+        a{
+            .hide{
+                display: none;
+            }
+            //&>div.role:last-child{
+            //    display: none;
+            //}
+            &>div{
+                width: 46%;
+            }
+
+        }
+        .allUsButtons{
+            width: 5%!important;
+            margin: 0;
+        }
+
     }
     div{
       .sortTabs{
         display: flex;
         justify-content: center;
         .active{
-          background: #acedff;
+          //background: #acedff;
         }
         &>div{
           margin: 0 10px;
@@ -355,9 +451,12 @@ div.EditBtn {
         color: #333;
     }
     .usersHead{
-        padding-right: 10%;
+        //padding-right: 8%;
         &>div{
             font-size: 14px;
+        }
+        .hide{
+            display: none;
         }
         .addBtn{
             position: absolute;
@@ -370,7 +469,7 @@ div.EditBtn {
 
         li{
             .allUsButtons{
-                width: 12% !important;
+                //width: 12% !important;
             }
 
         }

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import classes from './Groups.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
+import InputComp from '../../UI/InputComp/InputComp';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import SelectComp from '../../UI/SelectComp/SelectComp'
@@ -31,7 +32,13 @@ export class Groups extends Component {
         this.state = {
             groupForDelete: null,
             groupInEditMode: null,
-	        buttonStatus: true
+	        buttonStatus: true,
+	        sortList: [],
+	        sortItem: 'createdDate',
+	        toggleSort: true,
+	        groupsList: [],
+	        groupsDataById: [],
+	        tooltip: "Click to copy"
         }
     }
 
@@ -40,12 +47,58 @@ export class Groups extends Component {
         this.props.takeMyGroupsRequest(userID);
         if(this.props.groupsList === null) {
             this.props.getAllGroupsRequest()
-            
         } else {
             return null
         }
     }
 
+	componentWillReceiveProps(nextProps) {
+		const { groupsList, groupsDataById } = nextProps;
+		this.setState({groupsList: groupsList, groupsDataById: groupsDataById});
+		
+		const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+		groups !== null && groups !== undefined ? groups.sort((a, b) => {
+			const sortedItem = this.state.sortItem
+            return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() < b[sortedItem].toLowerCase() ? -1 : 1;
+        }) : null
+	}
+	
+	sortTTTT = (groups, sortBy, upDown) => {
+		const { toggleSort } = this.state
+		
+		const x = toggleSort ? 1 : -1
+		const y = toggleSort ? -1 : 1
+		groups.sort((a, b) => {
+			if(a[sortBy] !== b[sortBy]){
+				if(a[sortBy].toLowerCase() < b[sortBy].toLowerCase()){
+					return x
+				}else{
+					return y
+				}
+			}
+		});
+	}
+	Sort = (item) => {
+		const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
+  
+		this.setState({sortItem: sortBy, sortList: groups})
+		const { sortItem, toggleSort, sortList } = this.state
+		const sortBy = item.target.id;
+		this.setState({sortItem: sortBy})
+		const attrId = document.getElementById(sortItem)
+		const upDown = toggleSort ? 'down' : 'up'
+		document.getElementById(sortBy).setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+		if(sortItem === sortBy){
+			this.setState({toggleSort: !toggleSort});
+			attrId.setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+			this.sortTTTT(groups, sortBy, upDown)
+		}
+		else{
+			this.setState({toggleSort: false});
+			attrId.setAttribute('i-attribute', 'none');
+			this.sortTTTT(groups, sortBy, upDown)
+		}
+	}
     componentWillUnmount(){
         this.props.errorMessageAction(null);
         this.props.successMessageAction(null);
@@ -76,9 +129,11 @@ export class Groups extends Component {
     }
 
     DeleteGoupBtn = (item) => {
+	    const userID = this.props.currentUser.userId;
         this.setState({groupForDelete: item})
         this.setState({groupInEditMode: null})
         this.props.deleteConfirmMessageAction(true)
+        
     }
 
     editGroupBtn = (group) => {
@@ -103,25 +158,28 @@ export class Groups extends Component {
 	};
 	
     tableHeader = () => {
-	    const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+	    // const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
 	    return (
 		    <div className={classes.Head}>
-			    <div className={classes.headline}>Group Name</div>
-			    <div className={classes.headline}>Created Date</div>
-			    <div className={classes.users}>Group Users</div>
-			    <div className={classes.addBtn}></div>
+                <span>
+                    <div className={classes.headline} i-attribute="none" id={'groupName'} onClick={(item) => this.Sort(item)}>Group Name</div>
+                    <div className={classes.headline} i-attribute="down" id={'createdDate'} onClick={(item) => this.Sort(item)}>Created Date</div>
+			    </span>
+                    <div className={classes.users} id={'users'}>Group Users</div>
+			    <div className={classes.addBtn} ></div>
 		    </div>)
     }
     groupsList = () => {
-        const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
-        
-        return groups !== null ? groups.map((group, index) => { 
+        const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
+        return groups !== null  && groups !== undefined? groups.map((group, index) => {
             const usersInGroup = []
             group.users.forEach((user) => usersInGroup.push({key: user.userId, value: user.username}))
             return <li key={group.groupId}>
-                <div className={classes.groupName}>{group.groupName}</div>
-                <div className={classes.createdDate}>{moment(group.createdDate).format('LL')}</div>
-                <div>
+	            <Link to={`/all_groups/${group.groupName}`}  onClick={() => this.editGroupBtn(group)}>
+                    <div className={classes.groupName}>{group.groupName}</div>
+                    <div className={classes.createdDate}>{moment(group.createdDate).format('LL')}</div>
+	            </Link>
+                <div className={classes.groupSelect}>
                     <div className={classes.select}>
                         <SelectComp
                             options={usersInGroup}
@@ -131,25 +189,40 @@ export class Groups extends Component {
                         />
                     </div>
                 </div>
+	            
                 <div id={index} className={classes.allUsButtons}>
                     {/*<Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>*/}
-	                <Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>
+	                <EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/>
                     <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>
-                    <BtnComp onClick={() => this.togglePopup(group.groupId)} inputType={'button'} content='Link to copy'/>
+	                <div className={classes.tooltip}>
+                        <BtnComp onClick={() => this.togglePopup(group.groupId)} inputType={'button'} content='Copy Link'/>
+	                    <span className={classes.hide}>
+                            <InputComp id={`copyLink-${group.groupId}`} name={'copyLink'} readOnly onChange={this.copyFunc()} inputType={'text'} content={`https://tma-front.azurewebsites.net/register?groupId=${group.groupId}`}/>
+                        </span>
+		                <span className={classes.tooltiptext} id={`myTooltip-${group.groupId}`}>Click to copy</span>
+                    </div>
                  </div>
+	            
             </li>
         })
         : null
     }
-
+	copyFunc = () => {}
     togglePopup(groupId) {
-        // this.setState({ showPopup: !this.state.showPopup });
-        this.props.takeGroupIdPopAction(true)
-        this.props.takeGroupIdPop(groupId)
-      }
+        
+        const copyText = document.getElementById(`copyLink-${groupId}`);
+        copyText.select();
+        document.execCommand("copy");
+	
+	    const tooltip = document.getElementById(`myTooltip-${groupId}`);
+	    tooltip.textContent = "Copied link with id: " + groupId;
+    }
 
     render() {
-	    const groups = this.props.match.url === '/all_groups' ? this.props.groupsList : this.props.groupsDataById
+        // console.log('groups props', this.props)
+	    // console.log('groups state', this.state)
+	    const userID = this.props.currentUser.userId;
+	    const groups = this.props.match.url === '/all_groups' ? this.state.groupsList : this.state.groupsDataById
         return (
             <div className={classes.groupsTable}>
                 {this.successDeleteMessage()}
@@ -161,18 +234,18 @@ export class Groups extends Component {
 			                inputType="submit"
 			                content='Add New Group'
 			                onClick={this.addNewGroupBtn}
-			                disabled={groups !== null && groups.length !== 0  ? !this.state.buttonStatus : this.state.buttonStatus}
+			                disabled={groups !== null || groups !== undefined  ? !this.state.buttonStatus : this.state.buttonStatus}
 		                />
 	                </div>
                 </div>
                 {this.tableHeader()}
-                {groups !== null && groups.length !== 0
+                {groups !== null && groups !== undefined
                   ?  <ul className={classes.groupsList}>{this.groupsList()}</ul>
                   : <ul className={classes.groupsListSpinner}><SmallSpinner/></ul>
                 }
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addGroupComp()}</div> : null}
                 {this.props.editThisGroup ? <div className={classes.AddUser}>{this.editGroupComp()}</div> : null}
-                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_GROUP} item={this.state.groupForDelete}/> : null}
+                {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_GROUP} item={this.state.groupForDelete} userID={userID}/> : null}
                 {this.props.groupIdAction ? <LinkPopup className={classes.AddUser}></LinkPopup> : null}
             </div>
         )

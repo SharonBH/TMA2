@@ -61,6 +61,12 @@ export const closeNav = (action) => {
         payload: action
     }
 }
+export const closeRespNav = (action) => {
+	return {
+		type: 'CLOSE_RESP_NAV',
+		payload: action
+	}
+}
 
 //CONFIRM MESSAGES
 
@@ -255,6 +261,7 @@ export const takeGroupIdPopAction = (boll) => {
 }
 
 export const deleteEventAction = (boll) => {
+    console.log(boll)
 	return {
 		type: 'DELETE_EVENT_ACTION',
 		payload: boll

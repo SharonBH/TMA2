@@ -10,7 +10,7 @@ import SelectComp from "../UI/SelectComp/SelectComp";
 import {DatePicker, MuiPickersUtilsProvider} from "material-ui-pickers";
 import MomentUtils from "material-ui-pickers/utils/moment-utils";
 import BtnComp from "../UI/BtnComp/BtnComp";
-import {ADD_TOURNAMENT} from "../../configuration/config";
+// import {ADD_TOURNAMENT} from "../../configuration/config";
 import React from "react";
 
 
@@ -30,6 +30,7 @@ export class AddTournament extends Component{
 	}
 	
 	componentWillMount() {
+		
 		if (this.state.TournamentStartDate === '') {
 			this.setState({TournamentStartDate: moment().format('LLLL')})
 		}
@@ -47,7 +48,9 @@ export class AddTournament extends Component{
 	
 	addNewTournament = (e) => {
 		const { TournamentName, TournamentStartDate, TournamentEndDate, EventsMaxNum, EventTypeName, groups, typeOfTournament, presetNumber } = this.state;
+		const { currentUser } = this.props;
 		e.preventDefault();
+		const userIdToSend = currentUser.userId
 		const today = new Date();
 		const dd = today.getDate();
 		const mm = today.getMonth()+1; //January is 0!
@@ -81,7 +84,8 @@ export class AddTournament extends Component{
 		} else if (qstartDate > eEndDate) {
 			this.props.errorMessageAction('the tournament end date must be later than the start date')
 		}  else {
-			this.props.addNewTournamentRequest(TournamentName, moment(TournamentStartDate).format('YYYY-MM-DD hh:mm:ss '), moment(TournamentEndDate).format('YYYY-MM-DD hh:mm:ss '), typeOfTournament, presetNumber, EventsMaxNum, EventTypeName, groups)
+			this.props.addNewTournamentRequest(TournamentName, moment(TournamentStartDate).format('YYYY-MM-DD hh:mm:ss ')
+				, moment(TournamentEndDate).format('YYYY-MM-DD hh:mm:ss '), typeOfTournament, presetNumber, EventsMaxNum, EventTypeName, groups, userIdToSend)
 		}
 	};
 	
@@ -89,7 +93,7 @@ export class AddTournament extends Component{
 		const eventTypes = this.props.allEventTypesList.map((event, index) => { return {key: event.eventTypeId, value: event.eventTypeName }});
 		const groupsArr = this.props.groupsDataById !== '' && this.props.currentUser.role === 'User' ? this.props.groupsDataById : this.props.groupsList;
 		const groupL = groupsArr !== null ? groupsArr.map((group) => { return {key: group.groupId, value: group.groupName }}) : null;
-		const leagueType = [{name: 'league', id: 1}, {name: 'test', id: 2}]
+		const leagueType = [{name: 'league', id: 1}]
 		const leagueTypeSelect = leagueType.map((leagueT, index) => { return {key: leagueT.id, value: leagueT.name }});
 		return (<div>
 					<InputComp
@@ -178,7 +182,7 @@ export class AddTournament extends Component{
 	};
 	render(){
 		console.log('tourny', this.props)
-		console.log('tourny state', this.state)
+		// console.log('tourny state', this.state)
 		return this.tournamentPage()
 	}
 }
@@ -189,13 +193,15 @@ const mapStateToProps = (state) => {
 		currentUser: state.userReducer.currentUser,
 		groupsList: state.allListReducer.groupsList,
 		
+		
 	}
 };
 const mapDispatchToProps = dispatch => {
 	return {
 		errorMessageAction: payload => dispatch(errorMessageAction(payload)),
 		successMessageAction: (payload) => dispatch(successMessageAction(payload)),
-		addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, typeOfTournament, presetNumber, eventsMaxNum, EventTypeName, groups) => dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, typeOfTournament, presetNumber, eventsMaxNum, EventTypeName, groups)),
+		addNewTournamentRequest: (tournamentName, tournamentStartDate, tournamentEndDate, typeOfTournament, presetNumber, eventsMaxNum, EventTypeName, groups, userIdToSend) =>
+			dispatch(addNewTournamentRequest(tournamentName, tournamentStartDate, tournamentEndDate, typeOfTournament, presetNumber, eventsMaxNum, EventTypeName, groups, userIdToSend)),
 	}
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddTournament);

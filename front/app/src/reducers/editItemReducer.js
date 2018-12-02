@@ -16,8 +16,6 @@ const editItemReducer = (state = InitialState, action) => {
             };
         case 'EDIT_THIS_GROUP':
             const group = action.payload;
-	
-	        console.log('groupreducer', group)
             return {
                 ...state,
                 editThisGroup: group

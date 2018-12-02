@@ -6,12 +6,7 @@
     // max-height: 94vh;
     margin-top: 40px;
 }
-@media only screen and (max-width: 870px) {
-    .MainPage{
-        padding-left: 12%;
-        max-width: 97.6%;
-    }
-}
+
 
 .EventsPage{
     text-align: left;
@@ -68,8 +63,23 @@
                         margin: 5px 0;
                         display: flex;
                         align-items: center;
-                        span{
+                        &>span{
                             margin: 0 5px;
+                            .profileAvatar{
+                                width: 35px;
+                                height: 35px;
+                                border-radius: 25px;
+                                overflow: hidden;
+                                text-align: center;
+                                vertical-align: middle;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                &>img{
+                                    max-width: 100%;
+                                }
+                            }
+
                         }
                     }
                 }
@@ -91,7 +101,7 @@
             display: block;
             width: 49%;
             border: 1px solid #a9a9a9;
-            padding: 0 1%;
+            padding: 0 0%;
             margin: 0 1%;
             box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
             background-color: var(--white);
@@ -117,7 +127,7 @@
                 margin-bottom: 35px;
             }
             &>div{
-                
+                padding: 0 15px;
                 .eventData{
                     padding: 5px 0;
                     // border-bottom: 1px solid #a9a9a9;
@@ -190,4 +200,17 @@
         }
     }
     
+}
+@media only screen and (max-width: 1000px) {
+    .MainPage{
+        padding-left: 0%;
+        max-width: 100%;
+        .eventsTBLS {
+            display: block !important;
+            .eventsTable {
+                width: 100% !important;
+                margin: 0 0 10px 0 !important;
+            }
+        }
+    }
 }

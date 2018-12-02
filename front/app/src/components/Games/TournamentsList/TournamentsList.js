@@ -55,18 +55,43 @@ export class TournamentsList extends Component {
             someId:'',
             tournamentID:'',
 	        buttonStatus: true,
-	        changeList: 'FIFA'
+	        changeList: 'FIFA',
+	        allTournaments: [],
+	        myTournaments: [],
+	        // sorttournaments: [],
+            sortItem: 'tournamentName',
+            toggleSort: true,
+	        tournaments: ''
+         
         }
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
 
-    // componentWillMount(){
-    //     if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
-    //         this.props.takeAllTournaments()
-    //     } else {
-    //         return null
-    //     }
-    // }
+  
+	
+	componentWillReceiveProps(nextProps) {
+        const allTournaments = this.props.allTournsList
+		const myTournaments = this.props.tournsDataById
+		const { allTournsList, tournsDataById } = nextProps;
+		if( allTournaments !== allTournsList || myTournaments !== tournsDataById ){
+
+			this.setState({allTournaments: nextProps.allTournsList, myTournaments: nextProps.tournsDataById});
+			
+			// const tournaments = this.props.match.url === '/all_tournaments' ? this.state.allTournaments : this.state.myTournaments
+			const tournaments = this.props.match.url === '/all_tournaments' ? allTournsList : tournsDataById
+			const sortedItem = this.state.sortItem
+            tournaments.sort((a, b) => {
+			    return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() < b[sortedItem].toLowerCase() ? -1 : 1;
+			});
+			this.props.match.url === '/all_tournaments'
+			? this.setState({allTournaments: tournaments})
+			: this.setState({myTournaments: tournaments})
+        }
+
+	}
+	
+	
+    
     componentDidMount(){
 	    
         this.props.successMessageAction(null)
@@ -87,6 +112,7 @@ export class TournamentsList extends Component {
     }
 
     DeleteTournamentBtn = (item) => {
+    	console.log(item)
         this.setState({tournamentForDelete: item})
         this.setState({tournamentInEditMode: null})
         this.props.deleteConfirmMessageAction(true)
@@ -167,22 +193,67 @@ export class TournamentsList extends Component {
            default:
          }
     }
-	
+    
+    sortTTTT = (tournaments, sortBy, upDown) => {
+	    const { toggleSort } = this.state
+        const x = toggleSort ? 1 : -1
+	    const y = toggleSort ? -1 : 1
+	    
+	    tournaments.sort((a, b) => {
+		    if(a[sortBy] !== b[sortBy]){
+			    if(a === isNaN && b === isNaN){
+				    if(a[sortBy].toLowerCase() < b[sortBy].toLowerCase()){
+					    return x
+				    }else{
+					    return y
+				    }
+			    }else{
+				    if(a[sortBy] < b[sortBy]){
+					    return x
+				    }else{
+					    return y
+				    }
+			    }
+		    }
+	    });
+
+    }
+	Sort = (item) => {
+		const tournaments = this.props.match.url === '/all_tournaments' ? this.state.allTournaments : this.state.myTournaments
+  
+		const { sortItem, toggleSort } = this.state
+		const sortBy = item.target.id;
+		this.setState({sortItem: sortBy})
+  
+		const attrId = document.getElementById(sortItem)
+        const upDown = toggleSort ? 'down' : 'up'
+		document.getElementById(sortBy).setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+        if(sortItem === sortBy){
+            this.setState({toggleSort: !toggleSort});
+	        attrId.setAttribute('i-attribute', upDown === 'down' || upDown === 'none' ? 'down' : 'up');
+	        this.sortTTTT(tournaments, sortBy, upDown)
+        }
+		else{
+	        this.setState({toggleSort: false});
+	        attrId.setAttribute('i-attribute', 'none');
+	        this.sortTTTT(tournaments, sortBy, upDown)
+        }
+		
+		
+		
+		this.setState({sorttournaments: tournaments});
+	}
     tournamentList = () => {
-	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
-	    const sortedBoard = tournaments.length !== 0 || tournaments !== null ? tournaments.sort((a, b) => {
-		    return a.endDate === b.endDate ? 0 : a.endDate < b.endDate ? 1 : -1;
-	    }) : null
+
+	    const tournaments = this.props.match.url === '/all_tournaments' ? this.state.allTournaments : this.state.myTournaments
 	    const path = this.props.match.url
 	    const now = new Date();
-
-	    const sortedList = sortedBoard.filter((tourny) =>  tourny.eventTypeName === this.state.changeList)
+     
+	    const sortedList = tournaments.filter((tourny) =>  tourny.eventTypeName === this.state.changeList)
         return sortedList !== undefined ? sortedList.map((item, index) => {
-		        
-		        const end = new Date(item.endDate)
-          
-		        const eEndDate = Date.parse(end)
-	            const todayDate = Date.parse(now)
+            const end = new Date(item.endDate)
+            const eEndDate = Date.parse(end)
+            const todayDate = Date.parse(now)
 		        
             return <li key={index} className={eEndDate <= todayDate ? classes.notActive : null}>
 	            <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>
@@ -190,21 +261,22 @@ export class TournamentsList extends Component {
                         {/*{ this.pathChanger(item) }*/}
                         <span>{item.tournamentName}</span>
                     </div>
-                    <div className={classes.email}><span>{moment(item.startDate).format('Do MMM YYYY')}</span></div>
+                    <div className={classes.email +' '+ classes.hide870}><span>{moment(item.startDate).format('Do MMM YYYY')}</span></div>
                     <div className={classes.email}><span>{moment(item.endDate).format('Do MMM YYYY')}</span></div>
-                    <div className={classes.role}><span>{item.eventsCount}</span></div>
-                    <div className={classes.role}><span>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</span></div>
-                    <div className={classes.role}><span>{item.eventTypeName}</span></div>
-                    <div id={index} className={classes.allUsButtons}>
-                        <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
-                        {/*{*/}
-                            {/*item.eventsCount !== null || item.eventsCount == 0*/}
-                            {/*? <div onClick={() => this.presetEvents(item.tournamentId)}>preset</div>*/}
-                            {/*: null*/}
-                        {/*}*/}
-                        
-                    </div>
+                    <div className={classes.role +' '+ classes.hide}><span>{item.eventsCount}</span></div>
+                    <div className={classes.role +' '+ classes.hide}><span>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</span></div>
+                    <div className={classes.role +' '+ classes.hide}><span>{item.eventTypeName}</span></div>
+                    
                 </Link>
+	            <div id={index} className={classes.allUsButtons}>
+		            <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>
+		            {/*{*/}
+		            {/*item.eventsCount !== null || item.eventsCount == 0*/}
+		            {/*? <div onClick={() => this.presetEvents(item.tournamentId)}>preset</div>*/}
+		            {/*: null*/}
+		            {/*}*/}
+	
+	            </div>
             </li>
 	         
             
@@ -221,11 +293,16 @@ export class TournamentsList extends Component {
         return num
 	}
     render (){
+		// console.log('tList', this.props)
+	    // console.log('tList state', this.state)
+	    // const { toggleSort, sortItem } = this.state
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
 	    const fifaNum = this.countOfOject(tournaments, 'FIFA')
         const pokerNum = this.countOfOject(tournaments, 'Poker')
+
 	    
-        console.log('tournyList', this.props)
+        // console.log('tournyList', this.props)
+	    // console.log('tournyList state', this.state)
         return (
             <div className={classes.usersWrapper}>
                 <div>
@@ -258,23 +335,25 @@ export class TournamentsList extends Component {
                     {this.successDeleteMessage()}
                     {this.errorDeleteMessage()}
                     <div className={classes.usersHead}>
-                        <div className={classes.username}>Tournament Name</div>
-                        <div className={classes.email}>Start Date</div>
-                        <div className={classes.email}>End Date</div>
-                        <div className={classes.role}>Num of Events</div>
-                        <div className={classes.role}>Max Events</div>
-                        <div className={classes.role}>Game Type</div>
-                        <div className={classes.addBtn}>
+                        {/*<div className={classes.username} id={'tournamentName'} onClick={(item) => this.Sort(item)}>Tournament Name <i id={'q'+this.parentNode} className={this.state.arrow}></i></div>*/}
+	                    <div className={classes.username} i-attribute="down" id={'tournamentName'} onClick={(item) => this.Sort(item)} > Tournament Name </div>
+                        <div className={classes.email +' '+ classes.hide870} i-attribute="none" id={'startDate'} onClick={(item) => this.Sort(item)}>Start Date </div>
+                        <div className={classes.email} i-attribute="none" id={'endDate'} onClick={(item) => this.Sort(item)}>End Date </div>
+                        <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'eventsCount'} onClick={(item) => this.Sort(item)}>Num of Events </div>
+                        <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'numberOfEvents'} onClick={(item) => this.Sort(item)}>Max Events</div>
+                        <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'eventTypeName'} onClick={(item) => this.Sort(item)}>Game Type </div>
+	                    <div className={classes.allUsButtons}></div>
+                        {/*<div className={classes.addBtn}>*/}
                             {/*<BtnComp*/}
                                 {/*inputType="submit"*/}
                                 {/*content='Add Tournament'*/}
                                 {/*onClick={this.addTournamentBtn}*/}
                                 {/*disabled={this.props.allTournsList.length !== 0 || this.props.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}*/}
                             {/*/>*/}
-                        </div>
+                        {/*</div>*/}
                     </div>
                 </div>
-                {this.props.allTournsList.length !== 0
+                {this.state.allTournaments.length !== 0 || this.state.myTournaments.length !== 0
                 // ? <ul className={classes.uesrsList}>{this.tournamentList()}</ul>
 	                ? <ul className={classes.uesrsList}>{this.pathChanger()}</ul>
 	            : <ul className={classes.uesrsListSpinner}><SmallSpinner/></ul>
