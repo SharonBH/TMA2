@@ -486,3 +486,27 @@
         }
     }
 }
+@media only screen and (max-width: 870px) {
+    .Profile{
+        margin: 0;
+        .wrappLine{
+            .HeadLine{
+                width: 33% !important;
+                font-size: 12px;
+                line-height: 16px !important;
+                margin-top: 6px;
+            }
+            span{
+                width: 55% !important;
+            }
+        }
+        .closePopBtn{
+            span{
+                padding: 2.5px 5px !important;
+                top: 8px;
+            }
+        }
+    }
+
+
+}

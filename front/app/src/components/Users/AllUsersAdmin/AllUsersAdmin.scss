@@ -383,12 +383,18 @@ div.EditBtn {
 @media only screen and  (max-width: 870px) {
 .usersWrapper{
     font-size: 14px;
+    .hide870{
+        display: none;
+    }
     .usersHead{
         &>div{
-            width: 33%;
+            width: 46%;
         }
         .allUsButtons{
-            width: 5%!important;
+            width: 0%!important;
+        }
+        .hide870{
+            display: none;
         }
     }
     .topLine{
@@ -416,7 +422,7 @@ div.EditBtn {
             //    display: none;
             //}
             &>div{
-                width: 33%;
+                width: 46%;
             }
 
         }

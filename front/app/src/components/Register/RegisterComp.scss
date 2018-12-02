@@ -185,6 +185,7 @@
                     z-index: 100;
                     max-height: 315px;
                     overflow-y: auto;
+
                     //border-left: 1px solid $blue;
                     //border-bottom: 1px solid $blue;
     
@@ -268,6 +269,7 @@
                     max-height: 325px;
                     padding: 0px 0 20px 0;
                     z-index: 1 !important;
+                    box-shadow: 0px 2px 7px 0px #00000026 inset;
                     .user {
                         border: 1px solid #0084ff;
                         width: 49%;
@@ -594,7 +596,7 @@
     max-height: 210px;
     padding: 5px;
     z-index: 1 !important;
-
+    box-shadow: 0px 2px 7px 0px #00000026 inset;
 
     .user {
         border: 1px solid #2196f3;
@@ -651,4 +653,35 @@
     display: block;
     text-align: center;
 }
+}
+
+@media only screen and (max-width: 870px) {
+    form{
+        .searchResult{
+            font-size: 13px !important;
+        }
+        .usersAddedWrapperList {
+            li {
+                width: 98% !important;
+            }
+        }
+        .searchUsersWrapper{
+            .usersAddedWrapper{
+
+                .user{
+                    width: 100% !important;
+                    margin: 4px 0 !important;
+                }
+
+            }
+        }
+        .wrappLine{
+            label{
+                font-size: 12px;
+            }
+        }
+
+    }
+
+
 }

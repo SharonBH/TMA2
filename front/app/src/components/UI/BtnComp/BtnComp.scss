@@ -125,3 +125,15 @@ input:disabled {
     background: transparent;
 }
 
+@media only screen and (max-width: 870px) {
+.deleteBtn{
+    width: 23px;
+}
+    .sendBtn{
+        padding: 4px;
+        font-size: 12px;
+    }
+    .editBtn{
+        width: 20px;
+    }
+}

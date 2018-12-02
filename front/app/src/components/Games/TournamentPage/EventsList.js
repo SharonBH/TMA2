@@ -92,7 +92,7 @@ export class EventsList extends Component {
 					<div className={classes.usersHead}>
 						<h4 className={classes.eventName}>Event Name</h4>
 						<h4 className={classes.eventDate}>Event Date</h4>
-						<h4 className={classes.usersInGame}>Users in Game</h4>
+						<h4 className={classes.usersInGame}>Scores</h4>
 						<h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
 					</div>
 					{this.state.tournEventsByIdNoS.length !== 0
@@ -113,7 +113,7 @@ export class EventsList extends Component {
 													})
 													return <li key={index}>
 														{/*<span>{user.name}</span>*/}
-														<span>{fill.result === null ? 'none' : fill.result}</span>
+														<span>{fill.result === null ? '-' : fill.result}</span>
 													</li>
 												}) : null}
 											</ul>
