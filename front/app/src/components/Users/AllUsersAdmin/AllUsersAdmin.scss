@@ -115,6 +115,9 @@
         width: 20%;
         border: 1px solid #ddd;
     }
+    .editB{
+        width: 109px;
+    }
 
     .usersHead {
         //padding: 5px 0 5px;
@@ -380,15 +383,55 @@ div.EditBtn {
 @media only screen and  (max-width: 870px) {
 .usersWrapper{
     font-size: 14px;
-    h1{
-        font-size: 18px;
+    .usersHead{
+        &>div{
+            width: 33%;
+        }
+        .allUsButtons{
+            width: 5%!important;
+        }
+    }
+    .topLine{
+
+
+        display: block;
+        h1{
+            font-size: 18px;
+            width: 60%;
+            display: inline-block;
+        }
+        .addBtn{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+    }
+    .uesrsList{
+        a{
+            .hide{
+                display: none;
+            }
+            //&>div.role:last-child{
+            //    display: none;
+            //}
+            &>div{
+                width: 33%;
+            }
+
+        }
+        .allUsButtons{
+            width: 5%!important;
+            margin: 0;
+        }
+
     }
     div{
       .sortTabs{
         display: flex;
         justify-content: center;
         .active{
-          background: #acedff;
+          //background: #acedff;
         }
         &>div{
           margin: 0 10px;
@@ -402,9 +445,12 @@ div.EditBtn {
         color: #333;
     }
     .usersHead{
-        padding-right: 10%;
+        //padding-right: 8%;
         &>div{
             font-size: 14px;
+        }
+        .hide{
+            display: none;
         }
         .addBtn{
             position: absolute;
@@ -417,7 +463,7 @@ div.EditBtn {
 
         li{
             .allUsButtons{
-                width: 12% !important;
+                //width: 12% !important;
             }
 
         }
