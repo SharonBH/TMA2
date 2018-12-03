@@ -19,6 +19,76 @@ import { EDIT, YOUR_PROFILE } from '../configuration/config'
 const cors =''
 const url = 'https://tma-api.azurewebsites.net/'
 
+
+// login request
+export const loginRequest = (userName, password) => {
+	return (dispatch) => {
+		dispatch(toggleLoaderAction(true))
+		return axios({
+			method: 'post',
+			data: {
+				username: userName,
+				password: password
+			},
+			crossDomain: true,
+			url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
+			mode: 'no-cors',
+			headers: {
+				'Content-Type': 'application/json; charset=UTF-8',
+				'Accept': 'application/json, text/plain, */*',
+				"cache-control": "no-cache",
+				"Access-Control-Allow-Origin": "https://tma-api.azurewebsites.net/Account/Login",
+				"Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
+				"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+				'Access-Control-Allow-Credentials': 'true',
+				'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
+			},
+		})
+		.then((response) => {
+			// if(response.data.message === 'Success') {
+			return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
+			.then((response) => {
+				sessionStorage.setItem('session', JSON.stringify(response.data));
+				const session = JSON.parse(sessionStorage.getItem('session'));
+				dispatch(getUserAction(session))
+				return axios.post(cors + url + `Account/GetUserRoles`)
+					.then((response) => {
+						// const roles = response.data
+						localStorage.setItem('localStoreRoles', JSON.stringify(response.data));
+						const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
+						dispatch(getAllRoles(roles));
+						
+						return axios({
+							method: 'POST',
+							url: cors + url + 'Tournaments/GetHomeLeaderboards',
+							headers: {'Content-Type': 'application/json; charset=UTF-8'},
+							data: "'" + session.userId + "'"
+						})
+						.then((response) => {
+							// const data = response.data.message
+							// const allData = response.data
+							localStorage.setItem('localStoreLeaderboarddData', JSON.stringify(response.data));
+							const allData = JSON.parse(localStorage.getItem('localStoreLeaderboarddData'));
+							dispatch(takeMyHomeLeader(allData))
+							history.push({pathname: '/homeEvents', state:response.data})
+							dispatch(toggleLoaderAction(false))
+						})
+						.catch((error) => {
+							dispatch(catchErrorAction([error][0]))
+							dispatch(errorMessageAction([error][0]))
+							dispatch(toggleLoaderAction(false))
+						});
+					})
+			})
+			.catch((error) => {
+				dispatch(catchErrorAction([error][0]))
+				dispatch(errorMessageAction(error[0]))
+				dispatch(toggleLoaderAction(false))
+			});
+		})
+	}
+};
+
 // get user roles 
 export const getAllRolesRequest = () => {
 	return (dispatch) => {
@@ -94,75 +164,7 @@ export const registerRequest = (email, password, confirmPassword, name, userType
 };
 
 
-// login request
-export const loginRequest = (userName, password) => {
-	return (dispatch) => {
-		dispatch(toggleLoaderAction(true))
-			return axios({
-				method: 'post',
-				data: {
-					username: userName,
-					password: password
-				},
-				crossDomain: true,
-				url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
-				mode: 'no-cors',
-				headers: {
-					'Content-Type': 'application/json; charset=UTF-8',
-					'Accept': 'application/json, text/plain, */*',
-					"cache-control": "no-cache",
-					"Access-Control-Allow-Origin": "https://tma-api.azurewebsites.net/Account/Login",
-					"Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
-					"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
-					'Access-Control-Allow-Credentials': 'true',
-					'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
-				},
-				
-			})
-			.then((response) => {
-						// if(response.data.message === 'Success') {
-				return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
-					.then((response) => {
-						sessionStorage.setItem('session', JSON.stringify(response.data));
-						const session = JSON.parse(sessionStorage.getItem('session'));
-						dispatch(getUserAction(session))
-						return axios.post(cors + url + `Account/GetUserRoles`)
-						.then((response) => {
-								// const roles = response.data
-								localStorage.setItem('localStoreRoles', JSON.stringify(response.data));
-								const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
-								dispatch(getAllRoles(roles));
-							
-								return axios({
-									method: 'POST',
-									url: cors + url + 'Tournaments/GetHomeLeaderboards',
-									headers: {'Content-Type': 'application/json; charset=UTF-8'},
-									data: "'" + session.userId + "'"
-								})
-								.then((response) => {
-										// const data = response.data.message
-										// const allData = response.data
-										localStorage.setItem('localStoreLeaderboarddData', JSON.stringify(response.data));
-										const allData = JSON.parse(localStorage.getItem('localStoreLeaderboarddData'));
-										dispatch(takeMyHomeLeader(allData))
-										history.push({pathname: '/homeEvents', state:response.data})
-										dispatch(toggleLoaderAction(false))
-									})
-								.catch((error) => {
-										dispatch(catchErrorAction([error][0]))
-										dispatch(errorMessageAction([error][0]))
-										dispatch(toggleLoaderAction(false))
-									});
-							})
-					})
-					.catch((error) => {
-						dispatch(catchErrorAction([error][0]))
-						dispatch(errorMessageAction(error[0]))
-						dispatch(toggleLoaderAction(false))
-					});
-			})
-	}
-};
+
 
 // add New-User Request
 export const addNewUserRequest = (email, password, confirmPassword, name, userType, userName, groupId) => {
