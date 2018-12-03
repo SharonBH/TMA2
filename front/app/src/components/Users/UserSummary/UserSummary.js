@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import BtnComp from '../../UI/BtnComp/BtnComp';
+import OutlineBtn from '../../UI/BtnComp/OutlineBtn';
 import InputComp from '../../UI/InputComp/InputComp';
 import SelectComp from '../../UI/SelectComp/SelectComp.js';
 import SelectIdComp from '../../UI/SelectComp/SelectIdComp.js';
@@ -551,7 +552,7 @@ class UserSummary extends Component {
                     {this.errorMessage()}
                     {this.successMessage()}
                     <span className={classes.SubmitAll}>
-                         {(this.props.editThisItem || this.props.editThisGroup || this.props.editThisEvent) ? null : <BtnComp inputType={'button'} className={classes.changePass}  onClick={this.changePassBtn} content={'Change Password'}/>}
+                         {(this.props.editThisItem || this.props.editThisGroup || this.props.editThisEvent) ? null : <OutlineBtn inputType={'button'} className={classes.changePass}  onClick={this.changePassBtn} content={'Change Password'}/>}
                         {headline === EDIT_EVENT
                         ?
                         <Link to={`${path}/${this.props.tournById.tournamentName}=${tournById.tournamentId}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
