@@ -50,18 +50,19 @@ class TopNavigation extends Component {
                         ? <i className={'fas fa-bars'}  onClick={this.navState}></i>
                         : <i className={'fas fa-bars'}  onClick={this.navResponsiveState}></i>
                     }
-	                
+	                <Link to='/profile' className={classes.navLink + " "+ classes.userHomeLink}>
 	                {<div className={classes.navProfileAvatar}> {profileImage}</div>}
                     {this.helloUser()}
+                    </Link>
                 </span>
                 
                 <div className={classes.topNavLinks}>
                     <Link to='/homeEvents' className={classes.navLink}>
                         <i className="fas fa-home"></i><span>Home</span>
-                    </Link> 
-                    <Link to='/profile' className={classes.navLink}>
-                        <i className="fas fa-user-cog"></i><span>Profile</span>
                     </Link>
+                    {/*<Link to='/profile' className={classes.navLink}>*/}
+                        {/*<i className="fas fa-user-cog"></i><span>Profile</span>*/}
+                    {/*</Link>*/}
                     {this.props.currentUser.role === 'Admin' 
                     ?  <Link to='/all_users' className={classes.navLink}>
                         <i className="fas fa-user-friends"></i><span>Users Managment</span>

@@ -42,7 +42,7 @@ export class TournyPageLeaderBoard extends Component {
 				<h3>Leader Board of tournament</h3>
 				<div className={classes.wrapList}>
 				<div className={classes.usersHead}>
-					<h4 className={classes.leaderBoardTD}>User Name</h4>
+					<h4 className={classes.leaderBoardTD}>User</h4>
 					<h4 className={classes.leaderBoardTD}>Points</h4>
 					<h4 className={classes.leaderBoardTD}>Events</h4>
 				</div>

@@ -26,6 +26,7 @@
             margin-bottom: 40px;
             box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
             background-color: var(--white);
+            padding-bottom: 20px;
             &>p{
                 text-align: left;
                 padding-bottom: 9px;
@@ -205,6 +206,14 @@
     .MainPage{
         padding-left: 0%;
         max-width: 100%;
+        .leaderBoardTables{
+            height: auto;
+        }
+        .leaderTop{
+            ul{
+                padding-left: 30px !important;
+            }
+        }
         .eventsTBLS {
             display: block !important;
             .eventsTable {

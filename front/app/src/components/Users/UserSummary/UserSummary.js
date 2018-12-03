@@ -479,13 +479,15 @@ class UserSummary extends Component {
                                 
                                 return <div key={user.userId} className={classes.eventResult}>
                                     <span className={classes.name}>{user.name}</span>
-                                    <InputComp 
-                                        inputType="number" 
-                                        name="result" 
-                                        value={this.state.inputs === '' ? fill.result : this.state.inputs.result}
-                                        placeholder={fill.result === null ? 'none' : fill.result.toString()} 
-                                        onChange={(e) => this.editEventDetailInput(index, user, e)}
-                                    />
+                                    <div className={classes.eventResInp}>
+                                        <InputComp
+                                            inputType="number"
+                                            name="result"
+                                            value={this.state.inputs === '' ? fill.result : this.state.inputs.result}
+                                            placeholder={fill.result === null ? '-' : fill.result.toString()}
+                                            onChange={(e) => this.editEventDetailInput(index, user, e)}
+                                        />
+                                    </div>
                                 </div>
                             }) 
                             : null
@@ -549,16 +551,18 @@ class UserSummary extends Component {
                     {this.errorMessage()}
                     {this.successMessage()}
                     <span className={classes.SubmitAll}>
-                    {headline === EDIT_EVENT
-                    ?
-                    <Link to={`${path}/${this.props.tournById.tournamentName}=${tournById.tournamentId}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
-                        <BtnComp className={classes.editBtn}  inputType="submit"   content='Save'  onClick={() => this.submitUserAditeChanges(headline)} />
-                    </Link>
-                    :<BtnComp className={classes.editBtn}  inputType="submit"   content='Save'  onClick={() => this.submitUserAditeChanges(headline)} />
+                         {(this.props.editThisItem || this.props.editThisGroup || this.props.editThisEvent) ? null : <BtnComp inputType={'button'} className={classes.changePass}  onClick={this.changePassBtn} content={'Change Password'}/>}
+                        {headline === EDIT_EVENT
+                        ?
+                        <Link to={`${path}/${this.props.tournById.tournamentName}=${tournById.tournamentId}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
+                            <BtnComp className={classes.editBtn}  inputType="submit"   content='Save'  onClick={() => this.submitUserAditeChanges(headline)} />
+                        </Link>
+                        :<BtnComp className={classes.editBtn}  inputType="submit"   content='Save'  onClick={() => this.submitUserAditeChanges(headline)} />
                         }
+	                   
                     </span>
                     {(headline !== 'Register' && headline !== 'Your Profile') ? <div className={classes.closePopBtn} onClick={this.closePopUp}><span>Close</span></div> : null}
-                    {(this.props.editThisItem || this.props.editThisGroup || this.props.editThisEvent) ? null : <span className={classes.changePass}  onClick={this.changePassBtn}>Change Password</span>}
+                    
                     {this.props.passwords ? <ChangePassword headline='Change Password' user={user.username} classStr='none' /> : null}
                 </div>
             </div>

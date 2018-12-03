@@ -336,12 +336,14 @@ export class TournamentsList extends Component {
                     {this.errorDeleteMessage()}
                     <div className={classes.usersHead}>
                         {/*<div className={classes.username} id={'tournamentName'} onClick={(item) => this.Sort(item)}>Tournament Name <i id={'q'+this.parentNode} className={this.state.arrow}></i></div>*/}
-	                    <div className={classes.username} i-attribute="down" id={'tournamentName'} onClick={(item) => this.Sort(item)} > Tournament Name </div>
+	                    
+                        <div className={classes.username} i-attribute="down" id={'tournamentName'} onClick={(item) => this.Sort(item)} > Tournament Name </div>
                         <div className={classes.email +' '+ classes.hide870} i-attribute="none" id={'startDate'} onClick={(item) => this.Sort(item)}>Start Date </div>
                         <div className={classes.email} i-attribute="none" id={'endDate'} onClick={(item) => this.Sort(item)}>End Date </div>
                         <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'eventsCount'} onClick={(item) => this.Sort(item)}>Num of Events </div>
                         <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'numberOfEvents'} onClick={(item) => this.Sort(item)}>Max Events</div>
                         <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'eventTypeName'} onClick={(item) => this.Sort(item)}>Game Type </div>
+	                    
 	                    <div className={classes.allUsButtons}></div>
                         {/*<div className={classes.addBtn}>*/}
                             {/*<BtnComp*/}

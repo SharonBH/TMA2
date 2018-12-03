@@ -12,6 +12,7 @@ import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, DELETE_EVENT } from '../../../c
 // import EditBtn  from '../../UI/BtnComp/EditBtn';
 // import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
+import OutlineBtn from '../../UI/BtnComp/OutlineBtn';
 // import SelectComp from '../../UI/SelectComp/SelectComp'
 
 import Register from '../../Register';
@@ -22,21 +23,15 @@ import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
 
 import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest } from '../../../actions/GamesApi';
 import {
-	// editThisEventAction,
 	addNewEventAction,
-	// addNewTournamentAction,
 	editThisItemAction,
 	successMessageAction,
 	errorMessageAction,
-	// deleteConfirmMessageAction,
-	// sendEventDataAction,
-	// sendEvetnMatchAction,
 	toggleLoaderAction
 } from '../../../actions';
-// import Spinner from "../../UI/Spinner";
 import SmallSpinner from "../../UI/SmallSpinner";
 
-    // const storage = JSON.parse(localStorage.getItem('localStoreTournament'));
+
 export class TournamentPage extends Component {
 
     static propTypes = {
@@ -55,9 +50,6 @@ export class TournamentPage extends Component {
             eventForDelete: null,
             groupsList: [],
             thisTournamentGroup: null,
-	
-	        // tournEventsByIdNoS: [],
-	        // leaderBoardData: [],
 	        tournById: [],
 	        groupById: [],
 	        allEventTypesList: [],
@@ -67,13 +59,6 @@ export class TournamentPage extends Component {
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
 	    
     }
-	// spinner = () => {
-	// 	if (this.props.toggleSpinner) {
-	// 		return <Spinner />
-	// 	} else {
-	// 		return null
-	// 	}
-	// };
     componentWillMount(){
 	    this.props.groupById.length !== 0 ? this.props.toggleLoaderAction(false) : this.props.toggleLoaderAction(true)
      
@@ -84,10 +69,8 @@ export class TournamentPage extends Component {
         const locationName = this.props.location.pathname;
         const urlsplit = locationName.split("=");
         const action = urlsplit[ urlsplit.length - 1 ];
-        // if ((this.props.tournById.length === 0)) {
-            this.props.goToTournPageRequest(action);
-        // }
-	    this.setState({currentPage: this.props.tournById});
+        this.props.goToTournPageRequest(action);
+	    this.setState({tournById: this.props.tournById});
 	    
 	    setTimeout(()=>{
 	        this.setStateAsync({
@@ -102,6 +85,28 @@ export class TournamentPage extends Component {
 
 	        }, 3000)
     }
+	componentWillReceiveProps(nextProps) {
+		const tournamentGroup = this.props.groupById
+		const gameTypes = this.props.allEventTypesList
+		const allTournaments = this.props.allTournsList
+		const allGroups = this.props.groupsList
+		const tournByIdProp = this.props.tournById
+		
+		const { allEventTypesList, allTournsList, groupsList, groupById, tournById } = nextProps;
+		
+		if( allTournaments !== allTournsList || tournamentGroup !== groupById ||
+			gameTypes !== allEventTypesList || allGroups !== groupsList || tournById !== tournByIdProp) {
+			
+			this.setState({
+				groupById: this.props.groupById,
+				allEventTypesList: this.props.allEventTypesList,
+				allTournsList: this.props.allTournsList,
+				groupsList: this.props.groupsList,
+				tournById: this.props.tournById
+			});
+		}
+		
+	}
 
     componentWillUnmount(){
         this.props.errorMessageAction(null);
@@ -202,6 +207,7 @@ export class TournamentPage extends Component {
  
     usersTable = () => {
 	    const currentTournament = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
+	    const currentTournamentProp = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
 	    const locationName = this.props.location.pathname;
 	    const urlsplit2 = locationName.split("/");
 	    const urlsplit3 = urlsplit2[2].split('=');
@@ -228,7 +234,7 @@ export class TournamentPage extends Component {
 		                    <div className={classes.usersTBList}>
 		                        <h5 className={classes.eventDate}>Users:</h5>
 		                        <ul>
-			                        {(currentTournament !== undefined && currentTournament === action2)
+			                        {(currentTournament !== undefined && currentTournament === currentTournamentProp)
 			                        ? groupName !== undefined  ? groupName.map((item, index) => {
 				                        return(
 				                        <li key={index}>
@@ -249,29 +255,29 @@ export class TournamentPage extends Component {
         const currentTournament = this.state.tournById !== null || this.state.tournById !== undefined ? this.state.tournById.tournamentName : null
         return(
         <div className={classes.headTPage}>
-            <h1><span>Tournament Name:</span>
-	            { currentTournament !== undefined
-		            ? <span> {currentTournament}</span>
-		            : <div className={classes.typeNameSpinner}><SmallSpinner/></div>
-		            
-	            }
-             
-            </h1>
             <div className={classes.tournPButtons}>
-                <BtnComp
+	            <Link className={classes.backBtn} to={`${path}`}><i className="fas fa-arrow-left"></i><span>Back to Tournaments List</span></Link>
+	            <OutlineBtn
+		            inputType="button"
+		            content='Edit Tournament'
+		            onClick={() => this.editTournamentBtn(currentTournament)}
+		            // disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0 || this.state.allEventTypesList !== null || this.state.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
+	            />
+	            <BtnComp
 	                content='Add Event'
 	                inputType='button'
 	                onClick={this.addEventBtn}
-	                disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0   ? !this.state.buttonStatus : this.state.buttonStatus}
+	                // disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0   ? !this.state.buttonStatus : this.state.buttonStatus}
                 />
-                <BtnComp
-	                inputType="button"
-	                content='Edit Tournament'
-	                onClick={() => this.editTournamentBtn(currentTournament)}
-	                disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0 || this.state.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
-                />
-                <Link className={classes.backBtn} to={`${path}`}><i className="far fa-arrow-alt-circle-right"></i><span>Back to Tournaments List</span></Link>
+                
             </div>
+	        <h1><span>Tournament Name:</span>
+		        { currentTournament !== undefined
+			        ? <span> {currentTournament}</span>
+			        : <div className={classes.typeNameSpinner}><SmallSpinner/></div>
+			
+		        }
+	        </h1>
         </div>
         )
     }
@@ -280,24 +286,25 @@ export class TournamentPage extends Component {
         const url = this.props.match.url;
         const urlsplit = url.split("/");
         const action = urlsplit[urlsplit.length-1];
-	    const currentTournament = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
+	    const currentTournament = this.state.tournById !== null || this.state.tournById !== undefined ? this.state.tournById.tournamentName : null
+	    const currentTournamentProp = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
 	    const urlsplit2 = url.split("/");
 	    const urlsplit3 = urlsplit2[2].split('=');
 	    const action2 = urlsplit3[ urlsplit3.length - 2 ];
 	    
-        const allT = this.props.allTournsList.find((item) => { return item.tournamentName === action});
-        const tournData = this.props.tournById !== null || this.props.tournById.length !== 0 ? this.props.tournById : allT;
+        const allT = this.state.allTournsList.find((item) => { return item.tournamentName === action});
+        const tournData = this.state.tournById !== null || this.state.tournById.length !== 0 ? this.state.tournById : allT;
         const { eventTypeId, numberOfEvents, startDate, endDate  } =  tournData;
-        const sDate = this.props.tournById.length !== 0 ? moment(startDate).format('LL') : '';
-	    const eDate = this.props.tournById.length !== 0 ? moment(endDate).format('LL') : '';
-        const eventTName = this.props.allEventTypesList !== undefined || this.props.allEventTypesList !== null ? this.props.allEventTypesList.find((event) => {return event.eventTypeId === eventTypeId} ) : null
+        const sDate = this.state.tournById.length !== 0 ? moment(startDate).format('LL') : '';
+	    const eDate = this.state.tournById.length !== 0 ? moment(endDate).format('LL') : '';
+        const eventTName = this.state.allEventTypesList !== undefined || this.state.allEventTypesList !== null ? this.state.allEventTypesList.find((event) => {return event.eventTypeId === eventTypeId} ) : null
         return(
             <div className={classes.tournTime}>
 	            <h3>Tournament info:</h3>
 	            <div className={classes.wrapList}>
                 <div className={classes.turnPageTiming}>
 	                
-	                {(currentTournament !== undefined && currentTournament === action2)
+	                {(currentTournament !== undefined && currentTournament === currentTournamentProp)
 	                ?
                         <div>
 			                <span><h4>From: </h4><p> {sDate}</p></span>

@@ -26,6 +26,22 @@ input:disabled {
         color: $white;
     }
 }
+.sendOutlineBtn{
+    background: #fff;
+    color: #2196f3;
+    padding: 8px 19px;
+    font-size: 14px;
+    border: 1px solid #1565c0;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow: 0 3px 2px 0 rgba(70, 166, 255, 0.35);
+
+
+    &:hover{
+        background: #2196f3;
+        color: #fff;
+    }
+}
 
 .editBtn {
     color: #2196f3;
@@ -129,9 +145,9 @@ input:disabled {
 .deleteBtn{
     width: 23px;
 }
-    .sendBtn{
+    .sendBtn, .sendOutlineBtn{
         padding: 4px;
-        font-size: 12px;
+        font-size: 12px !important;
     }
     .editBtn{
         width: 20px;

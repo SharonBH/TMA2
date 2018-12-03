@@ -90,8 +90,8 @@ export class EventsList extends Component {
 					</h3>
 					<div className={classes.wrapList}>
 					<div className={classes.usersHead}>
-						<h4 className={classes.eventName}>Event Name</h4>
-						<h4 className={classes.eventDate}>Event Date</h4>
+						<h4 className={classes.eventName}>Event</h4>
+						<h4 className={classes.eventDate}>Date</h4>
 						<h4 className={classes.usersInGame}>Scores</h4>
 						<h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
 					</div>

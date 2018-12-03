@@ -184,7 +184,7 @@ export class AddEvent extends Component{
 	};
 	
 	render() {
-		console.log('_____________',this.props)
+		// console.log('_____________',this.props)
 		return this.eventPage()
 	}
 }

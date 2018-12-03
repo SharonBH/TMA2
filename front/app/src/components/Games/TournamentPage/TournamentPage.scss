@@ -21,8 +21,8 @@
     .turnInfo{
         padding: 0px 20px 0;
         .headTPage{
-            display: flex;
-            justify-content: space-between;
+            //display: flex;
+            //justify-content: space-between;
             .typeNameSpinner{
                 display: inline-block;
             }
@@ -37,13 +37,15 @@
                 margin: 0;
                 font-size: 24px;
                 line-height: 47px;
+                display: block;
+                width: 100%;
                 span {
                     font-weight: 400;
                 }
             }
             .tournPButtons{
-                text-align: right;
-                margin-right: 20px;
+                text-align: left;
+                margin: 0 0 7px 0;
                 input:disabled{
                     background: #999;
                 }
@@ -60,11 +62,12 @@
                 display: inline-block;
                 position: relative;
                 white-space: nowrap;
-                margin-left: 10px;
+                margin-left: 0;
+                margin-right: 10px;
                 i{
-                    font-size: 36px;
+                    font-size: 26px;
                     position: relative;
-                    top: 10px;
+                    top: 6px;
                     color: #2196f3;
                     
                 }
@@ -77,8 +80,8 @@
                 &:hover span{
                     display: block;
                     position: absolute;
-                    top: 51px;
-                    right: 0;
+                    top: 36px;
+                    left: 0;
                     background: #ffffff;
                     box-shadow: 0px 0px 3px 0px #03a3d0;
                     padding: 6px 6px;
@@ -509,17 +512,17 @@
             .headTPage{
                 display: block;
                 h1{
-                    padding-top: 35px;
-                    font-size: 16px;
-                    text-align: center;
+                    //padding-top: 35px;
+                    font-size: 18px;
+                    //text-align: center;
                 }
-                .tournPButtons{
-                    margin: 0;
-                    width: 100%;
-                    position: absolute;
-                    top: -10px;
-                    right: 0;
-                }
+                //.tournPButtons{
+                //    margin: 0;
+                //    width: 100%;
+                //    position: absolute;
+                //    top: -10px;
+                //    right: 0;
+                //}
             }
         }
         .TPageTables{
