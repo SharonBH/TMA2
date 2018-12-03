@@ -11,11 +11,17 @@ import SmallSpinner from "../UI/SmallSpinner/SmallSpinner";
 
 
 export class HomeEvents extends Component {
-
+	constructor(props) {
+		super(props);
+		this.state = {
+		
+		}
+	}
     componentWillMount() {
+	    const userId = this.props.currentUser.userId
+	    this.props.takeMyHomeLeaderboardRequest(userId)
         setTimeout(() => {
             this.props.takeAllTournaments()
-
         }, 200)
 	    if(this.props.currentUser !== null &&  this.props.allMyHomeData === ''){
 		    const userId = this.props.currentUser.userId
@@ -24,6 +30,15 @@ export class HomeEvents extends Component {
 		    }, 200)
 	    }
     }
+	componentWillReceiveProps(nextProps) {
+		const HomeData = this.props.allMyHomeData
+		const { allMyHomeData } = nextProps;
+		if( HomeData !== allMyHomeData ) {
+			this.setState({
+				groupById: this.props.groupById,
+			});
+		}
+	}
     eventDateCheck = () => {
         this.props.myEventsById.map((item, index) => { 
             const parsedDate = Date.parse(item.eventDate)
@@ -86,9 +101,9 @@ export class HomeEvents extends Component {
             <div className={classes.leaderTop}>
                 <p>{pastTournament.tournamentName}</p>
                 <div className={classes.leaderTableHead}>
-                    <b>User Name</b>
-                    <b>Number of Events</b>
-                    <b>Total Scores</b>
+                    <b>User</b>
+                    <b>Events</b>
+                    <b>Scores</b>
                 </div>
                 <ul>{sortedBoard.map((user, i) => {
 	                const profileImage = user.user.avatar === undefined || user.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.avatar}`} />
@@ -140,7 +155,6 @@ export class HomeEvents extends Component {
 			</div>
 		)
     };
-	
 
     leaderboardTable = () => {
         const {past, next} =  this.props.allMyHomeData
@@ -167,6 +181,7 @@ export class HomeEvents extends Component {
     render() {
     	// console.log('home page____', this.props)
 	    const {past, next} =  this.props.allMyHomeData
+	    
 	    const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (past.pastEvent === null ? null : past.pastEvent.tournamentName)}): null
 	    const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
         return (
@@ -176,21 +191,24 @@ export class HomeEvents extends Component {
 	                <div className={classes.leaderBoardTables}>
                         {pastTournament !== undefined || nextTournament !== undefined
                         	? this.leaderboardTable()
-                            :  <div className={classes.smallSpinner}><SmallSpinner/></div>
+	                        : past.pastEvent === null || next.nextEvent === null
+		                        ?  <div><p>No Data</p></div>
+                                :  <div className={classes.smallSpinner}><SmallSpinner/></div>
                         }
 	                </div>
                 </div>
                 <div>
                     <h1>You have some events</h1>
                     <div className={classes.eventsTBLS}>
+	                    <div className={classes.eventsTable}>
+		                    <h4>Youre next event</h4>
+		                    <div>{this.futureEventsList()}</div>
+	                    </div>
                         <div className={classes.eventsTable}>
                             <h4>Youre past event</h4>
                             <div>{this.pastEventsList()}</div>
                         </div>
-                        <div className={classes.eventsTable}>
-                            <h4>Youre future event</h4>
-                            <div>{this.futureEventsList()}</div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -211,6 +229,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
+	    // getCurrentUser: payload => dispatch(getCurrentUser(payload)),
 	    takeMyHomeLeaderboardRequest: payload => dispatch(takeMyHomeLeaderboardRequest(payload)),
     }
 }

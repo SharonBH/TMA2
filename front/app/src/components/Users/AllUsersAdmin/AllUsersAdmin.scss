@@ -134,7 +134,9 @@
         background: #ecf8ff;
         color: #8e8e8e;
         font-weight: 600;
-
+        .allUsButtons {
+            width: 113px;
+        }
         & > div {
             padding: 0 0;
             margin: 0 0px;
@@ -154,6 +156,9 @@
                     content: ' ';
                 }
             }
+
+
+
 
         }
         div[i-attribute="up"]::after {

@@ -412,14 +412,15 @@ div.EditBtn {
             span{
                 div{
                     width: 100%;
-                    &:first-child{
+                    &:last-child{
                         display: none;
                     }
 
                 }
-                .users{
-                    display: none;
-                }
+
+            }
+            .users{
+                display: none;
             }
             .addBtn{
                 div{
@@ -453,6 +454,7 @@ div.EditBtn {
                 .groupSelect{
                     display: none;
                 }
+
             }
         }
     }

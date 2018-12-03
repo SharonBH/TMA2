@@ -176,6 +176,7 @@
     box-shadow: 0 0 13px 1px #0000001f;
     padding: 10px 15px;
     max-width: 320px;
+    height: 100%;
     .logo_image{
         width: 35px;
         display: inline-block;
@@ -195,7 +196,7 @@
 }
 .NavRespOpen{
     background: #303F9F;
-    position: absolute;
+    position: fixed;
     left: 0;
     min-width: 200px;
     z-index: 9;
@@ -206,6 +207,7 @@
     transform: translateY(0%);
     transition-timing-function: ease-in;
     transition: 0.6s;
+    height: 100%;
     .logo_image{
         width: 35px;
         display: inline-block;

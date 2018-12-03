@@ -46,17 +46,17 @@ export class Nav extends Component {
     }
 
     render(){
-        console.log('nav', this.props.navRespAction)
+        // console.log('nav', this.props.navRespAction)
 	    // console.log('nav state', this.state)
 	    const w = window.innerWidth;
         return(
 	            w < 1000
                 ? <div className={this.props.navRespAction  ? classes.NavRespOpen : classes.NavRespClosed}>
-                    <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
+                    {/*<span className={classes.logo_image}><img src={logo} alt='logo'/></span>*/}
                     {this.navLinks()}
                 </div>
                 : <div className={this.props.navAction.navState ? classes.navclosed : classes.nav}>
-                    <span className={classes.logo_image}><img src={logo} alt='logo'/></span>
+                    {/*<span className={classes.logo_image}><img src={logo} alt='logo'/></span>*/}
                         {this.navLinks()} 
                 </div>)
 
