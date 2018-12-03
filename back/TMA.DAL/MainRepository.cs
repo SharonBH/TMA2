@@ -560,18 +560,28 @@ namespace TMA.DAL
                     var leaderboards = new List<LeaderboardModel>();
                     var eventIds = context.Events.Where(x => x.TournamentId == tournamentId && x.IsDeleted == false).Select(x => x.EventId).ToList();
 
-                    var eventsResults = context.EventResults
-                        .Where(x => eventIds.Contains(x.EventId)).ToList();
+                    var eventsResults = context.EventResults.Where(x => eventIds.Contains(x.EventId)).ToList();
 
-                    var userIdsEventsResults = eventsResults.Select(x => x.UserId).Distinct();
+                    var futureEventIds = context.Events.Where(x => x.EventDate > DateTime.Now).Select(x=> x.EventId).ToList();
+                    var eventIdsToRemove = eventsResults
+                        .Where(x=> futureEventIds.Contains(x.EventId) || x.Result == null)
+                        .Select(x => x.EventId)
+                        .Distinct()
+                        .ToList();
+
+                    eventIdsToRemove.ForEach(x => eventIds.Remove(x));
+
+                    var filteredEventsResults = context.EventResults.Where(x => eventIds.Contains(x.EventId)).ToList();
+
+                    var userIdsEventsResults = filteredEventsResults.Select(x => x.UserId).Distinct();
 
                     foreach (var userId in userIdsEventsResults)
                     {
                         var user = context.AspNetUsers
                             //.Include(x=> x.UsersAvatar)
                             .FirstOrDefault(x => x.Id == userId);
-                        var userScores = (int?)eventsResults.Where(x => x.UserId == userId).Sum(x=> x.Score);
-                        var userEvents = eventsResults.Where(x => x.UserId == userId).Count();
+                        var userScores = (int?)filteredEventsResults.Where(x => x.UserId == userId).Sum(x=> x.Score);
+                        var userEvents = filteredEventsResults.Where(x => x.UserId == userId).Count();
                         var leaderboard = new LeaderboardModel
                         {
                             User = user,
@@ -997,6 +1007,7 @@ namespace TMA.DAL
         {
             var ratioX = (double)maxWidth / image.Width;
             var ratioY = (double)maxHeight / image.Height;
+
             var ratio = Math.Min(ratioX, ratioY);
 
             var newWidth = (int)(image.Width * ratio);
