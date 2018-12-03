@@ -657,6 +657,10 @@
 
 @media only screen and (max-width: 870px) {
     form{
+        .closePopBtn{
+            bottom: -3px !important;
+            font-size: 13px;
+        }
         .searchResult{
             font-size: 13px !important;
         }
