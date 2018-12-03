@@ -177,23 +177,34 @@ export class HomeEvents extends Component {
         }
         
     }
-
+	timeout = () => {
+		const {past, next} =  this.props.allMyHomeData
+		console.log(past.pastEvent, next.nextEvent)
+		// setTimeout((
+		//
+		// ), 5000)
+	}
     render() {
     	// console.log('home page____', this.props)
 	    const {past, next} =  this.props.allMyHomeData
 	    
 	    const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (past.pastEvent === null ? null : past.pastEvent.tournamentName)}): null
 	    const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
+	    console.log(nextTournament, pastTournament)
         return (
             <div className={classes.EventsPage}>
                 <div>
                     <h1>Hello, your leader board</h1>
 	                <div className={classes.leaderBoardTables}>
                         {pastTournament !== undefined || nextTournament !== undefined
-                        	? this.leaderboardTable()
-	                        : past.pastEvent === null || next.nextEvent === null
-		                        ?  <div><p>No Data</p></div>
-                                :  <div className={classes.smallSpinner}><SmallSpinner/></div>
+	                        ?  this.leaderboardTable()
+	                        :  <div className={classes.smallSpinner}><SmallSpinner/></div>
+	
+	
+	                        // ?  <div className={classes.smallSpinner}><SmallSpinner/></div>
+	                        // :   past.pastEvent === null || next.nextEvent === null
+		                    //     ?  <div><p>No Data</p></div>
+		                    //     :  this.leaderboardTable()
                         }
 	                </div>
                 </div>

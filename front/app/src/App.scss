@@ -3,7 +3,7 @@ body{
 }
 @media only screen and (max-width: 1000px) {
   body{
-    overflow: auto;
+    overflow-y: auto;
     &::-webkit-scrollbar{
       width: 3px;
       background: #c5c5c5;
