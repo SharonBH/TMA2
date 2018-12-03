@@ -45,47 +45,55 @@ export const loginRequest = (userName, password) => {
 			},
 		})
 		.then((response) => {
-			// if(response.data.message === 'Success') {
-			return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
-			.then((response) => {
-				sessionStorage.setItem('session', JSON.stringify(response.data));
-				const session = JSON.parse(sessionStorage.getItem('session'));
-				dispatch(getUserAction(session))
-				return axios.post(cors + url + `Account/GetUserRoles`)
+			if(response.data.message === 'Success') {
+				return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
 					.then((response) => {
-						// const roles = response.data
-						localStorage.setItem('localStoreRoles', JSON.stringify(response.data));
-						const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
-						dispatch(getAllRoles(roles));
-						
-						return axios({
-							method: 'POST',
-							url: cors + url + 'Tournaments/GetHomeLeaderboards',
-							headers: {'Content-Type': 'application/json; charset=UTF-8'},
-							data: "'" + session.userId + "'"
-						})
-						.then((response) => {
-							// const data = response.data.message
-							// const allData = response.data
-							localStorage.setItem('localStoreLeaderboarddData', JSON.stringify(response.data));
-							const allData = JSON.parse(localStorage.getItem('localStoreLeaderboarddData'));
-							dispatch(takeMyHomeLeader(allData))
-							history.push({pathname: '/homeEvents', state:response.data})
-							dispatch(toggleLoaderAction(false))
-						})
-						.catch((error) => {
-							dispatch(catchErrorAction([error][0]))
-							dispatch(errorMessageAction([error][0]))
-							dispatch(toggleLoaderAction(false))
-						});
+						sessionStorage.setItem('session', JSON.stringify(response.data));
+						const session = JSON.parse(sessionStorage.getItem('session'));
+						dispatch(getUserAction(session))
+						return axios.post(cors + url + `Account/GetUserRoles`)
+							.then((response) => {
+								// const roles = response.data
+								localStorage.setItem('localStoreRoles', JSON.stringify(response.data));
+								const roles = JSON.parse(localStorage.getItem('localStoreRoles'));
+								dispatch(getAllRoles(roles));
+								
+								return axios({
+									method: 'POST',
+									url: cors + url + 'Tournaments/GetHomeLeaderboards',
+									headers: {'Content-Type': 'application/json; charset=UTF-8'},
+									data: "'" + session.userId + "'"
+								})
+									.then((response) => {
+										// const data = response.data.message
+										// const allData = response.data
+										localStorage.setItem('localStoreLeaderboarddData', JSON.stringify(response.data));
+										const allData = JSON.parse(localStorage.getItem('localStoreLeaderboarddData'));
+										dispatch(takeMyHomeLeader(allData))
+										history.push({pathname: '/homeEvents', state: response.data})
+										dispatch(toggleLoaderAction(false))
+									})
+									.catch((error) => {
+										dispatch(catchErrorAction([ error ][ 0 ]))
+										dispatch(errorMessageAction([ error ][ 0 ]))
+										dispatch(toggleLoaderAction(false))
+									});
+							})
+					
 					})
-			})
-			.catch((error) => {
-				dispatch(catchErrorAction([error][0]))
-				dispatch(errorMessageAction(error[0]))
+			}else {
+				const error = response.data.message
+				dispatch(errorMessageAction(error))
 				dispatch(toggleLoaderAction(false))
-			});
+			}
+			
+			
 		})
+		.catch((error) => {
+			dispatch(catchErrorAction([ error ][ 0 ]))
+			dispatch(errorMessageAction(error[ 0 ]))
+			dispatch(toggleLoaderAction(false))
+		});
 	}
 };
 
