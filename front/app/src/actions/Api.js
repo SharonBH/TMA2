@@ -22,7 +22,25 @@ const url = 'https://tma-api.azurewebsites.net/'
 // get user roles 
 export const getAllRolesRequest = () => {
 	return (dispatch) => {
-		return axios.post(cors + url + `Account/GetUserRoles`)
+		// return axios.post(cors + url + `Account/GetUserRoles`)
+		return axios({
+			method: 'post',
+			data: {},
+			crossDomain: true,
+			url: cors + 'https://tma-api.azurewebsites.net/Account/GetUserRoles',
+			mode: 'no-cors',
+			headers: {
+				'Content-Type': 'application/json; charset=UTF-8',
+				'Accept': 'application/json, text/plain, */*',
+				"cache-control": "no-cache",
+				"Access-Control-Allow-Origin": "https://tma-api.azurewebsites.net/Account/Login",
+				"Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
+				"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+				'Access-Control-Allow-Credentials': 'true',
+				'Allow': 'POST, GET, OPTIONS, PUT, DELETE'
+			},
+			
+		})
 			.then((response) => {
 				const roles = response.data
 				dispatch(getAllRoles(roles));
