@@ -117,15 +117,16 @@ export class EventsList extends Component {
 													</li>
 												}) : null}
 											</ul>
-										</div>
+										</div>{this.props.currentUser.isCurrentUserAdminRole &&
 										<div className={classes.turnPageEventsBTN}>
+
 											<a className={classes.editBTN}><EditBtn inputType="submit" content='Edit'
 											                                        onClick={() => this.editEventBtn(item, this.props.match)}/></a>
 											<div className={classes.deleteBTN}><DeleteBtn
 												onClick={() => this.DeleteEventBtn(item.eventId, currentTournamentId)}
 												inputType={'button'}
 												content={`Delete`}/></div>
-										</div>
+										</div>}
 									</li>
 								: <div key={index}>No Events</div>
 								
@@ -153,6 +154,7 @@ export class EventsList extends Component {
 const mapStateToProps = (state) => {
 	return {
 		tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
+        currentUser: state.userReducer.currentUser,
 	}
 };
 
