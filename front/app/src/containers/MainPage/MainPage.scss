@@ -10,11 +10,10 @@
 
 .EventsPage{
     text-align: left;
-    padding: 0 15px;
     overflow-y: auto;
+    padding: 0 15px;
     .leaderBoardTables{
-        overflow-y: auto;
-        height: calc(100vh - 380px);
+        height: calc(100vh - 50px);
         .smallSpinner{
             display: inline-block;
             text-align: center;
@@ -95,7 +94,7 @@
     .eventsTBLS{
         display: flex;
         justify-content: space-around;
-        padding-bottom: 6px;
+        padding-bottom: 100px;
 
 
         .eventsTable{
