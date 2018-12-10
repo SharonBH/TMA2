@@ -253,16 +253,13 @@ namespace TMA.Api.Controllers
             try
             {
                 var homeLeaderboards = _mainRepository.GetHomeLeaderboards(userId);
-                var homeEvents = _mainRepository.GetHomeEvents(userId);
-                var pastLeaderboardViewModel = CreateLeaderboardViewModel(homeLeaderboards["Past"]);
-                var nextLeaderboardViewModel = CreateLeaderboardViewModel(homeLeaderboards["Next"]);
-                var pastEvent = CreateEventsModel(homeEvents["Past"]);
-                var nextEvent = CreateEventsModel(homeEvents["Next"]);
-                var result = new
+                var result = new List<object>();
+                foreach (var homeLeaderboard in homeLeaderboards)
                 {
-                    Past = new { PastLeaderboard = pastLeaderboardViewModel, PastEvent = pastEvent },
-                    Next = new { NextLeaderboard = nextLeaderboardViewModel, NextEvent = nextEvent }
-                };
+                    var leaderboards = CreateLeaderboardViewModel(homeLeaderboard.Leaderboards);
+                    var nextEvent = CreateEventsModel(homeLeaderboard.NextEvent);
+                    result.Add(new { Leaderboards = leaderboards, NextEvent = nextEvent });
+                }
                 return Json(result);
             }
             catch (Exception ex)

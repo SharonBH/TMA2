@@ -11,4 +11,11 @@ namespace TMA.DAL
         public int TotalScores { get; set; }
         public int NumberOfEvents { get; set; }
     }
+
+    public class HomeLeaderboardModel
+    {
+        public List<LeaderboardModel> Leaderboards { get; set; }
+        public Events NextEvent { get; set; }
+
+    }
 }
