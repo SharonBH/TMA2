@@ -23,6 +23,54 @@
         color: #fff;
         display: flex;
         align-items: center;
+        a.userHomeLink{
+            min-width: 150px;
+            display: flex;
+            justify-content: flex-start;
+            padding: 0;
+            background: no-repeat;
+            box-shadow: none;
+            margin-left: 0;
+            span{
+                display: block;
+                margin-left: 0 !important;
+            }
+            .navProfileAvatar {
+                position: relative;
+                top: 2px;
+            }
+            &:hover {
+                span{
+                    padding: 0;
+                    background: none;
+                    color: #ffffff;
+                    box-shadow: none;
+                }
+                //    .navProfileAvatar {
+                //        position: relative;
+                //        top: 5px;
+                //    }
+            }
+            span{
+                font-size: 18px;
+                position: relative;
+                top: 4px;
+                margin-left: 10px;
+            }
+            &:hover{
+                span{
+                    position: relative;
+                    height: auto;
+                    background: no-repeat;
+                    box-shadow: none;
+                    color: #fff;
+                    top: 0;
+                    line-height: 31px;
+                    margin: 0;
+                }
+
+            }
+        }
         .navProfileAvatar{
             max-width: 30px;
             max-height: 30px;
@@ -62,6 +110,7 @@
             position: relative;
             top: -2px;
         }
+
         
     }
     a {

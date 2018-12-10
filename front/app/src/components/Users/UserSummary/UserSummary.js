@@ -13,6 +13,7 @@ import { editThisTournamentRequest, editThisEventRequest, tournEventsByIdRequest
 import ChangePassword from '../../ChangePassword/ChangePassword';
 import { changePassOpenAction, successMessageAction, errorMessageAction, editThisItemAction, editThisEventAction }  from '../../../actions';
 import { EDIT_TOURNAMENT, YOUR_PROFILE, EDIT, EDIT_EVENT, EDIT_USER } from '../../../configuration/config';
+import defaultUser from '../../../default-user.png'
 // import axios from 'axios'
 
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
@@ -35,7 +36,7 @@ class UserSummary extends Component {
 	        uploading: false,
 	        images: null,
 	        file: '',
-	        imagePreviewUrl: ''
+	        imagePreviewUrl: defaultUser
         };
         this.editDetail = this.editDetailBtn.bind(this)
     }
@@ -147,8 +148,8 @@ class UserSummary extends Component {
 		reader.onloadend = () => {
 			preview.src = reader.result;
 			this.setState({
-               file: file.name,
-                imagePreviewUrl: reader.result
+                file: file.name,
+                imagePreviewUrl: preview.src
            });
 		}
 		if (file) {
@@ -250,6 +251,7 @@ class UserSummary extends Component {
      
 	    const imgsplit = imageData.split(",");
 	    const imgState = imgsplit[imgsplit.length-1]
+
      
 	    const imgToSend = imgState  === '' ? null : imgState
         this.state.userDetailsArr.map((item) => {
@@ -518,7 +520,7 @@ class UserSummary extends Component {
         const {tournById, currentUser} = this.props
         
         
-	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ? <i className="fas fa-user-circle" ></i> : <img alt="" src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
+	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ?  <img alt="" src={this.state.defaultUser} /> : <img alt="" src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
         let name = ''
         if(headline === EDIT_USER){
             name = user !== null ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null

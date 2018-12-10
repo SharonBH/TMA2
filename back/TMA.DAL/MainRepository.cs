@@ -254,7 +254,7 @@ namespace TMA.DAL
                     }
                     else
                     {
-                        user.UsersAvatar.Avatar = avatar;
+                        user.UsersAvatar.Avatar = scopedImageBytes;
                     }
                     context.SaveChanges();
                 }
