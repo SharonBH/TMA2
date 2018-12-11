@@ -331,7 +331,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var events = context.Events
-                        .Include(e => e.EventResults).ThenInclude(u => u.User)
+                        .Include(e => e.EventResults).ThenInclude(u => u.User).ThenInclude(x=> x.UsersAvatar)
                         .Include(e => e.Tournament)
                         .Where(e => e.TournamentId == tournamentId && e.IsDeleted == false)
                         .ToList();
