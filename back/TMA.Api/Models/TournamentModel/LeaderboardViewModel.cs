@@ -5,5 +5,10 @@
         public UserModel User { get; set; }
         public int TotalScores { get; set; }
         public int NumberOfEvents { get; set; }
+        public int GoalsScored { get; set; }
+        public int GoalsAgainst { get; set; }
+        public int GoalsDifference => GoalsScored - GoalsAgainst;
+        public double SuccessPercentage { get; set; }
+
     }
 }
