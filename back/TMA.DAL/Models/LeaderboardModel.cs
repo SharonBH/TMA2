@@ -12,7 +12,7 @@ namespace TMA.DAL
         public int NumberOfEvents { get; set; }
         public int GoalsScored { get; set; }
         public int GoalsAgainst { get; set; }
-        public int SuccessPercentage { get; set; }
+        public double SuccessPercentage { get; set; }
     }
 
     public class HomeLeaderboardModel

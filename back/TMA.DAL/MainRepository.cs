@@ -582,17 +582,17 @@ namespace TMA.DAL
                         var user = context.AspNetUsers
                             //.Include(x=> x.UsersAvatar)
                             .FirstOrDefault(x => x.Id == userId);
-                        var userScores = (int?)eventResultsByUserId.Sum(x=> x.Score);
+                        var userScores = eventResultsByUserId.Sum(x=> x.Score) ?? 0;
                         var userEvents = eventResultsByUserId.Count();
                         var goalsScored = eventResultsByUserId.Sum(x => x.Result) ?? 0;
                         var goalsAgainst = filteredEventsResults.Where(x => evnetIdsByUserId.Contains(x.EventId) && x.UserId != userId).Sum(x => x.Result) ?? 0;
-                        var successPercentage = userEvents != 0 ? userScores ?? 0 / (userEvents * 3) : 0;
+                        var successPercentage = userEvents != 0 ? (userScores / (userEvents * 3)): 0;
 
                         var leaderboard = new LeaderboardModel
                         {
                             User = user,
                             NumberOfEvents = userEvents,
-                            TotalScores = userScores ?? 0,
+                            TotalScores = (int) userScores,
                             GoalsScored = goalsScored,
                             GoalsAgainst = goalsAgainst,
                             SuccessPercentage = successPercentage

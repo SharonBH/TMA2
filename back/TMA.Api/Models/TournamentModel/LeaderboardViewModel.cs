@@ -8,7 +8,7 @@
         public int GoalsScored { get; set; }
         public int GoalsAgainst { get; set; }
         public int GoalsDifference => GoalsScored - GoalsAgainst;
-        public int SuccessPercentage { get; set; }
+        public double SuccessPercentage { get; set; }
 
     }
 }
