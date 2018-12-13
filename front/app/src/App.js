@@ -9,6 +9,8 @@ import { withCookies } from 'react-cookie';
 import ConfirmMessage from './components/UI/ConfirmMessage';
 import TopNavigation  from './containers/TopNavigation/TopNavigation';
 import { SING_OUT } from './configuration/config'
+import Login from './components/Login';
+
 
 
 class App extends Component {
@@ -21,16 +23,17 @@ class App extends Component {
   };
 
     render() {
-        return (
+        const isUserNotInSession =  sessionStorage.getItem('session') === null;
+
+        const divToShow = isUserNotInSession ? <div className={classes.App}>{this.spinner()}<Login /></div>:
             <div className={classes.App}>
-                
                 {this.spinner()}
                 {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <TopNavigation/>}
                 {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <Nav />}
                 <MainPage />
                 {this.props.signOutConfirmMessage ? <ConfirmMessage headline={SING_OUT} user=''/> : null}
-            </div>
-        );
+            </div>;
+        return (divToShow);
     }
 }
 
