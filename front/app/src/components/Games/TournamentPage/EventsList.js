@@ -150,7 +150,7 @@ export class EventsList extends Component {
 						<h4 className={classes.eventName} i-attribute="down" id={'eventName'} onClick={(item) => this.Sort(item)}  >Events</h4>
 						<h4 className={classes.eventName} i-attribute="none" id={'eventDate'} onClick={(item) => this.Sort(item)}>Date</h4>
 						<h4 className={classes.eventName} i-attribute="down" id={'eventUsers'} onClick={(item) => this.Sort(item)} >Winner</h4>
-						<h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>
+                        {this.props.isCurrentUserAdminRole && <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>}
 					</div>
 					{this.state.tournEventsByIdNoS.length !== 0
 						?
@@ -183,8 +183,8 @@ export class EventsList extends Component {
                                                     </div>
                                                 </li>
 											</ul>
-										</div>{this.props.currentUser.isCurrentUserAdminRole &&
-                                     <div className={classes.turnPageEventsBTN}>
+										</div>
+                                         {this.props.isCurrentUserAdminRole &&
 										<div className={classes.turnPageEventsBTN}>
 											<a className={classes.editBTN}><EditBtn inputType="submit" content='Edit'
 											                                        onClick={() => this.editEventBtn(item, this.props.match)}/></a>
@@ -193,7 +193,8 @@ export class EventsList extends Component {
 												inputType={'button'}
 												content={`Delete`}/></div>
 										</div>
-									</li>}
+                                          }
+									</li>
 								: <div key={index}>No Events</div>
 								
 							}) : null}
@@ -211,7 +212,7 @@ export class EventsList extends Component {
 	};
 	render(){
 		
-		// console.log('events list', this.props)
+		 console.log('events list', this.props)
 		// console.log('events list state', this.state)
 		return	this.eventsTable()
 	}

@@ -210,17 +210,23 @@ export class TournamentPage extends Component {
            match = {this.props.match}
            currentTournamentId = {action}
            currentTournamentName = {currentTournament}
+           isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
            />
            < TournyPageLeaderBoard
            currentTournamentId = {action}
            currentTournamentName = {currentTournament}
            />
-           < /div>
+           </div>
        )
        }
         else return(
             <div className={classes.eventsTable}>
-            <FifaEventsList match={this.props.match} currentTournamentId={action} currentTournamentName={currentTournament}/>
+            <FifaEventsList
+                match={this.props.match}
+                currentTournamentId={action}
+                currentTournamentName={currentTournament}
+                isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
+            />
         <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
         </div>
         )
