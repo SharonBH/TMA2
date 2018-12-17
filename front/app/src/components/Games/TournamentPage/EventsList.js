@@ -168,37 +168,39 @@ export class EventsList extends Component {
                         const winner = sortedBoard[sortedBoard.length -1]
                         const profileImage = winner.avatar === undefined || winner.avatar === null ? <i className="fas fa-user-circle"></i> : <img alt='' src={`data:image/jpeg;base64,`+`${winner.avatar}`} />
 								 return item.eventName !== 'No Data'
-								 ?<li key={index}>
+								? <li key={index}>
 										 <div className={classes.eventName}>{item.eventName}</div>
 										<div
-											className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY HH:mm')}</div>
+											className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY, HH:mm A')}</div>
 										<div className={classes.usersInGame}>
 											{/*<span className={classes.showUsers}>Hover to show</span>*/}
 											<ul className={classes.hiddenUsers}>
-                                                   <li>
-                                                          <div className={classes.avatarWrap}>
-                                                          <span className={classes.userAvatar}>{profileImage}</span>                                           
-                                                          <p class={classes.avatarName} show={true}>{winner.username}</p>
-                                                          </div> 
-                                                     </li>
-                                             </ul>
-                                         </div>
-                                         <div className={classes.turnPageEventsBTN}>
-                                             <a className={classes.editBTN}><EditBtn inputType="submit" content='Edit'
-                                                                                     onClick={() => this.editEventBtn(item, this.props.match)}/></a>
-                                             <div className={classes.deleteBTN}><DeleteBtn
-                                                 onClick={() => this.DeleteEventBtn(item.eventId, currentTournamentId)}
-                                                 inputType={'button'}
-                                                 content={`Delete`}/></div>
-                                         </div>
-                                     </li>
-                                 : <div key={index}>No Events</div>
-
-                             }) : null}
-                         </ul>
-                         : <ul className={classes.noresults}>
-                             <SmallSpinner/>
-                             {/*<p>No events</p>*/}
+                                                <li>
+                                                    <div className={classes.avatarWrap}>
+                                                        <span className={classes.userAvatar}>{profileImage}</span>
+                                                        <p className={classes.avatarName}
+                                                           show={true}>{winner.username}</p>
+                                                    </div>
+                                                </li>
+											</ul>
+										</div>{this.props.currentUser.isCurrentUserAdminRole &&
+                                     <div className={classes.turnPageEventsBTN}>
+										<div className={classes.turnPageEventsBTN}>
+											<a className={classes.editBTN}><EditBtn inputType="submit" content='Edit'
+											                                        onClick={() => this.editEventBtn(item, this.props.match)}/></a>
+											<div className={classes.deleteBTN}><DeleteBtn
+												onClick={() => this.DeleteEventBtn(item.eventId, currentTournamentId)}
+												inputType={'button'}
+												content={`Delete`}/></div>
+										</div>
+									</li>}
+								: <div key={index}>No Events</div>
+								
+							}) : null}
+						</ul>
+						: <ul className={classes.noresults}>
+							<SmallSpinner/>
+							{/*<p>No events</p>*/}
 						</ul>
 					}
 					</div>
@@ -218,6 +220,7 @@ export class EventsList extends Component {
 const mapStateToProps = (state) => {
 	return {
 		tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
+        currentUser: state.userReducer.currentUser,
 	}
 };
 

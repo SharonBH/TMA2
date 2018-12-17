@@ -22,6 +22,7 @@ export class SelectComp extends Component {
                     value={this.props.content}
                     onChange={this.props.onChange}
                     className={classes.SelectCompInput}
+                    disabled={undefined !== this.props.isSelectDisabled && this.props.isSelectDisabled}
                 >
                 <option value="" >{this.props.placeholder}</option>
 
