@@ -303,7 +303,10 @@ namespace TMA.Api.Controllers
                     {
                         User = user,
                         NumberOfEvents = leaderboard.NumberOfEvents,
-                        TotalScores = leaderboard.TotalScores
+                        TotalScores = leaderboard.TotalScores,
+                        GoalsAgainst = leaderboard.GoalsAgainst,
+                        GoalsScored = leaderboard.GoalsScored,
+                        SuccessPercentage = leaderboard.SuccessPercentage
                     };
 
                     leaderboardsModel.Add(leaderboardModel);

@@ -331,7 +331,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var events = context.Events
-                        .Include(e => e.EventResults).ThenInclude(u => u.User)
+                        .Include(e => e.EventResults).ThenInclude(u => u.User).ThenInclude(x=> x.UsersAvatar)
                         .Include(e => e.Tournament)
                         .Where(e => e.TournamentId == tournamentId && e.IsDeleted == false)
                         .ToList();
@@ -577,17 +577,27 @@ namespace TMA.DAL
 
                     foreach (var userId in userIdsEventsResults)
                     {
+                        var eventResultsByUserId = filteredEventsResults.Where(x => x.UserId == userId);
+                        var evnetIdsByUserId = eventResultsByUserId.Select(x => x.EventId).Distinct().ToList();
                         var user = context.AspNetUsers
                             //.Include(x=> x.UsersAvatar)
                             .FirstOrDefault(x => x.Id == userId);
-                        var userScores = (int?)filteredEventsResults.Where(x => x.UserId == userId).Sum(x=> x.Score);
-                        var userEvents = filteredEventsResults.Where(x => x.UserId == userId).Count();
+                        var userScores = eventResultsByUserId.Sum(x=> x.Score) ?? 0;
+                        var userEvents = eventResultsByUserId.Count();
+                        var goalsScored = eventResultsByUserId.Sum(x => x.Result) ?? 0;
+                        var goalsAgainst = filteredEventsResults.Where(x => evnetIdsByUserId.Contains(x.EventId) && x.UserId != userId).Sum(x => x.Result) ?? 0;
+                        var successPercentage = userEvents != 0 ? (userScores / (userEvents * 3)): 0;
+
                         var leaderboard = new LeaderboardModel
                         {
                             User = user,
                             NumberOfEvents = userEvents,
-                            TotalScores = userScores ?? 0
+                            TotalScores = (int) userScores,
+                            GoalsScored = goalsScored,
+                            GoalsAgainst = goalsAgainst,
+                            SuccessPercentage = successPercentage
                         };
+
                         leaderboards.Add(leaderboard);
                     }
 
