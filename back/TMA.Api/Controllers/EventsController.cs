@@ -190,7 +190,8 @@ namespace TMA.Api.Controllers
                             Username = eventResult.User.UserName,
                             UserId = eventResult.UserId,
                             Email = eventResult.User.Email,
-                            Name = eventResult.User.Name
+                            Name = eventResult.User.Name,
+                            Avatar = eventResult.User.Avatar
                         };
                         eventModel.EventUsers.Add(userModel);
 

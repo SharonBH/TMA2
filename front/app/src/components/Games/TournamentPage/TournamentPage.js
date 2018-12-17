@@ -19,6 +19,7 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import EventsList  from './EventsList.js'
+import FifaEventsList  from './FifaEventsList.js'
 import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
 
 import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest } from '../../../actions/GamesApi';
@@ -196,13 +197,31 @@ export class TournamentPage extends Component {
 	    const currentTournament = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
 	    const locationName = this.props.location.pathname;
 	    const urlsplit = locationName.split("=");
+        const type = urlsplit[ urlsplit.length - 2 ];
 	    const action = urlsplit[ urlsplit.length - 1 ];
-        return (
-		         <div className={classes.eventsTable}>
-			         <EventsList match={this.props.match} currentTournamentId={action} currentTournamentName={currentTournament}/>
-			         <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
-                </div>
+       if(type == 'Poker') {
+           return (
+               < div
+           className = {classes.eventsTable} >
+               < EventsList
+           match = {this.props.match}
+           currentTournamentId = {action}
+           currentTournamentName = {currentTournament}
+           />
+           < TournyPageLeaderBoard
+           currentTournamentId = {action}
+           currentTournamentName = {currentTournament}
+           />
+           < /div>
+       )
+       }
+        else return(
+            <div className={classes.eventsTable}>
+            <FifaEventsList match={this.props.match} currentTournamentId={action} currentTournamentName={currentTournament}/>
+        <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
+        </div>
         )
+
     };
  
     usersTable = () => {
@@ -220,7 +239,7 @@ export class TournamentPage extends Component {
                     {this.turnPageInformation()}
                     <div>
 	                    
-		                    <h3>All users of tournament</h3>
+		                    <h3>{gName}</h3>
 	                    <div className={classes.wrapList}>
 		                    <div className={classes.usersTBL}>
 			                    <h5 className={classes.groupName}>Group Name:
@@ -271,7 +290,7 @@ export class TournamentPage extends Component {
                 />
                 
             </div>
-	        <h1><span>Tournament Name:</span>
+	        <h1>
 		        { currentTournament !== undefined
 			        ? <span> {currentTournament}</span>
 			        : <div className={classes.typeNameSpinner}><SmallSpinner/></div>
