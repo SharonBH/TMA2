@@ -1,0 +1,26 @@
+@import '../../styles/colors.scss';
+.LogIn{
+    height: auto;
+}
+.rememberMe {
+    margin: 10px 0;
+    display: flex !important;
+    justify-content: space-between;
+
+    span {
+        input[type="checkbox"] {
+            width: 20px;
+            margin: 0;
+            height: 20px;
+        }
+    }
+}
+
+.forgotPass {
+    color: $blue;
+    border-bottom: 1px solid $blue;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+        

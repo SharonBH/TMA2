@@ -1,0 +1,250 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>web</Name>
+    <RootNamespace>web</RootNamespace>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>b696ca68-25fd-40da-bcec-f13e22547bab</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>server.js</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>1337</NodejsPort>
+    <StartWebBrowser>true</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="build\service-worker.js" />
+    <Compile Include="build\static\js\main.ca45f2ce.js" />
+    <Compile Include="config\env.js" />
+    <Compile Include="config\jest\cssTransform.js" />
+    <Compile Include="config\jest\fileTransform.js" />
+    <Compile Include="config\paths.js" />
+    <Compile Include="config\polyfills.js" />
+    <Compile Include="config\webpack.config.dev.js" />
+    <Compile Include="config\webpack.config.prod.js" />
+    <Compile Include="config\webpackDevServer.config.js" />
+    <Compile Include="postcss.config.js" />
+    <Compile Include="scripts\build.js" />
+    <Compile Include="scripts\start.js" />
+    <Compile Include="scripts\test.js" />
+    <Compile Include="server.js" />
+    <Compile Include="src\actions\Api.js" />
+    <Compile Include="src\actions\GamesApi.js" />
+    <Compile Include="src\actions\index.js" />
+    <Compile Include="src\App.js" />
+    <Compile Include="src\App.test.js" />
+    <Compile Include="src\components\Add\AddEvent.js" />
+    <Compile Include="src\components\Add\AddGroup.js" />
+    <Compile Include="src\components\Add\AddTournament.js" />
+    <Compile Include="src\components\Add\AddUser.js" />
+    <Compile Include="src\components\Add\index.js" />
+    <Compile Include="src\components\ChangePassword\ChangePassword.js" />
+    <Compile Include="src\components\ChangePassword\index.js" />
+    <Compile Include="src\components\ForgotPassword\ForgotPassword.js" />
+    <Compile Include="src\components\ForgotPassword\index.js" />
+    <Compile Include="src\components\Games\EventsList\EventsList.js" />
+    <Compile Include="src\components\Games\EventsList\index.js" />
+    <Compile Include="src\components\Games\Groups\Groups.js" />
+    <Compile Include="src\components\Games\Groups\index.js" />
+    <Compile Include="src\components\Games\Groups\LinkPopup.js" />
+    <Compile Include="src\components\Games\TournamentPage\EventsList.js" />
+    <Compile Include="src\components\Games\TournamentPage\index.js" />
+    <Compile Include="src\components\Games\TournamentPage\TournamentPage.js" />
+    <Compile Include="src\components\Games\TournamentPage\TournyPageLeaderBoard.js" />
+    <Compile Include="src\components\Games\TournamentsList\index.js" />
+    <Compile Include="src\components\Games\TournamentsList\TournamentsList.js" />
+    <Compile Include="src\components\HomeEvents\HomeEvents.js" />
+    <Compile Include="src\components\Login\index.js" />
+    <Compile Include="src\components\Login\Login.js" />
+    <Compile Include="src\components\NotFound\index.js" />
+    <Compile Include="src\components\NotFound\NotFound.js" />
+    <Compile Include="src\components\Register\index.js" />
+    <Compile Include="src\components\Register\Register.js" />
+    <Compile Include="src\components\UI\BtnComp\BtnComp.js" />
+    <Compile Include="src\components\UI\BtnComp\DeleteBtn.js" />
+    <Compile Include="src\components\UI\BtnComp\EditBtn.js" />
+    <Compile Include="src\components\UI\BtnComp\OutlineBtn.js" />
+    <Compile Include="src\components\UI\ConfirmMessage\ConfirmMessage.js" />
+    <Compile Include="src\components\UI\ConfirmMessage\index.js" />
+    <Compile Include="src\components\UI\InputComp\InputComp.js" />
+    <Compile Include="src\components\UI\SelectComp\SelectComp.js" />
+    <Compile Include="src\components\UI\SelectComp\SelectIdComp.js" />
+    <Compile Include="src\components\UI\SmallSpinner\index.js" />
+    <Compile Include="src\components\UI\SmallSpinner\SmallSpinner.js" />
+    <Compile Include="src\components\UI\Spinner\index.js" />
+    <Compile Include="src\components\UI\Spinner\Spinner.js" />
+    <Compile Include="src\components\UI\Tab\Tab.js" />
+    <Compile Include="src\components\Users\AllUsersAdmin\AllUsersAdmin.js" />
+    <Compile Include="src\components\Users\UserSummary\index.js" />
+    <Compile Include="src\components\Users\UserSummary\UserSummary.js" />
+    <Compile Include="src\configuration\config.js" />
+    <Compile Include="src\configuration\history.js" />
+    <Compile Include="src\configuration\store.js" />
+    <Compile Include="src\containers\HomePage\HomePage.js" />
+    <Compile Include="src\containers\MainPage\index.js" />
+    <Compile Include="src\containers\MainPage\MainPage.js" />
+    <Compile Include="src\containers\Nav\Nav.js" />
+    <Compile Include="src\containers\TopNavigation\TopNavigation.js" />
+    <Compile Include="src\index.js" />
+    <Compile Include="src\reducers\addNewItemReducer.js" />
+    <Compile Include="src\reducers\allListReducer.js" />
+    <Compile Include="src\reducers\confirmMessageReducer.js" />
+    <Compile Include="src\reducers\editItemReducer.js" />
+    <Compile Include="src\reducers\index.js" />
+    <Compile Include="src\reducers\sharedReducer.js" />
+    <Compile Include="src\reducers\userReducer.js" />
+    <Compile Include="src\registerServiceWorker.js" />
+    <Compile Include="src\test.js" />
+    <Content Include="build\asset-manifest.json" />
+    <Content Include="build\favicon.ico" />
+    <Content Include="build\index.html" />
+    <Content Include="build\main.6d3be6c6b458a1744dfdbe2e98f28e3b.css" />
+    <Content Include="build\main.6d3be6c6b458a1744dfdbe2e98f28e3b.css.map" />
+    <Content Include="build\manifest.json" />
+    <Content Include="build\static\css\main.6d3be6c6.css" />
+    <Content Include="build\static\css\main.6d3be6c6.css.map" />
+    <Content Include="build\static\js\main.ca45f2ce.js.map" />
+    <Content Include="build\static\media\error404.c8eccf05.gif" />
+    <Content Include="build\static\media\homepage.62442f95.svg" />
+    <Content Include="build\static\media\logo_sign.8a145ee1.svg" />
+    <Content Include="package-lock.json" />
+    <Content Include="package.json" />
+    <Content Include="public\favicon-32x32.png" />
+    <Content Include="public\favicon.ico" />
+    <Content Include="public\favicon1.ico" />
+    <Content Include="public\index.html" />
+    <Content Include="public\manifest.json" />
+    <Content Include="README.md" />
+    <Content Include="src\App.scss" />
+    <Content Include="src\components\ChangePassword\ChangePassword.scss" />
+    <Content Include="src\components\ForgotPassword\ForgotPassword.scss" />
+    <Content Include="src\components\Games\Groups\Groups.scss" />
+    <Content Include="src\components\Games\TournamentPage\TournamentPage..scss" />
+    <Content Include="src\components\Games\TournamentPage\TournamentPage.scss" />
+    <Content Include="src\components\Login\LoginComp.scss" />
+    <Content Include="src\components\NotFound\error404.gif" />
+    <Content Include="src\components\NotFound\NotFound.scss" />
+    <Content Include="src\components\Register\RegisterComp.scss" />
+    <Content Include="src\components\UI\BtnComp\BtnComp.scss" />
+    <Content Include="src\components\UI\ConfirmMessage\ConfirmMessage.scss" />
+    <Content Include="src\components\UI\InputComp\InputComp.scss" />
+    <Content Include="src\components\UI\SelectComp\SelectComp.scss" />
+    <Content Include="src\components\UI\Spinner\Spinner.scss" />
+    <Content Include="src\components\Users\AllUsersAdmin\AllUsersAdmin.scss" />
+    <Content Include="src\components\Users\UserSummary\UserSummary.scss" />
+    <Content Include="src\containers\HomePage\HomePage.scss" />
+    <Content Include="src\containers\MainPage\MainPage.scss" />
+    <Content Include="src\containers\Nav\Nav.scss" />
+    <Content Include="src\containers\TopNavigation\TopNavigation.scss" />
+    <Content Include="src\default-user.png" />
+    <Content Include="src\homepage.jpg" />
+    <Content Include="src\homepage.svg" />
+    <Content Include="src\index.scss" />
+    <Content Include="src\logo.svg" />
+    <Content Include="src\logo_sign.svg" />
+    <Content Include="src\styles\colors.scss" />
+    <Content Include="src\styles\mixins.scss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="build\" />
+    <Folder Include="build\static\" />
+    <Folder Include="build\static\css\" />
+    <Folder Include="build\static\js\" />
+    <Folder Include="build\static\media\" />
+    <Folder Include="config\" />
+    <Folder Include="config\jest\" />
+    <Folder Include="public\" />
+    <Folder Include="scripts\" />
+    <Folder Include="src\" />
+    <Folder Include="src\actions\" />
+    <Folder Include="src\components\" />
+    <Folder Include="src\components\Add\" />
+    <Folder Include="src\components\ChangePassword\" />
+    <Folder Include="src\components\ForgotPassword\" />
+    <Folder Include="src\components\Games\" />
+    <Folder Include="src\components\Games\EventsList\" />
+    <Folder Include="src\components\Games\Groups\" />
+    <Folder Include="src\components\Games\TournamentPage\" />
+    <Folder Include="src\components\Games\TournamentsList\" />
+    <Folder Include="src\components\HomeEvents\" />
+    <Folder Include="src\components\Login\" />
+    <Folder Include="src\components\NotFound\" />
+    <Folder Include="src\components\Register\" />
+    <Folder Include="src\components\UI\" />
+    <Folder Include="src\components\UI\BtnComp\" />
+    <Folder Include="src\components\UI\ConfirmMessage\" />
+    <Folder Include="src\components\UI\InputComp\" />
+    <Folder Include="src\components\UI\SelectComp\" />
+    <Folder Include="src\components\UI\SmallSpinner\" />
+    <Folder Include="src\components\UI\Spinner\" />
+    <Folder Include="src\components\UI\Tab\" />
+    <Folder Include="src\components\Users\" />
+    <Folder Include="src\components\Users\AllUsersAdmin\" />
+    <Folder Include="src\components\Users\UserSummary\" />
+    <Folder Include="src\configuration\" />
+    <Folder Include="src\containers\" />
+    <Folder Include="src\containers\HomePage\" />
+    <Folder Include="src\containers\MainPage\" />
+    <Folder Include="src\containers\Nav\" />
+    <Folder Include="src\containers\TopNavigation\" />
+    <Folder Include="src\reducers\" />
+    <Folder Include="src\styles\" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

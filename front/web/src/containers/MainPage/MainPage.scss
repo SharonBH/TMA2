@@ -1,0 +1,224 @@
+@import '../../styles/mixins.scss';
+
+.MainPage {
+    width: 100%;
+    position: relative;
+    // max-height: 94vh;
+    margin-top: 40px;
+}
+
+
+.EventsPage{
+    text-align: left;
+    overflow-y: auto;
+    padding: 0 15px;
+    .leaderBoardTables{
+        height: calc(100vh - 50px);
+        .smallSpinner{
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin-top: calc(40vh - 20%);
+        }
+        .leaderTop{
+            border: 1px solid #b9b9b9;
+            margin-bottom: 40px;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
+            background-color: var(--white);
+            padding-bottom: 20px;
+            &>p{
+                text-align: left;
+                padding-bottom: 9px;
+                font-weight: 600;
+                text-transform: uppercase;
+                padding-left: 18px;
+                border-bottom: 2px solid #00b0f2;
+                background: #ecf8ff;
+                color: #8e8e8e;
+                margin-top: 0;
+                padding-top: 14px;
+            }
+            .leaderTableHead{
+                display: flex;
+                justify-content: space-around;
+                width: 97%;
+                padding-left: 3%;
+                b{
+                    width: 30%;
+                }
+            }
+            &>ul{
+                padding-left: 3%;;
+                width: 97%;
+                list-style-type: decimal;
+                margin-bottom: -1px;
+                li{
+                    border-bottom: 1px dashed #b9b9b9;
+                    &>div{
+                        display: flex;
+                        justify-content: space-around;
+                    }
+                    p{
+                        width: 30%;
+                        margin: 5px 0;
+                        display: flex;
+                        align-items: center;
+                        &>span{
+                            margin: 0 5px;
+                            .profileAvatar{
+                                width: 35px;
+                                height: 35px;
+                                border-radius: 25px;
+                                overflow: hidden;
+                                text-align: center;
+                                vertical-align: middle;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                &>img{
+                                    max-width: 100%;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        }
+        h1{
+            //text-align: center;
+            //margin-left: 3px;
+    }
+
+    .eventsTBLS{
+        display: flex;
+        justify-content: space-around;
+        padding-bottom: 100px;
+
+
+        .eventsTable{
+            display: block;
+            width: 49%;
+            border: 1px solid #a9a9a9;
+            padding: 0 0%;
+            margin: 0 1%;
+            box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.13);
+            background-color: var(--white);
+            &:first-child{ margin-left: 0 }
+            &:last-child{ margin-right: 0 }
+            h4{
+                text-align: center;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                margin-bottom: 10px;
+                border-bottom: 2px solid #00b0f2;
+                background: #ecf8ff;
+                color: #8e8e8e;
+                font-weight: 600;
+                margin-top: 0;
+            }
+            .noResults{
+                text-align: center;
+                margin-top: 25px;
+                width: 100%;
+                display: inline-block;
+                font-weight: 600;
+                margin-bottom: 35px;
+            }
+            &>div{
+                padding: 0 15px;
+                .eventData{
+                    padding: 5px 0;
+                    // border-bottom: 1px solid #a9a9a9;
+                    
+                    p{
+                        display: block;
+                        margin-top: 0;
+                        &>span{
+                            font-weight: 600;
+                            margin-right: 10px;
+                        } 
+                        i{
+                            &::after {
+                                content: ", ";
+                            }
+                        }
+                        i{
+                            &:last-child{
+                                &::after {
+                                    content: " ";
+                                }
+                            }
+                        }
+                        
+                    }
+                    &>div{
+                        &>span{
+                            display: block;
+                            text-align: center;
+                            border-bottom: 1px solid #a9a9a9;
+                            padding-bottom: 5px;
+                            margin-bottom: 10px;
+                            font-weight: 600;
+                            margin-top: 30px;
+                        }
+                        ul{
+                            padding: 0 5px;
+                            list-style: none;
+                            margin-bottom: 0;
+                            
+                            li{
+                                display: inline-block;
+                                width: 45%;
+                                margin-bottom: 10px;
+                                padding-bottom: 10px;
+                                border-bottom: 1px solid #a9a9a9;
+                                span{
+                                    font-weight: 400;
+                                }
+                                &>p{
+                                    display: flex;
+                                    margin-top: 0;
+                                    justify-content: space-between;
+                                }
+                                
+                            }
+                            
+                            li:nth-child(2n+2) {
+                                margin-left: 10%;
+                            }
+                            li:last-child, li:nth-last-child(2){
+                                border: 0;
+                                margin-bottom: 0;
+                            }
+                        }
+                    }
+                }
+                
+            }
+        }
+    }
+    
+}
+@media only screen and (max-width: 1000px) {
+    .MainPage{
+        padding-left: 0%;
+        max-width: 100%;
+        .leaderBoardTables{
+            height: auto;
+        }
+        .leaderTop{
+            ul{
+                padding-left: 30px !important;
+            }
+        }
+        .eventsTBLS {
+            display: block !important;
+            .eventsTable {
+                width: 100% !important;
+                margin: 0 0 10px 0 !important;
+            }
+        }
+    }
+}
