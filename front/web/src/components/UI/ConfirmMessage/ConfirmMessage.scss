@@ -1,0 +1,44 @@
+@import '../../../styles/colors.scss';
+
+.ConfirmMessageWrapper {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(128, 128, 128, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+
+    .ConfirmMessage {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        color: $white;
+        width: 500px;
+        height: 150px;
+        background-color: #0084ff;
+        padding: 15px;
+        font-size: 20px;
+        font-weight: bold;
+
+        p {
+            width: 100%;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .btm {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        } 
+    }
+}

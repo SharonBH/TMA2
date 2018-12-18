@@ -331,7 +331,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var events = context.Events
-                        .Include(e => e.EventResults).ThenInclude(u => u.User)
+                        .Include(e => e.EventResults).ThenInclude(u => u.User).ThenInclude(x=> x.UsersAvatar)
                         .Include(e => e.Tournament)
                         .Where(e => e.TournamentId == tournamentId && e.IsDeleted == false)
                         .ToList();
@@ -577,17 +577,27 @@ namespace TMA.DAL
 
                     foreach (var userId in userIdsEventsResults)
                     {
+                        var eventResultsByUserId = filteredEventsResults.Where(x => x.UserId == userId);
+                        var evnetIdsByUserId = eventResultsByUserId.Select(x => x.EventId).Distinct().ToList();
                         var user = context.AspNetUsers
                             //.Include(x=> x.UsersAvatar)
                             .FirstOrDefault(x => x.Id == userId);
-                        var userScores = (int?)filteredEventsResults.Where(x => x.UserId == userId).Sum(x=> x.Score);
-                        var userEvents = filteredEventsResults.Where(x => x.UserId == userId).Count();
+                        var userScores = eventResultsByUserId.Sum(x=> x.Score) ?? 0;
+                        var userEvents = eventResultsByUserId.Count();
+                        var goalsScored = eventResultsByUserId.Sum(x => x.Result) ?? 0;
+                        var goalsAgainst = filteredEventsResults.Where(x => evnetIdsByUserId.Contains(x.EventId) && x.UserId != userId).Sum(x => x.Result) ?? 0;
+                        var successPercentage = userEvents != 0 ? (userScores / (userEvents * 3)): 0;
+
                         var leaderboard = new LeaderboardModel
                         {
                             User = user,
                             NumberOfEvents = userEvents,
-                            TotalScores = userScores ?? 0
+                            TotalScores = (int) userScores,
+                            GoalsScored = goalsScored,
+                            GoalsAgainst = goalsAgainst,
+                            SuccessPercentage = successPercentage
                         };
+
                         leaderboards.Add(leaderboard);
                     }
 
@@ -944,34 +954,62 @@ namespace TMA.DAL
             }
         }
 
-        public Dictionary<string, List<LeaderboardModel>> GetHomeLeaderboards(string userId)
+        public List<HomeLeaderboardModel> GetHomeLeaderboards(string userId)
         {
             try
             {
                 using (var context = new TMAContext())
                 {
-                    //var a = context.AspNetUsers
-                    //    .Include(x=> x.EventResults).ThenInclude(x=>x.Event)
-                    //    .FirstOrDefault(x => x.Id == userId)
-                    //    .EventResults.FirstOrDefault(y => y.Event.EventDate >= DateTime.Now).Event.TournamentId;
-                    var homeEvents = GetHomeEvents(userId);
-                    var pastTournamentId = homeEvents["Past"]?.TournamentId ?? 0;
-                    var nextTournamentId = homeEvents["Next"]?.TournamentId ?? 0;
+                    var result = new List<HomeLeaderboardModel>();
 
-                    var pastLeaderboard = GetLeaderboards(pastTournamentId);
-                    var nextLeaderboard = GetLeaderboards(nextTournamentId);
+                    var tournaments = GetActiveTournaments(userId);
 
-                    var result = new Dictionary<string, List<LeaderboardModel>>
+                    foreach (var tournament in tournaments)
                     {
-                        ["Past"] = pastLeaderboard,
-                        ["Next"] = nextLeaderboard
-                    };
+                        var tournamentLeaderboard = GetLeaderboards(tournament.TournamentId);
+                        var nextEventForTournament = GetNextEventForTournament(userId, tournament.TournamentId);
+                        if(nextEventForTournament == null)
+                        {
+                            nextEventForTournament = new Events
+                            {
+                                Tournament = new Tournaments
+                                {
+                                    TournamentName = tournament.TournamentName
+                                }
+                            };
+                        }
+                        result.Add(new HomeLeaderboardModel() { Leaderboards = tournamentLeaderboard, NextEvent = nextEventForTournament });
+                    }
+
                     return result;
                 }
             }
             catch (Exception ex)
             {
                 throw new Exception($"An error occuored on 'GetHomeLeaderboards'.", ex);
+            }
+        }
+
+        private Events GetNextEventForTournament(string userId, int tournamentId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userEvents = context.EventResults
+                        .Include(x => x.Event)
+                        .Where(x => x.UserId == userId)
+                        .Select(x => x.Event).Include(x => x.Tournament)
+                        .Where(e => e.IsDeleted == false && e.TournamentId == tournamentId).ToList();
+
+                    var nextEvent = userEvents.OrderBy(x => x.EventDate).FirstOrDefault(x => x.EventDate > DateTime.Now);
+
+                    return nextEvent;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetNextEventForTournament'.", ex);
             }
         }
 
@@ -1003,6 +1041,31 @@ namespace TMA.DAL
                 throw new Exception($"An error occuored on 'GetHomeEvents'.", ex);
             }
         }
+
+        public List<Tournaments> GetActiveTournaments(string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var userGroupIds = context.UsersGroups.Where(x => x.UserId == userId).Select(x => x.GroupId).ToList();
+                    var activeTournaments = new List<Tournaments>();
+                    foreach (var userGroupId in userGroupIds)
+                    {
+                        var activeTouramensForGroupId = context.Tournaments.Where(y => y.IsDeleted == false && y.EndDate >= DateTime.Now && y.GroupId == userGroupId).ToList();
+                        activeTournaments.AddRange(activeTouramensForGroupId);
+                    }
+                    //userGroupIds.ForEach(groupId => activeTournaments.AddRange(
+                    //    context.Tournaments.Where(y => y.IsDeleted == false && y.EndDate >= DateTime.Now && y.GroupId == groupId).ToList()));
+                    return activeTournaments;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetActiveTournamentIds'.", ex);
+            }
+        }
+
         private static Image ScaleImage(Image image, int maxWidth, int maxHeight)
         {
             var ratioX = (double)maxWidth / image.Width;

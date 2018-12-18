@@ -195,7 +195,7 @@ namespace TMA.BLL
             _mainRepository.RemoveUserFromGroups(userId);
         }
 
-        public Dictionary<string, List<LeaderboardModel>> GetHomeLeaderboards(string userId)
+        public List<HomeLeaderboardModel> GetHomeLeaderboards(string userId)
         {
             var homeLeaderboards = _mainRepository.GetHomeLeaderboards(userId);
             return homeLeaderboards;

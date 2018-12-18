@@ -1,0 +1,318 @@
+@import '../../styles/colors.scss';
+
+.nav {
+    width: 13%;
+    background: #303F9F;
+    box-sizing: border-box;
+    padding: 5px;
+    padding-top: 20px;
+    transition: all ease .3s;
+    left: 0;
+    z-index: 91;
+    position: relative;
+    min-height: 100vh;
+    text-align: left;
+    overflow: hidden;
+    
+    a {
+        color: #fff;
+        position: relative;
+        display: block;
+        padding: 7px 10px;
+        white-space: nowrap;
+        text-decoration: none;
+        font-size: 14px;
+        i {
+            margin-right: 10px;
+        }
+        &:hover {
+            background: #0084FF;
+            color: #ffffff;
+            box-shadow: 0 0 12px 0px #303F9F inset;
+        }
+    }
+    span.logo_image {
+        display: block;
+        width: 45px;
+        margin: 0 auto 100px;
+    }
+    span.Hello {
+        display: block;
+        color: #000;
+        font-weight: 600;
+        margin-bottom: 35px;
+        font-size: 20px;
+        height: 60px;
+        margin-top: 10px;
+    
+    }
+
+    .Menu {
+        cursor: pointer;
+        position: absolute;
+        bottom: 15px;
+        right: 30px;
+
+        &:hover {
+            color: $dark-gray;
+        }
+
+        i {
+            margin: 10px 0;
+            width: 20px;
+            height: 20px;
+            font-size: 25px;
+        }
+    }
+}
+
+
+
+.createUsers form select {
+    width: 45%;
+    margin-right: 10%;
+    height: 29px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    border: 0;
+    border-bottom: 1px solid #a7a7a7;
+    color: #757575;
+}
+
+.navclosed {
+    background: #303F9F;
+    padding-top: 20px;
+    transition: all ease .3s;
+    z-index: 91;
+    left: 0;
+    position: relative;
+    width: 80px;
+    min-height: 450px;
+
+    .navLink > span {
+        display: none;
+        white-space: nowrap;
+    }
+
+    a {
+        display: flex;
+        text-align: center;
+        padding: 5px 00px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 400;
+        width: auto;
+        position: relative;
+        i {
+            width: 100%;
+            height: 100%;
+            font-size: 25px;
+            line-height: 35px;
+            &:hover{
+                background: #0084FF;
+                color: #ffffff;
+                box-shadow: 0 0 12px 0px #303F9F inset;
+            }
+        }
+        &:hover span {
+            display: block;
+            position: absolute;
+            top: 12px;
+            left: 64px;
+            background: #ffffff;
+            box-shadow: 0px 0px 3px 0px #03a3d0;
+            padding: 4px 6px;
+            color: #000;
+            z-index: 999;
+            font-weight: 400;
+            font-size: 14px;
+            min-width: 100px;
+            text-align: left;
+        }
+    }
+    
+    span.logo_image {
+        display: block;
+        width: 45px;
+        margin: 0 auto 70px;
+        img {
+            max-width: 100%;
+        }
+    }
+
+    span.Hello {
+        display: none;
+    }
+
+    .Menu {
+        cursor: pointer;
+        position: absolute;
+        bottom: 15px;
+        right: 25px;
+
+        &:hover {
+            color: $dark-gray;
+        }
+
+        i {
+            margin: 10px 0;
+            width: 20px;
+            height: 20px;
+            font-size: 25px;
+        }
+    }
+}
+.NavRespClosed{
+    transform: translateY(0%);
+    transition-timing-function: ease-in;
+    transition: 0.6s;
+    position: absolute;
+    width: 200px;
+    left: -210px;
+    background: #303F9F;
+    min-width: 200px;
+    z-index: 9;
+    top: 40px;
+    box-shadow: 0 0 13px 1px #0000001f;
+    padding: 10px 15px;
+    max-width: 320px;
+    height: 100%;
+    .logo_image{
+        width: 35px;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .innerNav{
+        .navLink{
+            display: block;
+            color: #fff;
+            text-align: left;
+            padding: 6px 0;
+            i{
+                margin-right: 10px;
+            }
+        }
+    }
+}
+.NavRespOpen{
+    background: #303F9F;
+    position: fixed;
+    left: 0;
+    min-width: 200px;
+    z-index: 9;
+    top: 40px;
+    box-shadow: 0 0 13px 1px #0000001f;
+    padding: 10px 15px;
+    max-width: 320px;
+    transform: translateY(0%);
+    transition-timing-function: ease-in;
+    transition: 0.6s;
+    height: 100%;
+    .logo_image{
+        width: 35px;
+        display: inline-block;
+        margin-bottom: 10px;
+    }
+    .innerNav{
+        .navLink{
+            display: block;
+            color: #fff;
+            text-align: left;
+            padding: 6px 0;
+            i{
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+@media only screen and  (max-width: 1365px) {
+    .nav {
+        width: 80px;
+        z-index: 91;
+        position: relative;
+        overflow: visible;
+            height: calc(100% + 200px);
+    
+        .navLink > span {
+            display: none;
+            white-space: nowrap;
+        }
+    
+        a {
+            display: flex;
+            text-align: center;
+            padding: 5px 00px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 400;
+            width: auto;
+            position: relative;
+            i {
+                width: 100%;
+                height: 100%;
+                font-size: 25px;
+                line-height: 35px;
+                margin: 0;
+            }
+            &:hover span {
+                display: block;
+                position: absolute;
+                top: 12px;
+                left: 64px;
+                background: #ffffff;
+                box-shadow: 0px 0px 3px 0px #03a3d0;
+                padding: 4px 6px;
+                color: #000;
+                z-index: 999;
+                font-weight: 400;
+                font-size: 14px;
+                min-width: 100px;
+                text-align: left;
+            }
+        }
+        
+        span.logo_image {
+            display: block;
+            width: 45px;
+            margin: 0 auto 70px;
+            img {
+                max-width: 100%;
+            }
+        }
+    
+        span.Hello {
+            display: none;
+        }
+    
+        .Menu {
+            cursor: pointer;
+            position: absolute;
+            bottom: 15px;
+            right: 25px;
+    
+            &:hover {
+                color: $dark-gray;
+            }
+    
+            i {
+                margin: 10px 0;
+                width: 20px;
+                height: 20px;
+                font-size: 25px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 870px) {
+    .nav {
+        position: absolute;
+        width: 12%;
+        height: calc(100% + 200px);
+    }
+    span.logo_image {
+        width: 90%;
+        max-width: 100%;
+    }
+}
