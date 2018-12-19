@@ -433,7 +433,6 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
 // get Tournament by tournament id
 export const goToTournPageRequest = (tournamentId) => {
 		return (dispatch) => {
-
 			// dispatch(toggleLoaderAction(true));
 			return axios({
 				method: 'POST',
@@ -486,7 +485,6 @@ export const goToTournPageRequest = (tournamentId) => {
 // edit Tournament
 export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tournamentName, startDate, endDate, numberOfEvents) => {
 	return (dispatch) => {
-
 		dispatch(toggleLoaderAction(true))
 		return axios({
 			method: 'POST',

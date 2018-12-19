@@ -13,11 +13,12 @@ import {
 	takeMyHomeLeader,
 	editThisItemAction
 } from './index';
-import {EDIT, USER_ROLE_ADMIN, YOUR_PROFILE} from '../configuration/config'
+import { EDIT, YOUR_PROFILE } from '../configuration/config'
 
 // const cors ='https://cors-anywhere.herokuapp.com/'
 const cors =''
-const url = 'https://tma-api.azurewebsites.net/'
+//const url = 'https://tma-api.azurewebsites.net/'
+const url = 'https://localhost:44362/'
 
 
 // login request
@@ -31,7 +32,7 @@ export const loginRequest = (userName, password) => {
 				password: password
 			},
 			crossDomain: true,
-			url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
+			url: cors + url + 'Account/Login',
 			mode: 'no-cors',
 			headers: {
 				'Content-Type': 'application/json; charset=UTF-8',
@@ -48,7 +49,6 @@ export const loginRequest = (userName, password) => {
 			if(response.data.message === 'Success') {
 				return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
 					.then((response) => {
-                        response.data["isCurrentUserAdminRole"] = response.data["role"] === USER_ROLE_ADMIN;
 						sessionStorage.setItem('session', JSON.stringify(response.data));
 						const session = JSON.parse(sessionStorage.getItem('session'));
 						dispatch(getUserAction(session))

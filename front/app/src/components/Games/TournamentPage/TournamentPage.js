@@ -7,7 +7,7 @@ import moment from 'moment'
 
 import classes from '../../Games/TournamentPage/TournamentPage.scss';
 
-import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, DELETE_EVENT,USER_ROLE_ADMIN } from '../../../configuration/config'
+import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, DELETE_EVENT } from '../../../configuration/config'
 
 // import EditBtn  from '../../UI/BtnComp/EditBtn';
 // import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
@@ -19,7 +19,6 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import EventsList  from './EventsList.js'
-import FifaEventsList  from './FifaEventsList.js'
 import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
 
 import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest } from '../../../actions/GamesApi';
@@ -55,20 +54,12 @@ export class TournamentPage extends Component {
 	        groupById: [],
 	        allEventTypesList: [],
 	        allTournsList: [],
-	        buttonStatus: true,
-            isCurrentUserAdminRole : false
-
+	        buttonStatus: true
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
 	    
     }
-    componentDidMount() {
-        const isCurrentUserAdminRole = this.props.currentUser.role == USER_ROLE_ADMIN;
-        this.setState({isCurrentUserAdminRole: isCurrentUserAdminRole})
-    }
-
     componentWillMount(){
-
 	    this.props.groupById.length !== 0 ? this.props.toggleLoaderAction(false) : this.props.toggleLoaderAction(true)
      
 	    this.setStateAsync = Promise.promisify(this.setState);
@@ -90,7 +81,6 @@ export class TournamentPage extends Component {
 		        allEventTypesList: this.props.allEventTypesList,
 		        allTournsList: this.props.allTournsList,
 		        groupsList: this.props.groupsList
-
 	        })
 
 	        }, 3000)
@@ -121,8 +111,8 @@ export class TournamentPage extends Component {
     componentWillUnmount(){
         this.props.errorMessageAction(null);
         this.props.successMessageAction(null);
-        this.setState({tournamentForDelete: null,tournamentInEditMode: null});
-
+        this.setState({tournamentForDelete: null});
+        this.setState({tournamentInEditMode: null});
 
 	    this.setState({
 		    tournById: [],
@@ -133,7 +123,11 @@ export class TournamentPage extends Component {
 	    });
     }
 
-
+    // DeleteTournamentBtn = (item) => {
+    //     this.setState({tournamentForDelete: item})
+    //     this.setState({tournamentInEditMode: null})
+    //     this.props.deleteConfirmMessageAction(true)
+    // }
 
     editTournamentBtn = (item) => {
         this.setState({tournamentInEditMode: item})
@@ -147,7 +141,9 @@ export class TournamentPage extends Component {
             this.props.addNewEventAction(true)
         }, 200)
     }
-
+    // addTournamentComp = () => {
+    //     return <Register headline={ADD_TOURNAMENT} classStr='none' />
+    // }
     addEventComp = () => {
         return <Register headline={ADD_EVENT} tourn={this.state.tournById} classStr='none' />
     }
@@ -200,35 +196,12 @@ export class TournamentPage extends Component {
 	    const currentTournament = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
 	    const locationName = this.props.location.pathname;
 	    const urlsplit = locationName.split("=");
-        const type = urlsplit[ urlsplit.length - 2 ];
 	    const action = urlsplit[ urlsplit.length - 1 ];
-       if(type == 'Poker') {
-           return (
-               < div
-           className = {classes.eventsTable} >
-               < EventsList
-           match = {this.props.match}
-           currentTournamentId = {action}
-           currentTournamentName = {currentTournament}
-           isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
-           />
-           < TournyPageLeaderBoard
-           currentTournamentId = {action}
-           currentTournamentName = {currentTournament}
-           />
-           </div>
-       )
-       }
-        else return(
-            <div className={classes.eventsTable}>
-            <FifaEventsList
-                match={this.props.match}
-                currentTournamentId={action}
-                currentTournamentName={currentTournament}
-                isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
-            />
-        <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
-        </div>
+        return (
+		         <div className={classes.eventsTable}>
+			         <EventsList match={this.props.match} currentTournamentId={action} currentTournamentName={currentTournament}/>
+			         <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
+                </div>
         )
     };
  
@@ -247,7 +220,7 @@ export class TournamentPage extends Component {
                     {this.turnPageInformation()}
                     <div>
 	                    
-		                    <h3>{gName}</h3>
+		                    <h3>All users of tournament</h3>
 	                    <div className={classes.wrapList}>
 		                    <div className={classes.usersTBL}>
 			                    <h5 className={classes.groupName}>Group Name:
@@ -284,21 +257,21 @@ export class TournamentPage extends Component {
         <div className={classes.headTPage}>
             <div className={classes.tournPButtons}>
 	            <Link className={classes.backBtn} to={`${path}`}><i className="fas fa-arrow-left"></i><span>Back to Tournaments List</span></Link>
-                {this.state.isCurrentUserAdminRole && <OutlineBtn
+	            <OutlineBtn
 		            inputType="button"
 		            content='Edit Tournament'
 		            onClick={() => this.editTournamentBtn(currentTournament)}
 		            // disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0 || this.state.allEventTypesList !== null || this.state.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
-	            /> }
-                {this.state.isCurrentUserAdminRole && <BtnComp
+	            />
+	            <BtnComp
 	                content='Add Event'
 	                inputType='button'
 	                onClick={this.addEventBtn}
 	                // disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0   ? !this.state.buttonStatus : this.state.buttonStatus}
-                /> }
+                />
                 
             </div>
-	        <h1>
+	        <h1><span>Tournament Name:</span>
 		        { currentTournament !== undefined
 			        ? <span> {currentTournament}</span>
 			        : <div className={classes.typeNameSpinner}><SmallSpinner/></div>
@@ -367,7 +340,7 @@ export class TournamentPage extends Component {
                 {this.props.editThisEvent ? <div className={classes.AddUser}>{this.editEventComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_EVENT} item={this.state.eventForDelete}/> : null}
             </div>
-        );
+        )
     }
 }
 
@@ -390,7 +363,8 @@ const mapStateToProps = (state) => {
         errorMessage: state.sharedReducer.errorMessage,
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
         toggleSpinner: state.sharedReducer.toggleSpinner,
-        currentUser: state.userReducer.currentUser,
+
+
     }
 };
 

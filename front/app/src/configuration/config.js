@@ -18,5 +18,3 @@ export const DELETE_TOURNAMENT = 'delete tournament';
 export const DELETE_GROUP = 'delete group';
 
 export const SING_OUT = 'sign out';
-
-export const USER_ROLE_ADMIN = 'Admin';

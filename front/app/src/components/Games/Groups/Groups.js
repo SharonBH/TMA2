@@ -185,17 +185,15 @@ export class Groups extends Component {
                             options={usersInGroup}
                             placeholder={"group users list"}
                             name={'event'}
-                            isSelectDisabled ={this.props.currentUser.isCurrentUserAdminRole === false}
                             onChange={() => {}}
                         />
                     </div>
                 </div>
 	            
                 <div id={index} className={classes.allUsButtons}>
-
-                        {/*<Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>*/}
-                    {this.props.currentUser.isCurrentUserAdminRole && <EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/>}
-                    {this.props.currentUser.isCurrentUserAdminRole && <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/> }
+                    {/*<Link to={`/all_groups/${group.groupName}`}><EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/></Link>*/}
+	                <EditBtn inputType="submit" content='Edit' onClick={() => this.editGroupBtn(group)}/>
+                    <DeleteBtn onClick={() => this.DeleteGoupBtn(group)} inputType={'button'} content='Delete'/>
 	                <div className={classes.tooltip}>
                         <BtnComp onClick={() => this.togglePopup(group.groupId)} inputType={'button'} content='Copy Link'/>
 	                    <span className={classes.hide}>
@@ -231,16 +229,14 @@ export class Groups extends Component {
                 {this.errorDeleteMessage()}
                 <div className={classes.listHeadLine}>
                     <h1>Groups List</h1>
-                    {this.props.currentUser.isCurrentUserAdminRole &&
-                        <div className={classes.addBtn}>
-                            <BtnComp
-                                inputType="submit"
-                                content='Add New Group'
-                                onClick={this.addNewGroupBtn}
-                                disabled={groups !== null || groups !== undefined ? !this.state.buttonStatus : this.state.buttonStatus}
-                            />
-                        </div>
-                    }
+	                <div className={classes.addBtn}>
+		                <BtnComp
+			                inputType="submit"
+			                content='Add New Group'
+			                onClick={this.addNewGroupBtn}
+			                disabled={groups !== null || groups !== undefined  ? !this.state.buttonStatus : this.state.buttonStatus}
+		                />
+	                </div>
                 </div>
                 {this.tableHeader()}
                 {groups !== null && groups !== undefined

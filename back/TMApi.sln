@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMA.BLL", "TMA.BLL\TMA.BLL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMA.DAL", "TMA.DAL\TMA.DAL.csproj", "{4829E357-8D66-4FA9-996F-29999F68E0D9}"
 EndProject
-Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "TMA.WEB", "..\..\NodejsWebApp1\NodejsWebApp1\TMA.WEB.njsproj", "{9094B593-40E5-4EB8-B9EF-D0DDDD431F1E}"
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "TMA.WEB", "..\front\app\TMA.WEB.njsproj", "{9094B593-40E5-4EB8-B9EF-D0DDDD431F1E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

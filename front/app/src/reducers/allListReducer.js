@@ -29,9 +29,7 @@ const InitialState = {
 }
 
 const allListReducer = (state = InitialState, action) => {
-    console.log("action.type",action.type);
     switch (action.type) {
-
         case 'GET_ALL_ROLES':
         const roles = action.payload
         return {
@@ -78,10 +76,9 @@ const allListReducer = (state = InitialState, action) => {
             const tournsData = action.payload
             return {
                 ...state,
-                tournsDataById: tournsData,
-
+                tournsDataById: tournsData
             }
-        case 'GET_GROUPS_BY_USER_ID':
+            case 'GET_GROUPS_BY_USER_ID':
             const groupsData = action.payload
             return {
                 ...state,
@@ -131,7 +128,7 @@ const allListReducer = (state = InitialState, action) => {
             }
         default:
     }
-    //console.log('ddddddddddddddddd', state.groupsList)
+    // console.log('ddddddddddddddddd', state.groupsList)
     return state;
 }
 
