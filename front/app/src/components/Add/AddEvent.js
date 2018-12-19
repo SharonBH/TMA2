@@ -31,7 +31,7 @@ export class AddEvent extends Component{
 	}
 	onMaxNumChange = (e) => { this.setState({EventsMaxNum: e.target.value})};
 	handleDateChange = (date) => {
-		const dateMF = moment(date).format('MM DD YYYY, HH:mm:ss ');
+		const dateMF = moment(date).format('MM DD YYYY, hh:mm:ss ');
 		this.setState({ selectedDate: dateMF });
 	};
 	
@@ -118,7 +118,7 @@ export class AddEvent extends Component{
 		} else if (allEventTypesList.eventTypeName === 'FIFA' && usersWithResults.length > 2 && usersWithResults.length < 2) {
 			this.props.errorMessageAction('in FIFA type must be two users for event')
 		}else {
-			 this.props.addNewEventRequest(EventName, Tournament,  moment(this.state.selectedDate).format('MM DD YYYY, HH:mm:ss '), usersWithResults, TournamentId)
+			 this.props.addNewEventRequest(EventName, Tournament,  moment(this.state.selectedDate).format('MM DD YYYY, hh:mm:ss '), usersWithResults, TournamentId)
 		}
 	};
 	getTournById=(tournIdToPage)=>{
@@ -130,67 +130,57 @@ export class AddEvent extends Component{
 		const today = Date.parse(new Date());
 		const eventday = Date.parse(selectedDate);
 		const arr = [...groupById.users];
-		return
-		    <div>
-                <InputComp inputType="text" name="tournament" placeholder={'Tournament Name'}
-                           content={tournById.tournamentName} onChange={() => {
-                }}/>
-                <div className={classes.usersAddedWrapper}>
-                    {<span className={classes.searchResult}>select players from the tournament group</span>}
-                    <ul className={classes.usersAddedWrapperList}>
-                        {arr !== undefined ? arr.map((user, index) => {
-                            const x = addSearchUsersResult !== null || addSearchUsersResult.length > 0 ? addSearchUsersResult.find((name) => {
-                                return name.username === user.username
-                            }) : null
-                            return <li key={index}>
-                                {addSearchUsersResult.length > 0 && x !== undefined
-                                    ? <span className={classes.user + ' ' + classes.userResult}>
-                                                <span className={classes.eventNames}>{x.username}</span>
-                                        {today > eventday ?
-                                            <InputComp inputType="number" name="userResult" placeholder="score"
-                                                       onChange={this.addSearchUserResult.bind(this, x)}/> : null}
-                                        <i className="far fa-times-circle"
-                                           onClick={this.removeSelectedUser.bind(this, x.userId)}></i>
-                                            </span>
+		return ( <div>
+					<InputComp inputType="text" name="tournament" placeholder={'Tournament Name'} content={tournById.tournamentName} onChange={() => {}}/>
+					<div className={classes.usersAddedWrapper} >
+						{<span className={classes.searchResult}>select players from the tournament group</span>}
+						<ul className={classes.usersAddedWrapperList}>
+						{arr !== undefined ? arr.map((user, index) => {
+							const x = addSearchUsersResult!== null || addSearchUsersResult.length > 0 ? addSearchUsersResult.find((name) =>  {return name.username === user.username }) : null
+							return <li key={index}>
+									{addSearchUsersResult.length > 0 && x !== undefined
+									?  <span className={classes.user +' '+classes.userResult} >
+											<span className={classes.eventNames}>{x.username}</span>
+											{today > eventday ? <InputComp inputType="number" name="userResult" placeholder="score" onChange={this.addSearchUserResult.bind(this, x)}/> : null}
+											<i className="far fa-times-circle" onClick={this.removeSelectedUser.bind(this, x.userId)}></i>
+                                        </span>
 
-                                    : <span className={classes.user} onClick={() => this.addSearchUsers(user)}>
-                                                <span className={classes.eventNames}>{user.username}</span>
-                                                <i className="far fa-plus-square"></i>
-                                           </span>
-                                }
-                            </li>
+									: <span className={classes.user} onClick={() => this.addSearchUsers(user)}>
+											<span className={classes.eventNames}>{user.username}</span>
+											<i className="far fa-plus-square"></i>
+									   </span>
+									}
+								</li>
 
-                        }) : null
-                        }
-                    </ul>
-                </div>
-                <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}
-                           content={this.state.EventName}/>
-                <MuiPickersUtilsProvider utils={MomentUtils}>
-                    <DateTimePicker
-                        className={classes.timePicker}
-                        value={this.state.selectedDate}
-                        onChange={(date) => this.handleDateChange(date)}
-                        showTodayButton
-                        name="deteOfEvent"
-                        placeholder={moment().format('MM DD YYYY, HH:mm:ss ')}
-                        ampm={false}
-                        format="MM DD YYYY, HH:mm:ss "
-                        label={'Event Time:'}
-                    />
-                </MuiPickersUtilsProvider>
-
-                <Link to={`/tournament_page/${this.props.tournById.tournamentName}`}
-                      onClick={() => this.getTournById(this.props.tournById.tournamentId)}>
-                    <div className={classes.saveButton}><BtnComp
-                        inputType="submit"
-                        name="createEvent"
-                        content='Save'
-                        onClick={this.addNewEvent}
-                    /></div>
-                </Link>
-        </div>
-
+						}): null
+						}
+						</ul>
+					</div>
+					<InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange} content={this.state.EventName}/>
+					<MuiPickersUtilsProvider utils={MomentUtils}>
+						<DateTimePicker
+							className={classes.timePicker}
+							value={this.state.selectedDate}
+							onChange={(date)=> this.handleDateChange(date)}
+							showTodayButton
+							name="deteOfEvent"
+							placeholder={moment().format('MM DD YYYY, hh:mm:ss ') }
+							ampm={false}
+							format="MM DD YYYY, hh:mm:ss "
+							label={'Event Time:'}
+						/>
+					</MuiPickersUtilsProvider>
+					
+					<Link to={`/tournament_page/${this.props.tournById.tournamentName}`} onClick={()=>this.getTournById(this.props.tournById.tournamentId)}>
+						<div className={classes.saveButton}><BtnComp
+							inputType="submit"
+							name="createEvent"
+							content='Save'
+							onClick={this.addNewEvent}
+						/></div>
+					</Link>
+				</div>
+		)
 	};
 	
 	render() {

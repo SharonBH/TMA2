@@ -39,7 +39,7 @@ export class TournyPageLeaderBoard extends Component {
 
 		return(
 			<div>
-				<h3>Leaderboard</h3>
+				<h3>Leader Board of tournament</h3>
 				<div className={classes.wrapList}>
 				<div className={classes.usersHead}>
 					<h4 className={classes.leaderBoardTD}>User</h4>

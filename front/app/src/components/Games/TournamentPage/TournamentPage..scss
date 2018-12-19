@@ -4,7 +4,7 @@
     text-align: left;
     margin-top: 10px;
     padding: 0 10px;
-
+    
     .AddUser {
         display: flex;
         justify-content: center;
@@ -21,12 +21,8 @@
     .turnInfo{
         padding: 0px 20px 0;
         .headTPage{
-            //display: flex;
-            //justify-content: space-between;
-            .typeNameSpinner{
-                display: inline-block;
-            }
-
+            display: flex;
+            justify-content: space-between;
             .editBTN{
                 display: inline-block;
             }
@@ -37,19 +33,13 @@
                 margin: 0;
                 font-size: 24px;
                 line-height: 47px;
-                display: block;
-                width: 100%;
                 span {
                     font-weight: 400;
                 }
             }
             .tournPButtons{
-                text-align: left;
-                margin: 0 0 7px 0;
-                input:disabled{
-                    background: #999;
-                }
-
+                text-align: right;
+                margin-right: 20px;
                 &>*{
                     display: inline-block;
                     margin-bottom: 5px;
@@ -62,26 +52,25 @@
                 display: inline-block;
                 position: relative;
                 white-space: nowrap;
-                margin-left: 0;
-                margin-right: 10px;
+                margin-left: 10px;
                 i{
-                    font-size: 26px;
+                    font-size: 36px;
                     position: relative;
-                    top: 6px;
-                    color: #2196f3;
+                    top: 10px;
+                    color: $blue;
                     
                 }
                 span{
                     display: none;
                 }
                 :hover{
-                    color:#0066c5;
+                    color:$dark-gray;
                 }
                 &:hover span{
                     display: block;
                     position: absolute;
-                    top: 36px;
-                    left: 0;
+                    top: 51px;
+                    right: 0;
                     background: #ffffff;
                     box-shadow: 0px 0px 3px 0px #03a3d0;
                     padding: 6px 6px;
@@ -109,16 +98,6 @@
             display: flex;
             justify-content: start;
             border-bottom: 1px solid #eee;
-            .typeNameSpinner{
-                display: inline-block;
-            }
-            h5{
-                span{
-                    font-weight: 400;
-                    margin-left: 10px;
-                    font-size: 14px;
-                }
-            }
             &>*{
                 margin: 10px 10px 10px 0;
                 line-height: 20px;
@@ -126,14 +105,10 @@
         }
         .tournTime{
                 border-bottom: 1px solid #ddd;
-                margin-bottom: 0px;
+                margin-bottom: 15px;
             
             .turnPageTiming{
                 margin-bottom: 15px;
-                margin-top: 10px;
-                .typeNameSpinner{
-                    display: inline-block;
-                }
                 h3{
                     margin: 0;
                     padding: 0 0 10px 0;
@@ -167,11 +142,6 @@
     }
     .eventsTable{
         width: 65%;
-        &>div {
-            ul.noresults {
-                text-align: center;
-            }
-        }
         ul, ol{
             li{
                 div{
@@ -182,20 +152,7 @@
                         background: #c5c5c5;
                     }
                     &::-webkit-scrollbar-thumb{
-                        background: #2196f3;
-                    }
-                }
-                .usersInGame{
-                    ul{
-                        white-space: nowrap;
-                        overflow-y: auto;
-                        &::-webkit-scrollbar{
-                            height: 2px;
-                            background: #c5c5c5;
-                        }
-                        &::-webkit-scrollbar-thumb{
-                            background: #2196f3;
-                        }
+                        background: $blue;
                     }
                 }
             }
@@ -203,7 +160,7 @@
     }
     .usersTable{
         width: 35%;
-
+        
     }
 .turnPageEventsBTN{
     width: 10%;
@@ -223,39 +180,20 @@
         display: inline-block;
         border: 1px solid #ddd;
         margin-top: 20px;
-        padding: 0 0px;
+        padding: 15px;
         margin: 1%;
        
         h3{
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            border-bottom: 2px solid #00b0f2;
-            background: #ecf8ff;
-            color: #8e8e8e;
-            font-weight: 600;
             margin-top: 0;
-            .eventsCount{
-                display: inline-block;
-                border: 1px solid #7b7b7b;
-                min-width: 30px;
-                border-radius: 23px;
-                height: 30px;
-                line-height: 29px;
-                color: #7b7b7b;
-                font-weight: 400;
-                margin-left: 16px;
-                text-align: center;
-            }
+            padding: 0 0 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
         }
         div {
             h4{
                 margin: 0;
                 text-align: left; 
-            }
-            .wrapList{
-                padding: 0 15px;
             }
         }
         ul{
@@ -273,7 +211,7 @@
                 background: $blue;
             }
             li{
-                margin-bottom: 10px;
+                margin-bottom: 10px; 
                 display: flex;
                 justify-content: space-between;
             }
@@ -300,7 +238,6 @@
                 }
             }
         }
-
         
         .usersHead{
             display: flex;
@@ -324,28 +261,24 @@
                 }
             }
             .hiddenUsers{
-                //width: 155px;
+                width: 155px;
                 height: auto;
+                display: none;
                 position: relative;
-                padding: 0;
-                li{
-                    display: inline-block;
-                    margin: 0 8px;
+            }
+            &:hover {
+                .hiddenUsers{
+                    display: block;
+                    position: absolute;
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    background-color: #fff;
+                    box-shadow: 0px 0px 4px 0px #03a3d0;
+                    right: 0;
+                    z-index: 6;
+                    top: 20;
                 }
             }
-            //&:hover {
-            //    .hiddenUsers{
-            //        display: block;
-            //        position: absolute;
-            //        border: 1px solid #ddd;
-            //        padding: 10px;
-            //        background-color: #fff;
-            //        box-shadow: 0px 0px 4px 0px #03a3d0;
-            //        right: 0;
-            //        z-index: 6;
-            //        top: 20;
-            //    }
-            //}
             
             
             
@@ -360,50 +293,12 @@
         }
         .leaderBoardTD{
             width: 34%;
-            .nameLine{
-                display: flex;
-                align-items: center;
-                span{
-                    margin: 0 5px;
-                }
-                .profileImage{
-                    display: flex;
-                    width: 30px;
-                    height: 30px;
-                    align-items: center;
-                    text-align: center;
-                    justify-content: space-around;
-                    border-radius: 35px;
-                    overflow: hidden;
-                    img{
-                        max-width: 100%;
-                        width: auto;
-                        height: auto;
-                    }
-                }
-            }
         }
         .editBTN{
             display: inline-block;
         }
         .deleteBTN{
             display: inline-block;
-        }
-    }
-    .eventsTable{
-        div {
-            ol {
-                height: 26vmin;
-                overflow-y: auto;
-                li {
-                    line-height: 30px;
-                    margin: 0;
-                    i{
-                        font-size: 28px;
-                        color: #b3b3b3;
-                    }
-                }
-            }
         }
     }
     .usersTable{
@@ -428,41 +323,28 @@
         justify-content: center;
         align-items: center;
         z-index: 6;
-        transform: translateY(0%);
-        transition-timing-function: ease-in;
-        transition: 0.6s;
-
-        & > span {
-
-            padding: 22px 40px;
+        
+        span {
+            padding: 20px 40px;
+            background: #9dfca1;
+            border-bottom: 1px solid #999;
             position: relative;
-            width: 574px;
-            height: 70px;
-            box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
-            background-color: #97b532;
-            color: #fff;
-            border-radius: 8px;
-            text-align: left;
-            font-size: 20px;
-            &::before{
-                content: '\F00C';
-                font-family: "Font Awesome 5 Free";
-                font-weight: 600;
-                margin-right: 20px;
-                display: inline-block;
-                font-size: 23px;
-            }
+            width: auto;
+            height: auto;
+            max-width: 477px;
             .closeBTN {
                 padding: 0 5px;
+                background: #fff;
+                border: 1px solid #999;
                 border-radius: 11px;
                 position: absolute;
-                top: 17px;
-                right: 21px;
+                top: -8px;
+                right: -6px;
                 cursor: pointer;
-                font-size: 26px;
             }
             &>:hover {
-                color: #287b00;
+                background: #000;
+                color: #fff;
             }
         }
     }
@@ -512,39 +394,27 @@
             .headTPage{
                 display: block;
                 h1{
-                    //padding-top: 35px;
-                    font-size: 18px;
-                    //text-align: center;
+                    padding-top: 35px;
+                    font-size: 16px;
+                    text-align: center;
                 }
-                //.tournPButtons{
-                //    margin: 0;
-                //    width: 100%;
-                //    position: absolute;
-                //    top: -10px;
-                //    right: 0;
-                //}
+                .tournPButtons{
+                    margin: 0;
+                    width: 100%;
+                    position: absolute;
+                    top: -10px;
+                    right: 0;
+                }
             }
         }
         .TPageTables{
             display: block;
             .eventsTable, .usersTable{
                 width: 100%;
-                .usersHead{
-                    h4{
-                        text-align: center;
-                        margin: 0 0 10px 0;
-                        width: 33%;
-                    }
-                    .turnPageEventsBTN{
-                        display: none;
-                    }
-                }
-
+               
                 ul, ol{
                     height: auto;
                     overflow: visible;
-                    padding: 0;
-
                     li{
                         display: block;
                         position: relative;
@@ -553,31 +423,24 @@
                         &>div{
                             margin: 0;
                             width: 100%;
-
-                        }
-                        .leaderBoardTD{
-                            text-align: center;
-                        }
-                        .usersInGame{
-                            position: absolute;
-                            top: 0px;
-                            right: 6px;
-                            width: auto;
-
                         }
                         .turnPageEventsBTN{
                             position: absolute;
                             bottom: 3px;
                             right: 0;
-                            width: 50px;
-                            min-width: 56px;
+                            width: auto;
                         }
                     }
                 }
             }
-             .usersTable{
-
-             }
+            // .usersTable{
+            //     display: flex;
+            //     justify-content: inherit;
+            //     .tournTime, &> div{
+            //         width: 48%;
+            //         border: 0;
+            //     }
+            // }
         }
     }
 }

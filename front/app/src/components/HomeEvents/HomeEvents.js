@@ -14,7 +14,7 @@ export class HomeEvents extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+		
 		}
 	}
     componentWillMount() {
@@ -53,7 +53,7 @@ export class HomeEvents extends Component {
     
     futureEventsList = () => {
         const {next} =  this.props.allMyHomeData
-
+        
         const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
         const filltournamentName = fill !== undefined ? fill.tournamentName : '';
         return(
@@ -125,103 +125,102 @@ export class HomeEvents extends Component {
             </div>
         )
     };
-
 	nextEventTableOutput = () => {
-	    let allLeaderboards = [];
-	    if(this.props.allMyHomeData.length === 0) {
-            return (<span className={classes.noResults}>No leaderboards yet...</span>);
-        }
-	    else {
-
-            this.props.allMyHomeData.map((item) => {
-                if (item.leaderboards.length > 0) {
-                    const nextTournamentName = item.nextEvent != null ? item.nextEvent.tournamentName : null;
-                    const sortedBoard = item.leaderboards !== undefined ? item.leaderboards.sort((a, b) => {
-                        return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
-                    }) : null;
-                    allLeaderboards.push(
-                        <div>
-                            <div className={classes.leaderTop}>
-                                <p>{nextTournamentName}</p>
-                                <div className={classes.leaderTableHead}>
-                                    <b>User Name</b>
-                                    <b>Number of Events</b>
-                                    <b>Total Scores</b>
-                                </div>
-                                <ul>{sortedBoard.map((user, i) => {
-                                    console.log(user.user.username);
-                                    const profileImage = user.user.avatar === undefined || user.user.avatar === null ?
-                                        <i className="fas fa-user-circle"></i> :
-                                        <img src={`data:image/jpeg;base64,` + `${user.user.avatar}`}/>
-                                    return <li key={i}>
-                                        <div>
-                                            <p><span>
+		const {next} =  this.props.allMyHomeData
+		const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
+		const sortedBoard = next.nextLeaderboard !== undefined ? next.nextLeaderboard.sort((a, b) => {
+			return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
+		}) : null;
+		return (
+			<div className={classes.leaderTop}>
+				<p>{nextTournament.tournamentName}</p>
+				<div className={classes.leaderTableHead}>
+					<b>User Name</b>
+					<b>Number of Events</b>
+					<b>Total Scores</b>
+				</div>
+				<ul>{sortedBoard.map((user, i) => {
+					const profileImage = user.user.avatar === undefined || user.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.avatar}`} />
+					return <li key={i}><div>
+						<p><span>
 			                        {<span className={classes.profileAvatar}>
 				                        {profileImage}
 			                        </span>}
-		                        </span><span>{user.user.username}</span></p>
-                                            <p><span>{user.numberOfEvents}</span></p>
-                                            <p><span>{user.totalScores}</span></p>
-                                        </div>
-                                    </li>
-                                })}
-                                </ul>
-                            </div>
-                            <div className={classes.eventsTBLS}>
-                                <div className={classes.eventsTable}>
-                                    <div>Next event:
-                                        <div>
-                                            {item.nextEvent === null ?
-                                                <span className={classes.noResults}>No Future events</span>
-                                                : item.nextEvent.eventName !== null ?
-                                                    <div className={classes.eventData}>
-                                                        <p className={classes.eventName}>
-                                                            <span>Event Name:</span>{item.nextEvent.eventName}
-                                                        </p>
-                                                        <p className={classes.eventName}>
-                                                            <span>Tournament Name:</span>{item.nextEvent.tournamentName}
-                                                        </p>
-                                                        <p className={classes.eventDate}>
-                                                            <span>Event Date:</span>{moment(item.nextEvent.eventDate).format('DD-MM-YYYY HH:MM')}
-                                                        </p>
-                                                    </div> :
-                                                    <span className={classes.noResults}>No Future events</span>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                }
-            });
-        }
-        return allLeaderboards;
+		                        </span><span>{user.user.userName}</span></p>
+						<p><span>{user.numberOfEvents}</span></p>
+						<p><span>{user.totalScores}</span></p>
+					</div></li>
+				})}
+				</ul>
+			</div>
+		)
     };
 
     leaderboardTable = () => {
-        return (
-            <div className={classes.leaderBoardTables}>
+        const {past, next} =  this.props.allMyHomeData
+        const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (past.pastEvent === null ? null : past.pastEvent.tournamentName)}): null
+        const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
 
-                {this.nextEventTableOutput()}
-            </div>
-        )
+        if(pastTournament !== undefined && nextTournament !== undefined ){
+	        if(pastTournament.tournamentId === nextTournament.tournamentId){
+                return  this.pastEventTableOutput()
+            }else if(pastTournament.tournamentId !== nextTournament.tournamentId){
+	            return (
+		            <div className={classes.doubleBoard}>
+                        <div>{this.pastEventTableOutput()}</div>
+			            <div>{this.nextEventTableOutput()}</div>
+		            </div>
+	            )
+            }
+        }else if(pastTournament !== undefined && nextTournament === undefined){
+            return this.pastEventTableOutput()
+        }
+        
     }
-
 	timeout = () => {
-		// const {past, next} =  this.props.allMyHomeData
-		// console.log(past.pastEvent, next.nextEvent)
+		const {past, next} =  this.props.allMyHomeData
+		console.log(past.pastEvent, next.nextEvent)
 		// setTimeout((
 		//
 		// ), 5000)
 	}
-
     render() {
+    	// console.log('home page____', this.props)
+	    const {past, next} =  this.props.allMyHomeData
+	    
+	    const pastTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (past.pastEvent === null ? null : past.pastEvent.tournamentName)}): null
+	    const nextTournament = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentName === (next.nextEvent === null ? null : next.nextEvent.tournamentName)}): null
+	    console.log(nextTournament, pastTournament)
         return (
             <div className={classes.EventsPage}>
                 <div>
-                    <h1>Leaderboards</h1>
-                    {this.leaderboardTable()}
+                    <h1>Hello, your leader board</h1>
+	                <div className={classes.leaderBoardTables}>
+                        {pastTournament !== undefined || nextTournament !== undefined
+	                        ?  this.leaderboardTable()
+	                        :  <div className={classes.smallSpinner}><SmallSpinner/></div>
+	
+	
+	                        // ?  <div className={classes.smallSpinner}><SmallSpinner/></div>
+	                        // :   past.pastEvent === null || next.nextEvent === null
+		                    //     ?  <div><p>No Data</p></div>
+		                    //     :  this.leaderboardTable()
+                        }
+	                </div>
+                </div>
+                <div>
+                    <h1>You have some events</h1>
+                    <div className={classes.eventsTBLS}>
+	                    <div className={classes.eventsTable}>
+		                    <h4>Youre next event</h4>
+		                    <div>{this.futureEventsList()}</div>
+	                    </div>
+                        <div className={classes.eventsTable}>
+                            <h4>Youre past event</h4>
+                            <div>{this.pastEventsList()}</div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         );

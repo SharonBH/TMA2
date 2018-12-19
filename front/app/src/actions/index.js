@@ -106,8 +106,7 @@ export const getAllUsersAction = (response) => {
 export const getAllToursAction = (response) => {
     return {
         type: 'GET_ALL_TOURS',
-        payload: response,
-
+        payload: response
     }
 }
 //get Tournament by ID
