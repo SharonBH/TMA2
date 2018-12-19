@@ -1,0 +1,53 @@
+body{
+  overflow: hidden;
+}
+@media only screen and (max-width: 1000px) {
+  body{
+    overflow-y: auto;
+    &::-webkit-scrollbar{
+      width: 3px;
+      background: #c5c5c5;
+  }
+    &::-webkit-scrollbar-thumb{
+        background: #03a3d0;
+    }
+  }
+}
+.App {
+  text-align: center;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  h1{
+    color: #bdbdbd;
+    border-left: 1px solid #ff639b;
+    padding-left: 8px;
+  }
+}
+
+* {
+    box-sizing: border-box;
+    // transition: all 0.5s ease-out;
+}
+
+
+input::before {
+  color: #757575;
+  content: attr(placeholder) ": ";
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+a{
+  text-decoration: none;
+  color: #000;
+  font-weight: 400;
+}
+a:hover{
+  font-weight: 600;
+}
+
+@media only screen and (max-width: 870px) {
+  h1{
+    font-size: 22px;
+  }
+}

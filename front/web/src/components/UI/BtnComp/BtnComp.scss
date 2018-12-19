@@ -1,0 +1,155 @@
+@import '../../../styles/colors.scss';
+.BtnComp{
+    text-align: center;
+    display: inline-block;
+    float: right;
+    min-width: 67px;
+    cursor: pointer;
+ 
+}
+input:disabled {
+    background: #999;
+}
+.sendBtn{
+    background: #2196f3;
+    color: #fff;
+    padding: 8px 19px;
+    font-size: 14px;
+    border: 1px solid #1565c0;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow: 0 3px 2px 0 rgba(70, 166, 255, 0.35);
+
+
+    &:hover{
+        background: #1565c0;
+        color: $white;
+    }
+}
+.sendOutlineBtn{
+    background: #fff;
+    color: #2196f3;
+    padding: 8px 19px;
+    font-size: 14px;
+    border: 1px solid #1565c0;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow: 0 3px 2px 0 rgba(70, 166, 255, 0.35);
+
+
+    &:hover{
+        background: #2196f3;
+        color: #fff;
+    }
+}
+
+.editBtn {
+    color: #2196f3;
+    background: none;
+    border: 0;
+    width: 40px;
+    padding: 1px 0;
+    margin: 0 2px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    i {
+        width: 80%;
+        span {
+            display: none;
+        }
+        &:hover span{
+            display: block;
+            position: absolute;
+            top: -7px;
+            left: -11px;
+            background: #ffffff;
+            box-shadow: 0px 0px 3px 0px #1565c0;
+            padding: 1px 6px;
+            color: #000;
+            font-weight: 400;
+            font-size: 12px;
+            width: auto;
+            text-align: left;
+            z-index: 1;
+        }
+    }
+    
+    &:hover{
+        color:#1565c0;
+    }
+}
+.deleteBtn {
+
+    color: #fb4444;
+    background: none;
+    border: 0;
+    width: 40px;
+    padding: 1px 0;
+    margin: 0 2px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    i {
+        width: 80%;
+        span {
+            display: none;
+        }
+        &:hover span{
+            display: block;
+            position: absolute;
+            top: -9px;
+            left: -16px;
+            background: #ffffff;
+            box-shadow: 0px 0px 3px 0px #ffdede;
+            padding: 1px 6px;
+            color: #000;
+            font-weight: 400;
+            font-size: 12px;
+            width: auto;
+            text-align: left;
+            z-index: 1;
+        }
+    }
+
+    &:hover{
+        color: #ffa1a1;
+    }
+}
+.tabBtn{
+    display: inline-block;
+    background: transparent;
+    border: 0;
+    //border-bottom: 2px solid #03a3d0;
+    padding: 4px 15px;
+    font-size: 16px;
+    cursor: pointer;
+&:focus{
+    outline: none;
+}
+    //text-decoration: none;
+    ////color: rgba(0,0,0,.4);
+    //z-index: 1;
+    //position: relative;
+}
+
+.tabElement {
+    text-decoration: none;
+    color: rgba(0,0,0,.4);
+    z-index: 1;
+    position: relative;
+    background: transparent;
+}
+
+@media only screen and (max-width: 870px) {
+.deleteBtn{
+    width: 23px;
+}
+    .sendBtn, .sendOutlineBtn{
+        padding: 4px;
+        font-size: 12px !important;
+    }
+    .editBtn{
+        width: 20px;
+    }
+}

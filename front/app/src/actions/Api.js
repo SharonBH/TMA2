@@ -13,7 +13,7 @@ import {
 	takeMyHomeLeader,
 	editThisItemAction
 } from './index';
-import { EDIT, YOUR_PROFILE } from '../configuration/config'
+import {EDIT, USER_ROLE_ADMIN, YOUR_PROFILE} from '../configuration/config'
 
 // const cors ='https://cors-anywhere.herokuapp.com/'
 const cors =''
@@ -49,6 +49,7 @@ export const loginRequest = (userName, password) => {
 			if(response.data.message === 'Success') {
 				return axios.post(cors + url + `Account/GetUserAsync?username=${userName}`)
 					.then((response) => {
+                        response.data["isCurrentUserAdminRole"] = response.data["role"] === USER_ROLE_ADMIN;
 						sessionStorage.setItem('session', JSON.stringify(response.data));
 						const session = JSON.parse(sessionStorage.getItem('session'));
 						dispatch(getUserAction(session))
