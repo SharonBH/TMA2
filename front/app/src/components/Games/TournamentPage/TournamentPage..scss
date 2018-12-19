@@ -1,0 +1,446 @@
+@import '../../../styles/colors.scss';
+
+.tournPageWrapper{
+    text-align: left;
+    margin-top: 10px;
+    padding: 0 10px;
+    
+    .AddUser {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #999999de;
+        height: 100%;
+        z-index: 92;
+    }
+    .turnInfo{
+        padding: 0px 20px 0;
+        .headTPage{
+            display: flex;
+            justify-content: space-between;
+            .editBTN{
+                display: inline-block;
+            }
+            .deleteBTN{
+                display: inline-block;
+            }
+            h1{
+                margin: 0;
+                font-size: 24px;
+                line-height: 47px;
+                span {
+                    font-weight: 400;
+                }
+            }
+            .tournPButtons{
+                text-align: right;
+                margin-right: 20px;
+                &>*{
+                    display: inline-block;
+                    margin-bottom: 5px;
+                    margin-right: 5px;
+                }
+                
+                
+            }
+            .backBtn{
+                display: inline-block;
+                position: relative;
+                white-space: nowrap;
+                margin-left: 10px;
+                i{
+                    font-size: 36px;
+                    position: relative;
+                    top: 10px;
+                    color: $blue;
+                    
+                }
+                span{
+                    display: none;
+                }
+                :hover{
+                    color:$dark-gray;
+                }
+                &:hover span{
+                    display: block;
+                    position: absolute;
+                    top: 51px;
+                    right: 0;
+                    background: #ffffff;
+                    box-shadow: 0px 0px 3px 0px #03a3d0;
+                    padding: 6px 6px;
+                    color: #000;
+                    font-weight: 400;
+                    font-size: 14px;
+                    width: auto;
+                    text-align: left;
+                    z-index: 1;
+                }
+            }
+            
+        }  
+        
+    }
+
+
+    
+    
+    
+    .TPageTables{
+        display: flex;
+        justify-content: space-between;
+        .usersTBL{
+            display: flex;
+            justify-content: start;
+            border-bottom: 1px solid #eee;
+            &>*{
+                margin: 10px 10px 10px 0;
+                line-height: 20px;
+            }
+        }
+        .tournTime{
+                border-bottom: 1px solid #ddd;
+                margin-bottom: 15px;
+            
+            .turnPageTiming{
+                margin-bottom: 15px;
+                h3{
+                    margin: 0;
+                    padding: 0 0 10px 0;
+                }
+                b{
+                    font-size: 14px;
+                }
+                span{
+                    display: block;
+                    h4{
+                        display: inline-block;
+                        margin: 10px 0 0px;
+                        font-size: 14px;
+                    }
+                    p{
+                        display: inline-block;
+                        margin: 10px 0 0px 10px;
+                    }
+                    
+                }
+            }
+        } 
+        .usersTBList{
+            ul{
+                margin-top:0;
+            }
+            h5{
+                margin: 10px 0 ;
+            }
+        }
+    }
+    .eventsTable{
+        width: 65%;
+        ul, ol{
+            li{
+                div{
+                    white-space: nowrap;
+                    overflow-y: auto;
+                    &::-webkit-scrollbar{
+                        height: 2px;
+                        background: #c5c5c5;
+                    }
+                    &::-webkit-scrollbar-thumb{
+                        background: $blue;
+                    }
+                }
+            }
+        }
+    }
+    .usersTable{
+        width: 35%;
+        
+    }
+.turnPageEventsBTN{
+    width: 10%;
+    min-width: 88px;
+    overflow: visible !important;
+    a{
+        div{
+            overflow: visible !important;
+        }
+    }
+    div{
+        overflow: visible !important;
+    }
+}
+
+    .eventsTable, .usersTable{
+        display: inline-block;
+        border: 1px solid #ddd;
+        margin-top: 20px;
+        padding: 15px;
+        margin: 1%;
+       
+        h3{
+            margin-top: 0;
+            padding: 0 0 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        div {
+            h4{
+                margin: 0;
+                text-align: left; 
+            }
+        }
+        ul{
+            list-style: none;
+            padding: 15px 0 0 0;
+            // height: calc(100vh - 240px);
+            overflow-y: auto;
+            margin-top: 0;
+        
+            &::-webkit-scrollbar{
+                width: 3px;
+                background: #c5c5c5;
+            }
+            &::-webkit-scrollbar-thumb{
+                background: $blue;
+            }
+            li{
+                margin-bottom: 10px; 
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        ol{
+            overflow-y: auto;
+            padding-left: 25px;
+            &::-webkit-scrollbar{
+                width: 3px;
+                background: #c5c5c5;
+            }
+            &::-webkit-scrollbar-thumb{
+                background: $blue;
+            }
+            li{
+                margin-bottom: 10px; 
+                display: list-item;
+                justify-content: space-between;
+                &>div{
+                    display: inline-block;
+                    position: relative;
+                    top: 4px;
+                    width: 33% !important;
+                }
+            }
+        }
+        
+        .usersHead{
+            display: flex;
+            justify-content: space-between;
+            .turnPageEventsBTN{
+                span{
+                    visibility: hidden;
+                }
+            }
+            .usersInGame{
+                width: 23%;
+            }
+        }
+        .usersInGame{
+            width: 23%;
+            position: relative;
+            overflow: visible;
+            .showUsers{
+                &:hover{
+                   font-weight: 600 
+                }
+            }
+            .hiddenUsers{
+                width: 155px;
+                height: auto;
+                display: none;
+                position: relative;
+            }
+            &:hover {
+                .hiddenUsers{
+                    display: block;
+                    position: absolute;
+                    border: 1px solid #ddd;
+                    padding: 10px;
+                    background-color: #fff;
+                    box-shadow: 0px 0px 4px 0px #03a3d0;
+                    right: 0;
+                    z-index: 6;
+                    top: 20;
+                }
+            }
+            
+            
+            
+        }
+        .eventDate{
+            display: inline-block;
+            width: 41%;
+            margin: 0 11px;
+        } .eventName{
+            display: inline-block;
+            width: 24%;
+        }
+        .leaderBoardTD{
+            width: 34%;
+        }
+        .editBTN{
+            display: inline-block;
+        }
+        .deleteBTN{
+            display: inline-block;
+        }
+    }
+    .usersTable{
+        ul{
+            height: calc(100vh - 480px);
+        }
+    }
+    .eventsTable{
+        ul{
+            height: calc(60vh - 240px);
+        }
+    }
+    .success {
+        position: fixed;
+        width: 100%;
+        text-align: center;
+        top: 0;
+        margin: 0;
+        height: 100vh;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 6;
+        
+        span {
+            padding: 20px 40px;
+            background: #9dfca1;
+            border-bottom: 1px solid #999;
+            position: relative;
+            width: auto;
+            height: auto;
+            max-width: 477px;
+            .closeBTN {
+                padding: 0 5px;
+                background: #fff;
+                border: 1px solid #999;
+                border-radius: 11px;
+                position: absolute;
+                top: -8px;
+                right: -6px;
+                cursor: pointer;
+            }
+            &>:hover {
+                background: #000;
+                color: #fff;
+            }
+        }
+    }
+    .errorPop {
+        position: fixed;
+        width: 100%;
+        text-align: center;
+        top: 0;
+        margin: 0;
+        height: 100vh;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        span {
+            padding: 20px 40px;
+            background: #f18383;
+            border-bottom: 1px solid#999;
+            position: relative;
+            width: auto;
+            height: auto;
+            max-width: 477px;
+
+            .closeBTN {
+                padding: 0 5px;
+                background: #fff;
+                border: 1px solid #999;
+                border-radius: 11px;
+                position: absolute;
+                top: -8px;
+                right: -6px;
+                cursor: pointer;
+            }
+            &>:hover {
+                background: #000;
+                color: #fff;
+            }
+        }
+    }
+}
+@media only screen and (max-width: 870px) {
+    .tournPageWrapper{
+        .turnInfo{
+            padding: 0 1%;
+            position: relative;
+            .headTPage{
+                display: block;
+                h1{
+                    padding-top: 35px;
+                    font-size: 16px;
+                    text-align: center;
+                }
+                .tournPButtons{
+                    margin: 0;
+                    width: 100%;
+                    position: absolute;
+                    top: -10px;
+                    right: 0;
+                }
+            }
+        }
+        .TPageTables{
+            display: block;
+            .eventsTable, .usersTable{
+                width: 100%;
+               
+                ul, ol{
+                    height: auto;
+                    overflow: visible;
+                    li{
+                        display: block;
+                        position: relative;
+                        padding-bottom: 5px;
+                        border-bottom: 1px solid #ddd;
+                        &>div{
+                            margin: 0;
+                            width: 100%;
+                        }
+                        .turnPageEventsBTN{
+                            position: absolute;
+                            bottom: 3px;
+                            right: 0;
+                            width: auto;
+                        }
+                    }
+                }
+            }
+            // .usersTable{
+            //     display: flex;
+            //     justify-content: inherit;
+            //     .tournTime, &> div{
+            //         width: 48%;
+            //         border: 0;
+            //     }
+            // }
+        }
+    }
+}

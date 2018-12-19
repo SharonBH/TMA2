@@ -17,7 +17,8 @@ import {EDIT, USER_ROLE_ADMIN, YOUR_PROFILE} from '../configuration/config'
 
 // const cors ='https://cors-anywhere.herokuapp.com/'
 const cors =''
-const url = 'https://tma-api.azurewebsites.net/'
+//const url = 'https://tma-api.azurewebsites.net/'
+const url = 'https://localhost:44336/'
 
 
 // login request
@@ -31,7 +32,7 @@ export const loginRequest = (userName, password) => {
 				password: password
 			},
 			crossDomain: true,
-			url: cors + 'https://tma-api.azurewebsites.net/Account/Login',
+			url: cors + url + 'Account/Login',
 			mode: 'no-cors',
 			headers: {
 				'Content-Type': 'application/json; charset=UTF-8',
