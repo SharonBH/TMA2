@@ -21,6 +21,7 @@ import ConfirmMessage from '../../UI/ConfirmMessage';
 import EventsList  from './EventsList.js'
 import FifaEventsList  from './FifaEventsList.js'
 import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
+import FifaTournyPageLeaderBoard  from './FifaTournyPageLeaderBoard.js'
 
 import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest } from '../../../actions/GamesApi';
 import {
@@ -227,7 +228,7 @@ export class TournamentPage extends Component {
                 currentTournamentName={currentTournament}
                 isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
             />
-        <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
+        < FifaTournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
         </div>
         )
     };

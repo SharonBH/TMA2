@@ -296,7 +296,7 @@
                     display: inline-block;
                     position: relative;
                     top: 4px;
-                    width: 33% !important;
+                    //width: 14.28% !important;
                 }
             }
         }
@@ -391,9 +391,10 @@
         } .eventName{
             display: inline-block;
             width: 24%;
+            margin-left: 5px;
         }
         .leaderBoardTD{
-            width: 34%;
+            width: 33%;
             .nameLine{
                 display: flex;
                 align-items: center;
