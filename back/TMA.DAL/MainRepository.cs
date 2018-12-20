@@ -974,7 +974,8 @@ namespace TMA.DAL
                             {
                                 Tournament = new Tournaments
                                 {
-                                    TournamentName = tournament.TournamentName
+                                    TournamentName = tournament.TournamentName,
+                                    EventTypeId = tournament.EventTypeId
                                 }
                             };
                         }

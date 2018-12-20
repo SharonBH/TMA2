@@ -20,5 +20,7 @@ namespace TMA.Api.Controllers
 
         public List<UserModel> EventUsers { get; set; }
 
+        public int TournamentTypeId { get; set; }
+
     }
 }
