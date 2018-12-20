@@ -328,7 +328,8 @@ namespace TMA.Api.Controllers
                 EventName = getEvent.EventName,
                 EventDate = getEvent.EventDate,
                 EventId = getEvent.EventId,
-                TournamentName = getEvent.Tournament.TournamentName
+                TournamentName = getEvent.Tournament?.TournamentName,
+                TournamentTypeId = getEvent.Tournament?.EventTypeId ?? 0
             };
             return eventModel;
         }
