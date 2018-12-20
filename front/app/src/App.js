@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import { withCookies } from 'react-cookie';
 import ConfirmMessage from './components/UI/ConfirmMessage';
 import TopNavigation  from './containers/TopNavigation/TopNavigation';
-import { SING_OUT } from './configuration/config'
+import {REGISTER, SING_OUT} from './configuration/config'
 import Login from './components/Login';
+import Register from "./components/Register/Register";
 
 
 
@@ -24,8 +25,8 @@ class App extends Component {
 
     render() {
         const isUserNotInSession =  sessionStorage.getItem('session') === null;
-
-        const divToShow = isUserNotInSession ? <div className={classes.App}>{this.spinner()}<Login /></div>:
+        const divRegister = history.location.pathname === '/register' ?  <div className={classes.App}>{this.spinner()}<Register headline={REGISTER}/></div> : <div className={classes.App}>{this.spinner()}<Login /></div>;
+        const divToShow = isUserNotInSession ? divRegister :
             <div className={classes.App}>
                 {this.spinner()}
                 {history.location.pathname === '/' || history.location.pathname === '/register' ?  '' : <TopNavigation/>}
