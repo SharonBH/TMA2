@@ -136,6 +136,7 @@ export class HomeEvents extends Component {
             this.props.allMyHomeData.map((item) => {
                 if (item.leaderboards.length > 0) {
                     const nextTournamentName = item.nextEvent != null ? item.nextEvent.tournamentName : null;
+                    const tournamentTypeId = item.nextEvent != null ? item.nextEvent.tournamentTypeId : null;
                     const sortedBoard = item.leaderboards !== undefined ? item.leaderboards.sort((a, b) => {
                         return a.totalScores === b.totalScores ? 0 : a.totalScores < b.totalScores ? 1 : -1;
                     }) : null;
@@ -147,6 +148,12 @@ export class HomeEvents extends Component {
                                     <b>User Name</b>
                                     <b>Number of Events</b>
                                     <b>Total Scores</b>
+                                    {tournamentTypeId == 1 &&
+                                        [<b>Goals Scored</b>,
+                                        <b>Goals Against</b>,
+                                        <b>Goals Difference</b>,
+                                        <b>Success %</b>]
+                                    }
                                 </div>
                                 <ul>{sortedBoard.map((user, i) => {
                                     console.log(user.user.username);
@@ -162,6 +169,13 @@ export class HomeEvents extends Component {
 		                        </span><span>{user.user.username}</span></p>
                                             <p><span>{user.numberOfEvents}</span></p>
                                             <p><span>{user.totalScores}</span></p>
+                                            {tournamentTypeId == 1 &&
+                                                [
+                                                <p><span>{user.goalsScored}</span></p>,
+                                                <p><span>{user.goalsAgainst}</span></p>,
+                                                <p><span>{user.goalsDifference}</span></p>,
+                                                <p><span>{(user.successPercentage * 100).toFixed(2)+'%'}</span></p>
+                                                ]}
                                         </div>
                                     </li>
                                 })}

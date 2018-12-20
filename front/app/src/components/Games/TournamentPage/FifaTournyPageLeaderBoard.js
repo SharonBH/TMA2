@@ -1,16 +1,10 @@
 import classes from "./TournamentPage.scss";
-// import moment from "moment";
-// import EditBtn from "../../UI/BtnComp/EditBtn";
-// import DeleteBtn from "../../UI/BtnComp/DeleteBtn";
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import {tournEventsByIdRequest} from "../../../actions/GamesApi";
 import SmallSpinner from "../../UI/SmallSpinner/SmallSpinner";
-// import Promise from "bluebird";
 
 
-
-export class TournyPageLeaderBoard extends Component {
+export class FifaTournyPageLeaderBoard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -45,18 +39,26 @@ export class TournyPageLeaderBoard extends Component {
 					<h4 className={classes.leaderBoardTD}>User</h4>
 					<h4 className={classes.leaderBoardTD}>Points</h4>
 					<h4 className={classes.leaderBoardTD}>Events</h4>
+                    <h4 className={classes.leaderBoardTD}>Goals Scored</h4>
+                    <h4 className={classes.leaderBoardTD}>Goals Against</h4>
+                    <h4 className={classes.leaderBoardTD}>Goals Difference</h4>
+                    <h4 className={classes.leaderBoardTD}>Success %</h4>
 				</div>
 					{
 						sortedBoard.length !== 0
 							? <ol>
 								{sortedBoard !== null ? sortedBoard.map((item, index) => {
 									const profileImage = item.user.avatar === undefined || item.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img alt='' src={`data:image/jpeg;base64,`+`${item.user.avatar}`} />
-									const pokerStyle = {width: '33%'};
+                                    const fifaStyle = {width: '14.28%'};
 									return sortedBoard !== undefined && sortedBoard[0].user !== 'No Data'
 										? <li key={index}>
-											<div style={pokerStyle} className={classes.leaderBoardTD}><span className={classes.nameLine}><span className={classes.profileImage}>{profileImage}</span><span>{item.user.username}</span></span></div>
-											<div style={pokerStyle} className={classes.leaderBoardTD}>{item.totalScores}</div>
-											<div style={pokerStyle} className={classes.leaderBoardTD}>{item.numberOfEvents}</div>
+											<div style={fifaStyle} className={classes.leaderBoardTD}><span className={classes.nameLine}><span className={classes.profileImage}>{profileImage}</span><span>{item.user.username}</span></span></div>
+											<div style={fifaStyle} className={classes.leaderBoardTD}>{item.totalScores}</div>
+											<div style={fifaStyle} className={classes.leaderBoardTD}>{item.numberOfEvents}</div>
+                                            <div style={fifaStyle} className={classes.leaderBoardTD}>{item.goalsScored}</div>
+                                            <div style={fifaStyle} className={classes.leaderBoardTD}>{item.goalsAgainst}</div>
+                                            <div style={fifaStyle} className={classes.leaderBoardTD}>{item.goalsDifference}</div>
+                                            <div style={fifaStyle} className={classes.leaderBoardTD}>{(item.successPercentage * 100).toFixed(2)+'%'}</div>
 										  </li>
 										: <div key={index}>No Results</div>
 									}) : null
@@ -92,4 +94,4 @@ const mapDispatchToProps = dispatch => {
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TournyPageLeaderBoard);
+export default connect(mapStateToProps, mapDispatchToProps)(FifaTournyPageLeaderBoard);

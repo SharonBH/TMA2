@@ -16,7 +16,7 @@ import SmallSpinner from '../../UI/SmallSpinner'
 // import Promise from "bluebird";
 
 
-export class EventsList extends Component {
+export class FifaEventsList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -25,7 +25,7 @@ export class EventsList extends Component {
 			eventForDelete: null,
 			eventsListState: [],
             sortItem: 'eventName',
-            toggleSort: true
+            toggleSort: true,
 		}
 	}
 	componentWillMount(){
@@ -85,6 +85,9 @@ export class EventsList extends Component {
 	    }, 200)
 
 	}
+    showUserName = (item, userName)=> {
+  return item
+    }
     sortTTTT = (events, sortBy, upDown) => {
         const { toggleSort } = this.state
         const x = toggleSort ? 1 : -1
@@ -149,59 +152,49 @@ export class EventsList extends Component {
 					<div className={classes.userHead}>
 						<h4 className={classes.eventName} i-attribute="down" id={'eventName'} onClick={(item) => this.Sort(item)}  >Events</h4>
 						<h4 className={classes.eventName} i-attribute="none" id={'eventDate'} onClick={(item) => this.Sort(item)}>Date</h4>
-						<h4 className={classes.eventName} i-attribute="down" id={'eventUsers'} onClick={(item) => this.Sort(item)} >Winner</h4>
+						<h4 className={classes.eventName} i-attribute="down" id={'eventUsers'} onClick={(item) => this.Sort(item)} >Scores</h4>
                         {this.props.isCurrentUserAdminRole && <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>}
 					</div>
 					{this.state.tournEventsByIdNoS.length !== 0
 						?
 						<ul>
 							{(this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS.map((item, index) => {
-							const sortedBoard = item.eventUsers.length !== 0 || item.eventUsers !== null ? item.eventUsers.sort((a, b) => {
-                            const fillA = item.eventResults.find(result => {
-                                return result.userId === a.userId
-                            })
-							const fillB = item.eventResults.find(result => {
-                                    return result.userId === b.userId
-                            })
-                            return fillA.result === fillB.result ? 0 : fillA.result < fillB.result ? 1 : -1;
-                        }) : null
-                        const winner = sortedBoard[sortedBoard.length -1]
-                        const profileImage = winner.avatar === undefined || winner.avatar === null ? <i className="fas fa-user-circle"></i> : <img alt='' src={`data:image/jpeg;base64,`+`${winner.avatar}`} />
 								 return item.eventName !== 'No Data'
-								? <li key={index}>
+								 ?<li key={index}>
 										 <div className={classes.eventName}>{item.eventName}</div>
 										<div
-											className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY, HH:mm A')}</div>
+											className={classes.eventDate}>{moment(item.eventDate).format('DD-Mo-YYYY HH:mm')}</div>
 										<div className={classes.usersInGame}>
 											{/*<span className={classes.showUsers}>Hover to show</span>*/}
 											<ul className={classes.hiddenUsers}>
-                                                <li>
-                                                    <div className={classes.avatarWrap}>
-                                                        <span className={classes.userAvatar}>{profileImage}</span>
-                                                        <p className={classes.avatarName}
-                                                           show={true}>{winner.username}</p>
-                                                    </div>
-                                                </li>
-											</ul>
-										</div>
+                            {item.eventUsers !== undefined ? item.eventUsers.map((user, index) => {
+                                    const fill = item.eventResults.find(result => {
+                                        return result.userId === user.userId
+                                    })
+												 	return <li key={index}>
+                                                           <span>{fill.result === null ? '-' : fill.result}</span>
+                                                     </li>
+                                                 }) : null}
+                                             </ul>
+                                         </div>
                                          {this.props.isCurrentUserAdminRole &&
-										<div className={classes.turnPageEventsBTN}>
-											<a className={classes.editBTN}><EditBtn inputType="submit" content='Edit'
-											                                        onClick={() => this.editEventBtn(item, this.props.match)}/></a>
-											<div className={classes.deleteBTN}><DeleteBtn
-												onClick={() => this.DeleteEventBtn(item.eventId, currentTournamentId)}
-												inputType={'button'}
-												content={`Delete`}/></div>
-										</div>
-                                          }
-									</li>
-								: <div key={index}>No Events</div>
-								
-							}) : null}
-						</ul>
-						: <ul className={classes.noresults}>
-							<SmallSpinner/>
-							{/*<p>No events</p>*/}
+                                         <div className={classes.turnPageEventsBTN}>
+                                             <a className={classes.editBTN}><EditBtn inputType="submit" content='Edit'
+                                                                                     onClick={() => this.editEventBtn(item, this.props.match)}/></a>
+                                             <div className={classes.deleteBTN}><DeleteBtn
+                                                 onClick={() => this.DeleteEventBtn(item.eventId, currentTournamentId)}
+                                                 inputType={'button'}
+                                                 content={`Delete`}/></div>
+                                         </div>
+                                         }
+                                     </li>
+                                 : <div key={index}>No Events</div>
+
+                             }) : null}
+                         </ul>
+                         : <ul className={classes.noresults}>
+                             <SmallSpinner/>
+                             {/*<p>No events</p>*/}
 						</ul>
 					}
 					</div>
@@ -212,7 +205,7 @@ export class EventsList extends Component {
 	};
 	render(){
 		
-		 console.log('events list', this.props)
+		 console.log('events list111111111111', this.props)
 		// console.log('events list state', this.state)
 		return	this.eventsTable()
 	}
@@ -221,7 +214,6 @@ export class EventsList extends Component {
 const mapStateToProps = (state) => {
 	return {
 		tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
-        currentUser: state.userReducer.currentUser,
 	}
 };
 
@@ -238,4 +230,4 @@ const mapDispatchToProps = dispatch => {
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventsList);
+export default connect(mapStateToProps, mapDispatchToProps)(FifaEventsList);

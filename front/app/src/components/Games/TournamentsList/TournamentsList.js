@@ -266,7 +266,7 @@ export class TournamentsList extends Component {
             const todayDate = Date.parse(now)
 
             return <li key={index} className={eEndDate <= todayDate ? classes.notActive : null}>
-	            <Link to={path +`/${item.tournamentName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>
+	            <Link to={path +`/${item.tournamentName}=${item.eventTypeName}=${item.tournamentId}`} onClick={()=>this.getTournById(item.tournamentId)}>
                     <div className={classes.username}>
                         {/*{ this.pathChanger(item) }*/}
                         <span>{item.tournamentName}</span>

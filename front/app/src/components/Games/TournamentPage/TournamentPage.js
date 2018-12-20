@@ -19,7 +19,9 @@ import Register from '../../Register';
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import EventsList  from './EventsList.js'
+import FifaEventsList  from './FifaEventsList.js'
 import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
+import FifaTournyPageLeaderBoard  from './FifaTournyPageLeaderBoard.js'
 
 import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest } from '../../../actions/GamesApi';
 import {
@@ -39,7 +41,6 @@ export class TournamentPage extends Component {
     };
 
     constructor(props) {
-
         super(props);
         this.state = {
             tournamentInEditMode: null,
@@ -96,7 +97,6 @@ export class TournamentPage extends Component {
 	        }, 3000)
     }
 	componentWillReceiveProps(nextProps) {
-
 		const tournamentGroup = this.props.groupById
 		const gameTypes = this.props.allEventTypesList
 		const allTournaments = this.props.allTournsList
@@ -201,12 +201,35 @@ export class TournamentPage extends Component {
 	    const currentTournament = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
 	    const locationName = this.props.location.pathname;
 	    const urlsplit = locationName.split("=");
+        const type = urlsplit[ urlsplit.length - 2 ];
 	    const action = urlsplit[ urlsplit.length - 1 ];
-        return (
-		         <div className={classes.eventsTable}>
-			         <EventsList match={this.props.match} currentTournamentId={action} currentTournamentName={currentTournament}/>
-			         <TournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
-                </div>
+       if(type == 'Poker') {
+           return (
+               < div
+           className = {classes.eventsTable} >
+               < EventsList
+           match = {this.props.match}
+           currentTournamentId = {action}
+           currentTournamentName = {currentTournament}
+           isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
+           />
+           < TournyPageLeaderBoard
+           currentTournamentId = {action}
+           currentTournamentName = {currentTournament}
+           />
+           </div>
+       )
+       }
+        else return(
+            <div className={classes.eventsTable}>
+            <FifaEventsList
+                match={this.props.match}
+                currentTournamentId={action}
+                currentTournamentName={currentTournament}
+                isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
+            />
+        < FifaTournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
+        </div>
         )
     };
  
@@ -224,7 +247,8 @@ export class TournamentPage extends Component {
                 <div className={classes.usersTable}>
                     {this.turnPageInformation()}
                     <div>
-                        <h3>All users of tournament</h3>
+	                    
+		                    <h3>{gName}</h3>
 	                    <div className={classes.wrapList}>
 		                    <div className={classes.usersTBL}>
 			                    <h5 className={classes.groupName}>Group Name:
@@ -254,7 +278,6 @@ export class TournamentPage extends Component {
                 </div>
             )
     };
-
     turnamentHeadLine=()=>{
         const path = this.props.match.path === '/all_tournaments/:tournamentName'  ? '/all_tournaments' : '/my_tournaments'
         const currentTournament = this.state.tournById !== null || this.state.tournById !== undefined ? this.state.tournById.tournamentName : null
@@ -276,7 +299,7 @@ export class TournamentPage extends Component {
                 /> }
                 
             </div>
-	        <h1><span>Tournament Name:</span>
+	        <h1>
 		        { currentTournament !== undefined
 			        ? <span> {currentTournament}</span>
 			        : <div className={classes.typeNameSpinner}><SmallSpinner/></div>
