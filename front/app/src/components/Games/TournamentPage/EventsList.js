@@ -156,7 +156,7 @@ export class EventsList extends Component {
 						?
 						<ul>
 							{(this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS.map((item, index) => {
-							const sortedBoard = item.eventUsers.length !== 0 || item.eventUsers !== null ? item.eventUsers.sort((a, b) => {
+							const sortedBoard = item.eventUsers !== undefined  ? item.eventUsers.sort((a, b) => {
                             const fillA = item.eventResults.find(result => {
                                 return result.userId === a.userId
                             })
@@ -164,9 +164,14 @@ export class EventsList extends Component {
                                     return result.userId === b.userId
                             })
                             return fillA.result === fillB.result ? 0 : fillA.result < fillB.result ? 1 : -1;
-                        }) : null
-                        const winner = sortedBoard[sortedBoard.length -1]
-                        const profileImage = winner.avatar === undefined || winner.avatar === null ? <i className="fas fa-user-circle"></i> : <img alt='' src={`data:image/jpeg;base64,`+`${winner.avatar}`} />
+                        }) : undefined
+                        const winner = sortedBoard !== undefined ? sortedBoard[sortedBoard.length -1] : undefined;
+							let profileImage = undefined;
+							if (winner !== undefined) {
+                                profileImage = winner.avatar === undefined || winner.avatar === null ?
+                                    <i className="fas fa-user-circle"></i> :
+                                    <img alt='' src={`data:image/jpeg;base64,` + `${winner.avatar}`}/>;
+                            }
 								 return item.eventName !== 'No Data'
 								? <li key={index}>
 										 <div className={classes.eventName}>{item.eventName}</div>
