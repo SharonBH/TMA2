@@ -25,15 +25,13 @@ class App extends Component {
 
     render() {
         console.log("im here!!!!");
-        const isUserNotInSession =  sessionStorage.getItem('session') === null;
-        console.log("isUserNotInSession, " + isUserNotInSession);
+         const isUserNotInSession = JSON.parse(sessionStorage.getItem('session')) === null;
+        console.log("isUserNotInSession, ", isUserNotInSession);
         console.log("history.location.pathname, " + history.location.pathname);
-        const divRegister =
-            // history.location.pathname === '/register'
-        //     ?
-            <div className={classes.App}>{this.spinner()}<Register headline={REGISTER}/></div>
-            // :  <div className={classes.App}>{this.spinner()}<Login /></div>;
-        // console.log("divRegister, " + divRegister.toString());
+        const divRegister = history.location.pathname === '/register'
+            ? <div className={classes.App}>{this.spinner()}<Register headline={REGISTER}/></div>
+            : <div className={classes.App}>{this.spinner()}<Login /></div>;
+        console.log("divRegister, " + divRegister.toString());
         const divToShow = isUserNotInSession ? divRegister :
             <div className={classes.App}>
                 {this.spinner()}
