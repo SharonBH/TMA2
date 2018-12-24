@@ -10,7 +10,7 @@ import ConfirmMessage from './components/UI/ConfirmMessage';
 import TopNavigation  from './containers/TopNavigation/TopNavigation';
 import {REGISTER, SING_OUT} from './configuration/config'
 import Login from './components/Login';
-import Register from "./components/Register/Register";
+import Register from "./components/Register";
 
 
 
@@ -24,7 +24,6 @@ class App extends Component {
   };
 
     render() {
-        debugger;
         const isUserNotInSession =  sessionStorage.getItem('session') === null;
         console.log("isUserNotInSession, " + isUserNotInSession);
         console.log("history.location.pathname, " + history.location.pathname);
