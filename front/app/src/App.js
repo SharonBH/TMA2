@@ -24,6 +24,7 @@ class App extends Component {
   };
 
     render() {
+        console.log("im here!!!!");
         const isUserNotInSession =  sessionStorage.getItem('session') === null;
         console.log("isUserNotInSession, " + isUserNotInSession);
         console.log("history.location.pathname, " + history.location.pathname);
