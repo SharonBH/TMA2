@@ -32,7 +32,7 @@ namespace TMA.Api.Models
         [Required]
         public string Username { get; set; }
 
-        [Required]
+        //[Required]
         public int? GroupId { get; set; }
 
         public byte[] Avatar { get; set; }

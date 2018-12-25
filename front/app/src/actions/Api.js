@@ -19,6 +19,7 @@ import {EDIT, USER_ROLE_ADMIN, YOUR_PROFILE} from '../configuration/config'
 const cors =''
 const url = 'https://tma-api.azurewebsites.net/'
 //const url = 'https://localhost:44336/'
+//chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
 
 
 // login request
