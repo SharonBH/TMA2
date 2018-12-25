@@ -128,7 +128,7 @@ export class HomeEvents extends Component {
 
 	nextEventTableOutput = () => {
 	    let allLeaderboards = [];
-	    if(this.props.allMyHomeData.length === 0) {
+	    if(this.props.allMyHomeData === null || this.props.allMyHomeData === undefined || this.props.allMyHomeData.length === 0) {
             return (<span className={classes.noResults}>No leaderboards yet...</span>);
         }
 	    else {
