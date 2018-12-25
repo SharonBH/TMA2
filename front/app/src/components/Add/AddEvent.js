@@ -130,7 +130,7 @@ export class AddEvent extends Component{
 		const today = Date.parse(new Date());
 		const eventday = Date.parse(selectedDate);
 		const arr = [...groupById.users];
-		return
+		return (
 		    <div>
                 <InputComp inputType="text" name="tournament" placeholder={'Tournament Name'}
                            content={tournById.tournamentName} onChange={() => {
@@ -190,11 +190,10 @@ export class AddEvent extends Component{
                     /></div>
                 </Link>
         </div>
-
+		)
 	};
 	
 	render() {
-		// console.log('_____________',this.props)
 		return this.eventPage()
 	}
 }
