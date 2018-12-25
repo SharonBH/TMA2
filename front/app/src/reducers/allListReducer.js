@@ -131,7 +131,7 @@ const allListReducer = (state = InitialState, action) => {
             }
         default:
     }
-    //console.log('ddddddddddddddddd', state.groupsList)
+    //console.log('ddddddddddddddddd', state.allList)
     return state;
 }
 

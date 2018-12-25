@@ -32,6 +32,7 @@ import {
 // const cors = 'https://cors-anywhere.herokuapp.com/'
 const cors = '';
 const url = 'https://tma-api.azurewebsites.net/';
+//const url = 'https://localhost:44336/'
 
 
 

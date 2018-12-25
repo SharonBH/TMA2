@@ -89,8 +89,8 @@ class Login extends Component {
                 <form>
                     <InputComp inputType="text" name="user" placeholder="User Name" onChange={this.onUserNameChange} content={this.state.userName}/>
                     <InputComp inputType="password" name="pass" placeholder="Password" onChange={this.onUserPassChange} content={this.state.userPassword}/>
-                    {this.errorMessage()}
-                    <BtnComp inputType="submit" name="login" content="Login" onClick={this.loginSbmit}/>
+                    <BtnComp inputType="submit" name="login" content="Login" onClick={this.loginSbmit} />
+                    <div>{this.errorMessage()}</div>
                     <div className={loginClasses.rememberMe}>
                         <span>
                             <input type="checkbox" name="remember me" checked={this.state.rememberMe} onChange={this.rememberMe}/> 
@@ -99,10 +99,8 @@ class Login extends Component {
                         <span className={loginClasses.forgotPass} onClick={this.forgotPassword}>Forgot Password</span>
                     </div> 
                 </form>
-                <h3>Not a register user?</h3>
-                <h3>Keep Calm</h3>
-                <h3>And</h3>
-                <Link to='/register'><h2>Register</h2></Link>
+                <h3>Not a Member?</h3>
+                <Link to='/register'><h2>Register Here</h2></Link>
                 {this.state.forgotPassword ? <ForgotPassword closePop={this.closePopUp} /> : null}
             </div>
         );

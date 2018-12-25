@@ -30,6 +30,7 @@ namespace TMA.DAL.Models.DB
         public bool TwoFactorEnabled { get; set; }
         public string UserName { get; set; }
         public string Name { get; set; }
+        public DateTime CreateDate { get; set; }
 
         public UsersAvatar UsersAvatar { get; set; }
         public ICollection<AspNetUserClaims> AspNetUserClaims { get; set; }

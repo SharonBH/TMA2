@@ -106,7 +106,7 @@ export class HomeEvents extends Component {
                     <b>Scores</b>
                 </div>
                 <ul>{sortedBoard.map((user, i) => {
-	                const profileImage = user.user.avatar === undefined || user.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img src={`data:image/jpeg;base64,`+`${user.user.avatar}`} />
+                    const profileImage = user.user.avatar === undefined || user.user.avatar === null ? <i className="fas fa-user-circle"></i> : <img alt={`${user.user.username}`} src={`data:image/jpeg;base64,` + `${user.user.avatar}`} />
                         return <li key={i}>
 	                        <div>
 		                        <p><span>
@@ -159,7 +159,7 @@ export class HomeEvents extends Component {
                                     console.log(user.user.username);
                                     const profileImage = user.user.avatar === undefined || user.user.avatar === null ?
                                         <i className="fas fa-user-circle"></i> :
-                                        <img src={`data:image/jpeg;base64,` + `${user.user.avatar}`}/>
+                                        <img alt={`${user.user.username}`} src={`data:image/jpeg;base64,` + `${user.user.avatar}`}/>
                                     return <li key={i}>
                                         <div>
                                             <p><span>
@@ -174,7 +174,7 @@ export class HomeEvents extends Component {
                                                 <p><span>{user.goalsScored}</span></p>,
                                                 <p><span>{user.goalsAgainst}</span></p>,
                                                 <p><span>{user.goalsDifference}</span></p>,
-                                                <p><span>{(user.successPercentage * 100).toFixed(2)+'%'}</span></p>
+                                                <p><span>{(user.successPercentage * 100).toFixed(0)+'%'}</span></p>
                                                 ]}
                                         </div>
                                     </li>

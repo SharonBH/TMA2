@@ -15,6 +15,7 @@ import { ADD_USER, EDIT, DELETE_USER } from '../../../configuration/config'
 import { getAllGroupsRequest } from "../../../actions/GamesApi";
 import { addNewItemAction, editThisItemAction, successMessageAction, errorMessageAction }  from '../../../actions';
 import SmallSpinner from "../../UI/SmallSpinner";
+import moment from 'moment';
 export class AllUsersAdmin extends Component {
 
     static propTypes = {
@@ -156,12 +157,14 @@ export class AllUsersAdmin extends Component {
     
     ulserList = () => {
         return this.state.sortList.map((item, index) => {
+            //console.log(item.createdate);
             return <li key={index}>
 	            <Link to={`/edit_user/${item.username}`}  onClick={() => this.editUserBtn(item)}>
                 <div className={classes.username}>{item.name}</div>
                 <div className={classes.email}>{item.email}</div>
-                <div className={classes.email +' '+ classes.hide}>{item.username}</div>
-                <div className={classes.role +' '+ classes.hide}>{item.role}</div>
+                    <div className={classes.email + ' ' + classes.hide}>{item.username}</div>
+                    <div className={classes.email + ' ' + classes.hide}>{moment(Date.parse(item.createdate)).format('DD-MM-YYYY')}</div>
+                    <div className={classes.role + ' ' + classes.hide}>{item.role}</div>
                 <div className={classes.allUsButtons} id={index}>
                     <EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/>
                     {/*NOT DELETE_____ <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/> */}
@@ -190,7 +193,8 @@ export class AllUsersAdmin extends Component {
                 <div className={classes.usersHead}>
                     <div className={classes.username} i-attribute="none" id={'name'} onClick={(item) => this.Sort(item)}>Name</div>
                     <div className={classes.email} i-attribute="none" id={'email'} onClick={(item) => this.Sort(item)}>Email</div>
-                    <div className={classes.email +' '+ classes.hide} i-attribute="none" id={'username'} onClick={(item) => this.Sort(item)}>User Name</div>
+                    <div className={classes.email + ' ' + classes.hide} i-attribute="none" id={'username'} onClick={(item) => this.Sort(item)}>User Name</div>
+                    <div className={classes.email + ' ' + classes.hide} i-attribute="none" id={'createdate'} onClick={(item) => this.Sort(item)}>Date Created</div>
                     <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'role'} onClick={(item) => this.Sort(item)}>Role</div>
                     <div className={classes.allUsButtons}></div>
                     

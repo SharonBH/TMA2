@@ -31,6 +31,14 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="config\env.js" />
+    <Compile Include="config\jest\cssTransform.js" />
+    <Compile Include="config\jest\fileTransform.js" />
+    <Compile Include="config\paths.js" />
+    <Compile Include="config\polyfills.js" />
+    <Compile Include="config\webpack.config.dev.js" />
+    <Compile Include="config\webpack.config.prod.js" />
+    <Compile Include="config\webpackDevServer.config.js" />
     <Compile Include="postcss.config.js" />
     <Compile Include="scripts\build.js" />
     <Compile Include="scripts\start.js" />
@@ -41,6 +49,11 @@
     <Compile Include="src\actions\index.js" />
     <Compile Include="src\App.js" />
     <Compile Include="src\App.test.js" />
+    <Compile Include="src\components\Add\AddEvent.js" />
+    <Compile Include="src\components\Add\AddGroup.js" />
+    <Compile Include="src\components\Add\AddTournament.js" />
+    <Compile Include="src\components\Add\AddUser.js" />
+    <Compile Include="src\components\Add\index.js" />
     <Compile Include="src\components\ChangePassword\ChangePassword.js" />
     <Compile Include="src\components\ChangePassword\index.js" />
     <Compile Include="src\components\ForgotPassword\ForgotPassword.js" />
@@ -93,6 +106,7 @@
     <Compile Include="src\registerServiceWorker.js" />
     <Content Include="package.json" />
     <Content Include="public\favicon.ico" />
+    <Content Include="public\favicon1.ico" />
     <Content Include="public\index.html" />
     <Content Include="public\manifest.json" />
     <Content Include="README.md" />
@@ -116,6 +130,7 @@
     <Content Include="src\containers\MainPage\MainPage.scss" />
     <Content Include="src\containers\Nav\Nav.scss" />
     <Content Include="src\containers\TopNavigation\TopNavigation.scss" />
+    <Content Include="src\default-user.png" />
     <Content Include="src\homepage.jpg" />
     <Content Include="src\homepage.svg" />
     <Content Include="src\index.scss" />
@@ -126,11 +141,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="config\" />
+    <Folder Include="config\jest\" />
     <Folder Include="public\" />
     <Folder Include="scripts\" />
     <Folder Include="src\" />
     <Folder Include="src\actions\" />
     <Folder Include="src\components\" />
+    <Folder Include="src\components\Add\" />
     <Folder Include="src\components\ChangePassword\" />
     <Folder Include="src\components\ForgotPassword\" />
     <Folder Include="src\components\Games\" />

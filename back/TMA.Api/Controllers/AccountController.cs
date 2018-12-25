@@ -300,7 +300,8 @@ namespace TMA.Api.Controllers
                     {
                         UserName = model.Username,
                         Email = model.Email,
-                        Name = model.Name
+                        Name = model.Name,
+                        CreateDate = DateTime.UtcNow
                     };
 
                     var result = await _userManager.CreateAsync(user, model.Password);
@@ -654,6 +655,7 @@ namespace TMA.Api.Controllers
                         Email = user.Email,
                         Name = user.Name,
                         Username = user.UserName,
+                        Createdate = user.CreateDate,
                         Role = userRole
                     };
 

@@ -95,9 +95,8 @@ export class AddUser extends Component {
 				}
 				{this.props.headline === REGISTER
 					? <div className={classes.classStr}>
-						<h3>Have a user? Keep Calm.</h3>
+						<h3>Already Registered?</h3>
 						<div className='loginLink'>
-							<h2>And </h2>
 							<Link to='/'><h2>Sign In</h2></Link>
 						</div>
 					</div>

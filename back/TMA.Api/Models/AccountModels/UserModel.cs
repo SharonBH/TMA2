@@ -36,5 +36,8 @@ namespace TMA.Api.Models
         public int? GroupId { get; set; }
 
         public byte[] Avatar { get; set; }
+
+        public DateTime Createdate { get; set; }
+
     }
 }
