@@ -153,7 +153,6 @@ export const addNewEventRequest = (EventName, Tournament, EventDate, usersWithRe
 
 // edit Event
 export const editThisEventRequest = (eventID, eventName, tournN, eventDate, eventResults, tournamentId) => {
-	
 	return (dispatch) => {
 		dispatch(toggleLoaderAction(true))
 		return axios({
@@ -236,7 +235,7 @@ export const takeMyEventsRequest = (userId) => {
 
 // take all events by user id
 export const takeMyHomeLeaderboardRequest = (userId) => {
-	// console.log(userId)
+	
 	return (dispatch) => {
 		dispatch(toggleLoaderAction(true))
 		return axios({

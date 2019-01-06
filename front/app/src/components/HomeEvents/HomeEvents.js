@@ -156,7 +156,7 @@ export class HomeEvents extends Component {
                                     }
                                 </div>
                                 <ul>{sortedBoard.map((user, i) => {
-                                    console.log(user.user.username);
+                                    //console.log(user.user.username);
                                     const profileImage = user.user.avatar === undefined || user.user.avatar === null ?
                                         <i className="fas fa-user-circle"></i> :
                                         <img alt={`${user.user.username}`} src={`data:image/jpeg;base64,` + `${user.user.avatar}`}/>

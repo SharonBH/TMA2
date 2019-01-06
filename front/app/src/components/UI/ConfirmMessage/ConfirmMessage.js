@@ -71,7 +71,7 @@ class ConfirmMessage extends Component {
 
     popUpContent = () => {
         const { headline, user, item, deleteEvent } = this.props
-        console.log(headline, user, item, deleteEvent )
+        //console.log(headline, user, item, deleteEvent )
         const itemForDel = this.props.allTournsList.find(id => { return id.tournamentId === item})
 
         const eventForDel = headline === DELETE_EVENT && (this.props.tournById !== null || this.props.tournById.length !== 0) ? this.props.tournById.events.find(id => { return id.eventId === deleteEvent}) : null

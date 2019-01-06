@@ -295,9 +295,9 @@ class UserSummary extends Component {
             const tournamentId = this.props.tournament.tournamentId
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter a tournament name')
-            } else if (todayDate > qstartDate) {
+            } else if (today > q){
                 this.props.errorMessageAction('the tournament start date must start from today')
-            } else if (qstartDate >= eEndDate) {
+            } else if (eEndDate > q) {
                 this.props.errorMessageAction('the tournament end date must be later than the start date')
             }else {
                 this.props.editThisTournamentRequest( tournamentId, editRequestParam[2], sendData, editRequestParam[0], startDayToSend, endDayToSend, editRequestParam[5])
@@ -312,7 +312,7 @@ class UserSummary extends Component {
             const notState = idies.map(item => {return {userId: item.userId, result: item.result } });
             const concated = notState.concat(this.state.inputs);
 	        const TName = this.props.eventDataArr.tournamentName;
-            const dateToSend = moment(this.state.selectedDate).format('YYYY-MM-DD hh:mm:ss');
+            const dateToSend = moment(this.state.selectedDate).format('YYYY-MM-DD HH:mm');
             if(editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter the event name')
             }
@@ -456,6 +456,8 @@ class UserSummary extends Component {
                             <DateTimePicker
                                 value={selectedDate}
                                 onChange={this.handleDateChange}
+                                ampm={false}
+                                format="MM DD YYYY, HH:mm"
                                 showTodayButton
                             />
                         </MuiPickersUtilsProvider>
@@ -497,8 +499,8 @@ class UserSummary extends Component {
                         } 
                         </div> 
                     : <span className={classes.editLineInput}>
-                        {detail === 'Event Date' 
-                        ? moment(item.param).format('MMMM Do YYYY, h:mm:ss a') 
+                            {detail === 'Event Date' 
+                        ? moment(item.param).format('MMMM Do YYYY, HH:mm') 
                         : detail === 'Event Users Results' 
                         ? item.param.eventUsers.map((user) => {
                             const fill = item.param.eventResults.find(result => {return result.userId === user.userId})
@@ -572,10 +574,7 @@ class UserSummary extends Component {
         )
     }
 
-    render() {
-        // console.log("EDIT PROPS",this.props)
-	    // console.log("EDIT STATE",this.state)
-	    
+    render() {    
         const { headline, user, tournament, group, event } = this.props
         return (
             <div className={classes.ProfileWrapper}>

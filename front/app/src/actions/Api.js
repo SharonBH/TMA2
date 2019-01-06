@@ -17,8 +17,8 @@ import {EDIT, USER_ROLE_ADMIN, YOUR_PROFILE} from '../configuration/config'
 
 // const cors ='https://cors-anywhere.herokuapp.com/'
 const cors =''
-const url = 'https://tma-api.azurewebsites.net/'
-//const url = 'https://localhost:44336/'
+//const url = 'https://tma-api.azurewebsites.net/'
+const url = 'https://localhost:44336/'
 //chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
 
 
@@ -197,7 +197,7 @@ export const addNewUserRequest = (email, password, confirmPassword, name, userTy
 			}
 		})
 			.then((response) => {
-				console.log('response', response)
+				//console.log('response', response)
 				if (response.data.response === 'Success') {
 					return axios.post(cors + url + `Account/GetUsers`)
 						.then((response) => {

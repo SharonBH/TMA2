@@ -175,7 +175,7 @@ export class AddEvent extends Component{
                         name="deteOfEvent"
                         placeholder={moment().format('MM DD YYYY, HH:mm:ss ')}
                         ampm={false}
-                        format="MM DD YYYY, HH:mm:ss "
+                        format="MM DD YYYY, HH:mm "
                         label={'Event Time:'}
                     />
                 </MuiPickersUtilsProvider>

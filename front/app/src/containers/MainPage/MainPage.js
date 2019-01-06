@@ -34,7 +34,7 @@ export class MainPage extends Component {
     }
 
     render() {
-        console.log('main props', this.props)
+        //console.log('main props', this.props)
         return (
             <div className={classes.MainPage}>
             

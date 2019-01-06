@@ -118,7 +118,7 @@ export class TournamentsList extends Component {
     }
 
     DeleteTournamentBtn = (item) => {
-    	console.log(item)
+    	//console.log(item)
         this.setState({tournamentForDelete: item})
         this.setState({tournamentInEditMode: null})
         this.props.deleteConfirmMessageAction(true)

@@ -79,9 +79,9 @@ export class AddTournament extends Component{
 			this.props.errorMessageAction('you must choose number of presets')
 		} else if (TournamentStartDate === '' || TournamentEndDate === '') {
 			this.props.errorMessageAction('you must enter the tournament start & end dates')
-		} else if (qstartDate < todayDate ) {
+        } else if (q < today) {
 			this.props.errorMessageAction('the tournament start date must be later than today')
-		} else if (qstartDate > eEndDate) {
+        } else if (q > end) {
 			this.props.errorMessageAction('the tournament end date must be later than the start date')
 		}  else {
 			this.props.addNewTournamentRequest(TournamentName, moment(TournamentStartDate).format('YYYY-MM-DD hh:mm:ss ')
@@ -181,7 +181,7 @@ export class AddTournament extends Component{
 		)
 	};
 	render(){
-		console.log('tourny', this.props)
+		//console.log('tourny', this.props)
 		// console.log('tourny state', this.state)
 		return this.tournamentPage()
 	}

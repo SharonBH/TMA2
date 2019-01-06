@@ -29,7 +29,7 @@ const InitialState = {
 }
 
 const allListReducer = (state = InitialState, action) => {
-    console.log("action.type",action.type);
+    //console.log("action.type",action.type);
     switch (action.type) {
 
         case 'GET_ALL_ROLES':
