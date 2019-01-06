@@ -24,7 +24,7 @@ import { DateTimePicker, DatePicker } from 'material-ui-pickers';
 class UserSummary extends Component {
 
     constructor(props) {
-        super(props);
+        super(props);       
         this.state = {
             currentUser: '',
             changePassword: false,
@@ -271,8 +271,8 @@ class UserSummary extends Component {
         else if(headline === EDIT_TOURNAMENT){
             const startDayToSend = moment(this.state.selectedStartDate).format('YYYY-MM-DD')
             const endDayToSend = moment(this.state.selectedEndDate).format('YYYY-MM-DD')
-
-            
+            //console.log("submitUserAditeChanges props ", this.props);
+            const eventCount = this.props.tournament.events.length;
 
             const q = new Date(this.state.selectedStartDate)
             const qdd = q.getDate();
@@ -291,17 +291,21 @@ class UserSummary extends Component {
             
             const findId = typeof editRequestParam[1] === 'string' ? this.props.groupsList.find(gName => { return gName.groupName === editRequestParam[1] }) : this.state.userDetailsArr[1].editInput
             const sendData = findId !== undefined ? findId.groupId :  this.state.userDetailsArr[1].editInput
-
+            
             const tournamentId = this.props.tournament.tournamentId
-            if(editRequestParam[0] === '') {
+            if (editRequestParam[0] === '') {
                 this.props.errorMessageAction('you must enter a tournament name')
-            } else if (today > q){
-                this.props.errorMessageAction('the tournament start date must start from today')
+                //} else if (today > q){
+                //    this.props.errorMessageAction('the tournament start date must start from today')
             } else if (eEndDate > q) {
                 this.props.errorMessageAction('the tournament end date must be later than the start date')
-            }else {
+            } else if (eventCount > 0 && editRequestParam[5] !== null && parseInt(editRequestParam[5]) < eventCount) {
+                this.props.errorMessageAction("Max event can't be less then existing event")
+            } else {
                 this.props.editThisTournamentRequest( tournamentId, editRequestParam[2], sendData, editRequestParam[0], startDayToSend, endDayToSend, editRequestParam[5])
-            }
+            } 
+
+            
         } 
         else if(headline === EDIT_EVENT){
             const eventId = this.props.eventDataArr.eventId;
@@ -374,6 +378,9 @@ class UserSummary extends Component {
     }
     
     editGameLine = (item, index) => {
+        
+        const eventCount = this.props.tournament.events.length;
+
         const eventTypes = this.props.allEventTypesList.map((data, key) => { return { key: data.eventTypeId, value: data.eventTypeName } })
         // const tournId = this.props.tournById.groupId
         const groupsName = this.props.groupsList !== undefined ? this.props.groupsList.map((group) => { return {key: group.groupId, value: group.groupName }}) : null
@@ -434,7 +441,10 @@ class UserSummary extends Component {
                       </div> 
                     : <span className={classes.editLineInput}>{item.param}</span>
                 }
-                {this.editBtnFunc(item, index)}
+                {
+                    eventCount > 0 && (detail === 'Start Date' || detail === 'Event Type' || detail === 'Group Name') ?
+                        <div className={classes.BTN}></div> : this.editBtnFunc(item, index)
+                }
             </div>
         )
     }
@@ -520,8 +530,7 @@ class UserSummary extends Component {
     userSummary = (headline, user, tournament, event) => {
         const headLine = headline;
         const {tournById, currentUser} = this.props
-        
-        
+                
 	    const profileImage = currentUser.avatar === undefined || currentUser.avatar === null ?  <img alt="" src={this.state.defaultUser} /> : <img alt="" src={`data:image/jpeg;base64,`+`${currentUser.avatar}`} />
         let name = ''
         if(headline === EDIT_USER){
