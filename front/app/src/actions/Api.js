@@ -15,10 +15,17 @@ import {
 } from './index';
 import {EDIT, USER_ROLE_ADMIN, YOUR_PROFILE} from '../configuration/config'
 
+
+
 // const cors ='https://cors-anywhere.herokuapp.com/'
-const cors =''
-const url = 'https://tma-api.azurewebsites.net/'
-//const url = 'https://localhost:44336/'
+const cors = ''
+const location = window.location.toString();
+let url = 'https://tma-api.azurewebsites.net/';
+if (location.indexOf("localhost") > 1) {
+    url = 'https://localhost:44336/'
+}
+
+
 //chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
 
 
