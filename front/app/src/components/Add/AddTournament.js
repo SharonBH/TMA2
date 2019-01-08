@@ -51,7 +51,8 @@ export class AddTournament extends Component{
 		const { currentUser } = this.props;
 		e.preventDefault();
 		const userIdToSend = currentUser.userId
-		const today = new Date();
+        let today = new Date();
+        today.setSeconds(0, 0);
 		const dd = today.getDate();
 		const mm = today.getMonth()+1; //January is 0!
 		const yyyy = today.getFullYear();
@@ -68,7 +69,7 @@ export class AddTournament extends Component{
 		const emm = end.getMonth()+1; //January is 0!
 		const eyyyy = end.getFullYear();
 		const eEndDate = emm + edd + eyyyy;
-		
+
 		if(TournamentName === '') {
 			this.props.errorMessageAction('you must enter a tournament name')
 		} else if (groups === '') {
@@ -84,8 +85,8 @@ export class AddTournament extends Component{
         } else if (q > end) {
 			this.props.errorMessageAction('the tournament end date must be later than the start date')
 		}  else {
-			this.props.addNewTournamentRequest(TournamentName, moment(TournamentStartDate).format('YYYY-MM-DD hh:mm:ss ')
-				, moment(TournamentEndDate).format('YYYY-MM-DD hh:mm:ss '), typeOfTournament, presetNumber, EventsMaxNum, EventTypeName, groups, userIdToSend)
+			this.props.addNewTournamentRequest(TournamentName, moment(TournamentStartDate).format('YYYY-MM-DD HH:mm')
+                , moment(TournamentEndDate).format('YYYY-MM-DD HH:mm'), typeOfTournament, presetNumber, EventsMaxNum, EventTypeName, groups, userIdToSend)
 		}
 	};
 	
