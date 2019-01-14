@@ -566,9 +566,9 @@ namespace TMA.DAL
 
                     var eventsResults = context.EventResults.Where(x => eventIds.Contains(x.EventId)).ToList();
 
-                    var futureEventIds = context.Events.Where(x => x.EventDate > DateTime.Now).Select(x=> x.EventId).ToList();
+                    //var futureEventIds = context.Events.Where(x => x.EventDate > DateTime.Now).Select(x=> x.EventId).ToList();
                     var eventIdsToRemove = eventsResults
-                        .Where(x=> futureEventIds.Contains(x.EventId) || x.Result == null)
+                        .Where(x=> x.Result == null) //futureEventIds.Contains(x.EventId) ||
                         .Select(x => x.EventId)
                         .Distinct()
                         .ToList();
