@@ -52,17 +52,19 @@ namespace TMA.BLL
 
         #region Tournaments
 
-        public int CreateTournament(string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
+        public int CreateTournament(string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId, string tournamentTypeName)
         {
+            var tournamentTypeId = String.IsNullOrEmpty(tournamentTypeName) ? (int)DAL.Models.TournamentType.unknown : (int)(DAL.Models.TournamentType)Enum.Parse(typeof(DAL.Models.TournamentType), tournamentTypeName.ToLower());
             var eventType = _mainRepository.GetEventTypeByName(eventTypeName);
-            var tournamentId = _mainRepository.CreateTournament(tournamentName, eventType, startDate, endDate, numberOfEvents, groupId);
+            var tournamentId = _mainRepository.CreateTournament(tournamentName, eventType, startDate, endDate, numberOfEvents, groupId, tournamentTypeId);
             return tournamentId;
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
+        public void EditTournament(int tournamentId, string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId, string tournamentTypeName)
         {
+            var tournamentTypeId = String.IsNullOrEmpty(tournamentTypeName) ? (int)DAL.Models.TournamentType.unknown : (int)(DAL.Models.TournamentType)Enum.Parse(typeof(DAL.Models.TournamentType), tournamentTypeName.ToLower());
             var eventType = _mainRepository.GetEventTypeByName(eventTypeName);
-            _mainRepository.EditTournament(tournamentId, tournamentName, eventType, startDate, endDate, numberOfEvents, groupId);
+            _mainRepository.EditTournament(tournamentId, tournamentName, eventType, startDate, endDate, numberOfEvents, groupId, tournamentTypeId);
         }
 
         public void DeleteTournament(int tournamentId)
@@ -220,6 +222,12 @@ namespace TMA.BLL
 
         public void CreateTournamentPresets(int tournamentId, string tournamentTypeName, int numberOfPresets = 1)
         {
+            if (string.IsNullOrEmpty(tournamentTypeName))
+            {
+                var tournament = GetTournamentById(tournamentId);
+                tournamentTypeName = ((DAL.Models.TournamentType)tournament.TournamentTypeId).ToString();
+            }
+
             LkpTournamentType tournametType = _mainRepository.GetTournamentTypeByName(tournamentTypeName);
             _mainRepository.CreateTournamentPresets(tournamentId, tournametType, numberOfPresets);
         }

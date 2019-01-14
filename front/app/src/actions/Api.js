@@ -46,7 +46,7 @@ export const loginRequest = (userName, password) => {
 				'Content-Type': 'application/json; charset=UTF-8',
 				'Accept': 'application/json, text/plain, */*',
 				"cache-control": "no-cache",
-				"Access-Control-Allow-Origin": "https://tma-api.azurewebsites.net/Account/Login",
+                "Access-Control-Allow-Origin": url +"/Account/Login",
 				"Access-Control-Allow-Methods": 'POST, GET, OPTIONS, PUT, DELETE',
 				"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
 				'Access-Control-Allow-Credentials': 'true',

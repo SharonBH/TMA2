@@ -23,7 +23,7 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var tournamentId = _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId);
+                    var tournamentId = _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId, tournamentModel.TournamentTypeName);
                     if (string.IsNullOrEmpty(tournamentModel.TournamentTypeName) == false)
                         _mainRepository.CreateTournamentPresets(tournamentId, tournamentModel.TournamentTypeName, tournamentModel.NumberOfPresets ?? 1);
                     return Json(new { Response = "Success", Message = "Tournament created successfully." });
@@ -50,7 +50,7 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.EditTournament(tournamentModel.TournamentId, tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId);
+                    _mainRepository.EditTournament(tournamentModel.TournamentId, tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId, tournamentModel.TournamentTypeName);
 
                     return Json(new { Response = "Success", Message = "Tournament edited successfully." });
                 }
@@ -275,13 +275,14 @@ namespace TMA.Api.Controllers
             try
             {
                 _mainRepository.CreateTournamentPresets(tournamentPresetsModel.TournamentId, tournamentPresetsModel.TournamentTypeName, tournamentPresetsModel.NumberOfPresets ?? 1);
-                return Json(new { Response = "Success", Message = "Tournament Presets created successfully." });
+                return Json(new { Response = "Success", Message = "Tournament round events created successfully." });
             }
             catch (Exception ex)
             {
                 return Json(new { Response = "Error", Message = ex.InnerException.Message });
             }
         }
+               
 
         private List<LeaderboardViewModel> CreateLeaderboardViewModel(List<LeaderboardModel> leaderboards)
         {

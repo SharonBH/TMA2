@@ -17,10 +17,12 @@ namespace TMA.DAL.Models.DB
         public long? NumberOfEvents { get; set; }
         public bool IsDeleted { get; set; }
         public int EventTypeId { get; set; }
+        public int TournamentTypeId { get; set; }
         public int GroupId { get; set; }
 
         public LkpEvent EventType { get; set; }
         public Groups Group { get; set; }
         public ICollection<Events> Events { get; set; }
+        public LkpTournamentType TournamentType { get; set; }
     }
 }

@@ -31,8 +31,11 @@ import {
 
 // const cors = 'https://cors-anywhere.herokuapp.com/'
 const cors = '';
-const url = 'https://tma-api.azurewebsites.net/';
-//const url = 'https://localhost:44336/'
+const location = window.location.toString();
+let url = 'https://tma-api.azurewebsites.net/';
+if (location.indexOf("localhost") > 1) {
+    url = 'https://localhost:44336/'
+}
 
 
 
@@ -432,6 +435,7 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
 
 // get Tournament by tournament id
 export const goToTournPageRequest = (tournamentId) => {
+    
 		return (dispatch) => {
 
 			// dispatch(toggleLoaderAction(true));
@@ -441,7 +445,8 @@ export const goToTournPageRequest = (tournamentId) => {
 				headers: {'Content-Type': 'application/json; charset=UTF-8'},
 				data: tournamentId
 			})
-			.then((response) => {
+                .then((response) => {
+                    
 				// localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
 				// const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
 				dispatch(getTournByIdAction(response.data));
@@ -567,21 +572,73 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tou
 };
 // take all events by tournament id
 export const CreateTournamentPresetsResponse = (tournamentId) => {
-	return (dispatch) => {
+    return (dispatch) => {
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            url: cors + url + 'Tournaments/CreateTournamentPresets',
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            data: { tournamentId: tournamentId }
+        })
+            .then((response) => {
+                if (response.data.response === 'Success') {
+                    return axios({
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+                        url: cors + url + 'Events/GetEventsByTournamentId',
+                        data: tournamentId
+                    })
+                        .then((response) => {
+                            const eventsById = response.data.length !== 0 ? response.data : [{ eventName: "No Data" }]
+                            dispatch(getTournByIdNoSAction(eventsById))
+                            return axios({
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+                                url: cors + url + 'Tournaments/GetLeaderboards',
+                                data: tournamentId
+                            })
+                                .then((response) => {
+                                    const data = response.data
+                                    const leaderList = data.length !== 0 ? data : [{ user: "No Data" }]
+                                    dispatch(getLeaderboardsSAction(leaderList))
+                                    dispatch(editThisEventAction(false))
+                                    dispatch(successMessageAction('Events added Successfuly'))
+                                    dispatch(toggleLoaderAction(false))
+                                })
+
+                        })
+                } else {
+                    const error = response.data.message
+                    dispatch(errorMessageAction(error))
+                    dispatch(toggleLoaderAction(false))
+                }
+            })
+            .catch((error) => {
+                dispatch(catchErrorAction([error][0]))
+                dispatch(errorMessageAction([error][0]))
+                dispatch(toggleLoaderAction(false))
+            });
+    }
+
+
+
+
+    //return (dispatch) => {
+    //    dispatch(CreateTournamentPresetsAction(tournamentId))
+    //    dispatch(toggleLoaderAction(false))
+
 		// dispatch(toggleLoaderAction(true))
-		return axios({
-			method: 'POST',
-			headers: {'Content-Type': 'application/json; charset=UTF-8'},
-			url: cors + url + 'Tournaments/CreateTournamentPresets',
-			data: tournamentId
-		})
-			.then((response) => {
-				// const tournamentId = response.data
-				// const eventsById = response.data.length !== 0 ? response.data : [{eventName: "No Data"}]
-				dispatch(CreateTournamentPresetsAction(response.data))
-				dispatch(toggleLoaderAction(false))
-			})
-	}
+		//return axios({
+		//	method: 'POST',
+		//	headers: {'Content-Type': 'application/json; charset=UTF-8'},
+  //          url: cors + url + 'Tournaments/CreateTournamentPresets',
+		//	data: tournamentId
+		//})
+		//	.then((response) => {
+		//		dispatch(CreateTournamentPresetsAction(response.data))
+		//		dispatch(toggleLoaderAction(false))
+		//	})
+	//}
 };
 
 /////////////////////////////////////////

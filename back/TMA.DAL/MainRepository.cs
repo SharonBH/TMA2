@@ -370,7 +370,7 @@ namespace TMA.DAL
 
         #region Tournaments
 
-        public int CreateTournament(string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
+        public int CreateTournament(string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId, int tournamentTypeId)
         {
             try
             {
@@ -388,7 +388,8 @@ namespace TMA.DAL
                         EventTypeId = eventType.EventTypeId,
                         EndDate = endDate,
                         NumberOfEvents = numberOfEvents,
-                        GroupId = groupId
+                        GroupId = groupId,
+                        TournamentTypeId = tournamentTypeId
                     };
                     context.Tournaments.Add(tournament);
                     context.SaveChanges();
@@ -401,7 +402,7 @@ namespace TMA.DAL
             }
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId)
+        public void EditTournament(int tournamentId, string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId, int tournamentTypeId)
         {
             try
             {
@@ -426,6 +427,9 @@ namespace TMA.DAL
 
                     if (tournament.GroupId != groupId)
                         tournament.GroupId = groupId;
+
+                    if (tournament.TournamentTypeId != tournamentTypeId)
+                        tournament.TournamentTypeId = tournamentTypeId;
 
                     context.Tournaments.Update(tournament);
                     context.SaveChanges();

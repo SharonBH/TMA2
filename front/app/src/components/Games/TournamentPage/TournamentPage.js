@@ -23,13 +23,13 @@ import FifaEventsList  from './FifaEventsList.js'
 import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
 import FifaTournyPageLeaderBoard  from './FifaTournyPageLeaderBoard.js'
 
-import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest } from '../../../actions/GamesApi';
+import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest, CreateTournamentPresetsResponse  } from '../../../actions/GamesApi';
 import {
 	addNewEventAction,
 	editThisItemAction,
 	successMessageAction,
 	errorMessageAction,
-	toggleLoaderAction
+    toggleLoaderAction
 } from '../../../actions';
 import SmallSpinner from "../../UI/SmallSpinner";
 
@@ -57,8 +57,7 @@ export class TournamentPage extends Component {
 	        allEventTypesList: [],
 	        allTournsList: [],
 	        buttonStatus: true,
-            isCurrentUserAdminRole : false
-
+            isCurrentUserAdminRole: false
         }
         this.editTournamentBtn = this.editTournamentBtn.bind(this)
 	    
@@ -148,6 +147,14 @@ export class TournamentPage extends Component {
             this.props.addNewEventAction(true)
         }, 200)
     }
+
+    addRoundBtn = (tournId) => {
+        setTimeout(() => {
+            this.props.addRoundAction(tournId)
+        }, 200)
+    }
+
+    
 
     addEventComp = () => {
         return <Register headline={ADD_EVENT} tourn={this.state.tournById} classStr='none' />
@@ -296,7 +303,15 @@ export class TournamentPage extends Component {
 	                inputType='button'
 	                onClick={this.addEventBtn}
 	                // disabled={this.state.groupsList !== null || this.state.groupsList.length !== 0   ? !this.state.buttonStatus : this.state.buttonStatus}
-                /> }
+                />}
+                {this.state.isCurrentUserAdminRole && this.props.tournById.tournamentTypeId == 1 && <BtnComp
+                    content='Add Round'
+                    inputType='button'
+                        onClick={() => this.addRoundBtn(this.props.tournById.tournamentId)}
+                
+                />}
+
+                    
                 
             </div>
 	        <h1>
@@ -347,7 +362,9 @@ export class TournamentPage extends Component {
             </div>
         )
     }
-    render (){
+    render() {
+        //console.log('TournamentTypeId', this.props.tournById.tournamentTypeId) 
+
 	    // console.log('TPAGE'  , this.props)
 	    // console.log('TPAGE STATE'  , this.state)
         return (
@@ -404,6 +421,7 @@ const mapDispatchToProps = dispatch => {
         // DeleteTournamentRequest: (item) => dispatch(DeleteTournamentRequest(item)),
         // editThisEventAction: payload => dispatch(editThisEventAction(payload)),
         addNewEventAction: payload => dispatch(addNewEventAction(payload)),
+        addRoundAction: payload => dispatch(CreateTournamentPresetsResponse(payload)),
         // addNewTournamentAction: payload => dispatch(addNewTournamentAction(payload)),
         editThisItemAction: payload => dispatch(editThisItemAction(payload)),
         successMessageAction: payload => dispatch(successMessageAction(payload)),
