@@ -7,7 +7,7 @@ import moment from 'moment'
 
 import classes from '../../Games/TournamentPage/TournamentPage.scss';
 
-import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, DELETE_EVENT,USER_ROLE_ADMIN } from '../../../configuration/config'
+import { EDIT_EVENT, ADD_EVENT, EDIT_TOURNAMENT, DELETE_EVENT, USER_ROLE_ADMIN, POKER_LOWER } from '../../../configuration/config'
 
 // import EditBtn  from '../../UI/BtnComp/EditBtn';
 // import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
@@ -16,6 +16,8 @@ import OutlineBtn from '../../UI/BtnComp/OutlineBtn';
 // import SelectComp from '../../UI/SelectComp/SelectComp'
 
 import Register from '../../Register';
+import PokerEvent from '../Events/PokerEvent'; 
+
 import UserSummary from '../../Users/UserSummary';
 import ConfirmMessage from '../../UI/ConfirmMessage';
 import EventsList  from './EventsList.js'
@@ -42,6 +44,10 @@ export class TournamentPage extends Component {
 
     constructor(props) {
         super(props);
+        this.editTournamentBtn = this.editTournamentBtn.bind(this)
+        const locationName = this.props.location.pathname;
+        const urlsplit = locationName.split("=");
+        const type = urlsplit[urlsplit.length - 2]
         this.state = {
             tournamentInEditMode: null,
             tournamentForDelete: null,
@@ -57,10 +63,10 @@ export class TournamentPage extends Component {
 	        allEventTypesList: [],
 	        allTournsList: [],
 	        buttonStatus: true,
-            isCurrentUserAdminRole: false
+            isCurrentUserAdminRole: false,
+            tournamentType: type.toString().toLowerCase()
         }
-        this.editTournamentBtn = this.editTournamentBtn.bind(this)
-	    
+        this.setEventInEditMode = this.setEventInEditMode.bind(this);
     }
     componentDidMount() {
         const isCurrentUserAdminRole = this.props.currentUser.role == USER_ROLE_ADMIN;
@@ -122,8 +128,7 @@ export class TournamentPage extends Component {
         this.props.errorMessageAction(null);
         this.props.successMessageAction(null);
         this.setState({tournamentForDelete: null,tournamentInEditMode: null});
-
-
+        
 	    this.setState({
 		    tournById: [],
 		    groupById: [],
@@ -133,7 +138,9 @@ export class TournamentPage extends Component {
 	    });
     }
 
-
+    setEventInEditMode(event) {
+        this.setState({ eventInEditMode: event })
+    }
 
     editTournamentBtn = (item) => {
         this.setState({tournamentInEditMode: item})
@@ -157,10 +164,23 @@ export class TournamentPage extends Component {
     
 
     addEventComp = () => {
-        return <Register headline={ADD_EVENT} tourn={this.state.tournById} classStr='none' />
+        const locationName = this.props.location.pathname;
+        const urlsplit = locationName.split("=");
+        const type = urlsplit[urlsplit.length - 2];
+        if (type == 'Poker') {
+            return <PokerEvent headline={ADD_EVENT} tourn={this.state.tournById} classStr='none' />
+        }
+        else {    
+            return <Register headline={ADD_EVENT} tourn={this.state.tournById} classStr='none' />
+        }
     }
-    editEventComp = () => {
-        return <UserSummary headline={EDIT_EVENT} event={this.state.eventInEditMode} tournament={null} user={null} group={null}/>
+    editEventComp = () => {        
+        if (this.state.tournamentType == POKER_LOWER) {
+            return <PokerEvent headline={EDIT_EVENT} tourn={this.state.tournById} classStr='none' event={this.state.eventInEditMode} />
+        }
+        else {
+            return <UserSummary headline={EDIT_EVENT} event={this.state.eventInEditMode} tournament={null} user={null} group={null} />
+        }
     }
     editTournamentComp = () => {
         return <UserSummary headline={EDIT_TOURNAMENT} event={null} tournament={this.state.tournById} user={null}  group={null}/>
@@ -212,13 +232,14 @@ export class TournamentPage extends Component {
 	    const action = urlsplit[ urlsplit.length - 1 ];
        if(type == 'Poker') {
            return (
-               < div
-           className = {classes.eventsTable} >
+            <div className = {classes.eventsTable} >
                < EventsList
-           match = {this.props.match}
-           currentTournamentId = {action}
-           currentTournamentName = {currentTournament}
-           isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
+                       match={this.props.match}
+                       currentTournamentId={action}
+                       currentTournamentName={currentTournament}
+                       isCurrentUserAdminRole={this.state.isCurrentUserAdminRole}
+                       editEventFunc={this.setEventInEditMode}
+
            />
            < TournyPageLeaderBoard
            currentTournamentId = {action}
@@ -363,10 +384,8 @@ export class TournamentPage extends Component {
         )
     }
     render() {
-        //console.log('TournamentTypeId', this.props.tournById.tournamentTypeId) 
+        //console.log("this.state.eventForDelete", this.state.eventForDelete);
 
-	    // console.log('TPAGE'  , this.props)
-	    // console.log('TPAGE STATE'  , this.state)
         return (
             <div className={classes.tournPageWrapper}>
                 {/*{this.spinner()}*/}

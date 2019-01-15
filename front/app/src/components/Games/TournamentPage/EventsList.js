@@ -13,6 +13,7 @@ import {
 	deleteEventAction
 } from "../../../actions";
 import SmallSpinner from '../../UI/SmallSpinner'
+import { it } from "date-fns/esm/locale";
 // import Promise from "bluebird";
 
 
@@ -76,14 +77,13 @@ export class EventsList extends Component {
 
 	}
 	
-	editEventBtn = (item, match) => {
-	    this.props.sendEventDataAction(item)
-	    this.props.sendEvetnMatchAction(match)
-	    this.setState({eventInEditMode: item})
-	    setTimeout(() => {
-	        this.props.editThisEventAction(true)
-	    }, 200)
-
+    editEventBtn = (item, match) => {
+        if (typeof this.props.editEventFunc === 'function') {
+            this.props.editEventFunc(item);
+        }
+        setTimeout(() => {
+            this.props.editThisEventAction(true)
+        }, 200)
 	}
     sortTTTT = (events, sortBy, upDown) => {
         const { toggleSort } = this.state
@@ -238,8 +238,8 @@ const mapDispatchToProps = dispatch => {
 		sendEventDataAction: (payload) => dispatch(sendEventDataAction(payload)),
 		sendEvetnMatchAction: (payload) => dispatch(sendEvetnMatchAction(payload)),
 		editThisEventAction: payload => dispatch(editThisEventAction(payload)),
-		deleteEventAction: payload => dispatch(deleteEventAction(payload)),
-
+		deleteEventAction: payload => dispatch(deleteEventAction(payload))
+        
 	}
 };
 

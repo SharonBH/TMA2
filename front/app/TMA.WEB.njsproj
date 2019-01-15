@@ -60,6 +60,7 @@
     <Compile Include="src\components\ForgotPassword\index.js" />
     <Compile Include="src\components\Games\EventsList\EventsList.js" />
     <Compile Include="src\components\Games\EventsList\index.js" />
+    <Compile Include="src\components\Games\Events\PokerEvent.js" />
     <Compile Include="src\components\Games\Groups\Groups.js" />
     <Compile Include="src\components\Games\Groups\index.js" />
     <Compile Include="src\components\Games\Groups\LinkPopup.js" />
@@ -153,6 +154,7 @@
     <Folder Include="src\components\Games\" />
     <Folder Include="src\components\Games\EventsList\" />
     <Folder Include="src\components\Games\Groups\" />
+    <Folder Include="src\components\Games\Events\" />
     <Folder Include="src\components\Games\TournamentPage\" />
     <Folder Include="src\components\Games\TournamentsList\" />
     <Folder Include="src\components\HomeEvents\" />

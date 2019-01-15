@@ -75,16 +75,16 @@ export class FifaEventsList extends Component {
 	    this.props.deleteConfirmMessageAction(true)
 
 	}
-	
-	editEventBtn = (item, match) => {
-	    this.props.sendEventDataAction(item)
-	    this.props.sendEvetnMatchAction(match)
-	    this.setState({eventInEditMode: item})
-	    setTimeout(() => {
-	        this.props.editThisEventAction(true)
-	    }, 200)
+    editEventBtn = (item, match) => {
+        this.props.sendEventDataAction(item)
+        this.props.sendEvetnMatchAction(match)
+        this.setState({ eventInEditMode: item })
+        setTimeout(() => {
+            this.props.editThisEventAction(true)
+        }, 200)
 
-	}
+    }
+
     showUserName = (item, userName)=> {
   return item
     }

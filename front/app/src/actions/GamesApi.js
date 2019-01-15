@@ -282,8 +282,6 @@ export const tournEventsByIdRequest = (tournamentId) => {
 	}
 };
 
-
-
 /////////////////////////////////////////
 //////////  TOURNAMENTS   ///////////////
 
