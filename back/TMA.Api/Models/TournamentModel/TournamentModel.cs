@@ -22,5 +22,6 @@ namespace TMA.Api.Controllers
         public int  EventsCount { get; set; }
         public string TournamentTypeName { get; set; }
         public int? NumberOfPresets { get; set; }
+        public int? DurationId { get; set; }
     }
 }

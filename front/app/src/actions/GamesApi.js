@@ -29,6 +29,7 @@ import {
 } from './index';
 
 
+
 // const cors = 'https://cors-anywhere.herokuapp.com/'
 const cors = '';
 const location = window.location.toString();
@@ -371,8 +372,9 @@ export const DeleteTournamentRequest = (tournamentId, userId) => {
 };
 
 // add New Tournament
-export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tournamentEndDate, typeOfTournament, presetNumber, eventsMaxNum, EventTypeName, groups, userId) => {
-	return (dispatch) => {
+export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tournamentEndDate, typeOfTournament, presetNumber, eventsMaxNum, EventTypeName, groups, userId, durationId) => {
+    console.log("addNewTournamentRequest", eventsMaxNum);
+    return (dispatch) => {
 		dispatch(toggleLoaderAction(true));
 		return axios({
 			method: 'POST',
@@ -386,7 +388,8 @@ export const addNewTournamentRequest = (tournamentName, tournamentStartDate, tou
 				tournamentTypeName: typeOfTournament,
 				numberOfPresets: presetNumber,
 				numberOfEvents: eventsMaxNum,
-				groupId: groups
+                groupId: groups,
+                durationId: durationId
 			}
 		})
 			.then((response) => {

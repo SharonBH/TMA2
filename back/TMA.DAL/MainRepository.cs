@@ -59,6 +59,52 @@ namespace TMA.DAL
             }
         }
 
+        public void PresetPokerEvents(int tournamentId, List<Events> events, List<EventResults> eventResults)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var tournament = context.Tournaments
+                        .Include(x => x.EventType)
+                        .FirstOrDefault(t => t.TournamentId == tournamentId && t.IsDeleted == false);
+                    if (tournament == null)
+                        throw new Exception($"There are no existing tournament for '{tournamentId}'.");
+
+                    var today = DateTime.Now.Date;
+                    foreach(var existingEvent in context.Events.Where(e => e.TournamentId == tournamentId && e.IsDeleted == false && e.EventDate > today))
+                    {
+                        existingEvent.IsDeleted = true;
+                    }
+                    context.SaveChanges();
+
+                    var eventsToTake = events.Count();
+                    var maxEventsNumber = tournament.NumberOfEvents;
+                    if (maxEventsNumber != null)
+                    {
+                        var existingEvents = context.Events.Count(e => e.TournamentId == tournamentId && e.IsDeleted == false);
+                        eventsToTake = (int)maxEventsNumber - existingEvents;
+                        if (existingEvents >= maxEventsNumber || eventsToTake <= 0)
+                            throw new Exception($"You've reached the maximum number of events for this tournament.");
+                    }
+
+                    events = events.OrderBy(e => e.EventDate).Take(eventsToTake).ToList();
+                    context.Events.AddRange(events);
+                    context.SaveChanges();
+
+                    foreach(var newEvent in events)
+                    {
+                        newEvent.EventResults = eventResults.Select(er => new EventResults() { UserId = er.UserId, EventId = newEvent.EventId }).ToList();
+                    }
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'CreateEvent'.", ex);
+            }
+        }
+
         private void CalculateScoreOnEventsResults(List<EventResults> eventResults, LkpEvent eventType)
         {
             try

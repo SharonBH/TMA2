@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMA.DAL;
 using TMA.DAL.Models.DB;
+using System.Linq;
 
 namespace TMA.BLL
 {
@@ -96,6 +97,58 @@ namespace TMA.BLL
         {
             var leaderboards = _mainRepository.GetLeaderboards(tournamentId);
             return leaderboards;
+        }
+
+        public void PresetEvents(int tournamentId, DateTime? statdate, DateTime? endDate, long? maxEvents, DAL.Models.Duration duration)
+        {
+            List<Events> events = new List<Events>();
+            DateTime currentDate;
+            if(statdate == null || statdate < DateTime.Now.Date)
+            {
+                currentDate = DateTime.Now.Date;
+            }
+            else
+            {
+                currentDate = (DateTime)statdate;
+            }
+
+            if(endDate == null)
+            {
+                endDate = statdate == null ? currentDate.AddYears(1) : ((DateTime)statdate).AddYears(1);
+            }
+
+            var tournament = GetTournamentById(tournamentId);
+            
+            var eventUsers = GetGroupById(tournament.GroupId).UsersGroups.Select(g => new EventResults()
+            {
+                UserId = g.UserId
+            }).ToList();
+
+            while (currentDate <= endDate && (maxEvents == null || maxEvents > 0))
+            {
+                var eventItem = new Events()
+                {
+                    EventDate = currentDate,
+                    EventName = $"{currentDate.ToString("yyyy-MM-dd")} Poker game",
+                    TournamentId = tournamentId
+                };
+                events.Add(eventItem);
+
+                maxEvents--;
+                switch (duration)
+                {
+                    case DAL.Models.Duration.daly:
+                        currentDate = currentDate.AddDays(1);
+                        break;
+                    case DAL.Models.Duration.weekly:
+                        currentDate = currentDate.AddDays(7);
+                        break;
+                    case DAL.Models.Duration.monthly:
+                        currentDate = currentDate.AddMonths(1);
+                        break;
+                }
+            }
+            _mainRepository.PresetPokerEvents(tournamentId, events, eventUsers);
         }
 
         #endregion
@@ -220,16 +273,24 @@ namespace TMA.BLL
             return userAvatar;
         }
 
-        public void CreateTournamentPresets(int tournamentId, string tournamentTypeName, int numberOfPresets = 1)
+        public void CreateTournamentPresets(int tournamentId, string tournamentTypeName, int numberOfPresets = 1, DAL.Models.Duration duration = DAL.Models.Duration.unknown)
         {
+            var tournament = GetTournamentById(tournamentId);
             if (string.IsNullOrEmpty(tournamentTypeName))
             {
-                var tournament = GetTournamentById(tournamentId);
                 tournamentTypeName = ((DAL.Models.TournamentType)tournament.TournamentTypeId).ToString();
             }
 
-            LkpTournamentType tournametType = _mainRepository.GetTournamentTypeByName(tournamentTypeName);
-            _mainRepository.CreateTournamentPresets(tournamentId, tournametType, numberOfPresets);
+            switch (tournament.EventTypeId)
+            {
+                case (int)DAL.Models.EventType.Poker:
+                    PresetEvents(tournamentId, tournament.StartDate, tournament.EndDate, tournament.NumberOfEvents ,duration);
+                    break;
+                case (int)DAL.Models.EventType.Fifa:
+                    LkpTournamentType tournametType = _mainRepository.GetTournamentTypeByName(tournamentTypeName);
+                    _mainRepository.CreateTournamentPresets(tournamentId, tournametType, numberOfPresets);
+                    break;
+            }  
         }
     }
 }

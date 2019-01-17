@@ -165,13 +165,14 @@ export class EventsList extends Component {
                             })
                             return fillA.result === fillB.result ? 0 : fillA.result < fillB.result ? 1 : -1;
                         }) : undefined
-                        const winner = sortedBoard !== undefined ? sortedBoard[sortedBoard.length -1] : undefined;
+                            const winner = sortedBoard !== undefined ? sortedBoard[sortedBoard.length -1] : undefined;
 							let profileImage = undefined;
 							if (winner !== undefined) {
                                 profileImage = winner.avatar === undefined || winner.avatar === null ?
                                     <i className="fas fa-user-circle"></i> :
                                     <img alt='' src={`data:image/jpeg;base64,` + `${winner.avatar}`}/>;
-                            }
+                                }
+                                const winnerName = winner != undefined ? winner.username : "";
 								 return item.eventName !== 'No Data'
 								? <li key={index}>
 										 <div className={classes.eventName}>{item.eventName}</div>
@@ -184,7 +185,7 @@ export class EventsList extends Component {
                                                     <div className={classes.avatarWrap}>
                                                         <span className={classes.userAvatar}>{profileImage}</span>
                                                         <p className={classes.avatarName}
-                                                           show={true}>{winner.username}</p>
+                                                             show={true}>{winnerName}</p>
                                                     </div>
                                                 </li>
 											</ul>

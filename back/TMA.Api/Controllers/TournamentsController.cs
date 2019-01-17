@@ -24,8 +24,8 @@ namespace TMA.Api.Controllers
                 if (ModelState.IsValid)
                 {
                     var tournamentId = _mainRepository.CreateTournament(tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId, tournamentModel.TournamentTypeName);
-                    if (string.IsNullOrEmpty(tournamentModel.TournamentTypeName) == false)
-                        _mainRepository.CreateTournamentPresets(tournamentId, tournamentModel.TournamentTypeName, tournamentModel.NumberOfPresets ?? 1);
+                    if (string.IsNullOrEmpty(tournamentModel.TournamentTypeName) == false || tournamentModel.DurationId > 0)
+                        _mainRepository.CreateTournamentPresets(tournamentId, tournamentModel.TournamentTypeName, tournamentModel.NumberOfPresets ?? 1, (DAL.Models.Duration)tournamentModel.DurationId);
                     return Json(new { Response = "Success", Message = "Tournament created successfully." });
                 }
                 else if (ModelState.ErrorCount > 0)
