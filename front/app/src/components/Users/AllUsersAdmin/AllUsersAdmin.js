@@ -167,7 +167,7 @@ export class AllUsersAdmin extends Component {
                     <div className={classes.role + ' ' + classes.hide}>{item.role}</div>
                 <div className={classes.allUsButtons} id={index}>
                     <EditBtn inputType="submit" content='Edit' onClick={() => this.editUserBtn(item)}/>
-                    {/*NOT DELETE_____ <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/> */}
+                    <DeleteBtn onClick={() => this.DeleteUserBtn(item)} inputType={'button'} content='Delete'/>
                  </div>
 	            </Link>
             </li>

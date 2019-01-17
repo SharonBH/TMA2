@@ -160,7 +160,7 @@ class AddGroup extends Component {
 						<div className={classes.usersAddedWrapper}>
 							{this.state.addSearchUsersResult.length > 0 || this.state.addSearchUsersResult !== undefined
 								?   this.state.addSearchUsersResult.map((user, index) => {
-									return <span className={classes.user} key={index}>{user.username}
+                                return <span className={classes.user + ' ' + classes.userResult} key={index}>{user.username}
 										{/* {headline === EDIT_GROUP ? user.username : user.username}  */}
 										<i className="far fa-times-circle" onClick={() => this.removeSelectedUser(index)}></i>
                                         </span>
