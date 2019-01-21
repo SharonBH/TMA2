@@ -172,6 +172,10 @@ class UserSummary extends Component {
 
     editBtnFunc = (item, index) => {
         const { currentUser } = this.props
+        if (item.detail === 'User Name') {
+            return null;
+        }
+
         if((item.detail === 'User Type' && currentUser.role === 'Admin') || item.detail !== 'User Type'){
             return (
                 <div className={classes.BTN}>
