@@ -473,10 +473,10 @@
     }
     .error{
       background: #f18383;
-      position: absolute;
-      bottom: -37px;
+      /* position: absolute;
+      bottom: -37px; */
       width: 100%;
-      left: 0;
+      /* left: 0; */
       padding: 5px;
       text-align: center;
       color: #fff;
@@ -484,7 +484,7 @@
       overflow: auto;
       line-height: 16px;
       font-size: 14px;
-      margin: 0;
+      /* margin: 0; */
     }
 }
 
