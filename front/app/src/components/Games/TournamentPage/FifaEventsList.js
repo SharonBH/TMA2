@@ -17,10 +17,10 @@ import SmallSpinner from '../../UI/SmallSpinner'
 
 
 export class FifaEventsList extends Component {
-	constructor(props) {
+    constructor(props) {
 		super(props);
 		this.state = {
-			tournEventsByIdNoS: [],
+            tournEventsByIdNoS: [],
 			eventInEditMode: null,
 			eventForDelete: null,
 			eventsListState: [],
@@ -31,16 +31,17 @@ export class FifaEventsList extends Component {
 	componentWillMount(){
 		const { currentTournamentId } = this.props
 		
-		if( currentTournamentId !== undefined ){
+        if (currentTournamentId !== undefined) {
 			this.props.tournEventsByIdRequest(currentTournamentId)
 		}
 	}
 	
-	componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
 		const { tournEventsByIdNoS } = nextProps;
 		if (this.props.tournEventsByIdNoS !== tournEventsByIdNoS) {
 			
-			this.setState({tournEventsByIdNoS: tournEventsByIdNoS});
+            this.setState({ tournEventsByIdNoS: tournEventsByIdNoS });
+            this.props.setStateParent(tournEventsByIdNoS);
 
             const events = this.state.tournEventsByIdNoS
             const sortedItem = this.state.sortItem
@@ -137,11 +138,24 @@ export class FifaEventsList extends Component {
 
         this.setState({sortevents: events});
     }
-	eventsTable = () => {
-		const { currentTournamentId, tournEventsByIdNoS } = this.props
-		const nomEvents = tournEventsByIdNoS.length
-		// const item = (this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS.map((item) => { return item }) : null
-		const item = (this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS : null
+    eventsTable = () => {
+        const { currentTournamentId, tournEventsByIdNoS } = this.props
+        const nomEvents = tournEventsByIdNoS !== undefined ? tournEventsByIdNoS.length : 0;
+        // const item = (this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS.map((item) => { return item }) : null
+        let item = null;
+        const userId = this.props.userId;
+        if (userId !== undefined) {
+            item = (this.props.tournEventsByIdNoS !== undefined || this.props.tournEventsByIdNoS.length !== 0) ? this.props.tournEventsByIdNoS : null
+            let eventsForUser = [];
+            item.map((event, index) => {
+                if (event.eventUsers.filter(x => x.userId == userId).length > 0)
+                    eventsForUser.push(event);
+            });
+            item = eventsForUser;
+        }
+        else {
+            item = (this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0) ? this.state.tournEventsByIdNoS : null
+        }
 		const x = item.some((o) => {return o["eventName"] === "No Data"})
 		return (
 				<div className={classes.wrapList}>
@@ -155,10 +169,10 @@ export class FifaEventsList extends Component {
 						<h4 className={classes.eventName} i-attribute="down" id={'eventUsers'} onClick={(item) => this.Sort(item)} >Scores</h4>
                         {this.props.isCurrentUserAdminRole && <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>}
 					</div>
-					{this.state.tournEventsByIdNoS.length !== 0
+					{item.length !== 0
 						?
 						<ul>
-							{(this.state.tournEventsByIdNoS !== undefined || this.state.tournEventsByIdNoS.length !== 0)  ? this.state.tournEventsByIdNoS.map((item, index) => {
+                            {(item !== undefined || item.length !== 0) ? item.map((item, index) => {
 								 return item.eventName !== 'No Data'
 								 ?<li key={index}>
 										 <div className={classes.eventName}>{item.eventName}</div>
@@ -213,7 +227,7 @@ export class FifaEventsList extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
+        tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
 	}
 };
 
@@ -226,7 +240,6 @@ const mapDispatchToProps = dispatch => {
 		sendEvetnMatchAction: (payload) => dispatch(sendEvetnMatchAction(payload)),
 		editThisEventAction: payload => dispatch(editThisEventAction(payload)),
 		deleteEventAction: payload => dispatch(deleteEventAction(payload)),
-
 	}
 };
 
