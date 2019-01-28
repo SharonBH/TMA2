@@ -25,11 +25,11 @@ const InitialState = {
     leaderBoardData: [],
     groupId: '',
     myEventsById: [],
-    allMyHomeData: leaderboardData
+    allMyHomeData: leaderboardData,
+    changeList: ''
 }
 
 const allListReducer = (state = InitialState, action) => {
-    //console.log("action.type",action.type);
     switch (action.type) {
 
         case 'GET_ALL_ROLES':
@@ -62,6 +62,13 @@ const allListReducer = (state = InitialState, action) => {
                 ...state,
                 allEventTypesList: eventTypes
             }
+        case 'GET_FAV_EVENT_TYPES':
+            const favEventType = action.payload;
+            return {
+                ...state,
+                changeList: favEventType
+            }
+            
         case 'GET_ALL_GROUPS':
             const groups = action.payload
             return {

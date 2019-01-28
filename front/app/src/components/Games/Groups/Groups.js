@@ -45,14 +45,14 @@ export class Groups extends Component {
     componentWillMount(){
         const userID = this.props.currentUser.userId;
         this.props.takeMyGroupsRequest(userID);
-        if(this.props.groupsList === null) {
+        //if(this.props.groupsList === null) { Enable get user request for new added users for adding them to group.
             this.props.getAllGroupsRequest()
-        } else {
-            return null
-        }
+        //} else {
+            //return null
+        //}
     }
 
-	componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
 		const { groupsList, groupsDataById } = nextProps;
 		this.setState({groupsList: groupsList, groupsDataById: groupsDataById});
 		

@@ -64,12 +64,17 @@ export class TournamentPage extends Component {
 	        allTournsList: [],
 	        buttonStatus: true,
             isCurrentUserAdminRole: false,
+            
             tournamentType: type.toString().toLowerCase()
         }
         this.setEventInEditMode = this.setEventInEditMode.bind(this);
     }
     componentDidMount() {
         const isCurrentUserAdminRole = this.props.currentUser.role == USER_ROLE_ADMIN;
+        //this.props.successMessageAction(null)
+        const userID = this.props.currentUser.userId
+        this.props.takeMyTournamentsRequest(userID)
+
         this.setState({isCurrentUserAdminRole: isCurrentUserAdminRole})
     }
 
@@ -412,6 +417,7 @@ export class TournamentPage extends Component {
 }
 
 const mapStateToProps = (state) => {
+    
     return {
         allTournsList: state.allListReducer.allTournsList,
         allEventsList: state.allListReducer.allEventsList,

@@ -21,7 +21,7 @@ export class HomeEvents extends Component {
 	    const userId = this.props.currentUser.userId
 	    this.props.takeMyHomeLeaderboardRequest(userId)
         setTimeout(() => {
-            this.props.takeAllTournaments()
+            this.props.takeAllTournaments(userId)
         }, 200)
 	    if(this.props.currentUser !== null &&  this.props.allMyHomeData === ''){
 		    const userId = this.props.currentUser.userId

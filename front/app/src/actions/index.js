@@ -137,6 +137,14 @@ export const getAllEventTypesAction = (response) => {
         payload: response
     }
 }
+//get favorite Event Types
+export const getFavEventTypesAction = (response) => {
+    return {
+        type: 'GET_FAV_EVENT_TYPES',
+        payload: response
+    }
+}
+
 // add New Tournament Action
 export const addNewTournamentAction = (boll) => {
     return {
