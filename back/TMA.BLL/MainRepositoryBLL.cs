@@ -160,6 +160,29 @@ namespace TMA.BLL
             return _mainRepository.GetEventTypes();
         }
 
+        public string GetUserFavoriteEventType(string userId)
+        {
+            var eventType = DAL.Models.EventType.Fifa.ToString();
+            try
+            {
+                var userTournaments = GetUserTournaments(userId);
+                int favEventTypeId = userTournaments.GroupBy(e => e.EventTypeId)
+                            .Select(group => new {
+                                EventId = group.Key,
+                                Count = group.Count()
+                            })
+                            .OrderByDescending(x => x.Count)
+                            .Select(x => x.EventId).FirstOrDefault();
+
+                eventType = ((DAL.Models.EventType)favEventTypeId).ToString();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetUserFavoriteEventType'.", ex);
+            }
+            return eventType;
+        }
+
         public LkpEvent GetEventTypeByName(string eventTypeName)
         {
             return _mainRepository.GetEventTypeByName(eventTypeName);

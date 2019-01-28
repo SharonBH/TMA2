@@ -164,6 +164,22 @@ namespace TMA.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [HttpPost]
+        [Route("GetUserFavoriteEventType")]
+        public JsonResult GetUserFavoriteEventType(string userId)
+        {
+            try
+            {
+                var eventType = _mainRepository.GetUserFavoriteEventType(userId);
+                return Json(eventType);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
         [HttpPost]
         [Route("GetEventsByTournamentId")]
         public JsonResult GetEventsByTournamentId([FromBody]int tournamentId)
