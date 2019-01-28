@@ -218,10 +218,9 @@ export class FifaEventsList extends Component {
 		)
 	};
 	render(){
-		
-		 console.log('events list111111111111', this.props)
+        return this.eventsTable()
+         //console.log('events list111111111111', this.props)
 		// console.log('events list state', this.state)
-		return	this.eventsTable()
 	}
 }
 
