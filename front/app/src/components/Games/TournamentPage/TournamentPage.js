@@ -64,12 +64,17 @@ export class TournamentPage extends Component {
 	        allTournsList: [],
 	        buttonStatus: true,
             isCurrentUserAdminRole: false,
+            
             tournamentType: type.toString().toLowerCase()
         }
         this.setEventInEditMode = this.setEventInEditMode.bind(this);
     }
     componentDidMount() {
         const isCurrentUserAdminRole = this.props.currentUser.role == USER_ROLE_ADMIN;
+        //this.props.successMessageAction(null)
+        const userID = this.props.currentUser.userId
+        this.props.takeMyTournamentsRequest(userID)
+
         this.setState({isCurrentUserAdminRole: isCurrentUserAdminRole})
     }
 
@@ -231,37 +236,40 @@ export class TournamentPage extends Component {
 	    const urlsplit = locationName.split("=");
         const type = urlsplit[ urlsplit.length - 2 ];
 	    const action = urlsplit[ urlsplit.length - 1 ];
-       if(type == 'Poker') {
-           return (
-            <div className = {classes.eventsTable} >
-               < EventsList
-                       match={this.props.match}
-                       currentTournamentId={action}
-                       currentTournamentName={currentTournament}
-                       isCurrentUserAdminRole={this.state.isCurrentUserAdminRole}
-                       editEventFunc={this.setEventInEditMode}
+        if (type == 'Poker') {
+            return (
+                <div className={classes.eventsTable} >
+                    < EventsList
+                        match={this.props.match}
+                        currentTournamentId={action}
+                        currentTournamentName={currentTournament}
+                        isCurrentUserAdminRole={this.state.isCurrentUserAdminRole}
+                        editEventFunc={this.setEventInEditMode}
 
-           />
-           < TournyPageLeaderBoard
-           currentTournamentId = {action}
-           currentTournamentName = {currentTournament}
-           />
-           </div>
-       )
-       }
-        else return(
-            <div className={classes.eventsTable}>
-            <FifaEventsList
-                match={this.props.match}
-                currentTournamentId={action}
-                currentTournamentName={currentTournament}
-                isCurrentUserAdminRole = {this.state.isCurrentUserAdminRole}
-            />
-        < FifaTournyPageLeaderBoard  currentTournamentId={action} currentTournamentName={currentTournament}/>
-        </div>
-        )
+                    />
+                    < TournyPageLeaderBoard
+                        currentTournamentId={action}
+                        currentTournamentName={currentTournament}
+                    />
+                </div>
+            )
+        }
+        else return (
+                <div className={classes.eventsTable}>
+                    <FifaEventsList
+                        match={this.props.match}
+                        currentTournamentId={action}
+                        currentTournamentName={currentTournament}
+                        isCurrentUserAdminRole={this.state.isCurrentUserAdminRole}
+                        setStateParent={this.setStateParent}
+                    />
+                    < FifaTournyPageLeaderBoard match={this.props.match} currentTournamentId={action} currentTournamentName={currentTournament} tournEventsByIdNoS={this.state.tournEventsById} />
+                </div>
+            )
     };
- 
+    setStateParent = (arr) => {
+       this.setState({ tournEventsById: arr })
+    }
     usersTable = () => {
 	    const currentTournament = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
 	    const currentTournamentProp = this.props.tournById !== null || this.props.tournById !== undefined ? this.props.tournById.tournamentName : null
@@ -411,6 +419,7 @@ export class TournamentPage extends Component {
 }
 
 const mapStateToProps = (state) => {
+    
     return {
         allTournsList: state.allListReducer.allTournsList,
         allEventsList: state.allListReducer.allEventsList,

@@ -6,6 +6,7 @@ import classes from './AllUsersAdmin.scss';
 import EditBtn  from '../../UI/BtnComp/EditBtn';
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
+import InputComp from '../../UI/InputComp/InputComp';
 import PropTypes from 'prop-types';
 import Register from '../../Register';
 import { deleteConfirmMessageAction } from '../../../actions';
@@ -30,7 +31,8 @@ export class AllUsersAdmin extends Component {
             display: false,
 	        sortList: [],
 	        sortItem: 'name',
-	        toggleSort: true,
+            toggleSort: true,
+            searchUser: ''
          
          
         }
@@ -156,7 +158,12 @@ export class AllUsersAdmin extends Component {
     
     
     ulserList = () => {
-        return this.state.sortList.map((item, index) => {
+        let filteredUsers = this.state.sortList.filter((user) => {
+            return user.name.toLowerCase().indexOf(this.state.searchUser.toLowerCase()) !== -1 ||
+                user.username.toLowerCase().indexOf(this.state.searchUser.toLowerCase()) !== -1 ||
+                user.email.toLowerCase().indexOf(this.state.searchUser.toLowerCase()) !== -1;
+        });
+        return filteredUsers.map((item, index) => {
             //console.log(item.createdate);
             return <li key={index}>
 	            <Link to={`/edit_user/${item.username}`}  onClick={() => this.editUserBtn(item)}>
@@ -173,7 +180,11 @@ export class AllUsersAdmin extends Component {
             </li>
         })
     }
-    
+
+    updateSearchUser(event) {
+        this.setState({ searchUser: event.target.value });
+    }
+
     render (){
         
 	    
@@ -190,6 +201,7 @@ export class AllUsersAdmin extends Component {
                 </div>
                 
                 {this.successDeleteMessage()}
+                <InputComp inputType={'text'} name="searchUser" placeholder="Search for user" content={this.state.searchUser} onChange={this.updateSearchUser.bind(this)} />
                 <div className={classes.usersHead}>
                     <div className={classes.username} i-attribute="none" id={'name'} onClick={(item) => this.Sort(item)}>Name</div>
                     <div className={classes.email} i-attribute="none" id={'email'} onClick={(item) => this.Sort(item)}>Email</div>

@@ -58,10 +58,8 @@ export class TournamentsList extends Component {
             someId:'',
             tournamentID:'',
 	        buttonStatus: true,
-	        changeList: 'FIFA',
 	        allTournaments: [],
 	        myTournaments: [],
-	        // sorttournaments: [],
             sortItem: 'tournamentName',
             toggleSort: true,
 	        tournaments: '',
@@ -69,6 +67,7 @@ export class TournamentsList extends Component {
             isOpen: false,
             currentTournament: null,
             currentTandC: null
+            changeList: '',
         }
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
@@ -78,11 +77,15 @@ export class TournamentsList extends Component {
 	componentWillReceiveProps(nextProps) {
         const allTournaments = this.props.allTournsList
         const myTournaments = this.props.tournsDataById
-
+        
         const isCurrentUserAdminRole = this.props.currentUser.role === USER_ROLE_ADMIN;
         this.setState({isCurrentUserAdminRole: isCurrentUserAdminRole});
 
-		const { allTournsList, tournsDataById } = nextProps;
+        const { allTournsList, tournsDataById, changeList } = nextProps;
+        if (changeList !== "") {
+            let cList = changeList.toLowerCase() == "fifa" ? "FIFA" : "Poker";
+            this.setState({ changeList: cList });
+        }
 		if( allTournaments !== allTournsList || myTournaments !== tournsDataById ){
 
 			this.setState({allTournaments: nextProps.allTournsList, myTournaments: nextProps.tournsDataById});
@@ -113,8 +116,10 @@ export class TournamentsList extends Component {
         this.props.successMessageAction(null)
         const userID = this.props.currentUser.userId
         this.props.takeMyTournamentsRequest(userID)
+        this.props.takeAllTournaments(userID)
+        
         if(this.props.allTournsList.length === 0 || this.props.allTournsList === undefined) {
-            this.props.takeAllTournaments()
+            this.props.takeAllTournaments(userID)
         } else {
             return null
         }
@@ -323,17 +328,10 @@ export class TournamentsList extends Component {
         return num
 	}
     render (){
-
-
-	    // console.log('tList', this.props)
-	    // console.log('tList state', this.state)
-	    // const { toggleSort, sortItem } = this.state
-
 	    const tournaments = this.props.match.url === '/all_tournaments' ? this.props.allTournsList : this.props.tournsDataById
 	    const fifaNum = this.countOfOject(tournaments, 'FIFA')
         const pokerNum = this.countOfOject(tournaments, 'Poker')
         const path = this.props.match.url;
-
         const addTournamentButton = (this.state.isCurrentUserAdminRole &&
                 <BtnComp
                     inputType="submit"
@@ -342,10 +340,7 @@ export class TournamentsList extends Component {
                     disabled={this.props.allTournsList.length !== 0 || this.props.allEventTypesList.length !== 0 ? !this.state.buttonStatus : this.state.buttonStatus}
                     />
                 );
-        // console.log("allTournaments : " , this.state.allTournaments.length);
-        // console.log("myTournaments : " , this.state.myTournaments.length);
-        // console.log('tournyList', this.props)
-	    // console.log('tournyList state', this.state)
+
         return (
             <div className={classes.usersWrapper}>
                 <div>
@@ -407,6 +402,7 @@ export class TournamentsList extends Component {
 }
  
 const mapStateToProps = (state) => {
+    
     return {
         allTournsList: state.allListReducer.allTournsList,
         allEventTypesList: state.allListReducer.allEventTypesList,
@@ -421,7 +417,7 @@ const mapStateToProps = (state) => {
         deleteUserConfirmMessage: state.confirmMessageReducer.deleteUserConfirmMessage,
         currentUser: state.userReducer.currentUser,
 	    tournEventsByIdNoS: state.allListReducer.tournEventsByIdNoS,
-
+        changeList: state.allListReducer.changeList
     }
 }
 

@@ -10,6 +10,7 @@ import {
     addNewEventAction,
     // getAllEventsAction,
     getAllEventTypesAction,
+    getFavEventTypesAction,
     getAllGroups,
     getTournByIdAction,
     // addNewGroupAction,
@@ -287,7 +288,7 @@ export const tournEventsByIdRequest = (tournamentId) => {
 //////////  TOURNAMENTS   ///////////////
 
 // get all tournaments
-export const takeAllTournaments = () => {
+export const takeAllTournaments = (userId) => {
 	return (dispatch) => {
 		// dispatch(toggleLoaderAction(true));
 		return axios.post(cors + url + `Tournaments/GetTournaments`)
@@ -302,11 +303,16 @@ export const takeAllTournaments = () => {
 						return axios
 							.post(cors + url + `Events/GetEventTypes`)
 							})
-							.then((response) => {
+					.then((response) => {
 								const eventTypes = response.data;
-								dispatch(getAllEventTypesAction(eventTypes))
-								dispatch(toggleLoaderAction(false))
-							})
+                        dispatch(getAllEventTypesAction(eventTypes))
+                        return axios.post(cors + url + 'Events/GetUserFavoriteEventType?userId=' + userId)
+                    })
+                    .then((response) => {
+                        const favEventType = response.data;
+                        dispatch(getFavEventTypesAction(favEventType))
+                        dispatch(toggleLoaderAction(false))
+                    })
 					.catch((error) => {
 						dispatch(catchErrorAction([error][0]));
 						dispatch(errorMessageAction(error[0]));
