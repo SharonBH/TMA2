@@ -66,8 +66,8 @@ export class TournamentsList extends Component {
             isCurrentUserAdminRole: false,
             isOpen: false,
             currentTournament: null,
-            currentTandC: null
-            changeList: '',
+            currentTandC: null,
+            changeList: ''
         }
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
