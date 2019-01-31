@@ -185,6 +185,7 @@ export class TournamentPage extends Component {
     editTournamentComp = () => {
         return <UserSummary headline={EDIT_TOURNAMENT} event={null} tournament={this.state.tournById} user={null}  group={null}/>
     }
+
     successDeleteMessage = () => {
         return this.props.successMessage !== null 
         ? <p className={classes.success}>
@@ -400,6 +401,7 @@ export class TournamentPage extends Component {
                     {this.usersTable()}
                 </div>
                 {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
+                {this.props.editTandC ? <div className={classes.AddUser}>{this.editThisTournamentComp()}</div> : null}
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
                 {this.props.editThisEvent ? <div className={classes.AddUser}>{this.editEventComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_EVENT} item={this.state.eventForDelete}/> : null}

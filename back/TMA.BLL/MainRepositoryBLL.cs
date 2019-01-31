@@ -61,11 +61,11 @@ namespace TMA.BLL
             return tournamentId;
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId, string tournamentTypeName)
+        public void EditTournament(int tournamentId, string tournamentName, string eventTypeName, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId, string tournamentTypeName, string termsAndConditions)
         {
             var tournamentTypeId = String.IsNullOrEmpty(tournamentTypeName) ? (int)DAL.Models.TournamentType.unknown : (int)(DAL.Models.TournamentType)Enum.Parse(typeof(DAL.Models.TournamentType), tournamentTypeName.ToLower());
             var eventType = _mainRepository.GetEventTypeByName(eventTypeName);
-            _mainRepository.EditTournament(tournamentId, tournamentName, eventType, startDate, endDate, numberOfEvents, groupId, tournamentTypeId);
+            _mainRepository.EditTournament(tournamentId, tournamentName, eventType, startDate, endDate, numberOfEvents, groupId, tournamentTypeId, termsAndConditions);
         }
 
         public void DeleteTournament(int tournamentId)

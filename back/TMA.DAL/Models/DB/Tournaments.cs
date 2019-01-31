@@ -19,10 +19,11 @@ namespace TMA.DAL.Models.DB
         public int EventTypeId { get; set; }
         public int TournamentTypeId { get; set; }
         public int GroupId { get; set; }
+        public string TermsAndConditions { get; set; }
 
         public LkpEvent EventType { get; set; }
         public Groups Group { get; set; }
         public ICollection<Events> Events { get; set; }
-        public LkpTournamentType TournamentType { get; set; }
+        public LkpTournamentType TournamentType { get; set; } 
     }
 }

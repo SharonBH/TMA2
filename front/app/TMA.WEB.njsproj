@@ -81,6 +81,9 @@
     <Compile Include="src\components\UI\ConfirmMessage\ConfirmMessage.js" />
     <Compile Include="src\components\UI\ConfirmMessage\index.js" />
     <Compile Include="src\components\UI\InputComp\InputComp.js" />
+    <Compile Include="src\components\UI\Modal\Modal.js">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="src\components\UI\SelectComp\SelectComp.js" />
     <Compile Include="src\components\UI\SelectComp\SelectIdComp.js" />
     <Compile Include="src\components\UI\Spinner\index.js" />
@@ -123,6 +126,7 @@
     <Content Include="src\components\UI\BtnComp\BtnComp.scss" />
     <Content Include="src\components\UI\ConfirmMessage\ConfirmMessage.scss" />
     <Content Include="src\components\UI\InputComp\InputComp.scss" />
+    <Content Include="src\components\UI\Modal\Modal.scss" />
     <Content Include="src\components\UI\SelectComp\SelectComp.scss" />
     <Content Include="src\components\UI\Spinner\Spinner.scss" />
     <Content Include="src\components\Users\AllUsersAdmin\AllUsersAdmin.scss" />
@@ -165,6 +169,7 @@
     <Folder Include="src\components\UI\BtnComp\" />
     <Folder Include="src\components\UI\ConfirmMessage\" />
     <Folder Include="src\components\UI\InputComp\" />
+    <Folder Include="src\components\UI\Modal\" />
     <Folder Include="src\components\UI\SelectComp\" />
     <Folder Include="src\components\UI\Spinner\" />
     <Folder Include="src\components\Users\" />

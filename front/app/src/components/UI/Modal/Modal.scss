@@ -1,0 +1,451 @@
+@import '../../../styles/colors.scss';
+
+
+.ProfileWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    color: #000;
+    height: 100%;
+    }
+
+
+    .Profile {
+        width: 80%;
+        min-width: 320px;
+        max-width: 600px;
+        // margin-top: 110px;
+        padding: 20px;
+        background-color: #fff;
+        position: relative;
+        margin: auto auto;
+        //height: 70vh;
+        }
+        .profileAvatar {
+            width: 75px;
+            height: 75px;
+            //display: inline-block;
+            border-radius: 150px;
+            overflow: hidden;
+            margin-right: 15px;
+            display: flex;
+
+            & > img {
+                max-width: 100%;
+            }
+
+            i {
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                line-height: 73px;
+                font-size: 44px;
+                color: #8ab2bd;
+            }
+        }
+
+        .innerWrapper {
+            position: relative;
+            padding-bottom: 45px;
+            margin-bottom: 25px;
+            //height: 82%;
+        }
+
+    .success {
+        position: fixed;
+        width: 100%;
+        text-align: center;
+        top: 0;
+        margin: 0;
+        height: 100vh;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 6;
+        transform: translateY(0%);
+        transition-timing-function: ease-in;
+        transition: 0.6s;
+
+        & > span {
+            padding: 22px 40px;
+            position: relative;
+            width: 574px;
+            height: 70px;
+            box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
+            background-color: #97b532;
+            color: #fff;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 20px;
+
+            &::before {
+                content: '\F00C';
+                font-family: "Font Awesome 5 Free";
+                font-weight: 600;
+                margin-right: 20px;
+                display: inline-block;
+                font-size: 23px;
+            }
+
+            .closeBTN {
+                padding: 0 5px;
+                border-radius: 11px;
+                position: absolute;
+                top: 17px;
+                right: 21px;
+                cursor: pointer;
+                font-size: 26px;
+            }
+
+            & > :hover {
+                color: #287b00;
+            }
+        }
+    }
+
+    h1 {
+        width: 100%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+
+        span {
+            font-weight: 400;
+        }
+    }
+
+.closePopBtn {
+    display: inline-block;
+    width: auto;
+    text-align: right;
+    float: right;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    right: 90px;
+    height: 36px;
+    margin: 0;
+
+    span {
+        padding: 7px 5px;
+        border: 1px solid;
+        color: #1565c0;
+        position: relative;
+        z-index: 5;
+        display: block;
+        bottom: 30px;
+        border-radius: 2px;
+        box-shadow: 0 3px 2px 0 rgba(70, 166, 255, 0.35);
+        right: 30px;
+        height: 37px;
+        width: 80px;
+        text-align: center;
+
+        &:hover {
+            background: #1565c0;
+            border-color: #1565c0;
+            color: #fff;
+        }
+    }
+}
+
+    .wrappLine {
+        width: 100%;
+        height: 35px;
+        font-size: 14px;
+        padding: 2px 0;
+        // border-bottom: 1px solid #999;
+        margin: 10px 0 20px;
+        color: #000;
+        display: block;
+        // display: flex;
+        // justify-content: space-between;
+        .EditCustomInput {
+        }
+
+        &:first-of-type span {
+            background: $white;
+        }
+
+        &:last-of-type span {
+            background: $white;
+        }
+
+        &:last-of-type .editLineInput {
+            background: #e5e5e5;
+        }
+
+        &::placeholder {
+            color: $dark-gray
+        }
+
+        & > * {
+            float: left;
+        }
+
+        & > .HeadLine {
+            width: 130px;
+            text-align: left;
+            height: 100%;
+            line-height: 30px;
+        }
+
+        div.EditInput * {
+            height: 100%;
+            margin: 0 0 0px 0;
+            padding: 0;
+        }
+
+        div.EditInput {
+            height: 100%;
+            width: 70%;
+            // max-width: 322px;
+            //overflow: hidden;
+            .inputWpapp {
+                position: relative;
+
+                & > label[for=file] {
+                    position: absolute;
+                    left: 91px;
+                    background: #fff;
+                    line-height: 30px;
+                    top: -5px;
+                    width: 70%;
+                    text-align: left;
+                    overflow: hidden;
+                }
+            }
+
+            & > input {
+                border: 0;
+            }
+
+            & > div {
+                width: 100%;
+                display: inline-block;
+                height: 100%;
+
+                & > div {
+                    width: 100%;
+                }
+
+                input[type=file] {
+                    &::before {
+                        content: '';
+                    }
+                }
+            }
+        }
+
+        & > span {
+            margin-right: 0px;
+            text-align: left;
+            width: 70%;
+            height: 100%;
+            line-height: 32px;
+            background: $light-gray;
+            padding: 0 8px;
+        }
+
+        & > input, & > select {
+            width: 200px;
+            border: 1px solid black;
+            position: relative;
+            top: -20px;
+        }
+
+        .BTN {
+            float: right;
+            margin: 0px 0;
+        }
+    }
+
+    .wrappLineHide {
+        display: none;
+    }
+
+    .wrappLineNone {
+        display: none;
+    }
+
+    .eventResWrapLine {
+        width: 100%;
+        height: auto;
+        font-size: 14px;
+        padding: 2px 0;
+        margin: 10px 0 5px;
+        color: #000;
+        display: inline-block;
+
+        .editLineInput {
+            .eventResult {
+                width: 100%;
+                height: 35px;
+                padding: 0 7px;
+                border: 0;
+                border-radius: 0px;
+                margin: 0;
+                font-weight: bold;
+                border-right: 0;
+                display: flex !important;
+                border-bottom: 1px solid #ddd;
+
+                .eventResInp {
+                    display: inline;
+                }
+            }
+        }
+
+        &:first-of-type span {
+            background: $white;
+        }
+
+        &:last-of-type span {
+            background: $white;
+        }
+
+        &:last-of-type .editLineInput {
+            background: #e5e5e5;
+        }
+
+        &::placeholder {
+            color: $dark-gray
+        }
+
+        & > * {
+            float: left;
+        }
+
+        & > .HeadLine {
+            width: 130px;
+            text-align: left;
+            height: 100%;
+            line-height: 30px;
+        }
+
+        div.EditInput {
+            height: 100%;
+            width: 70%;
+            display: table;
+
+            .eventResult {
+                width: 100%;
+                height: 35px;
+                padding: 0 7px;
+                border: 0;
+                border-radius: 0px;
+                margin: 0;
+                font-weight: bold;
+                border-right: 0;
+                display: flex !important;
+                border-bottom: 1px solid #ddd;
+
+                .eventResInp {
+                    display: inline;
+
+                    & > div {
+                        margin: 0 !important;
+                    }
+                }
+            }
+
+            &* {
+                border: 0;
+            }
+
+            & > input {
+                border: 0;
+            }
+
+            & > div {
+                width: 100%;
+                display: inline-block;
+                height: 100%;
+            }
+        }
+
+        & > span {
+            margin-right: 0px;
+            text-align: left;
+            width: 70%;
+            line-height: 30px;
+            background: #e5e5e5;
+            /* padding: 0 8px; */
+            display: table;
+        }
+
+        & > input, & > select {
+            width: 200px;
+            border: 1px solid black;
+            position: relative;
+            top: -20px;
+        }
+
+        .BTN {
+            float: right;
+            margin: 0px 0;
+        }
+    }
+.BtnComp__sendBtn {
+    width: 80px;
+}
+
+.SubmitAll {
+    display: inline-block;
+    text-align: right;
+    min-width: 67px;
+    position: absolute;
+    right: 0;
+    bottom: 1px;
+    padding: 30px;
+
+    .BtnComp__sendBtn {
+            width: 80px;
+    }
+
+    & > * {
+        display: inline-block;
+        margin-left: 10px;
+    }
+
+    div {
+        border: 0;
+        padding: 0;
+    }
+
+    input[type=submit] {
+        width: 100%;
+        font-size: 16px;
+    }
+}
+
+    .changePass {
+        font-weight: 600;
+        margin-top: 10px;
+        display: inline-block;
+        width: 100%;
+        text-align: right;
+        text-decoration: underline;
+        font-size: 18px;
+        color: $blue;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+
+    .overlay {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: rgba(128,128,128,0.5); /* color */
+        height: 100%;
+        z-index: 92;
+    }
+    

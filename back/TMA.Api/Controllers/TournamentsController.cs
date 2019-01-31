@@ -50,7 +50,7 @@ namespace TMA.Api.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _mainRepository.EditTournament(tournamentModel.TournamentId, tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId, tournamentModel.TournamentTypeName);
+                    _mainRepository.EditTournament(tournamentModel.TournamentId, tournamentModel.TournamentName, tournamentModel.EventTypeName, tournamentModel.StartDate, tournamentModel.EndDate, tournamentModel.NumberOfEvents, tournamentModel.GroupId, tournamentModel.TournamentTypeName, tournamentModel.TermsAndConditions);
 
                     return Json(new { Response = "Success", Message = "Tournament edited successfully." });
                 }
@@ -134,7 +134,8 @@ namespace TMA.Api.Controllers
                         StartDate = tournament.StartDate,
                         EndDate = tournament.EndDate,
                         NumberOfEvents = (int?)tournament.NumberOfEvents,
-                        GroupId = tournament.GroupId
+                        GroupId = tournament.GroupId,
+                        TermsAndConditions = tournament.TermsAndConditions
                     };
 
                     var group = _mainRepository.GetGroupById(tournament.GroupId);

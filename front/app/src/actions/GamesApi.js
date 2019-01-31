@@ -571,6 +571,90 @@ export const editThisTournamentRequest = ( tournamentId, eventType, groupId, tou
 			});
 	}
 };
+
+export const editTournamentTandCRequest = (tournamentId, eventType, groupId, tournamentName, startDate, endDate, numberOfEvents, termsAndConditions) => {
+    return (dispatch) => {
+
+        dispatch(toggleLoaderAction(true))
+        return axios({
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+            url: cors + url + 'Tournaments/EditTournament',
+            data: {
+                tournamentId: tournamentId,
+                tournamentName: tournamentName,
+                EventTypeName: eventType,
+                groupId: groupId,
+                startDate: startDate,
+                endDate: endDate,
+                numberOfEvents: numberOfEvents,
+                termsAndConditions: termsAndConditions
+            }
+        })
+            .then((response) => {
+                if (response.data.response === 'Success') {
+
+                    // dispatch(successMessageAction('Tournament Edited Successfuly'))
+                    return axios.post(cors + url + `Tournaments/GetTournaments`)
+
+                        .then((response) => {
+                            const tournaments = response.data
+                            dispatch(getAllToursAction(tournaments));
+
+                            return axios({
+                                method: 'POST',
+                                url: cors + url + 'Tournaments/GetTournamentById',
+                                headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+                                data: tournamentId
+                            })
+                        })
+                        .then((response) => {
+                            // localStorage.setItem('localStoreTournament', JSON.stringify(response.data));
+                            // const tournamentById = JSON.parse(localStorage.getItem('localStoreTournament'));
+                            dispatch(getTournByIdAction(response.data));
+                            dispatch(getLeaderboards(response.data));
+                            const groupId = response.data.groupId;
+                            return axios({
+                                method: 'POST',
+                                url: cors + url + 'Groups/GetGroupById',
+                                headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+                                data: groupId
+                            })
+                        })
+                        .then((response) => {
+                            const groupById = response.data;
+                            dispatch(getGroupById(groupById));
+                            return axios.post(cors + url + `Events/GetEventTypes`)
+                        })
+                        .then((response) => {
+                            const eventTypes = response.data;
+                            dispatch(getAllEventTypesAction(eventTypes))
+                            dispatch(editThisItemAction(false))
+                            dispatch(successMessageAction('Tournament Edited Successfuly'))
+                            dispatch(toggleLoaderAction(false))
+                            // if(response.statusText === 'OK') {
+                            // 	dispatch(toggleLoaderAction(false))
+                            // }
+                        })
+
+                        .catch((error) => {
+                            dispatch(errorMessageAction([error][0]))
+                            dispatch(toggleLoaderAction(false))
+                        });
+                } else {
+                    const error = response.data.message
+                    dispatch(errorMessageAction(error))
+                    dispatch(toggleLoaderAction(false))
+                }
+            })
+            .catch((error) => {
+                dispatch(catchErrorAction([error][0]))
+                dispatch(errorMessageAction([error][0]))
+                dispatch(toggleLoaderAction(false))
+            });
+    }
+};
+
 // take all events by tournament id
 export const CreateTournamentPresetsResponse = (tournamentId) => {
     return (dispatch) => {

@@ -448,7 +448,7 @@ namespace TMA.DAL
             }
         }
 
-        public void EditTournament(int tournamentId, string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId, int tournamentTypeId)
+        public void EditTournament(int tournamentId, string tournamentName, LkpEvent eventType, DateTime? startDate, DateTime? endDate, int? numberOfEvents, int groupId, int tournamentTypeId, string termsAndConditions)
         {
             try
             {
@@ -476,6 +476,9 @@ namespace TMA.DAL
 
                     if (tournament.TournamentTypeId != tournamentTypeId)
                         tournament.TournamentTypeId = tournamentTypeId;
+
+                    if (tournament.TermsAndConditions != termsAndConditions)
+                        tournament.TermsAndConditions = termsAndConditions;
 
                     context.Tournaments.Update(tournament);
                     context.SaveChanges();

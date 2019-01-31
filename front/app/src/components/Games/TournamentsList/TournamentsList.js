@@ -8,17 +8,18 @@ import classes from '../../Users/AllUsersAdmin/AllUsersAdmin.scss';
 import { ADD_EVENT, ADD_TOURNAMENT, DELETE_TOURNAMENT, USER_ROLE_ADMIN } from '../../../configuration/config'
 
 import DeleteBtn from '../../UI/BtnComp/DeleteBtn';
+import EditBtn from '../../UI/BtnComp/EditBtn';
 import BtnComp from '../../UI/BtnComp/BtnComp';
 import Tab from '../../UI/Tab/Tab';
 
 import Register from '../../Register';
 import ConfirmMessage from '../../UI/ConfirmMessage';
+import Modal from '../../UI/Modal/Modal';
 
 import { takeAllTournaments, DeleteTournamentRequest, goToTournPageRequest, tournEventsByIdRequest, takeMyTournamentsRequest, takeMyGroupsRequest, mainPageGetAllGroupsRequest, CreateTournamentPresetsResponse } from '../../../actions/GamesApi';
 import { addNewEventAction, addNewTournamentAction, 
      editThisItemAction, successMessageAction, errorMessageAction, deleteConfirmMessageAction }  from '../../../actions';
 import SmallSpinner from "../../UI/SmallSpinner/SmallSpinner";
-
 
 export class TournamentsList extends Component {
     static propTypes = {
@@ -65,6 +66,9 @@ export class TournamentsList extends Component {
             toggleSort: true,
 	        tournaments: '',
             isCurrentUserAdminRole: false,
+            isOpen: false,
+            currentTournament: null,
+            currentTandC: null
         }
         this.DeleteTournamentBtn = this.DeleteTournamentBtn.bind(this)
     }
@@ -96,7 +100,13 @@ export class TournamentsList extends Component {
 
 	}
 
-
+    toggleModal = (item) => {
+        this.setState({
+            isOpen: !this.state.isOpen,
+            currentTournament: item,
+            currentTandC: item != null && item.termsAndConditions != null ? item.termsAndConditions: ''
+        });
+    }
 
     componentDidMount(){
 	    
@@ -124,14 +134,14 @@ export class TournamentsList extends Component {
         this.props.deleteConfirmMessageAction(true)
     }
 
-    addEventBtn = (item) => {
+        addEventBtn = (item) => {
         setTimeout(() => {
             this.setState({tournamentID: item})
             this.props.addNewEventAction(true) 
         }, 200)
     }
 
-    editDetailInput = (index, e) => {
+        editDetailInput = (index, e) => {
         const details = Object.assign([], this.state.userDetailsArr)
             details[index] = e.target.value
         this.setState({
@@ -275,10 +285,20 @@ export class TournamentsList extends Component {
                     <div className={classes.email}><span>{moment(item.endDate).format('Do MMM YYYY')}</span></div>
                     <div className={classes.role +' '+ classes.hide}><span>{item.eventsCount}</span></div>
                     <div className={classes.role +' '+ classes.hide}><span>{item.numberOfEvents !== null ? item.numberOfEvents : 'Unlimited' }</span></div>
-                    <div className={classes.role +' '+ classes.hide}><span>{item.eventTypeName}</span></div>
-
+                    <div className={classes.role + ' ' + classes.hide}><span>{item.eventTypeName}</span></div>
                 </Link>
-	            <div id={index} className={classes.allUsButtons}>
+               
+                <div id={index} className={classes.role + ' ' + classes.hide}>                   
+                    <EditBtn inputType='submit' content='Edit' onClick={() => this.toggleModal(item)} />
+                </div>
+               
+                <Modal show={this.state.isOpen}
+                    text={this.state.currentTandC}
+                    tournament={this.state.currentTournament}
+                    onClose={this.toggleModal}>
+                    </Modal>
+               
+                <div id={index} className={classes.allUsButtons}>
                 {this.state.isCurrentUserAdminRole && <DeleteBtn onClick={() => this.DeleteTournamentBtn(item.tournamentId)} inputType={'button'} content='Delete'/>  }
 		            {/*{*/}
 		            {/*item.eventsCount !== null || item.eventsCount == 0*/}
@@ -286,7 +306,7 @@ export class TournamentsList extends Component {
 		            {/*: null*/}
 		            {/*}*/}
 	
-	            </div>
+                </div> 
             </li>
 	         
             
@@ -360,7 +380,8 @@ export class TournamentsList extends Component {
                         <div className={classes.email} i-attribute="none" id={'endDate'} onClick={(item) => this.Sort(item)}>End Date </div>
                         <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'eventsCount'} onClick={(item) => this.Sort(item)}>Num of Events </div>
                         <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'numberOfEvents'} onClick={(item) => this.Sort(item)}>Max Events</div>
-                        <div className={classes.role +' '+ classes.hide} i-attribute="none" id={'eventTypeName'} onClick={(item) => this.Sort(item)}>Game Type </div>
+                        <div className={classes.role + ' ' + classes.hide} i-attribute="none" id={'eventTypeName'} onClick={(item) => this.Sort(item)}>Game Type </div>
+                        <div className={classes.role + ' ' + classes.hide} i-attribute="none" id={'termsAndConditions'} onClick={(item) => this.Sort(item)}>TandC</div>
 
 	                    <div className={classes.allUsButtons}></div>
                     </div>
@@ -378,13 +399,13 @@ export class TournamentsList extends Component {
                 {this.props.addItem ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
                 {this.props.addEvent ? <div className={classes.AddUser}>{this.addEventComp()}</div> : null}
                 {this.props.addTournament ? <div className={classes.AddUser}>{this.addTournamentComp()}</div> : null}
-                {this.props.editThisItem ? <div className={classes.AddUser}>{this.editTournamentComp()}</div> : null}
+                {this.props.editThisItem ? <div>{this.editThisTournamentComp()}</div> : null}
                 {this.props.deleteUserConfirmMessage ? <ConfirmMessage headline={DELETE_TOURNAMENT} item={this.state.tournamentForDelete}/> : null}
             </div>
         )
     }
 }
-
+ 
 const mapStateToProps = (state) => {
     return {
         allTournsList: state.allListReducer.allTournsList,
