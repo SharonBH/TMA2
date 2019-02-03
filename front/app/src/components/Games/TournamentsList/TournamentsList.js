@@ -293,7 +293,7 @@ export class TournamentsList extends Component {
                     <div className={classes.role + ' ' + classes.hide}><span>{item.eventTypeName}</span></div>
                 </Link>
                
-                <div id={index} className={classes.role + ' ' + classes.hide}>                   
+                <div id={index} className={classes.role + ' ' + classes.tandc}>                   
                     <EditBtn inputType='submit' content='Edit' onClick={() => this.toggleModal(item)} />
                 </div>
                

@@ -62,11 +62,7 @@ class Modal extends React.Component {
       height: 480,
       margin: '0 auto',
       padding: 30
-        };
-
-        const btnWidthStyle = {
-            width: '80px'
-        }
+     };
 
 
         return (
@@ -76,9 +72,11 @@ class Modal extends React.Component {
                 <h1>Edit TandC of: {this.state.tournament.tournamentName}</h1>
                 <div> 
                     <CKEditor activeClass="editor" content={this.state.text} events={{ "change": (evt)=> this.handleInputChange(evt) }} />
-                </div>             
+                    </div>   
                     <span className={classes.SubmitAll}>
-                        <BtnComp className={classes.editBtn} style={btnWidthStyle} content='Save' onClick={() => this.saveTandC(this.state.tournament)} />
+                    <div className='BtnComp' >
+                        <input className={classes.saveBtn} value='Save' onClick={() => this.saveTandC(this.state.tournament)}/>
+                        </div>
                         </span>
                 <div className={classes.closePopBtn} onClick={this.props.onClose}><span>Close</span></div>
             </div>
