@@ -25,7 +25,7 @@ import FifaEventsList  from './FifaEventsList.js'
 import TournyPageLeaderBoard  from './TournyPageLeaderBoard.js'
 import FifaTournyPageLeaderBoard  from './FifaTournyPageLeaderBoard.js'
 
-import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest, CreateTournamentPresetsResponse  } from '../../../actions/GamesApi';
+import { takeAllTournaments, goToTournPageRequest, getAllGroupsRequest, CreateTournamentPresetsResponse, takeMyTournamentsRequest  } from '../../../actions/GamesApi';
 import {
 	addNewEventAction,
 	editThisItemAction,
@@ -462,7 +462,8 @@ const mapDispatchToProps = dispatch => {
         // appCallTakeAllEvents: payload => dispatch(appCallTakeAllEvents(payload)),
         // tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
-	    toggleLoaderAction: payload => dispatch(toggleLoaderAction(payload)),
+        toggleLoaderAction: payload => dispatch(toggleLoaderAction(payload)),
+        takeMyTournamentsRequest: payload => dispatch(takeMyTournamentsRequest(payload))
     }
 };
 
