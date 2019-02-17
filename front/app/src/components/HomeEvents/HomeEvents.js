@@ -145,14 +145,14 @@ export class HomeEvents extends Component {
                             <div className={classes.leaderTop}>
                                 <p>{nextTournamentName}</p>
                                 <div className={classes.leaderTableHead}>
-                                    <b>User Name</b>
-                                    <b>Number of Events</b>
-                                    <b>Total Scores</b>
+                                    <b>Name</b>
+                                    <b>Points</b>
+                                    <b>#</b>
                                     {tournamentTypeId == 1 &&
-                                        [<b>Goals Scored</b>,
-                                        <b>Goals Against</b>,
-                                        <b>Goals Difference</b>,
-                                        <b>Success %</b>]
+                                        [<b>GF</b>,
+                                        <b>GA</b>,
+                                        <b>Dif</b>,
+                                        <b>Win %</b>]
                                     }
                                 </div>
                                 <ul>{sortedBoard.map((user, i) => {
@@ -167,8 +167,8 @@ export class HomeEvents extends Component {
 				                        {profileImage}
 			                        </span>}
 		                        </span><span>{user.user.username}</span></p>
+                                            <p><span>{user.totalScores} {tournamentTypeId == 2 && [`(` + Math.round(user.goalsScored / user.numberOfEvents)+`)`] }</span></p>
                                             <p><span>{user.numberOfEvents}</span></p>
-                                            <p><span>{user.totalScores}</span></p>
                                             {tournamentTypeId == 1 &&
                                                 [
                                                 <p><span>{user.goalsScored}</span></p>,

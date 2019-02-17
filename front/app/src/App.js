@@ -11,6 +11,8 @@ import TopNavigation  from './containers/TopNavigation/TopNavigation';
 import {REGISTER, SING_OUT} from './configuration/config'
 import Login from './components/Login';
 import Register from "./components/Register";
+import ChangePassword from "./components/ChangePassword";
+
 
 class App extends Component {
   spinner = () => {
@@ -25,6 +27,7 @@ class App extends Component {
         const isUserNotInSession = sessionStorage.getItem('session') === null;
         const divRegister = history.location.pathname === '/register'
             ? <div className={classes.App}>{this.spinner()}<Register headline={REGISTER}/></div>
+            : history.location.pathname === '/change_password' ? <div className={classes.App}>{this.spinner()}<ChangePassword /></div>
             : <div className={classes.App}>{this.spinner()}<Login /></div>;
         const divToShow = isUserNotInSession ? divRegister :
             <div className={classes.App}>
