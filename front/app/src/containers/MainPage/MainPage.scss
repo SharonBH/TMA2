@@ -39,13 +39,15 @@
                 padding-top: 14px;
             }
             .leaderTableHead{
-                display: flex;
-                justify-content: space-around;
+                /* display: flex;
+                justify-content: space-around;*/ 
                 width: 97%;
                 padding-left: 3%;
-                b{
+                display: grid;
+                grid-template-columns: 60% 25% 15%;
+                /* b{
                     width: 30%;
-                }
+                } */
             }
             &>ul{
                 padding-left: 3%;;
@@ -54,12 +56,16 @@
                 margin-bottom: -1px;
                 li{
                     border-bottom: 1px dashed #b9b9b9;
+                    .leaderBoardRow {
+                        display: grid;
+                        grid-template-columns: 60% 25% 15%;
+                    }
                     &>div{
                         display: flex;
                         justify-content: space-around;
                     }
                     p{
-                        width: 30%;
+                        /* width: 30%; */
                         margin: 5px 0;
                         display: flex;
                         align-items: center;

@@ -6,8 +6,8 @@ import moment from 'moment'
 import classes from '../../containers/MainPage/MainPage.scss';
 import {takeAllTournaments, takeMyHomeLeaderboardRequest} from '../../actions/GamesApi';
 import { getAllRolesRequest } from '../../actions/Api';
-import Spinner from '../UI/Spinner'
-import SmallSpinner from "../UI/SmallSpinner/SmallSpinner";
+/* import Spinner from '../UI/Spinner'
+import SmallSpinner from "../UI/SmallSpinner/SmallSpinner"; */
 
 
 export class HomeEvents extends Component {
@@ -148,6 +148,9 @@ export class HomeEvents extends Component {
                                     <b>Name</b>
                                     <b>Points</b>
                                     <b>#</b>
+                                    {tournamentTypeId == 2 &&
+                                        [<b>Top</b>]
+                                    }
                                     {tournamentTypeId == 1 &&
                                         [<b>GF</b>,
                                         <b>GA</b>,
@@ -161,7 +164,7 @@ export class HomeEvents extends Component {
                                         <i className="fas fa-user-circle"></i> :
                                         <img alt={`${user.user.username}`} src={`data:image/jpeg;base64,` + `${user.user.avatar}`}/>
                                     return <li key={i}>
-                                        <div>
+                                        <div className={classes.leaderBoardRow}>
                                             <p><span>
 			                        {<span className={classes.profileAvatar}>
 				                        {profileImage}
@@ -169,6 +172,9 @@ export class HomeEvents extends Component {
 		                        </span><span>{user.user.username}</span></p>
                                             <p><span>{user.totalScores} {tournamentTypeId == 2 && [`(` + Math.round(user.goalsScored / user.numberOfEvents)+`)`] }</span></p>
                                             <p><span>{user.numberOfEvents}</span></p>
+                                            {tournamentTypeId == 2 &&
+                                        [<p><span>{user.TopPlace}</span></p>]
+                                    }
                                             {tournamentTypeId == 1 &&
                                                 [
                                                 <p><span>{user.goalsScored}</span></p>,
