@@ -308,7 +308,8 @@ namespace TMA.Api.Controllers
                         TotalScores = leaderboard.TotalScores,
                         GoalsAgainst = leaderboard.GoalsAgainst,
                         GoalsScored = leaderboard.GoalsScored,
-                        SuccessPercentage = leaderboard.SuccessPercentage
+                        SuccessPercentage = leaderboard.SuccessPercentage,
+                        TopPlace = leaderboard.TopPlace
                     };
 
                     leaderboardsModel.Add(leaderboardModel);
