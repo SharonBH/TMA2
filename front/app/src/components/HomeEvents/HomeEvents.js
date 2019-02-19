@@ -173,7 +173,7 @@ export class HomeEvents extends Component {
                                             <p><span>{user.totalScores} {tournamentTypeId == 2 && [`(` + Math.round(user.goalsScored / user.numberOfEvents)+`)`] }</span></p>
                                             <p><span>{user.numberOfEvents}</span></p>
                                             {tournamentTypeId == 2 &&
-                                        [<p><span>{user.TopPlace}</span></p>]
+                                        [<p><span>{user.topPlace}</span></p>]
                                     }
                                             {tournamentTypeId == 1 &&
                                                 [
