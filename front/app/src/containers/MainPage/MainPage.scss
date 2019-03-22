@@ -44,7 +44,7 @@
                 width: 97%;
                 padding-left: 3%;
                 display: grid;
-                grid-template-columns: 60% 20% 10% 10%; 
+                grid-template-columns: 50% 20% 10% 10% 10%;
                 /* b{
                     width: 30%;
                 } */
@@ -58,7 +58,7 @@
                     border-bottom: 1px dashed #b9b9b9;
                     .leaderBoardRow {
                         display: grid;
-                        grid-template-columns: 60% 20% 10% 10%; 
+                        grid-template-columns: 50% 20% 10% 10% 10%; 
                     }
                     &>div{
                         display: flex;

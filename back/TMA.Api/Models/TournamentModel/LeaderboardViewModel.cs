@@ -12,5 +12,7 @@
 
         public int? TopPlace { get; set; }
 
+        public int Earnings { get; set; }
+
     }
 }

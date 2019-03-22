@@ -66,7 +66,8 @@ export class AddEvent extends Component{
 	};
 	
 	removeSelectedUser = (index) => {
-		let removeAddUser = [...this.state.addSearchUsersResult];
+        //let removeAddUser = [...this.state.addSearchUsersResult];
+        console.log('removeSelectedUser');
 		const fill = this.state.addSearchUsersResult.filter(item => item.userId !== index);
 		this.setState({addSearchUsersResult: fill});
 		
@@ -90,10 +91,11 @@ export class AddEvent extends Component{
 	
 	onEventNameChange = (e) => {
 		if(e){
-			this.setState({EventName: e.target.value})
+			this.setState({EventName: e.target.value});
 		}
 	};
     addSearchUsers = (user) => {
+        console.log('addSearchUsers');
 		const fill = this.state.addSearchUsersResult.filter(item => String(item.userId) !== String(user.userId));
 		const array = [...fill, {userId: user.userId, score: null, username: user.username}];
 		const namesArray = [...fill, {userId: user.userId, score: null, username: user.username}];
@@ -147,14 +149,16 @@ export class AddEvent extends Component{
 		const {tournById, groupById} = this.props;
         const { selectedDate, addSearchUsersResult } = this.state;
         
-		const today = Date.parse(new Date());
-		const eventday = Date.parse(selectedDate);
+		/* const today = Date.parse(new Date());
+		const eventday = Date.parse(selectedDate); */
 		const arr = [...groupById.users];
 		return (
-		    <div>
+		    <div><span className={classes.eventsCount}>{arr.length}</span>
                 <InputComp inputType="text" name="tournament" placeholder={'Tournament Name'}
                            content={tournById.tournamentName} onChange={() => {
                 }}/>
+                <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}
+                           content={this.state.EventName}/>
                 <div className={classes.usersAddedWrapper}>
                     {<span className={classes.searchResult}>select players from the tournament group</span>}
 
@@ -183,8 +187,7 @@ export class AddEvent extends Component{
                         }
                     </ul>               
                 </div>
-                <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}
-                           content={this.state.EventName}/>
+                
                 <MuiPickersUtilsProvider utils={MomentUtils}>
                     <DateTimePicker
                         className={classes.timePicker}

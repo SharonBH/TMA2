@@ -10,6 +10,8 @@ namespace TMA.DAL.Models.DB
         public int? Result { get; set; }
         public double? Score { get; set; }
 
+        public int Earnings { get; set; }
+
         public Events Event { get; set; }
         public AspNetUsers User { get; set; }
     }

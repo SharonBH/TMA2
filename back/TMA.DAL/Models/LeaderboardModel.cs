@@ -15,6 +15,8 @@ namespace TMA.DAL
         public double SuccessPercentage { get; set; }
 
         public int? TopPlace { get; set; }
+
+        public int Earnings { get; set; }
     }
 
     public class HomeLeaderboardModel

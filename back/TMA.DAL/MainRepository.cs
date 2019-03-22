@@ -132,7 +132,30 @@ namespace TMA.DAL
                         foreach (var eventResult in eventResults)
                         {
                             var placeResult = eventResult.Result;
-                            eventResult.Score = (float)(totalUserInEvent + 1) - placeResult + (totalUserInEvent - placeResult) / (placeResult * placeResult);
+                            //var score = (float)(totalUserInEvent + 1) - placeResult + ((float)totalUserInEvent - (float)placeResult) / ((float)placeResult * (float)placeResult);
+                            eventResult.Score = (float)(totalUserInEvent + 1) - placeResult + ((float)totalUserInEvent - (float)placeResult) / ((float)placeResult * (float)placeResult);
+                            var totalEarnings = totalUserInEvent * 200; //todo: change to tournament prop
+                            var fourth = totalEarnings >= 1700;
+                            var percEarning = fourth ? totalEarnings-300 : totalEarnings-100 ; //todo: change to tournament prop
+                            switch (placeResult)
+                            {
+                                case 1:
+                                    eventResult.Earnings = percEarning * 70 / 100;
+                                    break;
+                                case 2:
+                                    eventResult.Earnings = percEarning * 30 / 100;
+                                    break;
+                                case 3:
+                                    eventResult.Earnings = fourth ? 200 : 100;
+                                    break;
+                                case 4:
+                                    eventResult.Earnings = fourth ? 100 : 0;
+                                    break;
+                                default:
+                                    eventResult.Earnings = 0;
+                                    break;
+                            }
+                            
                         }
                     }
                 }
@@ -638,6 +661,7 @@ namespace TMA.DAL
                         var userScores = eventResultsByUserId.Sum(x=> x.Score) ?? 0;
                         var userEvents = eventResultsByUserId.Count();
                         var goalsScored = eventResultsByUserId.Sum(x => x.Result) ?? 0;
+                        var earnings = eventResultsByUserId.Sum(x => x.Earnings);
                         var goalsAgainst = filteredEventsResults.Where(x => evnetIdsByUserId.Contains(x.EventId) && x.UserId != userId).Sum(x => x.Result) ?? 0;
                         var successPercentage = userEvents != 0 ? (userScores / (userEvents * 3)): 0;
                         var topPlace = eventResultsByUserId.Min(x => x.Result);
@@ -646,11 +670,12 @@ namespace TMA.DAL
                         {
                             User = user,
                             NumberOfEvents = userEvents,
-                            TotalScores = (int) userScores,
+                            TotalScores = (int)userScores,
                             GoalsScored = goalsScored,
                             GoalsAgainst = goalsAgainst,
                             SuccessPercentage = successPercentage,
-                            TopPlace = topPlace
+                            TopPlace = topPlace,
+                            Earnings = earnings
                         };
 
                         leaderboards.Add(leaderboard);
