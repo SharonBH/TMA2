@@ -504,7 +504,19 @@
 }
 
 
-
+.eventsCount{
+    position: absolute;
+    top: -4%;
+    right: 2%;
+    border: 1px solid #7b7b7b;
+    min-width: 30px;
+    border-radius: 23px;
+    height: 30px;
+    line-height: 29px;
+    color: #7b7b7b;
+    font-weight: 400;
+    text-align: center;
+}
 
 .usersWrapper, .usersAddedWrapper {
     display: flex;

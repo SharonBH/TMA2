@@ -20,9 +20,9 @@ export class HomeEvents extends Component {
     componentWillMount() {
 	    const userId = this.props.currentUser.userId
 	    this.props.takeMyHomeLeaderboardRequest(userId)
-        setTimeout(() => {
+        /* setTimeout(() => {
             this.props.takeAllTournaments(userId)
-        }, 200)
+        }, 200) */
 	    if(this.props.currentUser !== null &&  this.props.allMyHomeData === ''){
 		    const userId = this.props.currentUser.userId
 		    setTimeout(() => {
@@ -54,16 +54,16 @@ export class HomeEvents extends Component {
     futureEventsList = () => {
         const {next} =  this.props.allMyHomeData
 
-        const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
-        const filltournamentName = fill !== undefined ? fill.tournamentName : '';
+        //const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (next.nextEvent === null ? null : next.nextEvent.tournamentId)}): null
+        //const filltournamentName = fill !== undefined ? fill.tournamentName : '';
         return(
             <div>
                 {next.nextEvent === null ? <span className={classes.noResults}>No Future events</span>
                 :
                 <div className={classes.eventData}>
-                    <p className={classes.eventName}><span>Event Name:</span>{next.nextEvent.eventName}</p>
-                    <p className={classes.eventName}><span>Tournament Name:</span>{next.nextEvent.tournamentName}</p>
-                    <p className={classes.eventDate}><span>Event Date:</span>{moment(next.nextEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
+                    <p className={classes.eventName}><span>Name:</span>{next.nextEvent.eventName}</p>
+                    <p className={classes.eventName}><span>Tournament:</span>{next.nextEvent.tournamentName}</p>
+                    <p className={classes.eventDate}><span>When:</span>{moment(next.nextEvent.eventDate).format('DD-MM-YYYY HH:mm')}</p>
                 </div>
                 }
         </div>
@@ -71,17 +71,17 @@ export class HomeEvents extends Component {
     }
     pastEventsList = () => {
         const {past} =  this.props.allMyHomeData;
-        const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null;
-        const filltournamentName = fill !== undefined ? fill.tournamentName : '';
+        //const fill = this.props.allTournsList !== undefined ? this.props.allTournsList.find(result => {return result.tournamentId === (past.pastEvent === null ? null : past.pastEvent.tournamentId)}): null;
+        //const filltournamentName = fill !== undefined ? fill.tournamentName : '';
 
         return(
             <div>
                 {past.pastEvent === null ? <span className={classes.noResults}>No Past events</span>
                 :
                 <div className={classes.eventData}>
-                    <p className={classes.eventName}><span>Event Name:</span>{past.pastEvent.eventName}</p>
-                    <p className={classes.eventName}><span>Tournament Name:</span>{past.pastEvent.tournamentName}</p>
-                    <p className={classes.eventDate}><span>Event Date:</span>{moment(past.pastEvent.eventDate).format('DD-MM-YYYY HH:MM')}</p>
+                    <p className={classes.eventName}><span>Name:</span>{past.pastEvent.eventName}</p>
+                    <p className={classes.eventName}><span>Tournament:</span>{past.pastEvent.tournamentName}</p>
+                    <p className={classes.eventDate}><span>When:</span>{moment(past.pastEvent.eventDate).format('DD-MM-YYYY HH:mm')}</p>
  
                 </div>
                 }
@@ -149,8 +149,8 @@ export class HomeEvents extends Component {
                                     <b>Points</b>
                                     <b>#</b>
                                     {tournamentTypeId == 2 &&
-                                        [<b>Top</b>,
-                                        <b>$$$</b>]
+                                        [<b>Top</b>]
+                                        //,<b>$$$</b>]
                                     }
                                     {tournamentTypeId == 1 &&
                                         [<b>GF</b>,
@@ -174,8 +174,8 @@ export class HomeEvents extends Component {
                                             <p><span>{user.totalScores} {tournamentTypeId == 2 && [`(` + Math.round(user.goalsScored / user.numberOfEvents)+`)`] }</span></p>
                                             <p><span>{user.numberOfEvents}</span></p>
                                             {tournamentTypeId == 2 &&
-                                        [<p><span>{user.topPlace}</span></p>,
-                                        <p><span>{user.earnings}</span></p>]
+                                        [<p><span>{user.topPlace}</span></p>]
+                                        // ,<p><span>{user.earnings}</span></p>]
                                     }
                                             {tournamentTypeId == 1 &&
                                                 [
@@ -191,20 +191,20 @@ export class HomeEvents extends Component {
                             </div>
                             <div className={classes.eventsTBLS}>
                                 <div className={classes.eventsTable}>
-                                    <div>Next event:
+                                    <div><h3>Next Event:</h3>
                                         <div>
                                             {item.nextEvent === null ?
                                                 <span className={classes.noResults}>No Future events</span>
                                                 : item.nextEvent.eventName !== null ?
                                                     <div className={classes.eventData}>
                                                         <p className={classes.eventName}>
-                                                            <span>Event Name:</span>{item.nextEvent.eventName}
+                                                            <span>Name:</span>{item.nextEvent.eventName}
                                                         </p>
                                                         <p className={classes.eventName}>
-                                                            <span>Tournament Name:</span>{item.nextEvent.tournamentName}
+                                                            <span>Tournament:</span>{item.nextEvent.tournamentName}
                                                         </p>
                                                         <p className={classes.eventDate}>
-                                                            <span>Event Date:</span>{moment(item.nextEvent.eventDate).format('DD-MM-YYYY HH:MM')}
+                                                            <span>When:</span>{moment(item.nextEvent.eventDate).format('DD-MM-YYYY HH:mm')}
                                                         </p>
                                                     </div> :
                                                     <span className={classes.noResults}>No Future events</span>
@@ -262,7 +262,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
     return {
         getAllRolesRequest: payload => dispatch(getAllRolesRequest(payload)),
-        takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
+        //takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
 	    // getCurrentUser: payload => dispatch(getCurrentUser(payload)),
 	    takeMyHomeLeaderboardRequest: payload => dispatch(takeMyHomeLeaderboardRequest(payload)),
     }

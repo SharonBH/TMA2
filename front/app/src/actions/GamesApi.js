@@ -35,9 +35,9 @@ import {
 const cors = '';
 const location = window.location.toString();
 let url = 'https://tma-api.azurewebsites.net/';
-if (location.indexOf("localhost") > 1) {
+/* if (location.indexOf("localhost") > 1) {
     url = 'https://localhost:44336/'
-}
+} */
 
 
 

@@ -13,7 +13,7 @@ import {
 	deleteEventAction
 } from "../../../actions";
 import SmallSpinner from '../../UI/SmallSpinner'
-import { it } from "date-fns/esm/locale";
+//import { it } from "date-fns/esm/locale";
 // import Promise from "bluebird";
 
 
@@ -142,15 +142,16 @@ export class EventsList extends Component {
 		const x = item.some((o) => {return o["eventName"] === "No Data"})
 		return (
 				<div className={classes.wrapList}>
-					<h3>All events of tournament
+					{/* <h3>All events of tournament
 						{x ? <span className={classes.eventsCount}>0</span> : <span className={classes.eventsCount}>{nomEvents}</span>}
-					</h3>
+					</h3> */}
 					<div className={classes.topLine}>
 					<div className={classes.userHead}>
 						<h4 className={classes.eventName} i-attribute="down" id={'eventName'} onClick={(item) => this.Sort(item)}  >Events</h4>
 						<h4 className={classes.eventName} i-attribute="none" id={'eventDate'} onClick={(item) => this.Sort(item)}>Date</h4>
 						<h4 className={classes.eventName} i-attribute="down" id={'eventUsers'} onClick={(item) => this.Sort(item)} >Winner</h4>
-                        {this.props.isCurrentUserAdminRole && <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>}
+						{/* {this.props.isCurrentUserAdminRole && <h4 className={classes.turnPageEventsBTN}><span>buttons</span></h4>} */}
+						{x ? <span className={classes.eventsCount}>0</span> : <span className={classes.eventsCount}>{nomEvents}</span>}
 					</div>
 					{this.state.tournEventsByIdNoS.length !== 0
 						?

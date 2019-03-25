@@ -72,8 +72,8 @@ export class TournamentPage extends Component {
     componentDidMount() {
         const isCurrentUserAdminRole = this.props.currentUser.role == USER_ROLE_ADMIN;
         //this.props.successMessageAction(null)
-        const userID = this.props.currentUser.userId
-        this.props.takeMyTournamentsRequest(userID)
+        //const userID = this.props.currentUser.userId
+        //this.props.takeMyTournamentsRequest(userID)
 
         this.setState({isCurrentUserAdminRole: isCurrentUserAdminRole})
     }
@@ -83,7 +83,7 @@ export class TournamentPage extends Component {
 	    this.props.groupById.length !== 0 ? this.props.toggleLoaderAction(false) : this.props.toggleLoaderAction(true)
      
 	    this.setStateAsync = Promise.promisify(this.setState);
-	    this.props.getAllGroupsRequest()
+	    //this.props.getAllGroupsRequest()
 	    this.props.successMessageAction(null);
 	    
         const locationName = this.props.location.pathname;
@@ -285,9 +285,9 @@ export class TournamentPage extends Component {
                     {this.turnPageInformation()}
                     <div>
 	                    
-		                    <h3>{gName}</h3>
+		                    <h3>Group: {gName}</h3>
 	                    <div className={classes.wrapList}>
-		                    <div className={classes.usersTBL}>
+		                   {/*  <div className={classes.usersTBL}>
 			                    <h5 className={classes.groupName}>Group Name:
 				                    {
 			                            gName !== undefined
@@ -295,9 +295,9 @@ export class TournamentPage extends Component {
 						                    : <div className={classes.typeNameSpinner}><SmallSpinner /></div>
 				                    }
 		                        </h5>
-		                    </div>
+		                    </div> */}
 		                    <div className={classes.usersTBList}>
-		                        <h5 className={classes.eventDate}>Users:</h5>
+		                        {/* <h5 className={classes.eventDate}>Users:</h5> */}
 		                        <ul>
 			                        {(currentTournament !== undefined && currentTournament === currentTournamentProp)
 			                        ? groupName !== undefined  ? groupName.map((item, index) => {
@@ -380,14 +380,14 @@ export class TournamentPage extends Component {
 	                {(currentTournament !== undefined && currentTournament === currentTournamentProp)
 	                ?
                         <div>
-			                <span><h4>From: </h4><p> {sDate}</p></span>
-	                        <span><h4>To: </h4><p> {eDate}</p></span>
-		                    <div className={classes.turnPageTiming}><b>Maximum of events: </b>{numberOfEvents === null ? 'Unlimited' : numberOfEvents}</div>
+			                <span><h4>Start: </h4><p> {sDate}</p></span>
+	                        <span><h4>End: </h4><p> {eDate}</p></span>
+		                    <div className={classes.turnPageTiming}><b>Number of events: </b>{numberOfEvents === null ? 'Unlimited' : numberOfEvents}</div>
 		                </div>
 	                : <SmallSpinner/>
                     }
                 </div>
-	            <div className={classes.turnPageTiming}><b>Type of Game: </b>{eventTName !== undefined ? eventTName.eventTypeName : <div className={classes.typeNameSpinner}><SmallSpinner/></div>}</div>
+	            <div className={classes.turnPageTiming}><b>Game: </b>{eventTName !== undefined ? eventTName.eventTypeName : <div className={classes.typeNameSpinner}><SmallSpinner/></div>}</div>
 	            </div>
             </div>
         )
@@ -446,7 +446,7 @@ const mapDispatchToProps = dispatch => {
 
     return{
         takeAllTournaments: payload => dispatch(takeAllTournaments(payload)),
-	    getAllGroupsRequest: payload => dispatch(getAllGroupsRequest(payload)),
+	    //getAllGroupsRequest: payload => dispatch(getAllGroupsRequest(payload)),
         // takeAllEvents: payload => dispatch(takeAllEvents(payload)),
         // DeleteTournamentRequest: (item) => dispatch(DeleteTournamentRequest(item)),
         // editThisEventAction: payload => dispatch(editThisEventAction(payload)),
@@ -463,7 +463,7 @@ const mapDispatchToProps = dispatch => {
         // tournEventsByIdRequest: payload => dispatch(tournEventsByIdRequest(payload)),
         goToTournPageRequest: payload => dispatch(goToTournPageRequest(payload)),
         toggleLoaderAction: payload => dispatch(toggleLoaderAction(payload)),
-        takeMyTournamentsRequest: payload => dispatch(takeMyTournamentsRequest(payload))
+        //takeMyTournamentsRequest: payload => dispatch(takeMyTournamentsRequest(payload))
     }
 };
 

@@ -153,12 +153,13 @@ export class AddEvent extends Component{
 		const eventday = Date.parse(selectedDate); */
 		const arr = [...groupById.users];
 		return (
-		    <div><span className={classes.eventsCount}>{arr.length}</span>
+		    <div>
                 <InputComp inputType="text" name="tournament" placeholder={'Tournament Name'}
                            content={tournById.tournamentName} onChange={() => {
                 }}/>
                 <InputComp inputType="text" name="eventName" placeholder="Event Name" onChange={this.onEventNameChange}
                            content={this.state.EventName}/>
+                           <span className={classes.eventsCount}>{addSearchUsersResult.length}</span>
                 <div className={classes.usersAddedWrapper}>
                     {<span className={classes.searchResult}>select players from the tournament group</span>}
 
@@ -169,11 +170,11 @@ export class AddEvent extends Component{
                             }) : null
                             return <li key={index}>
                                 {addSearchUsersResult.length > 0 && x !== undefined
-                                    ? <span className={classes.user + ' ' + classes.userResult}>
+                                    ? <span className={classes.user + ' ' + classes.userResult} onClick={this.removeSelectedUser.bind(this, x.userId)}>
                                         <span className={classes.eventNames}>{x.username}</span>
                                         <InputComp inputType="number" name="userResult" placeholder="score" content={x.score}
                                                     onChange={this.addSearchUserResult.bind(this, x)} /> 
-                                        <i className="far fa-times-circle" onClick={this.removeSelectedUser.bind(this, x.userId)}></i>
+                                        <i className="far fa-times-circle"></i>
                                     </span>
 
                                     : <span className={classes.user} onClick={() => this.addSearchUsers(user)}>

@@ -61,8 +61,7 @@ class Register extends Component {
 		? this.props.addNewTournamentAction(false)
         : headline === EDIT_GROUP
         ? this.props.editThisGroupAction(false)
-		
-        : null
+		: null
 	};
 	
 
