@@ -170,11 +170,11 @@ export class AddEvent extends Component{
                             }) : null
                             return <li key={index}>
                                 {addSearchUsersResult.length > 0 && x !== undefined
-                                    ? <span className={classes.user + ' ' + classes.userResult} onClick={this.removeSelectedUser.bind(this, x.userId)}>
+                                    ? <span className={classes.user + ' ' + classes.userResult} >
                                         <span className={classes.eventNames}>{x.username}</span>
                                         <InputComp inputType="number" name="userResult" placeholder="score" content={x.score}
                                                     onChange={this.addSearchUserResult.bind(this, x)} /> 
-                                        <i className="far fa-times-circle"></i>
+                                        <i className="far fa-times-circle" onClick={this.removeSelectedUser.bind(this, x.userId)}></i>
                                     </span>
 
                                     : <span className={classes.user} onClick={() => this.addSearchUsers(user)}>
