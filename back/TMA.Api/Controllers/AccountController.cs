@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using TMA.Api.Models;
 using TMA.Api.Models.AccountViewModels;
 using TMA.Api.Models.ManageViewModels;
@@ -27,18 +31,21 @@ namespace TMA.Api.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly MainRepositoryBLL _mainRepository = new MainRepositoryBLL();
+        private IConfiguration _config;
 
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
+            IConfiguration config,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _config = config;
         }
 
         [TempData]
@@ -55,6 +62,20 @@ namespace TMA.Api.Controllers
         //    return View();
         //}
 
+        private string GenerateJSONWebToken()
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+              _config["Jwt:Issuer"],
+              null,
+              expires: DateTime.Now.AddMinutes(120),
+              signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody]LoginModel loginModel)
@@ -63,8 +84,11 @@ namespace TMA.Api.Controllers
             {
                 var result = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, true, false);
                 if (result.Succeeded)
+                {
+                    //var tokenString = GenerateJSONWebToken();
+                    //return Ok(new { token = tokenString });
                     return Json(new { Response = "Success", Message = "Success" });
-
+                }
                 else if (result.RequiresTwoFactor)
                     return Json(new { Response = "Error", Message = "Requires Two Factor Authentication." });
 
@@ -77,6 +101,35 @@ namespace TMA.Api.Controllers
             catch (Exception ex)
             {
                     return Json(new { Response = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> TokenLogin([FromBody]LoginModel loginModel)
+        {
+            try
+            {
+                var result = await _signInManager.PasswordSignInAsync(loginModel.Username, loginModel.Password, true, false);
+                if (result.Succeeded)
+                {
+                    ApplicationUser user = await _userManager.FindByNameAsync(loginModel.Username);
+                    var tokenString = GenerateJSONWebToken();
+                    return Ok(new { token = tokenString, userId = user.Id });
+                    //return Json(new { Response = "Success", Message = "Success" });
+                }
+                else if (result.RequiresTwoFactor)
+                    return Json(new { Response = "Error", Message = "Requires Two Factor Authentication." });
+
+                else if (result.IsLockedOut)
+                    return Json(new { Response = "Error", Message = "Ther user is locked." });
+
+                else
+                    return Json(new { Response = "Error", Message = "Invalid login attempt." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.Message });
             }
         }
 

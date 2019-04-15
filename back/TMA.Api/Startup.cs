@@ -14,6 +14,9 @@ using TMA.Api.Models;
 using TMA.Api.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace TMA.Api
 {
@@ -39,11 +42,43 @@ namespace TMA.Api
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt:Issuer"],
+                        ValidAudience = Configuration["Jwt:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    };
+                });
+
+            //services.AddAuthentication(o =>
+            //{
+            //    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //    .AddJwtBearer(options =>
+            //    {
+            //        options.Audience = "resource-server";
+            //        options.Authority = Configuration["frontEndUrl"];
+            //        options.RequireHttpsMetadata = false;
+            //        options.IncludeErrorDetails = true;
+            //        //options.TokenValidationParameters = new TokenValidationParameters
+            //        //{
+            //        //    NameClaimType = OpenIdConnectConstants.Claims.Subject,
+            //        //    RoleClaimType = OpenIdConnectConstants.Claims.Role
+            //        //};
+            //    });
+
             services.AddMvc()
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                }); ;
+                });
 
             services.AddSingleton<IConfiguration>(Configuration);
 

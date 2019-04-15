@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TMA.Api.Models;
 using TMA.BLL;
@@ -247,9 +248,33 @@ namespace TMA.Api.Controllers
             }
         }
 
+        
         [HttpPost]
         [Route("GetHomeLeaderboards")]
         public JsonResult GetHomeLeaderboards([FromBody]string userId)
+        {
+            try
+            {
+                var homeLeaderboards = _mainRepository.GetHomeLeaderboards(userId);
+                var result = new List<object>();
+                foreach (var homeLeaderboard in homeLeaderboards)
+                {
+                    var leaderboards = CreateLeaderboardViewModel(homeLeaderboard.Leaderboards);
+                    var nextEvent = CreateEventsModel(homeLeaderboard.NextEvent);
+                    result.Add(new { Leaderboards = leaderboards, NextEvent = nextEvent });
+                }
+                return Json(result);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        [Authorize(AuthenticationSchemes = "Bearer")]
+        [HttpPost]
+        [Route("GetHomeLeaderboards2")]
+        public JsonResult GetHomeLeaderboards2([FromBody]string userId)
         {
             try
             {
