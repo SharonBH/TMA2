@@ -180,9 +180,10 @@ namespace TMA.Api.Controllers
             }
         }
 
+        [HttpGet]
         [HttpPost]
-        [Route("GetEventsByTournamentId")]
-        public JsonResult GetEventsByTournamentId([FromBody]int tournamentId)
+        [Route("GetTournamentEventsByUserId")]
+        public JsonResult GetTournamentEventsByUserId(int tournamentId, string userId)
         {
             try
             {
@@ -208,6 +209,56 @@ namespace TMA.Api.Controllers
                             Email = eventResult.User.Email,
                             Name = eventResult.User.Name,
                             Avatar = eventResult.User.UsersAvatar?.Avatar
+                        };
+                        eventModel.EventUsers.Add(userModel);
+
+                        var eventResultModel = new EventResults
+                        {
+                            EventId = eventResult.EventId,
+                            Result = eventResult.Result,
+                            UserId = eventResult.UserId
+                        };
+                        eventModel.EventResults.Add(eventResultModel);
+                    }
+                    events.Add(eventModel);
+                }
+                return Json(events);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Response = "Error", Message = ex.InnerException.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("GetEventsByTournamentId")]
+        public JsonResult GetEventsByTournamentId([FromBody]int tournamentId)
+        {
+            try
+            {
+                var getEvents = _mainRepository.GetEventsByTournamentId(tournamentId);
+                var events = new List<EventModel>();
+                foreach (var getEvent in getEvents)
+                {
+                    var eventModel = new EventModel
+                    {
+                        EventId = getEvent.EventId,
+                        EventName = getEvent.EventName,
+                        EventDate = getEvent.EventDate,
+                        TournamentName = getEvent.Tournament.TournamentName,
+                        EventResults = new List<EventResults>(),
+                        EventUsers = new List<UserModel>()
+                    };
+                    foreach (var eventResult in getEvent.EventResults)
+                    {
+                        var winner = eventResult.Result == 1;
+                        var userModel = new UserModel
+                        {
+                            Username = eventResult.User.UserName,
+                            UserId = eventResult.UserId,
+                            Email = eventResult.User.Email,
+                            Name = eventResult.User.Name,
+                            Avatar = winner ? eventResult.User.UsersAvatar?.Avatar : null
                         };
                         eventModel.EventUsers.Add(userModel);
 

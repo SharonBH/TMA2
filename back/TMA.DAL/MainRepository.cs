@@ -416,6 +416,29 @@ namespace TMA.DAL
             }
         }
 
+        public List<Events> GetTournamentEventsByUserId(int tournamentId, string userId)
+        {
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    var events = context.Events
+                        .Include(e => e.EventResults).ThenInclude(u => u.User).ThenInclude(x => x.UsersAvatar)
+                        .Include(e => e.Tournament)
+                        .Where(e => e.TournamentId == tournamentId && e.IsDeleted == false)
+                        .ToList();
+                    if (events == null)
+                        throw new Exception($"No events for tournamentId {tournamentId} was not found.");
+
+                    return events;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetEventsByTournamentId'.", ex);
+            }
+        }
+
         public List<Events> GetEvents()
         {
             try

@@ -34,7 +34,7 @@ import {
 // const cors = 'https://cors-anywhere.herokuapp.com/'
 const cors = '';
 const location = window.location.toString();
-let url = 'https://tma-api.azurewebsites.net/';
+let url = 'https://localhost:44336/';
 /* if (location.indexOf("localhost") > 1) {
     url = 'https://localhost:44336/'
 } */
