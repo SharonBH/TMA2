@@ -687,7 +687,8 @@ namespace TMA.DAL
                         var earnings = eventResultsByUserId.Sum(x => x.Earnings);
                         var goalsAgainst = filteredEventsResults.Where(x => evnetIdsByUserId.Contains(x.EventId) && x.UserId != userId).Sum(x => x.Result) ?? 0;
                         var successPercentage = userEvents != 0 ? (userScores / (userEvents * 3)): 0;
-                        var topPlace = eventResultsByUserId.Min(x => x.Result);
+                        //var topPlace = eventResultsByUserId.Min(x => x.Result);
+                        var avgScore = eventResultsByUserId.Average(x => x.Score);
 
                         var leaderboard = new LeaderboardModel
                         {
@@ -697,7 +698,7 @@ namespace TMA.DAL
                             GoalsScored = goalsScored,
                             GoalsAgainst = goalsAgainst,
                             SuccessPercentage = successPercentage,
-                            TopPlace = topPlace,
+                            AvgScore = !avgScore.HasValue ? 0.0 : Math.Round(avgScore.Value, 1),
                             Earnings = earnings
                         };
 

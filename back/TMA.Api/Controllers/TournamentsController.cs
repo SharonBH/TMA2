@@ -334,7 +334,8 @@ namespace TMA.Api.Controllers
                         GoalsAgainst = leaderboard.GoalsAgainst,
                         GoalsScored = leaderboard.GoalsScored,
                         SuccessPercentage = leaderboard.SuccessPercentage,
-                        TopPlace = leaderboard.TopPlace,
+                        AvgScore = leaderboard.AvgScore,
+                        //TopPlace = leaderboard.TopPlace,
                         Earnings = leaderboard.Earnings
                     };
 

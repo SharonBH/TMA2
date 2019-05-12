@@ -10,7 +10,9 @@
         public int GoalsDifference => GoalsScored - GoalsAgainst;
         public double SuccessPercentage { get; set; }
 
-        public int? TopPlace { get; set; }
+        //public int? TopPlace { get; set; }
+
+        public double AvgScore { get; set; }
 
         public int Earnings { get; set; }
 

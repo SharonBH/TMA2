@@ -14,9 +14,11 @@ namespace TMA.DAL
         public int GoalsAgainst { get; set; }
         public double SuccessPercentage { get; set; }
 
-        public int? TopPlace { get; set; }
+        //public int? TopPlace { get; set; }
 
-        public int Earnings { get; set; }
+        public int Earnings { get; set; }   
+
+        public double AvgScore { get; set; }
     }
 
     public class HomeLeaderboardModel
