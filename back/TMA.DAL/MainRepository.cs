@@ -694,7 +694,7 @@ namespace TMA.DAL
                         {
                             User = user,
                             NumberOfEvents = userEvents,
-                            TotalScores = (int)userScores,
+                            TotalScores = (int)Math.Round(userScores),
                             GoalsScored = goalsScored,
                             GoalsAgainst = goalsAgainst,
                             SuccessPercentage = successPercentage,
