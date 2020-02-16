@@ -36,7 +36,7 @@ namespace TMA.DAL.Models.DB
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=etl-adf-poc.database.windows.net;Database=TMA;User ID=beehive_etl;Password=Prototype2018;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=tma;User Id=tmadb;Password=SmimbsowIBYL3fLTSLif;MultipleActiveResultSets=False;Encrypt=True;Connection Timeout=30;TrustServerCertificate=True;");
             }
         }
 

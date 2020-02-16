@@ -133,7 +133,9 @@ namespace TMA.DAL
                         {
                             var placeResult = eventResult.Result;
                             //var score = (float)(totalUserInEvent + 1) - placeResult + ((float)totalUserInEvent - (float)placeResult) / ((float)placeResult * (float)placeResult);
-                            eventResult.Score = (float)(totalUserInEvent + 1) - placeResult + ((float)totalUserInEvent - (float)placeResult) / ((float)placeResult * (float)placeResult);
+                            var fourtyPer = (int)Math.Ceiling((float)totalUserInEvent * 0.4);
+                            eventResult.Score = placeResult <= fourtyPer? (float)(totalUserInEvent * 0.6) - placeResult + ((float)totalUserInEvent - (float)placeResult) / 
+                                                ((float)placeResult * (float)placeResult): 0;
                             var totalEarnings = totalUserInEvent * 200; //todo: change to tournament prop
                             var fourth = totalEarnings >= 1700;
                             var percEarning = fourth ? totalEarnings-300 : totalEarnings-100 ; //todo: change to tournament prop

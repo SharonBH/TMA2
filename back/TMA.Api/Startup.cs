@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TMA.DAL.Models.DB;
 
 namespace TMA.Api
 {
@@ -33,6 +34,9 @@ namespace TMA.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<TMAContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -122,7 +126,14 @@ namespace TMA.Api
 
             app.UseAuthentication();
 
-            app.UseCors(builder => builder.AllowAnyOrigin()); //WithOrigins("https://tma-front.azurewebsites.net")
+            //app.UseCors(builder => builder.AllowAnyOrigin()); //WithOrigins("https://tma-front.azurewebsites.net")
+            app.UseCors(
+                builder =>
+                {
+                    builder.WithOrigins("*")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
 
             app.UseSwagger();
 
