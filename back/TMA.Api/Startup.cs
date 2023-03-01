@@ -14,10 +14,12 @@ using TMA.Api.Models;
 using TMA.Api.Services;
 using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TMA.DAL.Models.DB;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+//using Swashbuckle.Swagger;
 
 namespace TMA.Api
 {
@@ -42,6 +44,8 @@ namespace TMA.Api
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -78,8 +82,10 @@ namespace TMA.Api
             //        //};
             //    });
 
-            services.AddMvc()
-                .AddJsonOptions(options =>
+            services.AddMvc(option => option.EnableEndpointRouting = false)
+                .AddNewtonsoftJson()
+                //.AddJsonOptions(options =>
+                .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
@@ -88,7 +94,7 @@ namespace TMA.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "TMA", Version = "v1" });
             });
 
             services.AddSingleton<IEmailSender, EmailSender>();
@@ -113,9 +119,9 @@ namespace TMA.Api
         {
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
+                //app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
