@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace TMA.DAL.Models.DB
 {
@@ -36,7 +37,8 @@ namespace TMA.DAL.Models.DB
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=tma;User Id=tmadb;Password=SmimbsowIBYL3fLTSLif;MultipleActiveResultSets=False;Encrypt=True;Connection Timeout=30;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer(@"Data Source=sbh-tma.database.windows.net;Initial Catalog=tma;User Id=sbh;Password=SmimbsowIBYL3fLTSLif;MultipleActiveResultSets=False;Encrypt=True;Connection Timeout=30;TrustServerCertificate=True;");
+                //optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }
         }
 

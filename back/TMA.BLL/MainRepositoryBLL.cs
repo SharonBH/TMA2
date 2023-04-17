@@ -49,6 +49,11 @@ namespace TMA.BLL
             return getEvents;
         }
 
+        public List<EventResults> GetEventResult(int eventId)
+        {
+            return _mainRepository.GetEventResult(eventId);
+        }
+
         #endregion
 
         #region Tournaments
@@ -320,6 +325,14 @@ namespace TMA.BLL
                     _mainRepository.CreateTournamentPresets(tournamentId, tournametType, numberOfPresets);
                     break;
             }  
+        }
+
+        public void CalculateScoreForEventId(int tournid, int eventid)
+        {
+            _mainRepository.CalculateScoreForEventId(tournid,eventid);
+
+            //_mainRepository.GetEventById(eventid);
+            //_mainRepository.CalculateScoreForEventId(eventid);
         }
     }
 }

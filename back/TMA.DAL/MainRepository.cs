@@ -21,16 +21,16 @@ namespace TMA.DAL
                     var tournament = context.Tournaments
                         .Include(x => x.EventType)
                         .FirstOrDefault(t => t.TournamentId == tournamentId && t.IsDeleted == false);
-                    if (tournament == null )
+                    if (tournament == null)
                         throw new Exception($"There is an existing tournament for '{tournamentId}'.");
 
                     var maxEventsNumber = tournament.NumberOfEvents;
                     if (maxEventsNumber != null)
                     {
                         var existingEvents = context.Events.Count(e => e.TournamentId == tournamentId && e.IsDeleted == false);
-                        if(existingEvents >= maxEventsNumber)
+                        if (existingEvents >= maxEventsNumber)
                             throw new Exception($"You've reached the maximum number of events for this tournament.");
-                    }   
+                    }
 
 
                     var newEvent = new Events
@@ -72,7 +72,7 @@ namespace TMA.DAL
                         throw new Exception($"There are no existing tournament for '{tournamentId}'.");
 
                     var today = DateTime.Now.Date;
-                    foreach(var existingEvent in context.Events.Where(e => e.TournamentId == tournamentId && e.IsDeleted == false && e.EventDate > today))
+                    foreach (var existingEvent in context.Events.Where(e => e.TournamentId == tournamentId && e.IsDeleted == false && e.EventDate > today))
                     {
                         existingEvent.IsDeleted = true;
                     }
@@ -92,7 +92,7 @@ namespace TMA.DAL
                     context.Events.AddRange(events);
                     context.SaveChanges();
 
-                    foreach(var newEvent in events)
+                    foreach (var newEvent in events)
                     {
                         newEvent.EventResults = eventResults.Select(er => new EventResults() { UserId = er.UserId, EventId = newEvent.EventId }).ToList();
                     }
@@ -134,11 +134,11 @@ namespace TMA.DAL
                             var placeResult = eventResult.Result;
                             //var score = (float)(totalUserInEvent + 1) - placeResult + ((float)totalUserInEvent - (float)placeResult) / ((float)placeResult * (float)placeResult);
                             var fourtyPer = (int)Math.Ceiling((float)totalUserInEvent * 0.4);
-                            eventResult.Score = placeResult <= fourtyPer? (float)(totalUserInEvent * 0.6) - placeResult + ((float)totalUserInEvent - (float)placeResult) / 
-                                                ((float)placeResult * (float)placeResult): 0;
+                            eventResult.Score = placeResult <= fourtyPer ? (float)(totalUserInEvent * 0.6) - placeResult + ((float)totalUserInEvent - (float)placeResult) /
+                                                ((float)placeResult * (float)placeResult) : 0;
                             var totalEarnings = totalUserInEvent * 200; //todo: change to tournament prop
                             var fourth = totalEarnings >= 1700;
-                            var percEarning = fourth ? totalEarnings-300 : totalEarnings-100 ; //todo: change to tournament prop
+                            var percEarning = fourth ? totalEarnings - 300 : totalEarnings - 100; //todo: change to tournament prop
                             switch (placeResult)
                             {
                                 case 1:
@@ -157,7 +157,7 @@ namespace TMA.DAL
                                     eventResult.Earnings = 0;
                                     break;
                             }
-                            
+
                         }
                     }
                 }
@@ -227,7 +227,7 @@ namespace TMA.DAL
                         .Include(x => x.Event)
                         .Where(x => x.UserId == userId).ToList();
 
-                    var eventIds = eventResults.Select(x => x.Event).Where(e => e.IsDeleted == false).Select(x=> x.EventId).ToList();
+                    var eventIds = eventResults.Select(x => x.Event).Where(e => e.IsDeleted == false).Select(x => x.EventId).ToList();
 
                     var events = context.Events
                         .Include(x => x.EventResults).ThenInclude(x => x.User)
@@ -267,7 +267,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var tournamentType = context.LkpTournamentType.FirstOrDefault(x => x.TournamentTypeName.Trim().ToLower() == tournamentTypeName.Trim().ToLower());
-                    if(tournamentType == null)
+                    if (tournamentType == null)
                         throw new Exception($"Tournament Type '{tournamentTypeName}' was not found.");
 
                     return tournamentType;
@@ -286,7 +286,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var user = context.AspNetUsers.Include(x => x.UsersAvatar).FirstOrDefault(x => x.UserName.ToLower() == username.ToLower());
-                    if(user == null)
+                    if (user == null)
                         throw new Exception($"Username {username} was not found.");
 
                     var userAvatar = user.UsersAvatar?.Avatar;
@@ -343,7 +343,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var getEvent = context.Events
-                        .Include(e=> e.EventResults)
+                        .Include(e => e.EventResults)
                         .FirstOrDefault(e => e.EventId == eventId);
                     if (getEvent == null)
                         throw new Exception($"Event for EventId [{eventId}] was not found.");
@@ -402,7 +402,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var events = context.Events
-                        .Include(e => e.EventResults).ThenInclude(u => u.User).ThenInclude(x=> x.UsersAvatar)
+                        .Include(e => e.EventResults).ThenInclude(u => u.User).ThenInclude(x => x.UsersAvatar)
                         .Include(e => e.Tournament)
                         .Where(e => e.TournamentId == tournamentId && e.IsDeleted == false)
                         .ToList();
@@ -448,7 +448,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var events = context.Events
-                        .Include(x => x.EventResults).ThenInclude(x=>x.User)
+                        .Include(x => x.EventResults).ThenInclude(x => x.User)
                         .Where(e => e.IsDeleted == false)
                         .ToList();
                     return events;
@@ -591,7 +591,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var tournament = context.Tournaments
-                        .Include(t=> t.Events)
+                        .Include(t => t.Events)
                         .FirstOrDefault(e => e.TournamentId == tournamentId);
                     if (tournament == null)
                         throw new Exception($"Tournament for TournamentId [{tournamentId}] was not found.");
@@ -665,7 +665,7 @@ namespace TMA.DAL
 
                     //var futureEventIds = context.Events.Where(x => x.EventDate > DateTime.Now).Select(x=> x.EventId).ToList();
                     var eventIdsToRemove = eventsResults
-                        .Where(x=> x.Result == null) //futureEventIds.Contains(x.EventId) ||
+                        .Where(x => x.Result == null) //futureEventIds.Contains(x.EventId) ||
                         .Select(x => x.EventId)
                         .Distinct()
                         .ToList();
@@ -683,12 +683,12 @@ namespace TMA.DAL
                         var user = context.AspNetUsers
                             //.Include(x=> x.UsersAvatar)
                             .FirstOrDefault(x => x.Id == userId);
-                        var userScores = eventResultsByUserId.Sum(x=> x.Score) ?? 0;
+                        var userScores = eventResultsByUserId.Sum(x => x.Score) ?? 0;
                         var userEvents = eventResultsByUserId.Count();
                         var goalsScored = eventResultsByUserId.Sum(x => x.Result) ?? 0;
                         var earnings = eventResultsByUserId.Sum(x => x.Earnings);
                         var goalsAgainst = filteredEventsResults.Where(x => evnetIdsByUserId.Contains(x.EventId) && x.UserId != userId).Sum(x => x.Result) ?? 0;
-                        var successPercentage = userEvents != 0 ? (userScores / (userEvents * 3)): 0;
+                        var successPercentage = userEvents != 0 ? (userScores / (userEvents * 3)) : 0;
                         //var topPlace = eventResultsByUserId.Min(x => x.Result);
                         var avgScore = eventResultsByUserId.Average(x => x.Score);
 
@@ -707,7 +707,7 @@ namespace TMA.DAL
                         leaderboards.Add(leaderboard);
                     }
 
-                    return leaderboards;
+                    return leaderboards.OrderByDescending(x=>x.TotalScores).ToList();
                 }
             }
             catch (Exception ex)
@@ -784,14 +784,14 @@ namespace TMA.DAL
                 throw new Exception($"An error occuored on 'GetEventTypes'.", ex);
             }
         }
-        
+
         public LkpEvent GetEventTypeByName(string eventTypeName)
         {
             try
             {
                 using (var context = new TMAContext())
                 {
-                    var eventType = context.LkpEvent.FirstOrDefault(et=>et.EventTypeName.ToLower() == eventTypeName);
+                    var eventType = context.LkpEvent.FirstOrDefault(et => et.EventTypeName.ToLower() == eventTypeName);
                     if (eventType == null)
                         throw new Exception($"The EventType for EventTypeName [{eventTypeName}] was not found.");
 
@@ -846,7 +846,7 @@ namespace TMA.DAL
                     context.SaveChanges();
 
                     var createdGroup = context.Groups.FirstOrDefault(g => g.GroupName.ToLower() == groupName.ToLower());
-                    if(createdGroup == null)
+                    if (createdGroup == null)
                         throw new Exception($"An error occuored creating new group");
 
                     var groupId = createdGroup.GroupId;
@@ -876,7 +876,7 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    var group = context.Groups.Include(x=> x.UsersGroups).FirstOrDefault(e => e.GroupId== groupId);
+                    var group = context.Groups.Include(x => x.UsersGroups).FirstOrDefault(e => e.GroupId == groupId);
 
                     if (group == null)
                         throw new Exception($"Group for groupId [{groupId}] was not found.");
@@ -919,7 +919,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var groups = context.Groups
-                        .Include(x => x.UsersGroups).ThenInclude(x=> x.User)
+                        .Include(x => x.UsersGroups).ThenInclude(x => x.User)
                         .Where(e => e.IsDeleted == false)
                         .ToList();
                     return groups;
@@ -958,7 +958,7 @@ namespace TMA.DAL
                 using (var context = new TMAContext())
                 {
                     var group = context.Groups
-                        .Include(x => x.UsersGroups).ThenInclude(x => x.User )
+                        .Include(x => x.UsersGroups).ThenInclude(x => x.User)
                         .FirstOrDefault(e => e.GroupName.ToLower() == groupName.ToLower() && e.IsDeleted == false);
                     if (group == null)
                         throw new Exception($"Group for groupName [{groupName}] was not found.");
@@ -1074,7 +1074,7 @@ namespace TMA.DAL
                     {
                         var tournamentLeaderboard = GetLeaderboards(tournament.TournamentId);
                         var nextEventForTournament = GetNextEventForTournament(userId, tournament.TournamentId);
-                        if(nextEventForTournament == null)
+                        if (nextEventForTournament == null)
                         {
                             nextEventForTournament = new Events
                             {
@@ -1129,8 +1129,8 @@ namespace TMA.DAL
                     var userEvents = context.EventResults
                         .Include(x => x.Event)
                         .Where(x => x.UserId == userId)
-                        .Select(x => x.Event).Include(x=> x.Tournament)
-                        .Where(e=> e.IsDeleted == false).ToList();
+                        .Select(x => x.Event).Include(x => x.Tournament)
+                        .Where(e => e.IsDeleted == false).ToList();
                     var pastEvent = userEvents.OrderByDescending(x => x.EventDate).FirstOrDefault(x => x.EventDate <= DateTime.Now);
                     var nextEvent = userEvents.OrderBy(x => x.EventDate).FirstOrDefault(x => x.EventDate > DateTime.Now);
 
@@ -1139,7 +1139,7 @@ namespace TMA.DAL
                         ["Past"] = pastEvent,
                         ["Next"] = nextEvent
                     };
-                    
+
                     return result;
                 }
             }
@@ -1189,6 +1189,34 @@ namespace TMA.DAL
                 graphics.DrawImage(image, 0, 0, newWidth, newHeight);
 
             return newImage;
+        }
+
+        public void CalculateScoreForEventId(int tournid, int eventid)
+        {
+            var _events = GetEventsByTournamentId(tournid);
+            var eventresults = (_events.FirstOrDefault(e => e.EventId == eventid)).EventResults;
+            LkpEvent type = new LkpEvent { EventTypeName = "poker" };
+            if (eventresults != null)
+            {
+                CalculateScoreOnEventsResults(eventresults.ToList(), type);
+            }
+        }
+
+        public List<EventResults> GetEventResult(int eventId)
+        {
+            var eventresults = new List<EventResults>();
+            try
+            {
+                using (var context = new TMAContext())
+                {
+                    eventresults = context.EventResults.Where(x=>x.EventId == eventId).ToList();
+                    return eventresults;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occuored on 'GetEventResult'.", ex);
+            }
         }
     }
 }

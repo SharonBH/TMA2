@@ -87,6 +87,7 @@ namespace TMA.Api.Controllers
                 {
                     //var tokenString = GenerateJSONWebToken();
                     //return Ok(new { token = tokenString });
+                 
                     return Json(new { Response = "Success", Message = "Success" });
                 }
                 else if (result.RequiresTwoFactor)
