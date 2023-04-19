@@ -11,29 +11,42 @@ namespace ConsoleTester
         static void Main(string[] args)
         {
 
-            int actualPlace = 2;
-            int totalUsersInGame = 12;
-            for (int x = totalUsersInGame; x < 22; x++)
-            {
+            //int actualPlace = 2;
+            //int totalUsersInGame = 12;
+            //for (int x = totalUsersInGame; x < 22; x++)
+            //{
 
 
-                for (int i = 1; i <= totalUsersInGame; i++)
-                {
-                    var points = calculate(i, x);
-                    if (points>0) Console.WriteLine("Place: {1} | Points: {0:N2}", points, i);
-                }
-            }
-            return;
+            //    for (int i = 1; i <= totalUsersInGame; i++)
+            //    {
+            //        var points = calculate(i, x);
+            //        if (points>0) Console.WriteLine("Place: {1} | Points: {0:N2}", points, i);
+            //    }
+            //}
+            //return;
 
-            int tournid = 149,eventid = 1373;
+            int tournid, eventid;
+            //int tournid = 149, eventid = 1373;
+            Console.WriteLine("please provide tournament ID (2023 poker champ is 149");
+            int.TryParse(Console.ReadLine(), out tournid);
+            Console.WriteLine("please provide event ID");
+            int.TryParse(Console.ReadLine(), out eventid);
 
             var e = _mainRepository.GetEventById(eventid);
             var t = _mainRepository.GetTournamentById(tournid);
             var results = _mainRepository.GetEventResult(eventid).Where(r=>r.Result.HasValue && r.Result.Value>0).ToList();
-            _mainRepository.EditEvent(eventid, e.EventName, e.EventDate, t.TournamentName, results);
-
-            //_mainRepository.CalculateScoreForEventId(159,1353);
-			Console.ReadLine();
+            for (int i = 1; i < results.Count; i++)
+            {
+                var points = calculate(i, results.Count);
+                if (points>0) Console.WriteLine("Place: {1} | Points: {0:N2} (current: {2})", points, i, (results.FirstOrDefault(x=> x.Result == i).Score));
+            }
+            
+            Console.WriteLine("continue with updating score? (Y/N) ");
+            var calc = Console.ReadLine() == "Y";
+            //if (calc) //_mainRepository.CalculateScoreForEventId(tournid, eventid);
+            if (calc) _mainRepository.EditEvent(eventid, e.EventName, e.EventDate, t.TournamentName, results);
+            //Console.WriteLine(calc);
+            Console.ReadLine();
 		}
 
 		private static double calculate(int actualPlace, int totalUsersInGame)
