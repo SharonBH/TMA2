@@ -8,4 +8,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TMA.BLL\TMA.BLL.csproj" />
+  </ItemGroup>
 </Project>

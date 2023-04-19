@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using TMA.BLL;
-using TMA.DAL;
+//using TMA.DAL;
 
 namespace ConsoleTester
 {
