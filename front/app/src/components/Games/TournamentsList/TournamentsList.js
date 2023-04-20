@@ -60,7 +60,7 @@ export class TournamentsList extends Component {
 	        buttonStatus: true,
 	        allTournaments: [],
 	        myTournaments: [],
-            sortItem: 'tournamentName',
+            sortItem: 'startDate',
             toggleSort: true,
 	        tournaments: '',
             isCurrentUserAdminRole: false,
@@ -94,7 +94,7 @@ export class TournamentsList extends Component {
 			const tournaments = this.props.match.url === '/all_tournaments' ? allTournsList : tournsDataById
 			const sortedItem = this.state.sortItem
             tournaments.sort((a, b) => {
-			    return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() < b[sortedItem].toLowerCase() ? -1 : 1;
+			    return a[sortedItem] === b[sortedItem] ? 0 : a[sortedItem].toLowerCase() > b[sortedItem].toLowerCase() ? -1 : 1;
 			});
 			this.props.match.url === '/all_tournaments'
 			? this.setState({allTournaments: tournaments})
