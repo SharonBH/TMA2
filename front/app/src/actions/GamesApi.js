@@ -35,9 +35,9 @@ import {
 const cors = '';
 const location = window.location.toString();
 let url = 'http://tmaapi.sbh.co.il/';
-/* if (location.indexOf("localhost") > 1) {
+if (location.indexOf("localhost") > 1) {
     url = 'https://localhost:44336/'
-} */
+} 
 
 
 

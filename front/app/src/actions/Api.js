@@ -21,9 +21,9 @@ import {EDIT, USER_ROLE_ADMIN, YOUR_PROFILE} from '../configuration/config'
 const cors = ''
 const location = window.location.toString();
 let url = 'http://tmaapi.sbh.co.il/';
-/* if (location.indexOf("localhost") > 1) {
+ if (location.indexOf("localhost") > 1) {
     url = 'https://localhost:44336/'
-} */
+}
 
 
 //chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security
