@@ -618,7 +618,7 @@ namespace TMA.DAL
                         .ToList();
 
                     tournaments.ForEach(x => x.Events = x.Events.Where(e => e.IsDeleted == false).ToList());
-                    return tournaments;
+                    return tournaments.OrderByDescending(t => t.StartDate).ToList(); ;
                 }
             }
             catch (Exception ex)
@@ -643,7 +643,7 @@ namespace TMA.DAL
                         .Where(x => userGroupIds.Contains(x.GroupId) && x.IsDeleted == false)
                         .ToList();
 
-                    return userTournaments;
+                    return userTournaments.OrderByDescending(t => t.StartDate).ToList();
                 }
             }
             catch (Exception ex)
@@ -707,7 +707,7 @@ namespace TMA.DAL
                         leaderboards.Add(leaderboard);
                     }
 
-                    return leaderboards.OrderByDescending(x=>x.TotalScores).ToList();
+                    return leaderboards.OrderByDescending(x => x.TotalScores).ToList();
                 }
             }
             catch (Exception ex)
@@ -995,17 +995,39 @@ namespace TMA.DAL
         {
             try
             {
+                //using (var context = new TMAContext())
+                //{
+                //    var userGroups = context.UsersGroups
+                //        .Include(x => x.Group)
+                //        .Where(x => x.UserId == userId)
+                //        .Select(x => x.Group).Include(x => x.UsersGroups).ThenInclude(x => x.User).ToList();
+
+                //    userGroups = userGroups.Where(x => x.IsDeleted == false).ToList();
+
+                //    return userGroups;
+                //}
+                //using (var context = new TMAContext())
+                //{
+                //    var userGroups = context.UsersGroups
+                //        .Include(x => x.User)
+                //        .Where(x => x.UserId == userId && !x.Group.IsDeleted)
+                //        .ToList();
+
+                //    return userGroups.Select(x => x.Group).ToList();
+                //}
                 using (var context = new TMAContext())
                 {
                     var userGroups = context.UsersGroups
-                        .Include(x => x.Group)
-                        .Where(x => x.UserId == userId)
-                        .Select(x => x.Group).Include(x => x.UsersGroups).ThenInclude(x => x.User).ToList();
+                        .Include(x => x.User)
+                        .Include(x => x.Group.UsersGroups).ThenInclude(x => x.User)
+                        .Where(x => x.UserId == userId && !x.Group.IsDeleted)
+                        .ToList();
 
-                    userGroups = userGroups.Where(x => x.IsDeleted == false).ToList();
+                    var groupList = userGroups.Select(x => x.Group).ToList();
 
-                    return userGroups;
+                    return groupList;
                 }
+
             }
             catch (Exception ex)
             {
@@ -1101,18 +1123,31 @@ namespace TMA.DAL
         {
             try
             {
+                //using (var context = new TMAContext())
+                //{
+                //    var userEvents = context.EventResults
+                //        .Include(x => x.Event)
+                //        .Where(x => x.UserId == userId)
+                //        .Select(x => x.Event).Include(x => x.Tournament)
+                //        .Where(e => e.IsDeleted == false && e.TournamentId == tournamentId).ToList();
+
+                //    var nextEvent = userEvents.OrderBy(x => x.EventDate).FirstOrDefault(x => x.EventDate > DateTime.Now);
+
+                //    return nextEvent;
+                //}
                 using (var context = new TMAContext())
                 {
                     var userEvents = context.EventResults
-                        .Include(x => x.Event)
-                        .Where(x => x.UserId == userId)
-                        .Select(x => x.Event).Include(x => x.Tournament)
-                        .Where(e => e.IsDeleted == false && e.TournamentId == tournamentId).ToList();
+                        .Include(x => x.Event.Tournament)
+                        .Where(x => x.UserId == userId && !x.Event.IsDeleted && x.Event.TournamentId == tournamentId)
+                        .Select(x => x.Event)
+                        .ToList();
 
                     var nextEvent = userEvents.OrderBy(x => x.EventDate).FirstOrDefault(x => x.EventDate > DateTime.Now);
 
                     return nextEvent;
                 }
+
             }
             catch (Exception ex)
             {
@@ -1209,7 +1244,7 @@ namespace TMA.DAL
             {
                 using (var context = new TMAContext())
                 {
-                    eventresults = context.EventResults.Where(x=>x.EventId == eventId).ToList();
+                    eventresults = context.EventResults.Where(x => x.EventId == eventId).ToList();
                     return eventresults;
                 }
             }

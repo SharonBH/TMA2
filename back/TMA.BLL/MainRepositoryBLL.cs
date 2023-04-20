@@ -108,7 +108,7 @@ namespace TMA.BLL
         {
             List<Events> events = new List<Events>();
             DateTime currentDate;
-            if(statdate == null || statdate < DateTime.Now.Date)
+            if (statdate == null || statdate < DateTime.Now.Date)
             {
                 currentDate = DateTime.Now.Date;
             }
@@ -117,13 +117,13 @@ namespace TMA.BLL
                 currentDate = (DateTime)statdate;
             }
 
-            if(endDate == null)
+            if (endDate == null)
             {
                 endDate = statdate == null ? currentDate.AddYears(1) : ((DateTime)statdate).AddYears(1);
             }
 
             var tournament = GetTournamentById(tournamentId);
-            
+
             var eventUsers = GetGroupById(tournament.GroupId).UsersGroups.Select(g => new EventResults()
             {
                 UserId = g.UserId
@@ -167,21 +167,22 @@ namespace TMA.BLL
 
         public string GetUserFavoriteEventType(string userId)
         {
-            var eventType = DAL.Models.EventType.Fifa.ToString();
+            var eventType = DAL.Models.EventType.Poker.ToString();
             try
             {
                 var userTournaments = GetUserTournaments(userId);
-                int favEventTypeId = userTournaments.GroupBy(e => e.EventTypeId)
-                            .Select(group => new {
-                                EventId = group.Key,
-                                Count = group.Count()
-                            })
-                            .OrderByDescending(x => x.Count)
-                            .Select(x => x.EventId).FirstOrDefault();
+                int favEventTypeId = userTournaments.OrderByDescending(t => t.StartDate).FirstOrDefault().EventTypeId;
+                //int favEventTypeId = userTournaments.GroupBy(e => e.EventTypeId)
+                //            .Select(group => new {
+                //                EventId = group.Key,
+                //                Count = group.Count()
+                //            })
+                //            .OrderByDescending(x => x.Count)
+                //            .Select(x => x.EventId).FirstOrDefault();
 
                 eventType = ((DAL.Models.EventType)favEventTypeId).ToString();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception($"An error occuored on 'GetUserFavoriteEventType'.", ex);
             }
@@ -290,7 +291,7 @@ namespace TMA.BLL
             return homeLeaderboards;
         }
 
-        public Dictionary<string,Events> GetHomeEvents(string userId)
+        public Dictionary<string, Events> GetHomeEvents(string userId)
         {
             var homeEvents = _mainRepository.GetHomeEvents(userId);
             return homeEvents;
@@ -318,18 +319,18 @@ namespace TMA.BLL
             switch (tournament.EventTypeId)
             {
                 case (int)DAL.Models.EventType.Poker:
-                    PresetEvents(tournamentId, tournament.StartDate, tournament.EndDate, tournament.NumberOfEvents ,duration);
+                    PresetEvents(tournamentId, tournament.StartDate, tournament.EndDate, tournament.NumberOfEvents, duration);
                     break;
                 case (int)DAL.Models.EventType.Fifa:
                     LkpTournamentType tournametType = _mainRepository.GetTournamentTypeByName(tournamentTypeName);
                     _mainRepository.CreateTournamentPresets(tournamentId, tournametType, numberOfPresets);
                     break;
-            }  
+            }
         }
 
         public void CalculateScoreForEventId(int tournid, int eventid)
         {
-            _mainRepository.CalculateScoreForEventId(tournid,eventid);
+            _mainRepository.CalculateScoreForEventId(tournid, eventid);
 
             //_mainRepository.GetEventById(eventid);
             //_mainRepository.CalculateScoreForEventId(eventid);

@@ -82,8 +82,10 @@ namespace TMA.Api
             //        //};
             //    });
 
-            services.AddMvc(option => option.EnableEndpointRouting = false)
-                .AddNewtonsoftJson()
+            services.AddMvc(option => {
+                option.EnableEndpointRouting = false;
+                option.SuppressAsyncSuffixInActionNames = false;
+            }).AddNewtonsoftJson()
                 //.AddJsonOptions(options =>
                 .AddNewtonsoftJson(options =>
                 {
