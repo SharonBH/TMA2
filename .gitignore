@@ -261,3 +261,4 @@ paket-files/
 __pycache__/
 *.pyc
 /back/TMApi.sln
+/front/app/_package-lock.json
