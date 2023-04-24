@@ -1,0 +1,60 @@
+trigger:
+  branches:
+    include:
+    - refs/heads/master
+  paths:
+    include:
+    - /
+    exclude:
+    - /back
+jobs:
+- job: Phase_1
+  displayName: 'node build '
+  cancelTimeoutInMinutes: 1
+  pool:
+    name: Prem
+  steps:
+  - checkout: self
+    clean: true
+  - task: Npm@1
+    displayName: npm install
+    inputs:
+      workingDir: front/app
+      verbose: false
+  - task: Npm@1
+    displayName: npm rebuild node-sass
+    inputs:
+      command: custom
+      workingDir: front/app
+      verbose: false
+      customCommand: rebuild node-sass
+  - task: Npm@1
+    displayName: npm build
+    inputs:
+      command: custom
+      workingDir: front/app
+      verbose: false
+      customCommand: run build
+  - task: ArchiveFiles@2
+    displayName: Archive front\app\build
+    inputs:
+      rootFolderOrFile: front\app\build
+      includeRootFolder: false
+      archiveFile: $(Build.ArtifactStagingDirectory)/TMAFront.zip
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: DROP-$(Build.DefinitionName)'
+    inputs:
+      ArtifactName: DROP-$(Build.DefinitionName)
+  - task: DeleteFiles@1
+    displayName: Delete files from $(build.artifactstagingdirectory)
+    enabled: False
+    inputs:
+      SourceFolder: $(build.artifactstagingdirectory)
+      Contents: '**'
+  - task: DeleteFiles@1
+    displayName: 'Delete files from $(Build.SourcesDirectory) '
+    enabled: False
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory) '
+      Contents: '**'
+...

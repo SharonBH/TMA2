@@ -1,0 +1,62 @@
+# Variable 'BuildConfig' was defined in the Variables tab
+trigger:
+  branches:
+    include:
+    - refs/heads/master
+  paths:
+    include:
+    - /
+    exclude:
+    - /front/app
+jobs:
+- job: Phase_1
+  displayName: Agent job 1
+  cancelTimeoutInMinutes: 1
+  pool:
+    name: Prem
+  steps:
+  - checkout: self
+    clean: true
+  - task: SlackPoster@2
+    displayName: 'Post to Slack '
+    inputs:
+      UserName: VSTS
+      Message: ":hammer: *'$(Build.DefinitionName)'-'$(Build.BuildNumber)' Started*  requested by : \"$(Build.QueuedBy)\""
+      ApiToken: xoxp-322779771396-322149118496-322185240016-ca38feabbef93412999fbeb5069669f8
+      Channel: '#build-release'
+      IconUrl: https://montemagno.com/content/images/2017/12/IQsRzovW.jpg
+  - task: DotNetCoreInstaller@0
+    displayName: Use .NET Core sdk 2.1.300
+    inputs:
+      version: 2.1.300
+  - task: DotNetCoreCLI@2
+    displayName: dotnet restore
+    inputs:
+      command: restore
+      projects: '**/*.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: dotnet build
+    inputs:
+      projects: '**/*.csproj'
+      arguments: -c $(BuildConfig)
+  - task: DotNetCoreCLI@2
+    displayName: dotnet publish
+    inputs:
+      command: publish
+      projects: TMA.Api/TMA.Api.csproj
+      arguments: --configuration $(BuildConfig) --output $(Build.ArtifactStagingDirectory)
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: DROP-$(Build.DefinitionName)'
+    inputs:
+      ArtifactName: DROP-$(Build.DefinitionName)
+  - task: DeleteFiles@1
+    displayName: Delete files from $(build.artifactstagingdirectory)
+    inputs:
+      SourceFolder: $(build.artifactstagingdirectory)
+      Contents: '**'
+  - task: DeleteFiles@1
+    displayName: 'Delete files from $(Build.SourcesDirectory) '
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory) '
+      Contents: '**'
+...

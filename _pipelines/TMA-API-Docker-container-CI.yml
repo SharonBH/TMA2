@@ -1,0 +1,40 @@
+# Variable 'buildtrigered' was defined in the Variables tab
+name: $(date:yyyyMMdd)$(rev:.r)
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/contenirizedapp
+jobs:
+- job: Phase_1
+  displayName: Dockerized
+  cancelTimeoutInMinutes: 1
+  pool:
+    name: Default
+  steps:
+  - checkout: self
+  - task: Docker@0
+    displayName: Build an image
+    inputs:
+      azureSubscriptionEndpoint: f0b94900-03aa-4474-a650-7cd7c1ebe70b
+      azureContainerRegistry: '{"loginServer":"bhcontreg.azurecr.io", "id" : "/subscriptions/40932815-c53b-4939-8739-64ed4233f1cd/resourceGroups/BH-CONTAINERS/providers/Microsoft.ContainerRegistry/registries/bhcontreg"}'
+      dockerFile: back/Dockerfile
+      imageName: $(Build.Repository.Name)tmaapi:$(Build.BuildId)
+  - task: Docker@0
+    displayName: Push an image
+    inputs:
+      azureSubscriptionEndpoint: f0b94900-03aa-4474-a650-7cd7c1ebe70b
+      azureContainerRegistry: '{"loginServer":"bhcontreg.azurecr.io", "id" : "/subscriptions/40932815-c53b-4939-8739-64ed4233f1cd/resourceGroups/BH-CONTAINERS/providers/Microsoft.ContainerRegistry/registries/bhcontreg"}'
+      action: Push an image
+      imageName: $(Build.Repository.Name)tmaapi:$(Build.BuildId)
+  - task: replacetokens@3
+    displayName: Replace tokens in tmaapi.yaml
+    inputs:
+      rootDirectory: back
+      targetFiles: tmaapi.yaml
+      escapeType: none
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+    inputs:
+      PathtoPublish: back/tmaapi.yaml
+...
