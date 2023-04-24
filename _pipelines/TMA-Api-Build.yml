@@ -22,7 +22,7 @@ jobs:
     inputs:
       UserName: VSTS
       Message: ":hammer: *'$(Build.DefinitionName)'-'$(Build.BuildNumber)' Started*  requested by : \"$(Build.QueuedBy)\""
-      ApiToken: xoxp-322779771396-322149118496-322185240016-ca38feabbef93412999fbeb5069669f8
+      ApiToken: 
       Channel: '#build-release'
       IconUrl: https://montemagno.com/content/images/2017/12/IQsRzovW.jpg
   - task: DotNetCoreInstaller@0
